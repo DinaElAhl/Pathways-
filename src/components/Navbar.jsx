@@ -7,8 +7,8 @@ const links = [
   { to: '/', label: 'Home', end: true },
   { to: '/pathways', label: 'Pathways' },
   { to: '/resources', label: 'Resources' },
+  { to: '/events', label: 'Events' },
   { to: '/about', label: 'About' },
-  { to: '/contact', label: 'Contact' },
 ]
 
 export default function Navbar() {

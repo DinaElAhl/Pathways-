@@ -6,6 +6,11 @@ import PathwayDetail from './pages/PathwayDetail.jsx'
 import AudiencePage from './pages/AudiencePage.jsx'
 import Resources from './pages/Resources.jsx'
 import ResourceDetail from './pages/ResourceDetail.jsx'
+import Events from './pages/Events.jsx'
+import EventDetail from './pages/EventDetail.jsx'
+import ApplyEducator from './pages/ApplyEducator.jsx'
+import ApplyPartner from './pages/ApplyPartner.jsx'
+import FAQ from './pages/FAQ.jsx'
 import About from './pages/About.jsx'
 import Contact from './pages/Contact.jsx'
 import NotFound from './pages/NotFound.jsx'
@@ -20,6 +25,11 @@ export default function App() {
         <Route path="/for/:slug" element={<AudiencePage />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/resources/:slug" element={<ResourceDetail />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/events/:slug" element={<EventDetail />} />
+        <Route path="/apply/educator" element={<ApplyEducator />} />
+        <Route path="/apply/partner" element={<ApplyPartner />} />
+        <Route path="/faq" element={<FAQ />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<NotFound />} />

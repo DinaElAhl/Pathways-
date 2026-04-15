@@ -65,7 +65,7 @@ export const audiences = [
     ],
     resourceTypes: ['Pathway', 'Course', 'Workshop'],
     ctas: [
-      { label: 'Talk to partnerships', to: '/contact', primary: true },
+      { label: 'Talk to partnerships', to: '/apply/partner', primary: true },
       { label: 'See institution resources', to: '/resources?audience=schools' },
     ],
     testimonial: {
@@ -115,7 +115,7 @@ export const audiences = [
     ],
     resourceTypes: ['Tool', 'Workshop', 'Mentor', 'Community'],
     ctas: [
-      { label: 'Become a Pathways educator', to: '/contact', primary: true },
+      { label: 'Become a Pathways educator', to: '/apply/educator', primary: true },
       { label: 'Browse educator resources', to: '/resources?audience=educators' },
     ],
     testimonial: {
