@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Video — Pathways</title>
+  <meta name="description" content="Paste a YouTube link and add questions at any moment. Students watch in a safe player that pauses for each question. Shareable, exportable to LMS.">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <style>
+    .iv-wrap { display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: start; }
+    @media (max-width: 900px) { .iv-wrap { grid-template-columns: 1fr; } }
+
+    .player-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 16px; }
+    .player-card .source-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .player-card input[type="url"] { flex: 1; padding: 10px 12px; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius-btn); font: inherit; }
+    .player-card .yt-wrap { position: relative; padding-bottom: 56.25%; background: #000; border-radius: var(--radius-btn); overflow: hidden; }
+    .player-card .yt-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .player-card .yt-wrap .placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.9rem; opacity: 0.7; }
+    .player-card .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
+    .player-card .time { color: var(--muted); font-family: ui-monospace, Consolas, monospace; font-size: 0.88rem; min-width: 80px; }
+
+    .mode-pills { display: inline-flex; background: var(--bg); border: 1px solid var(--border); border-radius: 99px; padding: 3px; }
+    .mode-pills button { background: transparent; color: var(--muted); border: 0; padding: 6px 14px; font: inherit; font-weight: 600; font-size: 0.85rem; border-radius: 99px; cursor: pointer; }
+    .mode-pills button.is-active { background: var(--accent); color: #fff; }
+
+    .q-list { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 16px; max-height: 580px; overflow: auto; }
+    .q-list h3 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 10px; }
+    .q-item { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-btn); padding: 12px; margin-bottom: 10px; }
+    .q-item .q-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .q-item .q-time { background: rgba(79,70,229,0.12); color: var(--accent); padding: 2px 10px; border-radius: 99px; font-size: 0.78rem; font-family: ui-monospace, Consolas, monospace; font-weight: 600; }
+    .q-item .q-text { font-size: 0.92rem; color: var(--text); margin-bottom: 6px; }
+    .q-item .q-choices { list-style: none; padding: 0; margin: 0; }
+    .q-item .q-choices li { font-size: 0.85rem; color: var(--muted); padding: 2px 0; }
+    .q-item .q-choices li.is-correct { color: var(--accent); font-weight: 600; }
+    .q-item .q-actions { display: flex; gap: 6px; margin-top: 6px; }
+    .q-item button { background: transparent; border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; font: inherit; font-size: 0.78rem; color: var(--muted); cursor: pointer; }
+    .q-item button:hover { color: var(--text); border-color: var(--accent); }
+
+    .q-editor { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-btn); padding: 14px; margin-top: 10px; }
+    .q-editor label { display: block; font-size: 0.78rem; color: var(--muted); margin: 6px 0 4px; }
+    .q-editor input, .q-editor textarea, .q-editor select { width: 100%; padding: 8px 10px; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 6px; font: inherit; font-size: 0.88rem; }
+    .q-editor textarea { min-height: 60px; resize: vertical; }
+    .q-editor .choice-row { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; }
+    .q-editor .choice-row input[type="text"] { flex: 1; }
+    .q-editor .choice-row input[type="radio"] { width: auto; }
+
+    /* Student overlay */
+    .overlay {
+      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85);
+      display: none; align-items: center; justify-content: center; z-index: 1000;
+      padding: 20px;
+    }
+    .overlay.is-shown { display: flex; }
+    .overlay-box {
+      background: var(--bg); border-radius: var(--radius-card); padding: 28px;
+      max-width: 560px; width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .overlay-box h3 { margin-bottom: 12px; color: var(--accent); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .overlay-box .q-text { font-size: 1.2rem; line-height: 1.4; color: var(--text); margin-bottom: 20px; }
+    .overlay-box .opt-btn {
+      display: block; width: 100%; text-align: left;
+      padding: 14px 18px; margin-bottom: 8px;
+      background: var(--surface); color: var(--text);
+      border: 2px solid var(--border); border-radius: var(--radius-btn);
+      font: inherit; font-size: 1rem; cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .overlay-box .opt-btn:hover { border-color: var(--accent); background: rgba(79,70,229,0.05); }
+    .overlay-box .opt-btn.correct { background: #dcfce7; border-color: #16a34a; color: #14532d; }
+    .overlay-box .opt-btn.wrong { background: #fee2e2; border-color: #dc2626; color: #7f1d1d; }
+    .overlay-box textarea { width: 100%; min-height: 90px; padding: 12px; border: 2px solid var(--border); border-radius: var(--radius-btn); font: inherit; }
+    .overlay-box .continue-btn { margin-top: 14px; }
+  </style>
+</head>
+<body>
+
+  <header class="site-nav">
+    <div class="container">
+      <a href="index.html" class="logo">Pathways</a>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="desk.html">Plan a lesson</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="flipped.html">Flipped</a></li>
+          <li><a href="interactive-video.html" class="is-active">Interactive video</a></li>
+          <li><a href="lms.html">Export to LMS</a></li>
+          <li><a href="docs.html">Docs</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="section" style="padding-top:40px;">
+      <div class="container">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; margin-bottom:20px;">
+          <div>
+            <h1 style="margin-bottom:6px;">Interactive video</h1>
+            <p style="color:var(--muted); max-width:640px;">Paste a YouTube link. Add questions that pop up at any moment. Students watch in a safe player that pauses for each question — no related-video distractions, no ads in sidebar. Share a link or export to your LMS.</p>
+          </div>
+          <div class="mode-pills" role="tablist">
+            <button type="button" class="is-active" data-mode="teacher">✏️ Teacher</button>
+            <button type="button" data-mode="student">🎓 Student (preview)</button>
+          </div>
+        </div>
+
+        <div class="iv-wrap">
+          <!-- Player -->
+          <div class="player-card">
+            <div class="source-row">
+              <input type="url" id="yt-url" placeholder="Paste YouTube URL — e.g. https://youtube.com/watch?v=..." autocomplete="off" />
+              <button type="button" class="btn btn-primary" id="load-btn">Load</button>
+            </div>
+            <div class="yt-wrap" id="yt-wrap">
+              <div class="placeholder" id="yt-placeholder">Paste a YouTube URL above and click Load.</div>
+              <div id="yt-player"></div>
+            </div>
+            <div class="toolbar">
+              <span class="time" id="current-time">0:00 / 0:00</span>
+              <button type="button" class="btn btn-ghost" id="add-q-btn" disabled>+ Add question here</button>
+              <button type="button" class="btn btn-ghost" id="share-btn" style="margin-left:auto;">🔗 Copy share link</button>
+            </div>
+            <details style="margin-top:14px;">
+              <summary style="cursor:pointer; color:var(--muted); font-size:0.88rem;">Lesson meta (title, objective, age)</summary>
+              <div style="margin-top:10px; display:grid; gap:8px;">
+                <input type="text" id="meta-title" placeholder="Lesson title (e.g. Photosynthesis 101)" style="padding:8px 10px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-btn); font:inherit;" />
+                <input type="text" id="meta-obj" placeholder="Objective (Students will be able to...)" style="padding:8px 10px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-btn); font:inherit;" />
+                <select id="meta-age" style="padding:8px 10px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-btn); font:inherit;">
+                  <option value="">Any age</option>
+                  <option value="k2">Grade K-2</option>
+                  <option value="35">Grade 3-5</option>
+                  <option value="68">Grade 6-8</option>
+                  <option value="912">Grade 9-12</option>
+                  <option value="univ">University</option>
+                  <option value="adult">Adult</option>
+                </select>
+              </div>
+            </details>
+          </div>
+
+          <!-- Question list + editor -->
+          <div class="q-list">
+            <h3>Questions (<span id="q-count">0</span>)</h3>
+            <div id="q-items"></div>
+            <div id="q-editor-wrap" style="display:none;"></div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+              <button type="button" class="btn btn-ghost" id="export-json" style="font-size:0.82rem;">📄 JSON</button>
+              <button type="button" class="btn btn-ghost" id="export-scorm" style="font-size:0.82rem;">📦 SCORM</button>
+              <button type="button" class="btn btn-ghost" id="export-cc" style="font-size:0.82rem;">🎯 Common Cartridge</button>
+            </div>
+            <p style="color:var(--muted); font-size:0.78rem; margin-top:10px;">SCORM &amp; CC packages include the player, embed URL, and all questions. Upload the <code>.zip</code> into Canvas, Moodle, Blackboard, Brightspace, or Schoology.</p>
+          </div>
+        </div>
+
+        <!-- How it works -->
+        <section style="margin-top:40px;">
+          <h2>How it works</h2>
+          <div class="card-grid" style="margin-top:14px;">
+            <div class="card">
+              <span class="eyebrow">Step 1</span>
+              <h3>Paste &amp; load</h3>
+              <p>Drop any YouTube URL. The safe embed loads — no related-video clutter, no ads in the sidebar, no "up next" to derail students.</p>
+            </div>
+            <div class="card">
+              <span class="eyebrow">Step 2</span>
+              <h3>Add questions at any second</h3>
+              <p>Pause at the moment you want to check understanding. Click <strong>Add question here</strong>. Choose Multiple choice, Open-ended, or a Poll — timestamp is captured automatically.</p>
+            </div>
+            <div class="card">
+              <span class="eyebrow">Step 3</span>
+              <h3>Share &amp; track</h3>
+              <p>Copy the share link for students, or export to SCORM/Common Cartridge for your LMS. Students can't skip past a question — the video pauses until they answer.</p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Student overlay -->
+  <div class="overlay" id="q-overlay" role="dialog" aria-modal="true">
+    <div class="overlay-box" id="overlay-box"></div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; 2026 Pathways</span>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="desk.html">Plan a lesson</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="flipped.html">Flipped</a></li>
+        <li><a href="interactive-video.html">Interactive video</a></li>
+        <li><a href="lms.html">Export to LMS</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script>
+    (function () {
+      const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      const xmlEsc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
+      const fmtTime = sec => { sec = Math.floor(sec); const m = Math.floor(sec/60); return `${m}:${String(sec%60).padStart(2,'0')}`; };
+
+      // ============ STATE ============
+      let videoId = '';
+      let player = null;
+      let duration = 0;
+      let questions = [];
+      let mode = 'teacher';
+      let shownIds = new Set(); // questions shown this session
+      let currentPollingIntervalId = null;
+
+      // ============ YOUTUBE ============
+      function parseYouTubeId(input) {
+        if (!input) return '';
+        try {
+          const u = new URL(input);
+          if (u.hostname === 'youtu.be') return u.pathname.slice(1);
+          if (u.searchParams.get('v')) return u.searchParams.get('v');
+          const m = u.pathname.match(/\/embed\/([^/?]+)/);
+          if (m) return m[1];
+        } catch {}
+        if (/^[A-Za-z0-9_-]{11}$/.test(input.trim())) return input.trim();
+        return '';
+      }
+
+      function loadYT() {
+        if (window.YT && window.YT.Player) return Promise.resolve();
+        return new Promise(res => {
+          const tag = document.createElement('script');
+          tag.src = 'https://www.youtube.com/iframe_api';
+          document.head.appendChild(tag);
+          window.onYouTubeIframeAPIReady = res;
+        });
+      }
+
+      async function loadVideo(id) {
+        videoId = id;
+        document.getElementById('yt-placeholder').style.display = 'none';
+        await loadYT();
+
+        if (player) { try { player.destroy(); } catch {} player = null; }
+        const el = document.createElement('div');
+        el.id = 'yt-player';
+        document.getElementById('yt-player').replaceWith(el);
+
+        player = new YT.Player('yt-player', {
+          videoId: id,
+          host: 'https://www.youtube-nocookie.com',
+          playerVars: {
+            rel: 0, modestbranding: 1, iv_load_policy: 3, fs: 1, playsinline: 1,
+            origin: location.origin
+          },
+          events: {
+            onReady: () => {
+              duration = player.getDuration();
+              document.getElementById('add-q-btn').disabled = false;
+              startTimeLoop();
+            },
+            onStateChange: e => {
+              if (e.data === YT.PlayerState.PLAYING && mode === 'student') checkQuestions();
+            }
+          }
+        });
+      }
+
+      function startTimeLoop() {
+        if (currentPollingIntervalId) clearInterval(currentPollingIntervalId);
+        currentPollingIntervalId = setInterval(() => {
+          if (!player || !player.getCurrentTime) return;
+          const t = player.getCurrentTime();
+          document.getElementById('current-time').textContent = `${fmtTime(t)} / ${fmtTime(duration)}`;
+          if (mode === 'student') checkQuestions();
+        }, 250);
+      }
+
+      function checkQuestions() {
+        if (!player || !questions.length) return;
+        const t = player.getCurrentTime();
+        for (const q of questions) {
+          if (shownIds.has(q.id)) continue;
+          if (t >= q.timestamp && t <= q.timestamp + 0.5) {
+            player.pauseVideo();
+            shownIds.add(q.id);
+            showOverlay(q);
+            return;
+          }
+        }
+      }
+
+      // ============ OVERLAY (STUDENT) ============
+      function showOverlay(q) {
+        const wrap = document.getElementById('q-overlay');
+        const box = document.getElementById('overlay-box');
+        wrap.classList.add('is-shown');
+
+        if (q.type === 'mcq') {
+          box.innerHTML = `
+            <h3>Check at ${fmtTime(q.timestamp)}</h3>
+            <p class="q-text">${esc(q.text)}</p>
+            ${q.choices.map((c, i) => `<button type="button" class="opt-btn" data-i="${i}">${esc(c.text)}</button>`).join('')}
+          `;
+          box.querySelectorAll('.opt-btn').forEach(btn => btn.addEventListener('click', () => {
+            const i = parseInt(btn.dataset.i, 10);
+            box.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+            btn.classList.add(q.choices[i].correct ? 'correct' : 'wrong');
+            if (!q.choices[i].correct) {
+              const correct = q.choices.findIndex(c => c.correct);
+              if (correct >= 0) box.querySelectorAll('.opt-btn')[correct].classList.add('correct');
+            }
+            addContinueBtn();
+          }));
+        } else if (q.type === 'open') {
+          box.innerHTML = `
+            <h3>Reflect at ${fmtTime(q.timestamp)}</h3>
+            <p class="q-text">${esc(q.text)}</p>
+            <textarea id="q-open-answer" placeholder="Type your answer..."></textarea>
+          `;
+          addContinueBtn();
+        } else if (q.type === 'poll') {
+          box.innerHTML = `
+            <h3>Poll at ${fmtTime(q.timestamp)}</h3>
+            <p class="q-text">${esc(q.text)}</p>
+            ${q.choices.map((c, i) => `<button type="button" class="opt-btn" data-i="${i}">${esc(c.text)}</button>`).join('')}
+          `;
+          box.querySelectorAll('.opt-btn').forEach(btn => btn.addEventListener('click', () => {
+            box.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+            btn.classList.add('correct');
+            addContinueBtn();
+          }));
+        }
+      }
+      function addContinueBtn() {
+        const box = document.getElementById('overlay-box');
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-primary continue-btn';
+        btn.textContent = 'Continue watching →';
+        btn.addEventListener('click', () => {
+          document.getElementById('q-overlay').classList.remove('is-shown');
+          if (player && player.playVideo) player.playVideo();
+        });
+        box.appendChild(btn);
+      }
+
+      // ============ QUESTION EDITOR (TEACHER) ============
+      function renderQuestions() {
+        document.getElementById('q-count').textContent = questions.length;
+        const list = document.getElementById('q-items');
+        list.innerHTML = questions.slice().sort((a,b) => a.timestamp - b.timestamp).map(q => `
+          <div class="q-item" data-id="${esc(q.id)}">
+            <div class="q-head">
+              <span class="q-time">${fmtTime(q.timestamp)}</span>
+              <span style="font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em;">${esc(q.type)}</span>
+            </div>
+            <div class="q-text">${esc(q.text)}</div>
+            ${q.choices ? `<ul class="q-choices">${q.choices.map(c => `<li class="${c.correct ? 'is-correct' : ''}">${c.correct ? '✓ ' : '• '}${esc(c.text)}</li>`).join('')}</ul>` : ''}
+            <div class="q-actions">
+              <button type="button" data-act="seek">▶ Jump to ${fmtTime(q.timestamp)}</button>
+              <button type="button" data-act="delete">🗑 Delete</button>
+            </div>
+          </div>
+        `).join('');
+
+        list.querySelectorAll('.q-item').forEach(el => {
+          const id = el.dataset.id;
+          el.querySelector('[data-act="seek"]').addEventListener('click', () => {
+            const q = questions.find(x => x.id === id);
+            if (q && player) player.seekTo(q.timestamp, true);
+          });
+          el.querySelector('[data-act="delete"]').addEventListener('click', () => {
+            if (confirm('Delete this question?')) {
+              questions = questions.filter(x => x.id !== id);
+              renderQuestions();
+            }
+          });
+        });
+      }
+
+      function openEditor(timestamp) {
+        const wrap = document.getElementById('q-editor-wrap');
+        wrap.style.display = 'block';
+        wrap.innerHTML = `
+          <div class="q-editor">
+            <h4 style="color:var(--accent); font-size:0.82rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">New question at ${fmtTime(timestamp)}</h4>
+            <label>Type</label>
+            <select id="new-type">
+              <option value="mcq" selected>Multiple choice</option>
+              <option value="open">Open-ended</option>
+              <option value="poll">Poll (no right answer)</option>
+            </select>
+            <label>Question text</label>
+            <textarea id="new-text" placeholder="What is the main idea so far?"></textarea>
+            <div id="new-choices-wrap">
+              <label>Choices (click the radio to mark correct)</label>
+              <div class="choice-row"><input type="radio" name="correct" value="0" checked><input type="text" class="new-choice" placeholder="Choice A"></div>
+              <div class="choice-row"><input type="radio" name="correct" value="1"><input type="text" class="new-choice" placeholder="Choice B"></div>
+              <div class="choice-row"><input type="radio" name="correct" value="2"><input type="text" class="new-choice" placeholder="Choice C"></div>
+              <div class="choice-row"><input type="radio" name="correct" value="3"><input type="text" class="new-choice" placeholder="Choice D"></div>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:10px;">
+              <button type="button" class="btn btn-primary" id="save-q" style="padding:8px 14px; font-size:0.88rem;">Save question</button>
+              <button type="button" class="btn btn-ghost" id="cancel-q" style="padding:8px 14px; font-size:0.88rem;">Cancel</button>
+            </div>
+          </div>
+        `;
+
+        const typeEl = document.getElementById('new-type');
+        typeEl.addEventListener('change', () => {
+          document.getElementById('new-choices-wrap').style.display = typeEl.value === 'open' ? 'none' : 'block';
+        });
+
+        document.getElementById('save-q').addEventListener('click', () => {
+          const type = typeEl.value;
+          const text = document.getElementById('new-text').value.trim();
+          if (!text) { alert('Write the question first.'); return; }
+          const q = { id: 'q-'+Math.random().toString(36).slice(2,9), timestamp, type, text };
+          if (type !== 'open') {
+            const choices = [...document.querySelectorAll('.new-choice')].map(i => i.value.trim()).filter(Boolean);
+            if (choices.length < 2) { alert('Add at least 2 choices.'); return; }
+            const correctIdx = parseInt(document.querySelector('input[name="correct"]:checked').value, 10);
+            q.choices = choices.map((text, i) => ({ text, correct: i === correctIdx }));
+          }
+          questions.push(q);
+          wrap.style.display = 'none';
+          renderQuestions();
+        });
+        document.getElementById('cancel-q').addEventListener('click', () => { wrap.style.display = 'none'; });
+      }
+
+      // ============ WIRE-UP ============
+      document.getElementById('load-btn').addEventListener('click', () => {
+        const url = document.getElementById('yt-url').value.trim();
+        const id = parseYouTubeId(url);
+        if (!id) { alert('Paste a valid YouTube URL.'); return; }
+        loadVideo(id);
+      });
+      document.getElementById('yt-url').addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); document.getElementById('load-btn').click(); }
+      });
+      document.getElementById('add-q-btn').addEventListener('click', () => {
+        if (!player) return;
+        const t = player.getCurrentTime();
+        player.pauseVideo();
+        openEditor(t);
+      });
+
+      // Mode toggle
+      document.querySelectorAll('.mode-pills button').forEach(b => {
+        b.addEventListener('click', () => {
+          document.querySelectorAll('.mode-pills button').forEach(x => x.classList.remove('is-active'));
+          b.classList.add('is-active');
+          mode = b.dataset.mode;
+          document.getElementById('add-q-btn').style.display = (mode === 'teacher') ? 'inline-flex' : 'none';
+          shownIds = new Set();
+          if (mode === 'student' && player && player.seekTo) player.seekTo(0, true);
+        });
+      });
+
+      // ============ SHARE ============
+      function encodeShare() {
+        const payload = {
+          v: videoId,
+          t: document.getElementById('meta-title').value,
+          o: document.getElementById('meta-obj').value,
+          a: document.getElementById('meta-age').value,
+          q: questions
+        };
+        return btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+      }
+      function decodeShare(hash) {
+        try {
+          return JSON.parse(decodeURIComponent(escape(atob(hash))));
+        } catch { return null; }
+      }
+      document.getElementById('share-btn').addEventListener('click', () => {
+        if (!videoId) { alert('Load a video first.'); return; }
+        const url = `${location.origin}${location.pathname}#iv=${encodeShare()}`;
+        navigator.clipboard.writeText(url).then(
+          () => alert('Share link copied. Anyone who opens it sees the video + your questions.'),
+          () => prompt('Copy this link:', url)
+        );
+      });
+
+      // Load from hash on page open
+      if (location.hash.startsWith('#iv=')) {
+        const data = decodeShare(location.hash.slice(4));
+        if (data) {
+          document.getElementById('meta-title').value = data.t || '';
+          document.getElementById('meta-obj').value = data.o || '';
+          document.getElementById('meta-age').value = data.a || '';
+          questions = data.q || [];
+          renderQuestions();
+          document.getElementById('yt-url').value = `https://youtube.com/watch?v=${data.v}`;
+          // Auto-switch to student mode for shared links
+          document.querySelector('.mode-pills button[data-mode="student"]').click();
+          loadVideo(data.v);
+        }
+      }
+
+      // ============ EXPORTS ============
+      function lessonData() {
+        return {
+          title: document.getElementById('meta-title').value || 'Interactive video lesson',
+          objective: document.getElementById('meta-obj').value,
+          age: document.getElementById('meta-age').value,
+          videoId,
+          embedUrl: `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1`,
+          questions
+        };
+      }
+
+      function buildEmbedHTML(data) {
+        return `<!doctype html><html><head><meta charset="utf-8"><title>${xmlEsc(data.title)}</title><style>body{margin:0;font-family:system-ui;background:#0f172a;color:#fff}.wrap{max-width:900px;margin:0 auto;padding:20px}.v{position:relative;padding-bottom:56.25%;background:#000}.v iframe{position:absolute;inset:0;width:100%;height:100%;border:0}h1{color:#fff}.qlist{margin-top:20px;background:#1e293b;border-radius:8px;padding:16px}.q{border-left:3px solid #4f46e5;padding-left:10px;margin-bottom:10px}</style></head><body><div class="wrap"><h1>${xmlEsc(data.title)}</h1><p>${xmlEsc(data.objective || '')}</p><div class="v"><iframe src="${xmlEsc(data.embedUrl)}" allow="autoplay; fullscreen" allowfullscreen></iframe></div><div class="qlist"><h3>${data.questions.length} question${data.questions.length===1?'':'s'} in this lesson</h3>${data.questions.map(q => `<div class="q"><strong>${fmtTime(q.timestamp)}</strong> — ${xmlEsc(q.text)}</div>`).join('')}</div></div></body></html>`;
+      }
+
+      document.getElementById('export-json').addEventListener('click', () => {
+        if (!videoId) { alert('Load a video first.'); return; }
+        const blob = new Blob([JSON.stringify(lessonData(), null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'interactive-video.json';
+        a.click();
+      });
+
+      async function buildSCORMPkg() {
+        if (!videoId) { alert('Load a video first.'); return null; }
+        const data = lessonData();
+        const zip = new JSZip();
+        const manifest = `<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="pathways-iv-${Date.now()}" version="1.3"
+  xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+  xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2">
+  <metadata><schema>ADL SCORM</schema><schemaversion>1.2</schemaversion></metadata>
+  <organizations default="ORG1">
+    <organization identifier="ORG1">
+      <title>${xmlEsc(data.title)}</title>
+      <item identifier="ITEM1" identifierref="RES1"><title>${xmlEsc(data.title)}</title></item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="RES1" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="index.html"/>
+    </resource>
+  </resources>
+</manifest>`;
+        zip.file('imsmanifest.xml', manifest);
+        zip.file('index.html', buildEmbedHTML(data));
+        zip.file('questions.json', JSON.stringify(data.questions, null, 2));
+        return zip.generateAsync({ type: 'blob' });
+      }
+      async function buildCCPkg() {
+        if (!videoId) { alert('Load a video first.'); return null; }
+        const data = lessonData();
+        const zip = new JSZip();
+        const manifest = `<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="pathways-iv-cc-${Date.now()}" xmlns="http://www.imsglobal.org/xsd/imsccv1p3/imscp_v1p1">
+  <metadata><schema>IMS Common Cartridge</schema><schemaversion>1.3.0</schemaversion></metadata>
+  <organizations>
+    <organization identifier="ORG1" structure="rooted-hierarchy">
+      <item identifier="ROOT">
+        <item identifier="I1" identifierref="R1"><title>${xmlEsc(data.title)}</title></item>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="R1" type="webcontent" href="lesson.html">
+      <file href="lesson.html"/>
+    </resource>
+  </resources>
+</manifest>`;
+        zip.file('imsmanifest.xml', manifest);
+        zip.file('lesson.html', buildEmbedHTML(data));
+        zip.file('questions.json', JSON.stringify(data.questions, null, 2));
+        return zip.generateAsync({ type: 'blob' });
+      }
+      function downloadBlob(blob, name) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = name;
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+      document.getElementById('export-scorm').addEventListener('click', async () => {
+        const blob = await buildSCORMPkg();
+        if (blob) downloadBlob(blob, 'interactive-video-scorm.zip');
+      });
+      document.getElementById('export-cc').addEventListener('click', async () => {
+        const blob = await buildCCPkg();
+        if (blob) downloadBlob(blob, 'interactive-video.imscc');
+      });
+
+      renderQuestions();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+[
+  {
+    "id": "lessonloom",
+    "name": "LessonLoom",
+    "category": "Lesson Planning",
+    "description": "Build standards-aligned lesson plans from a prompt, auto-generate worksheets, and share with your grade team.",
+    "tags": ["teachers", "planning", "standards"],
+    "paths": ["teachers"],
+    "icon": "📘",
+    "url": "apps.html"
+  },
+  {
+    "id": "quizforge",
+    "name": "QuizForge",
+    "category": "Assessment",
+    "description": "Create auto-graded quizzes, exit tickets, and formative checks with question banks aligned to your curriculum.",
+    "tags": ["teachers", "quiz", "formative"],
+    "paths": ["teachers"],
+    "icon": "📝",
+    "url": "apps.html"
+  },
+  {
+    "id": "flashflow",
+    "name": "FlashFlow",
+    "category": "Study",
+    "description": "Spaced-repetition flashcards with audio, image occlusion, and shared decks for entire classes.",
+    "tags": ["learners", "srs", "flashcards"],
+    "paths": ["learners"],
+    "icon": "🃏",
+    "url": "apps.html"
+  },
+  {
+    "id": "classroomcompass",
+    "name": "ClassroomCompass",
+    "category": "Classroom",
+    "description": "Seat maps, behaviour trackers, random picker, timers and group makers — everything a teacher reaches for mid-lesson.",
+    "tags": ["teachers", "classroom", "behaviour"],
+    "paths": ["teachers"],
+    "icon": "🧭",
+    "url": "apps.html"
+  },
+  {
+    "id": "gradegrove",
+    "name": "GradeGrove",
+    "category": "Assessment",
+    "description": "A private gradebook with rubric-based marking, standards tracking, and parent-ready report export.",
+    "tags": ["teachers", "gradebook", "rubric"],
+    "paths": ["teachers"],
+    "icon": "📊",
+    "url": "apps.html"
+  },
+  {
+    "id": "timetabler",
+    "name": "Timetabler",
+    "category": "Administration",
+    "description": "Constraint-solver that generates conflict-free school timetables for classes, rooms, and shared resources.",
+    "tags": ["schools", "timetabling", "ops"],
+    "paths": ["schools"],
+    "icon": "🗓️",
+    "url": "apps.html"
+  },
+  {
+    "id": "attendly",
+    "name": "Attendly",
+    "category": "Administration",
+    "description": "Take attendance in ten seconds per class, with automatic absence notifications to parents.",
+    "tags": ["schools", "attendance", "notifications"],
+    "paths": ["schools", "parents"],
+    "icon": "✅",
+    "url": "apps.html"
+  },
+  {
+    "id": "parentline",
+    "name": "ParentLine",
+    "category": "Communication",
+    "description": "Two-way messaging between teachers and parents with translation into 40+ languages.",
+    "tags": ["parents", "communication", "translation"],
+    "paths": ["parents", "teachers", "schools"],
+    "icon": "💬",
+    "url": "apps.html"
+  },
+  {
+    "id": "mindmapr",
+    "name": "MindMapr",
+    "category": "Study",
+    "description": "Collaborative concept maps for note-taking, revision, and group projects — exportable to PDF and Anki.",
+    "tags": ["learners", "notes", "collaboration"],
+    "paths": ["learners"],
+    "icon": "🧠",
+    "url": "apps.html"
+  },
+  {
+    "id": "readability",
+    "name": "ReadAbility",
+    "category": "Accessibility",
+    "description": "Turn any text into dyslexia-friendly formatting, add text-to-speech, and generate phoneme breakdowns.",
+    "tags": ["accessibility", "literacy", "tts"],
+    "paths": ["learners", "teachers"],
+    "icon": "🔤",
+    "url": "apps.html"
+  },
+  {
+    "id": "pronouncepal",
+    "name": "PronouncePal",
+    "category": "Accessibility",
+    "description": "AI pronunciation coach with waveform feedback — helpful for language learners and speech therapy.",
+    "tags": ["language", "speech", "accessibility"],
+    "paths": ["learners"],
+    "icon": "🗣️",
+    "url": "apps.html"
+  },
+  {
+    "id": "labsafe",
+    "name": "LabSafe",
+    "category": "Classroom",
+    "description": "Interactive safety briefings for science labs and workshops with quiz sign-off for students.",
+    "tags": ["schools", "safety", "science"],
+    "paths": ["schools", "teachers"],
+    "icon": "🧪",
+    "url": "apps.html"
+  },
+  {
+    "id": "citeright",
+    "name": "CiteRight",
+    "category": "Study",
+    "description": "Reference manager for students and researchers — APA, MLA, Chicago, and Harvard exports in one click.",
+    "tags": ["learners", "researchers", "citations"],
+    "paths": ["learners", "researchers"],
+    "icon": "📚",
+    "url": "apps.html"
+  },
+  {
+    "id": "insightsled",
+    "name": "InsightsLED",
+    "category": "Analytics",
+    "description": "Learning analytics dashboard that surfaces at-risk students using xAPI events from your LMS.",
+    "tags": ["institutions", "analytics", "xapi"],
+    "paths": ["institutions"],
+    "icon": "📈",
+    "url": "apps.html"
+  },
+  {
+    "id": "rubricraft",
+    "name": "RubricRaft",
+    "category": "Assessment",
+    "description": "Build, share, and reuse analytic rubrics that work in Canvas, Moodle, and Google Classroom.",
+    "tags": ["teachers", "rubric", "lms"],
+    "paths": ["teachers", "institutions"],
+    "icon": "🧾",
+    "url": "apps.html"
+  },
+  {
+    "id": "homeworkhero",
+    "name": "HomeworkHero",
+    "category": "Study",
+    "description": "Homework tracker for learners with parent view, gentle reminders, and study-session timers.",
+    "tags": ["learners", "parents", "homework"],
+    "paths": ["learners", "parents"],
+    "icon": "🦸",
+    "url": "apps.html"
+  },
+  {
+    "id": "policyforge",
+    "name": "PolicyForge",
+    "category": "Administration",
+    "description": "Assemble safeguarding, AI-use, and data-protection policies from vetted institutional templates.",
+    "tags": ["schools", "institutions", "compliance"],
+    "paths": ["schools", "institutions"],
+    "icon": "📜",
+    "url": "apps.html"
+  },
+  {
+    "id": "openlecture",
+    "name": "OpenLecture",
+    "category": "Classroom",
+    "description": "Record, caption, and publish lectures with searchable transcripts and chapter markers.",
+    "tags": ["institutions", "video", "captions"],
+    "paths": ["institutions"],
+    "icon": "🎥",
+    "url": "apps.html"
+  },
+  {
+    "id": "studybuddy",
+    "name": "StudyBuddy",
+    "category": "Study",
+    "description": "AI study partner that quizzes you on your own notes using the Socratic method — no answers handed over.",
+    "tags": ["learners", "ai", "socratic"],
+    "paths": ["learners"],
+    "icon": "🤖",
+    "url": "apps.html"
+  },
+  {
+    "id": "signalpath",
+    "name": "SignalPath",
+    "category": "Analytics",
+    "description": "Researcher-friendly experiment runner for A/B testing pedagogical interventions in classrooms.",
+    "tags": ["researchers", "experiments", "analytics"],
+    "paths": ["researchers", "institutions"],
+    "icon": "🧬",
+    "url": "apps.html"
+  }
+]

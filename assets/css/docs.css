@@ -1,0 +1,432 @@
+/* docs.css - documentation-specific styles
+   Builds on base.css. Does not redefine utilities. */
+
+/* ---------- Page header ---------- */
+.page-header {
+  padding: 56px 0 24px;
+  border-bottom: 1px solid var(--border);
+  background:
+    radial-gradient(900px 300px at 20% 0%, rgba(124, 92, 255, 0.10), transparent 60%),
+    radial-gradient(700px 250px at 90% 0%, rgba(34, 211, 238, 0.07), transparent 60%);
+}
+.page-header h1 {
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+.page-header .lede {
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+/* ---------- Two-column docs layout ---------- */
+.docs-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 48px;
+  padding: 40px 0 80px;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .docs-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 24px 0 56px;
+  }
+}
+
+/* ---------- Sidebar ---------- */
+.docs-sidebar {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+}
+@media (max-width: 820px) {
+  .docs-sidebar {
+    position: static;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 16px;
+  }
+}
+
+.docs-nav-group + .docs-nav-group { margin-top: 22px; }
+
+.docs-nav-heading {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+.docs-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.docs-nav li a {
+  display: block;
+  padding: 6px 10px;
+  margin-left: 4px;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 8px;
+  border-left: 2px solid transparent;
+  font-size: 0.94rem;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+.docs-nav li a:hover {
+  background: rgba(124, 92, 255, 0.08);
+  color: var(--text);
+}
+.docs-nav li a.is-active {
+  background: rgba(124, 92, 255, 0.12);
+  color: var(--text);
+  border-left-color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---------- Content area / prose ---------- */
+.docs-content {
+  min-width: 0;
+  max-width: 70ch;
+}
+.docs-content > section + section { margin-top: 40px; }
+
+.docs-content h1 {
+  font-size: clamp(1.8rem, 3vw, 2.25rem);
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+}
+.docs-content h2 {
+  font-size: 1.4rem;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+.docs-content h3 {
+  font-size: 1.1rem;
+  margin: 24px 0 8px;
+}
+.docs-content p,
+.docs-content li {
+  line-height: 1.7;
+  color: var(--text);
+}
+.docs-content p { margin: 0 0 14px; }
+.docs-content ul, .docs-content ol { padding-left: 1.25rem; margin: 0 0 16px; }
+.docs-content li { margin: 4px 0; }
+.docs-content a { color: var(--accent-2); }
+.docs-content a:hover { text-decoration: underline; }
+
+/* Anchor-link reveal on hover for headings */
+.docs-content h2,
+.docs-content h3 {
+  position: relative;
+  scroll-margin-top: 80px;
+}
+.docs-content .anchor {
+  position: absolute;
+  left: -1.1em;
+  top: 0;
+  color: var(--muted);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 120ms ease;
+  font-weight: 400;
+}
+.docs-content h2:hover .anchor,
+.docs-content h3:hover .anchor,
+.docs-content .anchor:focus {
+  opacity: 1;
+}
+
+/* ---------- Code blocks ---------- */
+.docs-content code,
+.docs-content pre {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+.docs-content :not(pre) > code {
+  background: rgba(124, 92, 255, 0.10);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 6px;
+  color: var(--text);
+}
+.docs-content pre {
+  background: #0f1320;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  line-height: 1.55;
+  margin: 0 0 18px;
+}
+.docs-content pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--text);
+}
+
+/* ---------- Callout / note ---------- */
+.callout {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  background: rgba(124, 92, 255, 0.06);
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin: 0 0 18px;
+  color: var(--text);
+}
+.callout-title {
+  display: block;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 4px;
+  color: var(--accent-2);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+.callout p:last-child { margin-bottom: 0; }
+
+/* ---------- Index page cards ---------- */
+.docs-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.docs-card {
+  display: block;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+.docs-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(124, 92, 255, 0.5);
+  background: #161b27;
+}
+.docs-card-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.docs-card h3 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+.docs-card p {
+  color: var(--muted);
+  margin: 0 0 12px;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+.docs-card-cta {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.docs-recent-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+}
+.docs-recent-list li {
+  padding: 12px 16px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.docs-recent-list li + li { border-top: 1px solid var(--border); }
+.docs-recent-list a {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+}
+.docs-recent-list a:hover { color: var(--accent-2); }
+.docs-recent-meta {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+.docs-recent-meta code {
+  background: rgba(124, 92, 255, 0.10);
+  border: 1px solid var(--border);
+  padding: 0 5px;
+  border-radius: 5px;
+  font-size: 0.85em;
+}
+
+.docs-cta {
+  border: 1px solid var(--border);
+  background:
+    radial-gradient(600px 200px at 0% 0%, rgba(124, 92, 255, 0.10), transparent 60%),
+    var(--surface);
+  border-radius: 12px;
+  padding: 24px;
+}
+.docs-cta h2 { margin-top: 0; }
+.docs-cta .btn { margin-right: 8px; margin-top: 4px; }
+
+/* ---------- Buttons (fallback if base lacks variants) ---------- */
+.btn {
+  display: inline-block;
+  padding: 9px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+  border: 1px solid transparent;
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #0b0d12;
+}
+.btn-primary:hover { transform: translateY(-1px); background: #8e72ff; }
+.btn-ghost {
+  border-color: var(--border);
+  color: var(--text);
+  background: transparent;
+}
+.btn-ghost:hover { border-color: var(--accent); }
+
+/* ---------- API reference ---------- */
+.endpoint {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 18px;
+  margin: 0 0 20px;
+}
+.endpoint-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.endpoint-header h3 {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.method {
+  display: inline-block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  line-height: 1.2;
+}
+.method-get {
+  background: rgba(34, 211, 238, 0.12);
+  color: var(--accent-2);
+  border-color: rgba(34, 211, 238, 0.4);
+}
+.method-post {
+  background: rgba(124, 92, 255, 0.15);
+  color: var(--accent);
+  border-color: rgba(124, 92, 255, 0.5);
+}
+.method-delete {
+  background: rgba(255, 99, 132, 0.12);
+  color: #ff8aa2;
+  border-color: rgba(255, 99, 132, 0.4);
+}
+
+.params-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0 14px;
+  font-size: 0.92rem;
+}
+.params-table th,
+.params-table td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.params-table th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.params-table code {
+  background: rgba(124, 92, 255, 0.10);
+  border: 1px solid var(--border);
+  padding: 1px 5px;
+  border-radius: 5px;
+  font-size: 0.88em;
+}
+
+/* ---------- FAQ accordion ---------- */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.faq-item {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.faq-item summary {
+  cursor: pointer;
+  padding: 14px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  transition: background 120ms ease;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+";
+  color: var(--accent);
+  font-size: 1.3rem;
+  line-height: 1;
+  transition: transform 150ms ease;
+  flex-shrink: 0;
+}
+.faq-item[open] summary::after { content: "\2212"; }
+.faq-item summary:hover { background: #161b27; }
+.faq-item .faq-body {
+  padding: 0 18px 16px;
+  color: var(--text);
+  line-height: 1.7;
+}
+.faq-item .faq-body p:last-child { margin-bottom: 0; }

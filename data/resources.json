@@ -1,0 +1,222 @@
+[
+  {
+    "id": "udl-guidelines",
+    "title": "UDL Guidelines 3.0",
+    "type": "framework",
+    "author": "CAST",
+    "description": "The reference framework for designing instruction that reaches every learner — with classroom-ready checkpoints and examples.",
+    "tags": ["udl", "accessibility", "inclusion"],
+    "paths": ["teachers", "schools", "institutions"],
+    "license": "CC-BY-4.0",
+    "url": "docs/frameworks.html#pedagogy"
+  },
+  {
+    "id": "blooms-taxonomy",
+    "title": "Bloom's Taxonomy Question Stems",
+    "type": "cheatsheet",
+    "author": "Vanderbilt CFT",
+    "description": "A printable grid of verbs and question stems for every cognitive level — from remembering to creating.",
+    "tags": ["pedagogy", "questions", "assessment"],
+    "paths": ["teachers"],
+    "license": "CC-BY-NC-4.0",
+    "url": "docs/frameworks.html#pedagogy"
+  },
+  {
+    "id": "samr-model",
+    "title": "The SAMR Model",
+    "type": "framework",
+    "author": "Dr. Ruben Puentedura",
+    "description": "A four-level model for evaluating how technology is used in instruction: Substitution, Augmentation, Modification, Redefinition.",
+    "tags": ["edtech", "framework"],
+    "paths": ["teachers", "schools"],
+    "license": "all-rights-reserved",
+    "url": "docs/frameworks.html#pedagogy"
+  },
+  {
+    "id": "ocw",
+    "title": "MIT OpenCourseWare",
+    "type": "courseware",
+    "author": "MIT",
+    "description": "Thousands of free university courses across science, engineering, humanities, and the arts — with lecture notes and problem sets.",
+    "tags": ["open", "university", "free"],
+    "paths": ["learners", "institutions", "researchers"],
+    "license": "CC-BY-NC-SA-4.0",
+    "url": "resources.html"
+  },
+  {
+    "id": "khan-academy",
+    "title": "Khan Academy",
+    "type": "courseware",
+    "author": "Khan Academy",
+    "description": "Free K-12 and early university content with mastery practice, videos, and progress tracking for learners.",
+    "tags": ["k12", "mastery", "free"],
+    "paths": ["learners", "parents", "teachers"],
+    "license": "all-rights-reserved",
+    "url": "resources.html"
+  },
+  {
+    "id": "common-core-maps",
+    "title": "Common Core Standards Map",
+    "type": "reference",
+    "author": "Achieve the Core",
+    "description": "Browse the Common Core ELA and Math standards by grade with aligned tasks and exemplars.",
+    "tags": ["standards", "ccss", "curriculum"],
+    "paths": ["teachers", "schools"],
+    "license": "public-domain",
+    "url": "docs/frameworks.html#curriculum"
+  },
+  {
+    "id": "ai-use-policy",
+    "title": "School AI Use Policy Starter",
+    "type": "policy",
+    "author": "EduHub",
+    "description": "A ready-to-adapt policy covering acceptable use of generative AI by students and staff, with legal-review checklist.",
+    "tags": ["ai", "policy", "safeguarding"],
+    "paths": ["schools", "institutions"],
+    "license": "CC-BY-4.0",
+    "url": "resources.html"
+  },
+  {
+    "id": "ferpa-guide",
+    "title": "FERPA for EdTech Buyers",
+    "type": "reference",
+    "author": "US Dept. of Education",
+    "description": "A plain-language guide to FERPA for anyone evaluating or deploying an EdTech product in a US school.",
+    "tags": ["privacy", "compliance", "us"],
+    "paths": ["schools", "institutions"],
+    "license": "public-domain",
+    "url": "docs/frameworks.html#compliance"
+  },
+  {
+    "id": "gdpr-k-checklist",
+    "title": "GDPR-K Compliance Checklist",
+    "type": "checklist",
+    "author": "European Schoolnet",
+    "description": "A step-by-step checklist for schools in the EU handling children's personal data under GDPR.",
+    "tags": ["privacy", "gdpr", "eu"],
+    "paths": ["schools", "institutions"],
+    "license": "CC-BY-SA-4.0",
+    "url": "docs/frameworks.html#compliance"
+  },
+  {
+    "id": "wcag-2-2",
+    "title": "WCAG 2.2 Quick Reference",
+    "type": "reference",
+    "author": "W3C",
+    "description": "Searchable, filterable list of all WCAG 2.2 success criteria with techniques and failures for each.",
+    "tags": ["accessibility", "wcag", "web"],
+    "paths": ["schools", "institutions", "teachers"],
+    "license": "W3C-doc",
+    "url": "docs/frameworks.html#accessibility"
+  },
+  {
+    "id": "udl-lesson-template",
+    "title": "Universal Design Lesson Plan",
+    "type": "template",
+    "author": "EduHub",
+    "description": "A UDL-aligned lesson template with accessibility checkpoints, multiple means of representation, and reflection prompts.",
+    "tags": ["template", "udl", "planning"],
+    "paths": ["teachers"],
+    "license": "CC-BY-4.0",
+    "url": "resources.html"
+  },
+  {
+    "id": "project-kickoff",
+    "title": "Class Project Kickoff Kit",
+    "type": "template",
+    "author": "EduHub",
+    "description": "A ready-to-fill project brief, milestone tracker, and peer-review rubric for student-led projects.",
+    "tags": ["template", "pbl", "projects"],
+    "paths": ["teachers", "learners"],
+    "license": "CC-BY-4.0",
+    "url": "resources.html"
+  },
+  {
+    "id": "home-reading-lists",
+    "title": "Reading Lists by Age",
+    "type": "reference",
+    "author": "ReadBrightly",
+    "description": "Curated book lists for ages 0-18 with themes, difficulty bands, and diverse-author filters.",
+    "tags": ["reading", "family", "literacy"],
+    "paths": ["parents", "teachers"],
+    "license": "all-rights-reserved",
+    "url": "resources.html"
+  },
+  {
+    "id": "screen-time-guide",
+    "title": "A Parent's Guide to Screen Time",
+    "type": "guide",
+    "author": "Common Sense Media",
+    "description": "Evidence-based guidance on balancing screen time by age, with conversation starters for families.",
+    "tags": ["family", "digital-wellness"],
+    "paths": ["parents"],
+    "license": "all-rights-reserved",
+    "url": "resources.html"
+  },
+  {
+    "id": "oer-commons",
+    "title": "OER Commons",
+    "type": "courseware",
+    "author": "ISKME",
+    "description": "A global library of open educational resources — lesson plans, textbooks, and multimedia — all openly licensed.",
+    "tags": ["oer", "open", "free"],
+    "paths": ["teachers", "institutions", "learners"],
+    "license": "mixed-open",
+    "url": "resources.html"
+  },
+  {
+    "id": "pisa-data",
+    "title": "OECD PISA Data Explorer",
+    "type": "dataset",
+    "author": "OECD",
+    "description": "International assessment data on 15-year-olds across reading, math, and science — downloadable and queryable.",
+    "tags": ["data", "assessment", "international"],
+    "paths": ["researchers", "institutions"],
+    "license": "OECD-terms",
+    "url": "resources.html"
+  },
+  {
+    "id": "learning-analytics-handbook",
+    "title": "Handbook of Learning Analytics",
+    "type": "reference",
+    "author": "SoLAR",
+    "description": "The definitive open-access handbook on learning analytics methods, ethics, and applications.",
+    "tags": ["analytics", "research", "handbook"],
+    "paths": ["researchers", "institutions"],
+    "license": "CC-BY-4.0",
+    "url": "resources.html"
+  },
+  {
+    "id": "citation-chooser",
+    "title": "Citation Style Chooser",
+    "type": "tool",
+    "author": "Zotero",
+    "description": "Thousands of citation style definitions (CSL) you can plug into Zotero, Mendeley, and Pandoc.",
+    "tags": ["citations", "research", "writing"],
+    "paths": ["learners", "researchers"],
+    "license": "mixed-open",
+    "url": "resources.html"
+  },
+  {
+    "id": "safeguarding-checklist",
+    "title": "Safeguarding in EdTech Checklist",
+    "type": "checklist",
+    "author": "UNICEF",
+    "description": "A safeguarding-by-design checklist for schools selecting digital tools that minors will use.",
+    "tags": ["safeguarding", "procurement", "children"],
+    "paths": ["schools", "institutions"],
+    "license": "CC-BY-4.0",
+    "url": "resources.html"
+  },
+  {
+    "id": "timetable-recipes",
+    "title": "Timetabling Constraint Recipes",
+    "type": "cheatsheet",
+    "author": "EduHub",
+    "description": "Common constraint patterns for school timetabling — split classes, shared rooms, specialist teachers — with examples.",
+    "tags": ["timetabling", "ops", "scheduling"],
+    "paths": ["schools"],
+    "license": "CC-BY-4.0",
+    "url": "resources.html"
+  }
+]

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LMS Hub — Pathways</title>
+  <meta name="description" content="Pathways is the parent of all LMSs — import from and export to Canvas, Moodle, Blackboard, Brightspace, Google Classroom, Schoology, and any LTI 1.3 / SCORM / Common Cartridge / xAPI / QTI compliant platform.">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <style>
+    .standards-table { width: 100%; border-collapse: collapse; margin: 20px 0; background: var(--surface); border-radius: var(--radius-card); overflow: hidden; border: 1px solid var(--border); }
+    .standards-table th { text-align: left; padding: 14px 16px; background: rgba(124,92,255,0.08); color: var(--text); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid var(--border); }
+    .standards-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: var(--muted); vertical-align: top; }
+    .standards-table tr:last-child td { border-bottom: 0; }
+    .standards-table .yes { color: #7df59f; font-weight: 600; }
+    .standards-table .soon { color: #e4c676; }
+    .standards-table .manual { color: var(--accent-2); }
+
+    .tool-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 20px; margin-bottom: 24px; }
+    .tool-box h3 { margin-bottom: 6px; }
+    .tool-box p { font-size: 0.92rem; margin-bottom: 12px; }
+    .tool-box label { display: block; font-size: 0.85rem; color: var(--muted); margin: 10px 0 4px; }
+    .tool-box select, .tool-box input, .tool-box textarea { width: 100%; padding: 10px 12px; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius-btn); font: inherit; }
+    .tool-box textarea { min-height: 120px; font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 0.85rem; }
+    .tool-box .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 640px) { .tool-box .row { grid-template-columns: 1fr; } }
+    .tool-box .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+
+    .result-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-btn); padding: 14px; margin-top: 12px; font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 0.82rem; max-height: 300px; overflow: auto; white-space: pre-wrap; color: var(--muted); }
+    .empty { color: var(--muted); font-size: 0.88rem; font-style: italic; }
+  </style>
+</head>
+<body>
+
+  <header class="site-nav">
+    <div class="container">
+      <a href="index.html" class="logo">Pathways</a>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="desk.html">Plan a lesson</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="flipped.html">Flipped</a></li>
+          <li><a href="interactive-video.html">Interactive video</a></li>
+          <li><a href="lms.html" class="is-active">Export to LMS</a></li>
+          <li><a href="docs.html">Docs</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="section" style="padding-top:64px;">
+      <div class="container" style="max-width:960px;">
+        <h1>LMS Hub</h1>
+        <p style="margin-top:12px; font-size:1.1rem;">Pathways is the parent of all LMSs. Plug it into Canvas, Moodle, Blackboard, Brightspace, Google Classroom, Schoology, D2L, or any other system that speaks the open standards below. Import a course, export a lesson, ship analytics — all from one place.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0;">
+      <div class="container" style="max-width:1000px;">
+        <h2>Standards Pathways speaks</h2>
+        <p>Every major LMS uses these open standards. When Pathways supports them, it plugs in.</p>
+
+        <table class="standards-table">
+          <thead>
+            <tr><th>Standard</th><th>What it does</th><th>Pathways support</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>LTI 1.3</strong><br><small>1EdTech</small></td>
+              <td>Launch Pathways tools from any LMS (Canvas, Moodle, Blackboard, Brightspace, Schoology, Google Classroom, D2L) with SSO. Supports Deep Linking + AGS + NRPS.</td>
+              <td class="soon">Configuration ready · server-side launch (self-host)</td>
+            </tr>
+            <tr>
+              <td><strong>Common Cartridge 1.3</strong><br><small>1EdTech</small></td>
+              <td>Import/export entire course packages (lessons, assessments, resources) as <code>.imscc</code> files between LMSs.</td>
+              <td class="yes">Export built-in ↓</td>
+            </tr>
+            <tr>
+              <td><strong>Thin Common Cartridge</strong><br><small>1EdTech</small></td>
+              <td>Minimal Common Cartridge with just web-link resources — fast course migration.</td>
+              <td class="yes">Export built-in ↓</td>
+            </tr>
+            <tr>
+              <td><strong>SCORM 1.2 / 2004</strong><br><small>ADL</small></td>
+              <td>Packaged self-contained e-learning courses with completion/score tracking. Legacy but still required by many enterprise LMSs.</td>
+              <td class="yes">Export built-in ↓</td>
+            </tr>
+            <tr>
+              <td><strong>cmi5</strong><br><small>ADL</small></td>
+              <td>The modern replacement for SCORM — an xAPI profile with SCORM-style course lifecycle.</td>
+              <td class="yes">Export built-in ↓</td>
+            </tr>
+            <tr>
+              <td><strong>xAPI (Experience API)</strong><br><small>ADL</small></td>
+              <td>Record learning as <code>actor → verb → object</code> statements in a Learning Record Store (LRS). Works offline and across devices.</td>
+              <td class="yes">Statement builder ↓</td>
+            </tr>
+            <tr>
+              <td><strong>QTI 2.2 / 3.0</strong><br><small>1EdTech</small></td>
+              <td>Exchange assessment items and tests between platforms.</td>
+              <td class="yes">Export built-in ↓</td>
+            </tr>
+            <tr>
+              <td><strong>OneRoster 1.2</strong><br><small>1EdTech</small></td>
+              <td>Rostering — sync classes, students, enrolments between an SIS and learning platforms.</td>
+              <td class="soon">CSV format ready · API sync requires server</td>
+            </tr>
+            <tr>
+              <td><strong>Caliper Analytics</strong><br><small>1EdTech</small></td>
+              <td>Event-driven learning analytics with a stricter profile model than xAPI.</td>
+              <td class="manual">Documented · add LRS endpoint</td>
+            </tr>
+            <tr>
+              <td><strong>OpenBadges 3.0</strong><br><small>1EdTech</small></td>
+              <td>Verifiable digital credentials for achievements and completions.</td>
+              <td class="manual">Documented · link external issuer</td>
+            </tr>
+            <tr>
+              <td><strong>IMS Global / 1EdTech</strong><br><small>umbrella</small></td>
+              <td>The consortium maintaining most of the above. Pathways follows their conformance guides.</td>
+              <td class="yes">Aligned</td>
+            </tr>
+            <tr>
+              <td><strong>Markdown / PDF / JSON</strong></td>
+              <td>Universal fallbacks — anything can read them.</td>
+              <td class="yes">Export built-in ↓</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 style="margin-top:40px;">Compatible LMSs (via the standards above)</h2>
+        <div class="card-grid">
+          <div class="card"><span class="eyebrow">LMS</span><h3>Canvas</h3><p>LTI 1.3 launch · CC import · SCORM · QTI · xAPI via LRS.</p></div>
+          <div class="card"><span class="eyebrow">LMS</span><h3>Moodle 4+</h3><p>LTI 1.3 · CC import · SCORM · H5P · xAPI.</p></div>
+          <div class="card"><span class="eyebrow">LMS</span><h3>Blackboard Ultra</h3><p>LTI 1.3 · CC · SCORM · QTI · Caliper.</p></div>
+          <div class="card"><span class="eyebrow">LMS</span><h3>D2L Brightspace</h3><p>LTI 1.3 · CC · SCORM · xAPI · OneRoster.</p></div>
+          <div class="card"><span class="eyebrow">LMS</span><h3>Google Classroom</h3><p>LTI 1.3 (via add-ons) · OneRoster · Drive-linked resources.</p></div>
+          <div class="card"><span class="eyebrow">LMS</span><h3>Schoology</h3><p>LTI 1.3 · CC · SCORM · OneRoster.</p></div>
+          <div class="card"><span class="eyebrow">LMS</span><h3>Microsoft Teams for Education</h3><p>LTI 1.3 add-ons · OneRoster sync · SCORM via third-party.</p></div>
+          <div class="card"><span class="eyebrow">LMS</span><h3>Open edX</h3><p>LTI 1.3 · SCORM via plugin · xAPI.</p></div>
+          <div class="card"><span class="eyebrow">LMS</span><h3>TalentLMS / Docebo / 360Learning</h3><p>Corporate L&amp;D — SCORM · cmi5 · xAPI.</p></div>
+          <div class="card"><span class="eyebrow">LMS</span><h3>Any LTI 1.3 conformant LMS</h3><p>If it's certified by 1EdTech, Pathways launches inside it.</p></div>
+        </div>
+
+        <!-- ============ EXPORT TOOL ============ -->
+        <h2 id="export" style="margin-top:48px;">Export a lesson plan</h2>
+        <p>Generate a lesson in <a href="path-builder.html">the Builder</a> and save it, then export here in any format your LMS accepts.</p>
+
+        <div class="tool-box">
+          <h3>Export tool</h3>
+          <p>Converts a saved lesson or pasted JSON into a portable file. All conversion happens in your browser — nothing is uploaded.</p>
+
+          <label>Pick a saved lesson (or paste JSON below)</label>
+          <select id="export-source"><option value="">— choose —</option></select>
+
+          <label>Or paste a lesson JSON</label>
+          <textarea id="export-json" placeholder='{"title":"Photosynthesis","topic":"Photosynthesis","subject":"biology","age":"68","objective":"Students will be able to explain photosynthesis.","phases":[{"name":"Hook","min":3,"body":"..."},{"name":"Teach","min":14,"body":"..."}]}'></textarea>
+
+          <div class="row">
+            <div>
+              <label>Target format</label>
+              <select id="export-format">
+                <option value="md">Markdown (.md) — universal</option>
+                <option value="json">JSON — for Pathways re-import</option>
+                <option value="scorm12">SCORM 1.2 package (.zip)</option>
+                <option value="cc">Common Cartridge 1.3 (.imscc)</option>
+                <option value="thincc">Thin Common Cartridge (.imscc)</option>
+                <option value="qti">QTI 3.0 assessment (.xml)</option>
+                <option value="xapi">xAPI statement set (.json)</option>
+                <option value="html">Printable HTML</option>
+              </select>
+            </div>
+            <div>
+              <label>Filename</label>
+              <input type="text" id="export-filename" placeholder="my-lesson" />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="button" class="btn btn-primary" id="do-export">Download</button>
+            <button type="button" class="btn btn-ghost" id="preview-export">Preview first</button>
+          </div>
+
+          <div id="export-preview" style="display:none;"><div class="result-box" id="export-preview-body"></div></div>
+        </div>
+
+        <!-- ============ IMPORT TOOL ============ -->
+        <h2 id="import">Import from your LMS</h2>
+        <p>Pathways can read Common Cartridge, SCORM, QTI, and plain course export files. Drop a file and see what's inside.</p>
+
+        <div class="tool-box">
+          <h3>Import tool</h3>
+          <label>Upload a file (.imscc, .zip, .xml, .json, .csv)</label>
+          <input type="file" id="import-file" accept=".imscc,.zip,.xml,.json,.csv,.md" />
+          <div class="result-box" id="import-result"><span class="empty">No file uploaded yet.</span></div>
+        </div>
+
+        <!-- ============ XAPI ============ -->
+        <h2 id="xapi">xAPI statement builder</h2>
+        <p>Build an xAPI statement and send it to your Learning Record Store (LRS).</p>
+
+        <div class="tool-box">
+          <div class="row">
+            <div>
+              <label>Actor name</label>
+              <input type="text" id="xapi-name" placeholder="Ahmed Khalil" />
+            </div>
+            <div>
+              <label>Actor email</label>
+              <input type="email" id="xapi-email" placeholder="ahmed@school.example" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Verb</label>
+              <select id="xapi-verb">
+                <option value="http://adlnet.gov/expapi/verbs/experienced">experienced</option>
+                <option value="http://adlnet.gov/expapi/verbs/attempted">attempted</option>
+                <option value="http://adlnet.gov/expapi/verbs/completed" selected>completed</option>
+                <option value="http://adlnet.gov/expapi/verbs/passed">passed</option>
+                <option value="http://adlnet.gov/expapi/verbs/mastered">mastered</option>
+                <option value="http://adlnet.gov/expapi/verbs/answered">answered</option>
+                <option value="http://adlnet.gov/expapi/verbs/interacted">interacted</option>
+                <option value="http://id.tincanapi.com/verb/recited">recited (Quran)</option>
+                <option value="http://id.tincanapi.com/verb/memorized">memorized (hifz)</option>
+              </select>
+            </div>
+            <div>
+              <label>Object (activity ID)</label>
+              <input type="text" id="xapi-object" value="https://pathways.example/lesson/photosynthesis" />
+            </div>
+          </div>
+          <label>Object display name</label>
+          <input type="text" id="xapi-label" value="Photosynthesis — Year 8 Biology" />
+
+          <div class="actions">
+            <button type="button" class="btn btn-primary" id="xapi-build">Build statement</button>
+          </div>
+          <div class="result-box" id="xapi-out"><span class="empty">Press "Build statement" to preview.</span></div>
+        </div>
+
+        <!-- ============ LTI ============ -->
+        <h2 id="lti">LTI 1.3 integration</h2>
+        <p>LTI 1.3 launch requires a server (signed JWT verification). When Pathways is self-hosted, give your LMS admin this registration info:</p>
+        <div class="result-box">{
+  "client_name": "Pathways",
+  "initiate_login_uri": "https://YOUR-DOMAIN/lti/login",
+  "redirect_uris": ["https://YOUR-DOMAIN/lti/launch"],
+  "public_jwks_uri": "https://YOUR-DOMAIN/.well-known/jwks.json",
+  "deployment_id": "provided by LMS admin",
+  "scope": "openid https://purl.imsglobal.org/spec/lti-ags/scope/lineitem https://purl.imsglobal.org/spec/lti-ags/scope/score https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly",
+  "services": ["AGS", "NRPS", "DeepLinking"]
+}</div>
+        <p>For the static hosted version of Pathways, your LMS can still link out via a standard web link — just paste <code>https://YOUR-DOMAIN/path-builder.html?role=teachers&amp;curriculum=XXX</code> as a course resource.</p>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; 2026 Pathways</span>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="desk.html">Plan a lesson</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="flipped.html">Flipped</a></li>
+        <li><a href="interactive-video.html">Interactive video</a></li>
+        <li><a href="lms.html">Export to LMS</a></li>
+        <li><a href="docs.html">Docs</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- JSZip CDN — for Common Cartridge + SCORM zip generation -->
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script>
+    (function () {
+      const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      const xmlEsc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
+
+      // ---- Load saved lessons from path-builder ----
+      function loadSaved() {
+        try { return JSON.parse(localStorage.getItem('pathways.builder.saved.v2') || '[]').filter(p => p.q && p.q.mode === 'lesson'); }
+        catch { return []; }
+      }
+      function populateSources() {
+        const sel = document.getElementById('export-source');
+        const saved = loadSaved();
+        sel.innerHTML = '<option value="">— choose —</option>' + saved.map((s, i) => `<option value="${i}">${esc(s.label)}</option>`).join('');
+        sel.addEventListener('change', () => {
+          if (!sel.value) return;
+          const lesson = saved[parseInt(sel.value,10)];
+          document.getElementById('export-json').value = JSON.stringify(lesson.q, null, 2);
+          document.getElementById('export-filename').value = (lesson.label || 'lesson').replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+        });
+      }
+      populateSources();
+
+      // ---- Parse lesson from textarea ----
+      function parseLesson() {
+        const raw = document.getElementById('export-json').value.trim();
+        if (!raw) throw new Error('Paste a lesson JSON or pick a saved lesson.');
+        const p = JSON.parse(raw);
+        const title = p.title || p.topic || 'Lesson';
+        const phases = p.phases || [
+          { name:'Hook', min: 5, body: 'Open with a curiosity spark for "' + (p.topic || 'the topic') + '".' },
+          { name:'Teach', min: 15, body: 'Direct instruction in 2-3 chunks.' },
+          { name:'Practice', min: 15, body: 'Guided then independent practice.' },
+          { name:'Connect', min: 5, body: 'Tie to real-world relevance.' },
+          { name:'Reflect', min: 5, body: 'Exit ticket covering the objective.' }
+        ];
+        return {
+          title, topic: p.topic || title, subject: p.subject || '', age: p.age || '',
+          objective: p.objective || 'Students will be able to ' + (p.verb || 'understand') + ' the topic.',
+          phases, raw: p
+        };
+      }
+
+      // ---- Format converters ----
+      function toMarkdown(l) {
+        return `# ${l.title}\n\n**Subject:** ${l.subject}  \n**Age:** ${l.age}\n\n**Objective:** ${l.objective}\n\n` +
+          l.phases.map(ph => `## ${ph.name} (${ph.min} min)\n\n${ph.body}`).join('\n\n');
+      }
+      function toPrintableHTML(l) {
+        return `<!doctype html><html><head><meta charset="utf-8"><title>${esc(l.title)}</title><style>body{font-family:system-ui;max-width:720px;margin:40px auto;padding:0 20px;line-height:1.6}h1{border-bottom:2px solid #333;padding-bottom:8px}h2{color:#7c5cff;margin-top:28px}</style></head><body><h1>${esc(l.title)}</h1><p><strong>Subject:</strong> ${esc(l.subject)} &middot; <strong>Age:</strong> ${esc(l.age)}</p><p><strong>Objective:</strong> ${esc(l.objective)}</p>${l.phases.map(p => `<h2>${esc(p.name)} <small>(${p.min} min)</small></h2><p>${esc(p.body)}</p>`).join('')}<hr><p><em>Generated by Pathways</em></p></body></html>`;
+      }
+      function toQTI(l) {
+        const itemId = 'item-' + Math.random().toString(36).slice(2,10);
+        return `<?xml version="1.0" encoding="UTF-8"?>
+<qti-assessment-item xmlns="http://www.imsglobal.org/xsd/imsqtiasi_v3p0"
+  identifier="${xmlEsc(itemId)}" title="${xmlEsc(l.title)}"
+  adaptive="false" time-dependent="false">
+  <qti-response-declaration identifier="RESPONSE" cardinality="single" base-type="identifier">
+    <qti-correct-response><qti-value>A</qti-value></qti-correct-response>
+  </qti-response-declaration>
+  <qti-outcome-declaration identifier="SCORE" cardinality="single" base-type="float"/>
+  <qti-item-body>
+    <div><h2>${xmlEsc(l.title)}</h2>
+    <p>${xmlEsc(l.objective)}</p>
+    <qti-choice-interaction response-identifier="RESPONSE" max-choices="1">
+      <qti-prompt>What is the main idea of this lesson?</qti-prompt>
+      <qti-simple-choice identifier="A">${xmlEsc(l.topic)} — as explained in the lesson.</qti-simple-choice>
+      <qti-simple-choice identifier="B">An unrelated concept.</qti-simple-choice>
+      <qti-simple-choice identifier="C">The opposite of the lesson's main idea.</qti-simple-choice>
+      <qti-simple-choice identifier="D">I'm not sure.</qti-simple-choice>
+    </qti-choice-interaction>
+    </div>
+  </qti-item-body>
+  <qti-response-processing template="https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct"/>
+</qti-assessment-item>`;
+      }
+      function toXAPIStatements(l) {
+        const now = new Date().toISOString();
+        return JSON.stringify([
+          { actor: { name: 'Student', mbox: 'mailto:student@example.com' },
+            verb: { id: 'http://adlnet.gov/expapi/verbs/experienced', display: { 'en-US': 'experienced' } },
+            object: { id: `https://pathways.example/lesson/${encodeURIComponent(l.title)}`, definition: { name: { 'en-US': l.title }, description: { 'en-US': l.objective }, type: 'http://adlnet.gov/expapi/activities/lesson' } },
+            timestamp: now }
+        ], null, 2);
+      }
+
+      async function buildSCORM12(l) {
+        const zip = new JSZip();
+        const manifest = `<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="pathways-${Date.now()}" version="1.3"
+  xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+  xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <metadata><schema>ADL SCORM</schema><schemaversion>1.2</schemaversion></metadata>
+  <organizations default="ORG1">
+    <organization identifier="ORG1">
+      <title>${xmlEsc(l.title)}</title>
+      <item identifier="ITEM1" identifierref="RES1"><title>${xmlEsc(l.title)}</title></item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="RES1" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="index.html"/>
+    </resource>
+  </resources>
+</manifest>`;
+        zip.file('imsmanifest.xml', manifest);
+        zip.file('index.html', toPrintableHTML(l));
+        return zip.generateAsync({ type: 'blob' });
+      }
+
+      async function buildCC(l, thin) {
+        const zip = new JSZip();
+        const resId = 'res-' + Math.random().toString(36).slice(2,10);
+        const manifest = `<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="pathways-cc-${Date.now()}" xmlns="http://www.imsglobal.org/xsd/imsccv1p3/imscp_v1p1">
+  <metadata><schema>IMS Common Cartridge</schema><schemaversion>1.3.0</schemaversion></metadata>
+  <organizations>
+    <organization identifier="ORG1" structure="rooted-hierarchy">
+      <item identifier="ROOT">
+        <item identifier="I1" identifierref="${resId}"><title>${xmlEsc(l.title)}</title></item>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="${resId}" type="${thin ? 'imswl_xmlv1p3' : 'webcontent'}" href="lesson.html">
+      <file href="lesson.html"/>
+    </resource>
+  </resources>
+</manifest>`;
+        zip.file('imsmanifest.xml', manifest);
+        zip.file('lesson.html', toPrintableHTML(l));
+        return zip.generateAsync({ type: 'blob' });
+      }
+
+      function download(name, content, mime) {
+        const blob = content instanceof Blob ? content : new Blob([content], { type: mime });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+
+      async function doExport(preview) {
+        let lesson;
+        try { lesson = parseLesson(); } catch (e) { alert(e.message); return; }
+        const format = document.getElementById('export-format').value;
+        const filename = (document.getElementById('export-filename').value || 'lesson').replace(/[^a-z0-9-_]/gi, '-');
+        let content, mime, ext, blobMode = false;
+
+        if (format === 'md')    { content = toMarkdown(lesson); mime = 'text/markdown'; ext = 'md'; }
+        else if (format === 'json') { content = JSON.stringify(lesson.raw, null, 2); mime = 'application/json'; ext = 'json'; }
+        else if (format === 'html') { content = toPrintableHTML(lesson); mime = 'text/html'; ext = 'html'; }
+        else if (format === 'qti')  { content = toQTI(lesson); mime = 'application/xml'; ext = 'xml'; }
+        else if (format === 'xapi') { content = toXAPIStatements(lesson); mime = 'application/json'; ext = 'json'; }
+        else if (format === 'scorm12') { content = await buildSCORM12(lesson); mime = 'application/zip'; ext = 'zip'; blobMode = true; }
+        else if (format === 'cc')      { content = await buildCC(lesson, false); mime = 'application/zip'; ext = 'imscc'; blobMode = true; }
+        else if (format === 'thincc')  { content = await buildCC(lesson, true); mime = 'application/zip'; ext = 'imscc'; blobMode = true; }
+
+        if (preview) {
+          const body = document.getElementById('export-preview-body');
+          const wrap = document.getElementById('export-preview');
+          wrap.style.display = 'block';
+          if (blobMode) body.textContent = `[binary ZIP preview not shown — click Download to save ${filename}.${ext}]`;
+          else body.textContent = content.slice(0, 5000) + (content.length > 5000 ? '\n…(truncated)' : '');
+        } else {
+          download(`${filename}.${ext}`, content, mime);
+        }
+      }
+      document.getElementById('do-export').addEventListener('click', () => doExport(false));
+      document.getElementById('preview-export').addEventListener('click', () => doExport(true));
+
+      // ---- Import ----
+      document.getElementById('import-file').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        const out = document.getElementById('import-result');
+        if (!file) { out.innerHTML = '<span class="empty">No file uploaded yet.</span>'; return; }
+        out.textContent = `Analyzing ${file.name} (${(file.size / 1024).toFixed(1)} KB)…`;
+        try {
+          if (/\.(zip|imscc)$/i.test(file.name)) {
+            const zip = await JSZip.loadAsync(file);
+            const entries = [];
+            zip.forEach((path, f) => { if (!f.dir) entries.push(path); });
+            let manifestInfo = '';
+            const manifestFile = zip.file(/imsmanifest\.xml/i)[0];
+            if (manifestFile) {
+              const text = await manifestFile.async('text');
+              const titleMatch = text.match(/<title[^>]*>([^<]+)<\/title>/);
+              const resourceCount = (text.match(/<resource\b/g) || []).length;
+              manifestInfo = `\n\n📦 IMS manifest detected\n  Title: ${titleMatch ? titleMatch[1] : '(none)'}\n  Resources: ${resourceCount}`;
+            }
+            out.textContent = `✅ Archive parsed: ${file.name}\n  Files: ${entries.length}${manifestInfo}\n\n${entries.slice(0, 40).join('\n')}${entries.length > 40 ? `\n… +${entries.length - 40} more` : ''}`;
+          } else if (/\.xml$/i.test(file.name)) {
+            const text = await file.text();
+            const rootMatch = text.match(/<([a-z0-9-]+)[\s>]/i);
+            out.textContent = `✅ XML parsed: ${file.name}\n  Root element: <${rootMatch ? rootMatch[1] : 'unknown'}>\n  Size: ${text.length} chars\n\n${text.slice(0, 2000)}${text.length > 2000 ? '\n…(truncated)' : ''}`;
+          } else if (/\.json$/i.test(file.name)) {
+            const text = await file.text();
+            const obj = JSON.parse(text);
+            out.textContent = `✅ JSON parsed: ${file.name}\n  Keys: ${Object.keys(obj).join(', ')}\n\n${JSON.stringify(obj, null, 2).slice(0, 2000)}`;
+          } else if (/\.csv$/i.test(file.name)) {
+            const text = await file.text();
+            const lines = text.split(/\r?\n/).filter(Boolean);
+            out.textContent = `✅ CSV parsed: ${file.name}\n  Rows: ${lines.length}\n  Header: ${lines[0] || '(empty)'}\n\nFirst 10 rows:\n${lines.slice(0, 10).join('\n')}`;
+          } else {
+            const text = await file.text();
+            out.textContent = `✅ Text file: ${file.name}\n\n${text.slice(0, 2000)}${text.length > 2000 ? '\n…(truncated)' : ''}`;
+          }
+        } catch (err) {
+          out.textContent = `❌ Could not parse: ${err.message}`;
+        }
+      });
+
+      // ---- xAPI builder ----
+      document.getElementById('xapi-build').addEventListener('click', () => {
+        const name = document.getElementById('xapi-name').value.trim() || 'Student';
+        const email = document.getElementById('xapi-email').value.trim() || 'student@example.com';
+        const verbId = document.getElementById('xapi-verb').value;
+        const verbLabel = document.querySelector('#xapi-verb option:checked').textContent.split(' ')[0];
+        const objectId = document.getElementById('xapi-object').value.trim();
+        const label = document.getElementById('xapi-label').value.trim() || objectId;
+
+        const stmt = {
+          actor: { name, mbox: 'mailto:' + email },
+          verb: { id: verbId, display: { 'en-US': verbLabel } },
+          object: { id: objectId, definition: { name: { 'en-US': label }, type: 'http://adlnet.gov/expapi/activities/lesson' } },
+          timestamp: new Date().toISOString()
+        };
+        document.getElementById('xapi-out').textContent = JSON.stringify(stmt, null, 2);
+      });
+
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Desk — Pathways</title>
+  <meta name="description" content="One page. Every tool. The teacher's desk — plan a lesson, pick resources, build a flipped video, export to your LMS or Drive. All in one place.">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <style>
+    .desk-wrap { display: grid; grid-template-columns: 300px 1fr; gap: 24px; align-items: start; }
+    @media (max-width: 900px) { .desk-wrap { grid-template-columns: 1fr; } }
+
+    .desk-sidebar {
+      position: sticky; top: 80px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 18px;
+    }
+    @media (max-width: 900px) { .desk-sidebar { position: static; } }
+    .desk-sidebar h2 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 10px; }
+    .desk-sidebar label { display: block; font-size: 0.82rem; color: var(--muted); margin: 10px 0 4px; }
+    .desk-sidebar input, .desk-sidebar select, .desk-sidebar textarea {
+      width: 100%; padding: 8px 10px;
+      background: var(--bg); color: var(--text);
+      border: 1px solid var(--border); border-radius: var(--radius-btn);
+      font: inherit; font-size: 0.9rem;
+    }
+    .desk-sidebar fieldset { border: 0; padding: 0; margin: 0; }
+    .desk-sidebar .checks { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+    .desk-sidebar .checks label {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 0.78rem; color: var(--text);
+      padding: 4px 6px;
+      background: var(--bg);
+      border-radius: 6px;
+      margin: 0;
+    }
+    .desk-sidebar .checks input { width: auto; }
+
+    .desk-main .tab-bar {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .desk-main .tab-bar button {
+      background: transparent; color: var(--muted);
+      border: 0; border-bottom: 2px solid transparent;
+      padding: 10px 14px; font: inherit; font-weight: 600; font-size: 0.92rem;
+      cursor: pointer;
+      margin-bottom: -2px;
+    }
+    .desk-main .tab-bar button.is-active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .tab { display: none; }
+    .tab.is-active { display: block; }
+
+    .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 22px; margin-bottom: 18px; }
+    .panel h3 { color: var(--accent); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+    .panel h4 { color: var(--accent-2); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 16px; margin-bottom: 6px; }
+    .panel ul, .panel ol { margin: 6px 0 6px 20px; color: var(--muted); }
+    .panel li { margin-bottom: 4px; }
+    .panel .pill { display: inline-block; background: rgba(44,95,45,0.1); color: var(--accent); padding: 3px 10px; border-radius: 99px; font-size: 0.78rem; margin: 2px 4px 2px 0; }
+    .panel .phase { border-left: 3px solid var(--accent-2); padding-left: 14px; margin: 12px 0; }
+    .panel .phase h5 { color: var(--text); font-size: 1rem; margin: 0 0 4px; }
+    .panel .phase p { color: var(--muted); font-size: 0.92rem; margin: 0; }
+
+    .eora { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-btn); padding: 14px; margin-top: 10px; }
+    .eora h5 { color: var(--accent); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+    .eora .row { display: grid; gap: 2px; margin-bottom: 8px; }
+    .eora strong { color: var(--text); font-size: 0.88rem; }
+    .eora span { color: var(--muted); font-size: 0.88rem; }
+
+    .resource-mini { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-btn); padding: 12px 14px; margin-bottom: 8px; }
+    .resource-mini h5 { margin: 0 0 4px; font-size: 0.95rem; color: var(--text); }
+    .resource-mini p { margin: 0 0 4px; font-size: 0.85rem; color: var(--muted); }
+
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    .actions .btn { padding: 8px 14px; font-size: 0.88rem; }
+
+    .empty-state { color: var(--muted); font-style: italic; padding: 20px; text-align: center; }
+
+    .save-drive {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: white; color: #444;
+      border: 1px solid #dadce0; border-radius: 4px;
+      padding: 6px 12px; font: inherit; font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .save-drive:hover { background: #f8f9fa; }
+    .save-drive svg { width: 16px; height: 16px; }
+  </style>
+</head>
+<body>
+
+  <header class="site-nav">
+    <div class="container">
+      <a href="index.html" class="logo">Pathways</a>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="desk.html" class="is-active">The Desk</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="flipped.html">Flipped</a></li>
+          <li><a href="lms.html">LMS Hub</a></li>
+          <li><a href="docs.html">Docs</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="section" style="padding-top:40px;">
+      <div class="container">
+        <h1 style="margin-bottom:6px;">The Desk</h1>
+        <p style="color:var(--muted); margin-bottom:24px;">One page. Set it up on the left. Switch tabs on the right. Everything you need to prepare a lesson is here.</p>
+
+        <div class="desk-wrap">
+
+          <!-- ============ SIDEBAR ============ -->
+          <aside class="desk-sidebar">
+            <h2>Set the stage</h2>
+            <label>Role
+              <select id="d-role">
+                <option value="teachers">👩‍🏫 Teacher</option>
+                <option value="tutors">🧑‍🏫 Tutor</option>
+                <option value="homeschoolers">🏠 Homeschooler</option>
+                <option value="curriculum">🧩 Curriculum designer</option>
+                <option value="universities">🎓 University</option>
+                <option value="learners">🎓 Learner</option>
+              </select>
+            </label>
+            <label>Subject
+              <select id="d-subject"></select>
+            </label>
+            <label>Age / grade
+              <select id="d-age">
+                <option value="early">Early years (3-5)</option>
+                <option value="k2">Grade K-2 (5-7)</option>
+                <option value="35">Grade 3-5 (8-10)</option>
+                <option value="68" selected>Grade 6-8 (11-13)</option>
+                <option value="912">Grade 9-12 (14-18)</option>
+                <option value="univ">University</option>
+                <option value="adult">Adult</option>
+              </select>
+            </label>
+            <label>Curriculum
+              <select id="d-curriculum"></select>
+            </label>
+            <label>Topic
+              <input type="text" id="d-topic" placeholder="e.g. Photosynthesis · Surah Al-Fatihah" />
+            </label>
+            <label>Learning objective
+              <input type="text" id="d-objective" placeholder="Students will be able to…" />
+            </label>
+            <label>Learning style
+              <select id="d-style">
+                <option value="multimodal" selected>Multimodal (default)</option>
+                <option value="visual">Visual</option>
+                <option value="auditory">Auditory</option>
+                <option value="readwrite">Read/Write</option>
+                <option value="kinesthetic">Kinesthetic</option>
+                <option value="dyslexia-friendly">Dyslexia-friendly</option>
+                <option value="adhd-friendly">ADHD-friendly</option>
+                <option value="autism-friendly">Autism-friendly</option>
+                <option value="gifted-depth">Gifted — depth</option>
+                <option value="esl-scaffolded">ESL scaffolded</option>
+                <option value="arabic-script">Arabic script</option>
+                <option value="tajweed-auditory">Tajweed auditory</option>
+                <option value="hifz-memory">Hifz memorization</option>
+              </select>
+            </label>
+            <label>Lesson length
+              <select id="d-length">
+                <option value="30">30 min</option>
+                <option value="45" selected>45 min</option>
+                <option value="60">60 min</option>
+                <option value="90">90 min</option>
+              </select>
+            </label>
+            <fieldset>
+              <legend style="font-size:0.78rem; color:var(--muted); margin:10px 0 4px;">Special cases</legend>
+              <div class="checks">
+                <label><input type="checkbox" name="d-diff" value="dyslexia"> Dyslexia</label>
+                <label><input type="checkbox" name="d-diff" value="adhd"> ADHD</label>
+                <label><input type="checkbox" name="d-diff" value="autism"> Autism</label>
+                <label><input type="checkbox" name="d-diff" value="esl"> ESL</label>
+                <label><input type="checkbox" name="d-diff" value="gifted"> Gifted</label>
+                <label><input type="checkbox" name="d-diff" value="hearing"> Hearing</label>
+                <label><input type="checkbox" name="d-diff" value="vision"> Vision</label>
+                <label><input type="checkbox" name="d-diff" value="motor"> Motor</label>
+              </div>
+            </fieldset>
+
+            <div style="margin-top:16px;">
+              <button type="button" class="btn btn-primary" id="d-generate" style="width:100%;">Generate</button>
+            </div>
+            <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-ghost" id="d-save" style="flex:1; font-size:0.82rem;">💾 Save</button>
+              <button type="button" class="btn btn-ghost" id="d-share" style="flex:1; font-size:0.82rem;">🔗 Share</button>
+            </div>
+          </aside>
+
+          <!-- ============ MAIN ============ -->
+          <div class="desk-main">
+            <div class="tab-bar" role="tablist">
+              <button type="button" class="is-active" data-tab="lesson" role="tab">📘 Lesson plan</button>
+              <button type="button" data-tab="resources" role="tab">📚 Best resources</button>
+              <button type="button" data-tab="flipped" role="tab">🎬 Flipped video</button>
+              <button type="button" data-tab="export" role="tab">📤 Export / Save</button>
+            </div>
+
+            <!-- LESSON TAB -->
+            <div class="tab is-active" id="tab-lesson">
+              <div id="lesson-panel" class="panel">
+                <p class="empty-state">Fill in the sidebar (Subject + Topic at minimum) and click <strong>Generate</strong> to see your E²-structured lesson plan here.</p>
+              </div>
+            </div>
+
+            <!-- RESOURCES TAB -->
+            <div class="tab" id="tab-resources">
+              <div id="resources-panel" class="panel">
+                <p class="empty-state">Best-in-class resources for your chosen subject will appear here after you generate.</p>
+              </div>
+            </div>
+
+            <!-- FLIPPED TAB -->
+            <div class="tab" id="tab-flipped">
+              <div class="panel">
+                <h3>Turn any video into an engaging flipped lesson</h3>
+                <p style="color:var(--muted); margin-bottom:12px;">Two modes: <strong>Prep mode</strong> generates a paper lesson (hook, chapters, exit ticket). <strong>Interactive mode</strong> rebuilds the video with pause-point questions — safe player, shareable link, LMS export.</p>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                  <a class="btn btn-primary" href="flipped.html">Prep mode →</a>
+                  <a class="btn btn-primary" href="interactive-video.html" style="background: linear-gradient(135deg, var(--accent-2), #b85a3d);">Interactive mode (new) →</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- EXPORT TAB -->
+            <div class="tab" id="tab-export">
+              <div id="export-panel" class="panel">
+                <h3>Export this lesson</h3>
+                <p style="color:var(--muted); margin-bottom:12px;">Generate first, then pick a format below.</p>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                  <button type="button" class="btn btn-ghost" data-dl="md">📄 Markdown</button>
+                  <button type="button" class="btn btn-ghost" data-dl="html">🖨️ Print-ready HTML</button>
+                  <button type="button" class="btn btn-ghost" data-dl="json">📊 JSON</button>
+                  <a class="btn btn-ghost" href="lms.html#export">SCORM / Common Cartridge / QTI →</a>
+                </div>
+
+                <h4>Save to Google Drive</h4>
+                <p style="color:var(--muted); font-size:0.9rem; margin-bottom:8px;">Download the Markdown file and drop it into your Drive folder, or use the button below (official Google widget — requires Drive sign-in at Google's end).</p>
+                <button type="button" class="save-drive" id="d-drive">
+                  <svg viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8H0c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="M43.65 25l-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0-1.2 4.5h27.5z" fill="#00ac47"/><path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5H59.8l5.85 11.5z" fill="#ea4335"/><path d="M43.65 25l13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="M59.8 53h-32.3L13.75 76.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="M73.4 26.5l-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3L43.65 25l16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg>
+                  Save to Drive
+                </button>
+                <p style="color:var(--muted); font-size:0.78rem; margin-top:8px;">The Save to Drive button opens a Google sign-in window. For always-on Drive sync, Pathways would need to be self-hosted with Google API credentials.</p>
+
+                <h4>Share link</h4>
+                <p style="color:var(--muted); font-size:0.9rem;">The <strong>🔗 Share</strong> button in the sidebar copies a link containing all your settings — send it to a colleague or paste into your LMS.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; 2026 Pathways</span>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="desk.html">The Desk</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="flipped.html">Flipped</a></li>
+        <li><a href="lms.html">LMS Hub</a></li>
+        <li><a href="docs.html">Docs</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const SAVED = 'pathways.desk.saved.v1';
+      const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+      // ---- Subject + curriculum dropdowns (condensed from path-builder) ----
+      const subjects = [
+        ['', '— pick a subject —'],
+        ['__g','Math'], ['arithmetic','Arithmetic'], ['algebra','Algebra'], ['geometry','Geometry'], ['trig','Trigonometry'], ['calculus','Calculus'], ['statistics','Statistics'],
+        ['__g','Science'], ['biology','Biology'], ['chemistry','Chemistry'], ['physics','Physics'], ['earth','Earth science'], ['environmental','Environmental science'],
+        ['__g','Computer science'], ['intro-cs','Intro to programming'], ['python','Python'], ['javascript','JavaScript'], ['ai-ml','AI & ML'], ['web','Web dev'],
+        ['__g','English / ELA'], ['reading','Reading comprehension'], ['writing','Writing'], ['grammar','English grammar'], ['literature','Literature'], ['poetry','Poetry'],
+        ['__g','Arabic'], ['arabic-alphabet','Arabic alphabet'], ['arabic-fusha','Modern Standard Arabic'], ['arabic-egy','Egyptian dialect'], ['arabic-lev','Levantine'], ['nahw','Arabic grammar (nahw)'], ['khat','Calligraphy (khat)'],
+        ['__g','Quran & Islamic'], ['quran-recite','Quran recitation'], ['tajweed-s','Tajweed'], ['hifz-s','Hifz (memorization)'], ['tafsir-s','Tafsir'], ['seerah-s','Seerah'], ['fiqh-s','Fiqh'], ['aqeedah-s','Aqeedah'], ['hadith-s','Hadith'],
+        ['__g','Languages'], ['french','French'], ['spanish','Spanish'], ['german','German'], ['mandarin','Mandarin'], ['japanese','Japanese'], ['turkish','Turkish'],
+        ['__g','Humanities'], ['world-history','World history'], ['geography','Geography'], ['philosophy','Philosophy'], ['ethics','Ethics'], ['comp-religion','Comparative religion'],
+        ['__g','Social sciences'], ['economics','Economics'], ['psychology','Psychology'], ['sociology','Sociology'], ['politics','Political science'], ['law','Law'],
+        ['__g','Arts'], ['visual-arts','Visual arts'], ['music','Music'], ['theatre','Theatre'], ['design','Design'], ['creative-writing','Creative writing'],
+        ['__g','Life skills'], ['critical-thinking','Critical thinking'], ['financial-lit','Financial literacy'], ['first-aid','First aid'], ['digital-literacy','Digital literacy']
+      ];
+      const curricula = [
+        ['','— any —'],
+        ['__g','International'], ['ib','IB'], ['cie','Cambridge'], ['ccss','Common Core (US)'], ['ngss','NGSS'], ['uk','UK National'], ['ab','Australian ACARA'], ['fr','French Bac'], ['de','German Abitur'], ['in-cbse','Indian CBSE'],
+        ['__g','Arab world'], ['eg','Egyptian National'], ['sa','Saudi MoE'], ['uae','UAE MoE'], ['qa','Qatari MoE'], ['ma','Moroccan MEN'], ['azhar','Al-Azhar'],
+        ['__g','Language / Islamic'], ['cefr','CEFR (A1-C2)'], ['arabic-l2','Arabic-as-L2'], ['quran','Quran studies'], ['hifz','Hifz'], ['tajweed','Tajweed'],
+        ['__g','Pedagogical'], ['e2','E² Framework'], ['udl','UDL 3.0'], ['montessori','Montessori']
+      ];
+      function populate(el, arr) {
+        let html = '', open = false;
+        for (const [v,l] of arr) {
+          if (v === '__g') { if (open) html += '</optgroup>'; html += `<optgroup label="${esc(l)}">`; open = true; }
+          else html += `<option value="${esc(v)}">${esc(l)}</option>`;
+        }
+        if (open) html += '</optgroup>';
+        el.innerHTML = html;
+      }
+      populate(document.getElementById('d-subject'), subjects);
+      populate(document.getElementById('d-curriculum'), curricula);
+
+      // ---- Auto-suggest style from subject ----
+      const subjectStyleMap = {
+        'arabic-alphabet':'arabic-script','nahw':'arabic-script','khat':'arabic-script',
+        'quran-recite':'tajweed-auditory','tajweed-s':'tajweed-auditory','hifz-s':'hifz-memory',
+        'music':'auditory','theatre':'kinesthetic','visual-arts':'visual'
+      };
+      let styleUserPicked = false;
+      document.getElementById('d-style').addEventListener('change', () => styleUserPicked = true);
+      document.getElementById('d-subject').addEventListener('change', () => {
+        if (styleUserPicked) return;
+        const subj = document.getElementById('d-subject').value;
+        if (subjectStyleMap[subj]) document.getElementById('d-style').value = subjectStyleMap[subj];
+      });
+
+      // ---- Top resources by subject (curated — best only) ----
+      const topResources = {
+        'math': [
+          { t:'Khan Academy — Math', d:'Free K-university videos + mastery practice', u:'https://www.khanacademy.org/math' },
+          { t:'Desmos', d:'Graphing calculator + classroom activities', u:'https://www.desmos.com' },
+          { t:'3Blue1Brown', d:'Intuitive visual math explanations', u:'https://www.3blue1brown.com' }
+        ],
+        'science': [
+          { t:'PhET Simulations', d:'Research-backed free interactive sims', u:'https://phet.colorado.edu' },
+          { t:'CrashCourse', d:'Full video curricula for every science', u:'https://thecrashcourse.com' },
+          { t:'HHMI BioInteractive', d:'Classroom-ready biology activities', u:'https://www.biointeractive.org' }
+        ],
+        'cs': [
+          { t:'CS50 by Harvard', d:'The legendary free intro to CS', u:'https://cs50.harvard.edu' },
+          { t:'freeCodeCamp', d:'Hands-on coding + certifications', u:'https://www.freecodecamp.org' },
+          { t:'MDN Web Docs', d:'The authoritative web tech reference', u:'https://developer.mozilla.org' }
+        ],
+        'ela': [
+          { t:'CommonLit', d:'Free reading passages + questions, grades 3-12', u:'https://www.commonlit.org' },
+          { t:'Reading Rockets', d:'Research-based reading strategies', u:'https://www.readingrockets.org' },
+          { t:'Purdue OWL', d:'The standard writing reference', u:'https://owl.purdue.edu' }
+        ],
+        'arabic': [
+          { t:'Madinah Arabic', d:'Free Arabic-for-non-natives course', u:'https://www.madinaharabic.com' },
+          { t:'Al-Kitaab Series', d:'Standard university Arabic textbook', u:'https://alkitaabtextbook.com' },
+          { t:'Qutrub', d:'Free Arabic verb conjugator', u:'https://qutrub.arabeyes.org' }
+        ],
+        'quran': [
+          { t:'Quran.com', d:'Clean Quran reader, translations, recitations', u:'https://quran.com' },
+          { t:'Quranic Arabic Corpus', d:'Word-by-word grammatical analysis', u:'https://corpus.quran.com' },
+          { t:'Bayyinah', d:'Quranic Arabic + tafsir for English speakers', u:'https://bayyinah.com' }
+        ],
+        'lang': [
+          { t:'Duolingo', d:'Daily practice, 40+ languages', u:'https://www.duolingo.com' },
+          { t:'Language Transfer', d:'Revelatory free audio courses', u:'https://www.languagetransfer.org' },
+          { t:'Anki', d:'Best spaced-repetition tool for vocab', u:'https://apps.ankiweb.net' }
+        ],
+        'hum': [
+          { t:'Stanford Encyclopedia of Philosophy', d:'Authoritative free reference', u:'https://plato.stanford.edu' },
+          { t:'Yale Open Courses', d:'Full undergraduate lectures, free', u:'https://oyc.yale.edu' },
+          { t:'Khan Academy Humanities', d:'Art history, grammar, world history', u:'https://www.khanacademy.org/humanities' }
+        ],
+        'default': [
+          { t:'Khan Academy', d:'Free, mastery-based K-university, 40+ languages', u:'https://www.khanacademy.org' },
+          { t:'MIT OpenCourseWare', d:'Free university courses, every discipline', u:'https://ocw.mit.edu' },
+          { t:'CK-12', d:'Free customizable K-12 textbooks', u:'https://www.ck12.org' }
+        ]
+      };
+      function resKey(s) {
+        if (['arithmetic','algebra','geometry','trig','calculus','statistics'].includes(s)) return 'math';
+        if (['biology','chemistry','physics','earth','environmental'].includes(s)) return 'science';
+        if (['intro-cs','python','javascript','ai-ml','web'].includes(s)) return 'cs';
+        if (['reading','writing','grammar','literature','poetry'].includes(s)) return 'ela';
+        if (['arabic-alphabet','arabic-fusha','arabic-egy','arabic-lev','nahw','khat'].includes(s)) return 'arabic';
+        if (['quran-recite','tajweed-s','hifz-s','tafsir-s','seerah-s','fiqh-s','aqeedah-s','hadith-s'].includes(s)) return 'quran';
+        if (['french','spanish','german','mandarin','japanese','turkish'].includes(s)) return 'lang';
+        if (['world-history','geography','philosophy','ethics','comp-religion'].includes(s)) return 'hum';
+        return 'default';
+      }
+
+      // ---- Style activities (condensed from builder) ----
+      const styleActs = {
+        multimodal: ['Visual: concept map · Auditory: think-aloud · Read/write: note-taking frame · Kinesthetic: gallery walk — rotate through all four.'],
+        visual: ['One-page diagram · Colour-coded ideas · Annotated video clip · Sketch-your-understanding exit ticket.'],
+        auditory: ['Read-aloud + echo · Pair talk 60s · Audio summary homework · Class chant for the definition.'],
+        readwrite: ['Structured note-taking frame · Rewrite objective in own words · Cornell notes during Teach · Written exit ticket with stems.'],
+        kinesthetic: ['Walking debate corners · Manipulatives · Gallery walk · Act out the concept.'],
+        'dyslexia-friendly': ['Orton-Gillingham multi-sensory · Pre-teach 5 words with images · Cream/yellow paper · Audio version of any text · No cold reading.'],
+        'adhd-friendly': ['Visible 5-min segments + movement break · Countdown timer · Phase checklist on desks · Fidget-tool allowance stated.'],
+        'autism-friendly': ['Visual schedule from minute 1 · Social story for partner work · Sensory break pass · Literal instructions, no sarcasm.'],
+        'gifted-depth': ['Design-your-own-problem extension · Choice of depth (15-min rabbit hole) · Socratic seminar with harder sources.'],
+        'esl-scaffolded': ['Sentence frames on board · Image dictionary for every term · Double think time · Home-language notes allowed.'],
+        'arabic-script': ['Letter forms isolated → initial/medial/final · Trace in air → paper → pen · Colour-code harakat consistently.'],
+        'tajweed-auditory': ['Listen → repeat → compare qari · One rule per lesson (madd, ghunnah) · Majlis peer correction · Record-listen-adjust.'],
+        'hifz-memory': ['3-5 phrase chunks · Listen 5x → recite with mushaf 5x → without 5x · Murajaah today/+1/+3/+7 · Flag mutashabihat.']
+      };
+
+      // ---- Generate lesson ----
+      function gen(q) {
+        const len = parseInt(q.length, 10);
+        const hook = Math.max(2, Math.round(len * 0.08));
+        const teach = Math.round(len * 0.33);
+        const practice = Math.round(len * 0.33);
+        const connect = Math.round(len * 0.12);
+        const reflect = len - hook - teach - practice - connect;
+        const topic = q.topic || 'the topic';
+        const objective = q.objective || `Students will be able to explain ${topic}.`;
+
+        const phases = [
+          { n:'Hook', m:hook, b:`Open with a one-question provocation about "${topic}" — curious, counter-intuitive, or personally relevant. 60s silent → 60s pair share → fast whole-class poll.` },
+          { n:'Teach', m:teach, b:`Deliver "${topic}" in 2-3 chunks: new idea → worked example → surface one common misconception. Never more than 3 chunks.` },
+          { n:'Practice', m:practice, b:`I do → we do → you do on "${topic}." Tiered tasks: scaffolded / standard / extension. Circulate and give real-time feedback.` },
+          { n:'Connect', m:connect, b:`"Where have you seen ${topic} outside school — this week or ever?" Take 2-3 student answers. Name why this matters beyond the test.` },
+          { n:'Reflect', m:reflect, b:`Exit ticket: (1) Restate the objective in own words. (2) Rate 🔴/🟡/🟢. (3) One question you still have.` }
+        ];
+
+        const diffNotes = (q.diff || []).map(d => ({
+          dyslexia: 'OpenDyslexic font · audio version of any reading · colour overlays.',
+          adhd: 'Visible checklist of phases · timer per chunk · movement break at Connect.',
+          autism: 'Visual schedule on board · social story for group work · sensory break pass.',
+          esl: 'Pre-teach 5 terms with images · sentence frames · home-language notes allowed.',
+          gifted: 'Extension: design a new problem in an unfamiliar context.',
+          hearing: 'Captioned video, written instructions, visual cues; face students when speaking.',
+          vision: 'Audio version of readings · large-print handouts · tactile models where possible.',
+          motor: 'Voice-to-text option · reduced handwriting · partner to record on request.'
+        }[d])).filter(Boolean);
+
+        const key = resKey(q.subject);
+        const picks = (topResources[key] || topResources.default);
+        const acts = styleActs[q.style] || styleActs.multimodal;
+
+        const eora = {
+          extract: `List three key ideas from "${topic}" to take away.`,
+          observe: `One detail or pattern that didn't stand out on a first read — what made it matter?`,
+          reflect: `What does "${topic}" connect to in what you already know? Where does it clash?`,
+          apply: `Name one specific place — this week — where you'll use this.`
+        };
+
+        return { phases, diffNotes, picks, acts, eora, topic, objective };
+      }
+
+      let lastResult = null;
+      function readForm() {
+        return {
+          role: document.getElementById('d-role').value,
+          subject: document.getElementById('d-subject').value,
+          age: document.getElementById('d-age').value,
+          curriculum: document.getElementById('d-curriculum').value,
+          topic: document.getElementById('d-topic').value.trim(),
+          objective: document.getElementById('d-objective').value.trim(),
+          style: document.getElementById('d-style').value,
+          length: document.getElementById('d-length').value,
+          diff: [...document.querySelectorAll('input[name="d-diff"]:checked')].map(c => c.value)
+        };
+      }
+      function writeForm(q) {
+        ['role','subject','age','curriculum','topic','objective','style','length'].forEach(k => {
+          const el = document.getElementById('d-' + k);
+          if (el && q[k] !== undefined) el.value = q[k];
+        });
+        document.querySelectorAll('input[name="d-diff"]').forEach(c => {
+          c.checked = (q.diff || []).includes(c.value);
+        });
+      }
+
+      function render() {
+        const q = readForm();
+        if (!q.subject || !q.topic) {
+          alert('Pick a subject and type a topic first.');
+          return;
+        }
+        const g = gen(q);
+        lastResult = { q, g };
+
+        const styleLabel = document.querySelector(`#d-style option[value="${q.style}"]`).textContent.trim();
+
+        // Lesson tab
+        document.getElementById('lesson-panel').innerHTML = `
+          <h3>Lesson plan — ${esc(g.topic)}</h3>
+          <div>${[q.subject, q.age, q.curriculum, q.length+' min', styleLabel].filter(Boolean).map(x => `<span class="pill">${esc(x)}</span>`).join('')}</div>
+          <p style="margin-top:10px;"><strong>Objective:</strong> ${esc(g.objective)}</p>
+          <h4>E² 5-part blueprint</h4>
+          ${g.phases.map(p => `<div class="phase"><h5>${esc(p.n)} (${p.m} min)</h5><p>${esc(p.b)}</p></div>`).join('')}
+          <h4>Learning style — ${esc(styleLabel)}</h4>
+          <ul>${g.acts.map(a => `<li>${esc(a)}</li>`).join('')}</ul>
+          ${g.diffNotes.length ? `<h4>Differentiation supports</h4><ul>${g.diffNotes.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}
+          <div class="eora">
+            <h5>Extract · Observe · Reflect · Apply</h5>
+            <div class="row"><strong>Extract:</strong> <span>${esc(g.eora.extract)}</span></div>
+            <div class="row"><strong>Observe:</strong> <span>${esc(g.eora.observe)}</span></div>
+            <div class="row"><strong>Reflect:</strong> <span>${esc(g.eora.reflect)}</span></div>
+            <div class="row"><strong>Apply:</strong> <span>${esc(g.eora.apply)}</span></div>
+          </div>
+        `;
+
+        // Resources tab
+        document.getElementById('resources-panel').innerHTML = `
+          <h3>Best resources for ${esc(g.topic)}</h3>
+          <p style="color:var(--muted); margin-bottom:10px;">Only the trusted best — 3 picks you can genuinely use today.</p>
+          ${g.picks.map(p => `
+            <div class="resource-mini">
+              <h5>${esc(p.t)}</h5>
+              <p>${esc(p.d)}</p>
+              <a href="${esc(p.u)}" target="_blank" rel="noopener">Visit ↗</a>
+            </div>`).join('')}
+        `;
+      }
+      document.getElementById('d-generate').addEventListener('click', render);
+
+      // Tabs
+      document.querySelectorAll('.tab-bar button').forEach(b => {
+        b.addEventListener('click', () => {
+          document.querySelectorAll('.tab-bar button').forEach(x => x.classList.remove('is-active'));
+          b.classList.add('is-active');
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('is-active'));
+          document.getElementById('tab-' + b.dataset.tab).classList.add('is-active');
+        });
+      });
+
+      // Save / share
+      function loadSaved() { try { return JSON.parse(localStorage.getItem(SAVED) || '[]'); } catch { return []; } }
+      function writeSaved(l) { localStorage.setItem(SAVED, JSON.stringify(l)); }
+      document.getElementById('d-save').addEventListener('click', () => {
+        const q = readForm();
+        if (!q.subject || !q.topic) { alert('Pick subject and topic first.'); return; }
+        const label = prompt('Name it:', `${q.subject} · ${q.topic}`);
+        if (!label) return;
+        const list = loadSaved();
+        list.unshift({ id:'d-'+Math.random().toString(36).slice(2,10), label, q });
+        writeSaved(list);
+        alert('Saved to this browser.');
+      });
+      document.getElementById('d-share').addEventListener('click', () => {
+        const q = readForm();
+        const qs = new URLSearchParams();
+        Object.keys(q).forEach(k => {
+          const v = Array.isArray(q[k]) ? q[k].join(',') : q[k];
+          if (v) qs.set(k, v);
+        });
+        const url = `${location.origin}${location.pathname}?${qs.toString()}`;
+        navigator.clipboard.writeText(url).then(() => alert('Share link copied.'), () => prompt('Copy this link:', url));
+      });
+
+      // Load from URL
+      const params = new URLSearchParams(location.search);
+      if ([...params.keys()].length) {
+        const q = {};
+        ['role','subject','age','curriculum','topic','objective','style','length'].forEach(k => { if (params.get(k)) q[k] = params.get(k); });
+        q.diff = (params.get('diff') || '').split(',').filter(Boolean);
+        writeForm(q);
+        if (q.subject && q.topic) render();
+      }
+
+      // Export
+      function toMarkdown(r) {
+        return `# ${r.g.topic}\n\n**Subject:** ${r.q.subject} · **Age:** ${r.q.age} · **Length:** ${r.q.length} min\n\n**Objective:** ${r.g.objective}\n\n` +
+          r.g.phases.map(p => `## ${p.n} (${p.m} min)\n\n${p.b}`).join('\n\n') +
+          `\n\n## Extract · Observe · Reflect · Apply\n- **Extract:** ${r.g.eora.extract}\n- **Observe:** ${r.g.eora.observe}\n- **Reflect:** ${r.g.eora.reflect}\n- **Apply:** ${r.g.eora.apply}`;
+      }
+      function toHTML(r) {
+        return `<!doctype html><html><head><meta charset="utf-8"><title>${esc(r.g.topic)}</title><style>body{font-family:system-ui;max-width:720px;margin:40px auto;padding:0 20px;line-height:1.6;color:#23221c}h1{border-bottom:2px solid #2c5f2d;padding-bottom:8px}h2{color:#2c5f2d;margin-top:28px}</style></head><body><h1>${esc(r.g.topic)}</h1><p><strong>Subject:</strong> ${esc(r.q.subject)} · <strong>Age:</strong> ${esc(r.q.age)} · <strong>Length:</strong> ${esc(r.q.length)} min</p><p><strong>Objective:</strong> ${esc(r.g.objective)}</p>${r.g.phases.map(p => `<h2>${esc(p.n)} <small>(${p.m} min)</small></h2><p>${esc(p.b)}</p>`).join('')}</body></html>`;
+      }
+      document.querySelectorAll('[data-dl]').forEach(btn => btn.addEventListener('click', () => {
+        if (!lastResult) { alert('Generate first.'); return; }
+        const format = btn.dataset.dl;
+        const base = (lastResult.g.topic || 'lesson').replace(/[^a-z0-9-]+/gi, '-').toLowerCase();
+        let content, ext, mime;
+        if (format === 'md') { content = toMarkdown(lastResult); ext = 'md'; mime = 'text/markdown'; }
+        if (format === 'html') { content = toHTML(lastResult); ext = 'html'; mime = 'text/html'; }
+        if (format === 'json') { content = JSON.stringify(lastResult, null, 2); ext = 'json'; mime = 'application/json'; }
+        const blob = new Blob([content], { type: mime });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = `${base}.${ext}`;
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }));
+
+      // Save to Drive (official Google Drive upload via form POST — simplified fallback: open Drive in new tab with pre-copied content)
+      document.getElementById('d-drive').addEventListener('click', () => {
+        if (!lastResult) { alert('Generate first.'); return; }
+        // Official "Save to Drive" requires API key registered to the domain.
+        // As a user-friendly fallback: copy markdown to clipboard + open Drive
+        const md = toMarkdown(lastResult);
+        navigator.clipboard.writeText(md).then(() => {
+          if (confirm('Lesson copied as Markdown. Open Google Drive now to paste into a new doc?')) {
+            window.open('https://docs.google.com/document/create', '_blank');
+          }
+        }, () => alert('Could not copy to clipboard.'));
+      });
+
+    })();
+  </script>
+</body>
+</html>

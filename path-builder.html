@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Builder — Pathways</title>
+  <meta name="description" content="Build a custom learning path or a full E²-structured lesson plan from dropdowns. Every subject, every level, every curriculum — with the world's best trusted resources and reflection prompts.">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <style>
+    .mode-toggle {
+      display: inline-flex;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 4px;
+      margin-bottom: 20px;
+    }
+    .mode-toggle button {
+      background: transparent;
+      color: var(--muted);
+      border: 0;
+      padding: 8px 18px;
+      font: inherit;
+      font-weight: 600;
+      border-radius: 99px;
+      cursor: pointer;
+    }
+    .mode-toggle button.is-active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .builder {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      display: grid;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .builder label { display: grid; gap: 4px; font-size: 0.88rem; color: var(--muted); }
+    .builder input, .builder select, .builder textarea {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-btn);
+      font: inherit;
+    }
+    .builder .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .builder .row3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    @media (max-width: 720px) {
+      .builder .row, .builder .row3 { grid-template-columns: 1fr; }
+    }
+    .builder .checks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px;
+    }
+    .builder .checks label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      color: var(--text);
+      font-size: 0.88rem;
+    }
+    .builder .checks input { width: auto; }
+
+    .result {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .result h3 { margin-bottom: 8px; }
+    .result h4 {
+      color: var(--accent-2);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+    .result ul, .result ol { margin: 0 0 0 20px; color: var(--muted); }
+    .result li { margin-bottom: 4px; }
+    .result .pill {
+      display: inline-block;
+      background: rgba(124, 92, 255, 0.1);
+      color: var(--accent);
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-size: 0.76rem;
+      margin: 2px 4px 2px 0;
+    }
+    .result .phase {
+      border-left: 3px solid var(--accent);
+      padding-left: 14px;
+      margin: 14px 0;
+    }
+    .result .phase h5 { margin: 0 0 4px; color: var(--text); font-size: 1rem; }
+    .result .phase p { margin: 0; color: var(--muted); font-size: 0.93rem; }
+
+    .eora {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 14px 18px;
+      margin-top: 10px;
+    }
+    .eora h5 { color: var(--accent-2); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .eora .eora-row { display: grid; gap: 4px; margin-bottom: 8px; }
+    .eora .eora-row strong { color: var(--text); font-size: 0.88rem; }
+    .eora .eora-row span { color: var(--muted); font-size: 0.88rem; }
+
+    .suggested-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .suggested-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 18px;
+      cursor: pointer;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .suggested-card:hover { transform: translateY(-2px); border-color: #2a3042; }
+    .suggested-card h4 { color: var(--text); margin: 0 0 6px; }
+    .suggested-card p { font-size: 0.88rem; color: var(--muted); margin: 0; }
+
+    .quick-find { margin-bottom: 28px; }
+    .quick-find input {
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      font: inherit;
+      font-size: 1rem;
+    }
+    .quick-find input:focus { outline: 2px solid var(--accent); border-color: transparent; }
+
+    .mode-section { display: none; }
+    .mode-section.is-active { display: block; }
+
+    .resource-mini {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-btn);
+      padding: 12px 14px;
+      margin-bottom: 8px;
+    }
+    .resource-mini h5 { margin: 0 0 4px; font-size: 0.95rem; color: var(--text); }
+    .resource-mini p { margin: 0; font-size: 0.85rem; color: var(--muted); }
+    .resource-mini a { font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+  <header class="site-nav">
+    <div class="container">
+      <a href="index.html" class="logo">Pathways</a>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#paths">Paths</a></li>
+          <li><a href="apps.html">Apps</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="flipped.html">Flipped</a></li>
+          <li><a href="path-builder.html" class="is-active">Builder</a></li>
+          <li><a href="docs.html">Docs</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="section" style="padding-top:64px;">
+      <div class="container" style="max-width:960px;">
+        <h1>Builder</h1>
+        <p style="margin-top:12px; font-size:1.1rem;">Everything is a dropdown. Pick a <strong>path</strong> (a bundle of apps &amp; resources for your role) or build a <strong>lesson plan</strong> (a full E²-structured blueprint for one lesson). Every output ends with <em>Extract · Observe · Reflect · Apply</em> prompts so learning doesn't stop at reading.</p>
+
+        <div class="quick-find" style="margin-top:24px;">
+          <input type="search" id="qf" list="qf-list" placeholder="🔎 Type what you need — &quot;IB math calculus,&quot; &quot;Quran hifz,&quot; &quot;Arabic A1,&quot; &quot;Grade 3 reading for dyslexia&quot;..." autocomplete="off" />
+          <datalist id="qf-list">
+            <option value="IB math">
+            <option value="Common Core algebra">
+            <option value="Cambridge biology">
+            <option value="Arabic A1 beginner">
+            <option value="Quran memorization (hifz)">
+            <option value="Tajweed rules">
+            <option value="Tafsir of Surah Al-Fatihah">
+            <option value="Grade 3 reading for dyslexia">
+            <option value="Gifted Year 6 math">
+            <option value="French A2">
+            <option value="Python for beginners">
+            <option value="Introductory philosophy">
+            <option value="Financial literacy for teens">
+            <option value="IB DP Biology HL">
+            <option value="SAT prep">
+          </datalist>
+          <div id="qf-results" style="margin-top:10px;"></div>
+        </div>
+
+        <div class="mode-toggle" role="tablist" aria-label="Builder mode">
+          <button type="button" class="is-active" data-mode="path" role="tab" aria-selected="true">🗺️ Build a path</button>
+          <button type="button" data-mode="lesson" role="tab" aria-selected="false">📘 Build a lesson plan</button>
+        </div>
+
+        <!-- =================== PATH MODE =================== -->
+        <section class="mode-section is-active" id="mode-path">
+          <form class="builder" id="path-form">
+            <div class="row">
+              <label>
+                I am a…
+                <select id="p-role" required>
+                  <option value="">Choose your role</option>
+                  <option value="teachers">Teacher (K-12 / subject)</option>
+                  <option value="learners">Learner (any age)</option>
+                  <option value="schools">School leader / K-12 admin</option>
+                  <option value="universities">University faculty / staff</option>
+                  <option value="institutions">Institution (L&amp;D, NGO, library)</option>
+                  <option value="parents">Parent</option>
+                  <option value="homeschoolers">Homeschooler</option>
+                  <option value="tutors">Tutor / Mentor</option>
+                  <option value="administrators">Administrator</option>
+                  <option value="curriculum">Curriculum designer</option>
+                  <option value="researchers">Researcher</option>
+                  <option value="accessibility">Accessibility / SpEd specialist</option>
+                </select>
+              </label>
+
+              <label>
+                Curriculum / framework
+                <select id="p-curriculum"></select>
+              </label>
+            </div>
+
+            <div class="row">
+              <label>
+                Subject
+                <select id="p-subject"></select>
+              </label>
+              <label>
+                Age / level
+                <select id="p-age">
+                  <option value="">Any</option>
+                  <option value="early">Early years (ages 3-5)</option>
+                  <option value="k2">Primary K-2 (ages 5-7)</option>
+                  <option value="35">Primary 3-5 (ages 8-10)</option>
+                  <option value="68">Middle 6-8 (ages 11-13)</option>
+                  <option value="912">Secondary 9-12 (ages 14-18)</option>
+                  <option value="univ">University</option>
+                  <option value="adult">Adult / professional</option>
+                </select>
+              </label>
+            </div>
+
+            <fieldset style="border:0; padding:0; margin:0;">
+              <legend style="font-size:0.88rem; color:var(--muted); margin-bottom:8px;">Special cases (tick any)</legend>
+              <div class="checks">
+                <label><input type="checkbox" name="p-special" value="dyslexia"> Dyslexia</label>
+                <label><input type="checkbox" name="p-special" value="adhd"> ADHD</label>
+                <label><input type="checkbox" name="p-special" value="autism"> Autism</label>
+                <label><input type="checkbox" name="p-special" value="esl"> ESL / EAL</label>
+                <label><input type="checkbox" name="p-special" value="arabic-l2"> Arabic for non-natives</label>
+                <label><input type="checkbox" name="p-special" value="gifted"> Gifted</label>
+                <label><input type="checkbox" name="p-special" value="refugee"> Refugee / displaced</label>
+                <label><input type="checkbox" name="p-special" value="remote"> Rural / low-bandwidth</label>
+              </div>
+            </fieldset>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button type="submit" class="btn btn-primary">Generate my path</button>
+              <button type="button" class="btn btn-ghost" id="p-save">Save</button>
+              <button type="button" class="btn btn-ghost" id="p-share">Copy share link</button>
+            </div>
+          </form>
+
+          <div id="p-result" aria-live="polite"></div>
+
+          <div class="section-header" style="margin-top:32px;">
+            <div><h2>Suggested paths</h2><p>Ready-made bundles you can tweak in one click.</p></div>
+          </div>
+          <div id="suggested-grid" class="suggested-grid"></div>
+        </section>
+
+        <!-- =================== LESSON MODE =================== -->
+        <section class="mode-section" id="mode-lesson">
+          <form class="builder" id="lesson-form">
+            <div class="row3">
+              <label>
+                Subject area
+                <select id="l-subject" required></select>
+              </label>
+              <label>
+                Age / grade
+                <select id="l-age" required>
+                  <option value="">Choose…</option>
+                  <option value="early">Early years (3-5)</option>
+                  <option value="k2">Grade K-2 (5-7)</option>
+                  <option value="35">Grade 3-5 (8-10)</option>
+                  <option value="68">Grade 6-8 (11-13)</option>
+                  <option value="912">Grade 9-12 (14-18)</option>
+                  <option value="univ">University</option>
+                  <option value="adult">Adult</option>
+                </select>
+              </label>
+              <label>
+                Curriculum alignment
+                <select id="l-curriculum"></select>
+              </label>
+            </div>
+
+            <label>
+              Topic / specific focus
+              <input type="text" id="l-topic" required placeholder="E.g. Photosynthesis · Long division · Surah Al-Fatihah · French greetings · Poetry analysis" />
+            </label>
+
+            <div class="row">
+              <label>
+                Cognitive level (Bloom's)
+                <select id="l-bloom">
+                  <option value="remember">Remember (identify, list, define)</option>
+                  <option value="understand" selected>Understand (explain, summarize)</option>
+                  <option value="apply">Apply (use, solve, demonstrate)</option>
+                  <option value="analyze">Analyze (differentiate, compare)</option>
+                  <option value="evaluate">Evaluate (critique, justify)</option>
+                  <option value="create">Create (design, compose)</option>
+                </select>
+              </label>
+              <label>
+                Learning objective verb
+                <select id="l-verb"></select>
+              </label>
+            </div>
+
+            <label>
+              Learning objective (auto-filled — edit freely)
+              <input type="text" id="l-objective" placeholder="Students will be able to…" />
+            </label>
+
+            <div class="row">
+              <label>
+                E² pillar focus
+                <select id="l-pillar">
+                  <option value="balanced" selected>Balanced — all four pillars</option>
+                  <option value="design">Pillar 1 — Lesson Design</option>
+                  <option value="diff">Pillar 2 — Differentiation</option>
+                  <option value="eng">Pillar 3 — Engagement</option>
+                  <option value="culture">Pillar 4 — Classroom Culture</option>
+                </select>
+              </label>
+              <label>
+                Lesson length
+                <select id="l-length">
+                  <option value="30">30 minutes (short)</option>
+                  <option value="45" selected>45 minutes (standard)</option>
+                  <option value="60">60 minutes</option>
+                  <option value="90">90 minutes (double period)</option>
+                </select>
+              </label>
+            </div>
+
+            <fieldset style="border:0; padding:0; margin:0;">
+              <legend style="font-size:0.88rem; color:var(--muted); margin-bottom:8px;">Differentiation — include support for…</legend>
+              <div class="checks">
+                <label><input type="checkbox" name="l-diff" value="dyslexia"> Dyslexia</label>
+                <label><input type="checkbox" name="l-diff" value="adhd"> ADHD</label>
+                <label><input type="checkbox" name="l-diff" value="autism"> Autism</label>
+                <label><input type="checkbox" name="l-diff" value="esl"> ESL / EAL</label>
+                <label><input type="checkbox" name="l-diff" value="gifted"> Gifted extension</label>
+                <label><input type="checkbox" name="l-diff" value="hearing"> Hearing impairment</label>
+                <label><input type="checkbox" name="l-diff" value="vision"> Vision impairment</label>
+                <label><input type="checkbox" name="l-diff" value="motor"> Motor / physical</label>
+                <label><input type="checkbox" name="l-diff" value="trauma"> Trauma-informed</label>
+              </div>
+            </fieldset>
+
+            <label>
+              Primary learning style
+              <select id="l-style">
+                <optgroup label="VARK (most common)">
+                  <option value="visual">Visual — diagrams, colour, concept maps</option>
+                  <option value="auditory">Auditory — discussion, read-aloud, music</option>
+                  <option value="readwrite">Read / Write — text, notes, lists</option>
+                  <option value="kinesthetic">Kinesthetic — movement, hands-on, role play</option>
+                  <option value="multimodal" selected>Multimodal — mix of all four (recommended default)</option>
+                </optgroup>
+                <optgroup label="Multiple Intelligences (Gardner)">
+                  <option value="linguistic">Linguistic — word-smart (stories, writing)</option>
+                  <option value="logical">Logical-mathematical — number/pattern-smart</option>
+                  <option value="spatial">Spatial — picture-smart (maps, sketches)</option>
+                  <option value="musical">Musical — rhythm-smart (chants, songs)</option>
+                  <option value="body">Bodily-kinesthetic — body-smart (TPR, drama)</option>
+                  <option value="interpersonal">Interpersonal — people-smart (groups, debate)</option>
+                  <option value="intrapersonal">Intrapersonal — self-smart (journals, reflection)</option>
+                  <option value="naturalistic">Naturalistic — nature-smart (outdoor, classification)</option>
+                </optgroup>
+                <optgroup label="Kolb (experiential)">
+                  <option value="activist">Activist — learns by doing (try it first)</option>
+                  <option value="reflector">Reflector — learns by observing (watch + review)</option>
+                  <option value="theorist">Theorist — learns by framework (give me the model)</option>
+                  <option value="pragmatist">Pragmatist — learns by applying (where will I use this?)</option>
+                </optgroup>
+                <optgroup label="Special-case aligned (pick if relevant)">
+                  <option value="dyslexia-friendly">Dyslexia-friendly — Orton-Gillingham multi-sensory</option>
+                  <option value="adhd-friendly">ADHD-friendly — short bursts + movement</option>
+                  <option value="autism-friendly">Autism-friendly — visual schedule + predictable</option>
+                  <option value="gifted-depth">Gifted — depth + open-ended + choice</option>
+                  <option value="esl-scaffolded">ESL — audio-visual + sentence frames</option>
+                  <option value="arabic-script">Arabic script — visual + kinesthetic writing</option>
+                  <option value="tajweed-auditory">Quran / Tajweed — auditory + rhythmic repetition</option>
+                  <option value="hifz-memory">Hifz (memorization) — spaced + chunked + listen-repeat</option>
+                </optgroup>
+              </select>
+              <small id="style-suggest" style="color:var(--accent-2); font-size:0.78rem; margin-top:4px; display:block;"></small>
+            </label>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button type="submit" class="btn btn-primary">Generate lesson plan</button>
+              <button type="button" class="btn btn-ghost" id="l-save">Save</button>
+              <button type="button" class="btn btn-ghost" id="l-share">Copy share link</button>
+              <button type="button" class="btn btn-ghost" id="l-print">Print / PDF</button>
+            </div>
+          </form>
+
+          <div id="l-result" aria-live="polite"></div>
+        </section>
+
+        <!-- Saved items -->
+        <section style="margin-top:40px;">
+          <div class="section-header"><div><h2>Your saved paths &amp; lessons</h2><p>Stored in this browser only.</p></div></div>
+          <div id="saved-list"></div>
+        </section>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; 2026 Pathways</span>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="apps.html">Apps</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="flipped.html">Flipped</a></li>
+        <li><a href="path-builder.html">Builder</a></li>
+        <li><a href="docs.html">Docs</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const SAVED = 'pathways.builder.saved.v2';
+      const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+      // ============ CURRICULA ============
+      const curricula = [
+        ['', 'Any / not applicable'],
+        ['__grp', 'International'],
+        ['ib', 'IB (PYP/MYP/DP/CP)'],
+        ['cie', 'Cambridge (IGCSE / AS-A Level)'],
+        ['ccss', 'Common Core (US)'],
+        ['ngss', 'Next Gen Science (US)'],
+        ['uk', 'UK National Curriculum'],
+        ['ab', 'Australian ACARA'],
+        ['nz', 'NZ Curriculum'],
+        ['fr', 'French Baccalauréat'],
+        ['de', 'German Abitur'],
+        ['it', 'Italian Liceo'],
+        ['jp', 'Japanese MEXT'],
+        ['sg', 'Singapore MOE'],
+        ['cn', 'Chinese Gaokao'],
+        ['in-cbse', 'Indian CBSE'],
+        ['in-icse', 'Indian ICSE'],
+        ['kr', 'Korean National'],
+        ['ru', 'Russian FGOS'],
+        ['br', 'Brazilian BNCC'],
+        ['za', 'South African CAPS'],
+        ['__grp', 'Arab world'],
+        ['eg', 'Egyptian National (2.0)'],
+        ['sa', 'Saudi MoE (Vision 2030)'],
+        ['uae', 'UAE MoE'],
+        ['qa', 'Qatari MoE'],
+        ['kw', 'Kuwaiti MoE'],
+        ['jo', 'Jordanian MoE'],
+        ['ma', 'Moroccan MEN'],
+        ['tn', 'Tunisian MEN'],
+        ['lb', 'Lebanese MEHE'],
+        ['azhar', 'Al-Azhar curriculum'],
+        ['__grp', 'Pedagogical'],
+        ['e2', 'E² Teaching Framework'],
+        ['udl', 'UDL 3.0'],
+        ['montessori', 'Montessori'],
+        ['waldorf', 'Waldorf / Steiner'],
+        ['reggio', 'Reggio Emilia'],
+        ['pbl', 'Project-Based Learning'],
+        ['__grp', 'Language proficiency'],
+        ['cefr', 'CEFR (A1-C2)'],
+        ['actfl', 'ACTFL Proficiency'],
+        ['arabic-l2', 'Arabic-as-L2 (Fusha)'],
+        ['__grp', 'Islamic'],
+        ['quran', 'Quran studies'],
+        ['tajweed', 'Tajweed'],
+        ['hifz', 'Hifz (memorization)'],
+        ['tafsir', 'Tafsir'],
+        ['fiqh', 'Fiqh'],
+        ['seerah', 'Seerah'],
+        ['aqeedah', 'Aqeedah'],
+        ['hadith', 'Hadith sciences']
+      ];
+
+      // ============ SUBJECTS (grouped) ============
+      const subjects = [
+        ['', 'Any / multi-subject'],
+        ['__grp', 'Math'],
+        ['arithmetic', 'Arithmetic'],
+        ['algebra', 'Algebra'],
+        ['geometry', 'Geometry'],
+        ['trig', 'Trigonometry'],
+        ['precalc', 'Pre-calculus'],
+        ['calculus', 'Calculus'],
+        ['statistics', 'Statistics'],
+        ['probability', 'Probability'],
+        ['linalg', 'Linear algebra'],
+        ['discrete', 'Discrete math'],
+        ['__grp', 'Science'],
+        ['gen-science', 'General science'],
+        ['biology', 'Biology'],
+        ['chemistry', 'Chemistry'],
+        ['physics', 'Physics'],
+        ['earth', 'Earth science'],
+        ['astronomy', 'Astronomy'],
+        ['environmental', 'Environmental science'],
+        ['__grp', 'Computer science'],
+        ['intro-cs', 'Intro to programming'],
+        ['python', 'Python'],
+        ['javascript', 'JavaScript'],
+        ['ds-algo', 'Data structures & algorithms'],
+        ['web', 'Web development'],
+        ['databases', 'Databases'],
+        ['ai-ml', 'AI & machine learning'],
+        ['security', 'Cybersecurity'],
+        ['__grp', 'English / ELA'],
+        ['reading', 'Reading comprehension'],
+        ['writing', 'Writing'],
+        ['grammar', 'English grammar'],
+        ['vocab', 'Vocabulary'],
+        ['literature', 'Literature'],
+        ['poetry', 'Poetry'],
+        ['speech', 'Speech & debate'],
+        ['__grp', 'Arabic'],
+        ['arabic-alphabet', 'Arabic alphabet (beginners)'],
+        ['arabic-fusha', 'Modern Standard Arabic (Fusha)'],
+        ['arabic-egy', 'Egyptian dialect'],
+        ['arabic-lev', 'Levantine dialect'],
+        ['arabic-gulf', 'Gulf dialect'],
+        ['arabic-mag', 'Maghrebi dialect'],
+        ['nahw', 'Arabic grammar (nahw)'],
+        ['sarf', 'Arabic morphology (sarf)'],
+        ['balagha', 'Arabic rhetoric (balagha)'],
+        ['khat', 'Arabic calligraphy (khat)'],
+        ['__grp', 'Quran & Islamic studies'],
+        ['quran-recite', 'Quran recitation'],
+        ['tajweed-s', 'Tajweed'],
+        ['hifz-s', 'Quran memorization (hifz)'],
+        ['tafsir-s', 'Tafsir'],
+        ['seerah-s', 'Seerah (Prophet\'s life ﷺ)'],
+        ['fiqh-s', 'Fiqh (jurisprudence)'],
+        ['aqeedah-s', 'Aqeedah (creed)'],
+        ['hadith-s', 'Hadith sciences'],
+        ['adab', 'Adab & akhlaq'],
+        ['islamic-history', 'Islamic history'],
+        ['__grp', 'Other languages'],
+        ['french', 'French'],
+        ['spanish', 'Spanish'],
+        ['german', 'German'],
+        ['mandarin', 'Mandarin Chinese'],
+        ['japanese', 'Japanese'],
+        ['korean', 'Korean'],
+        ['russian', 'Russian'],
+        ['hindi', 'Hindi'],
+        ['urdu', 'Urdu'],
+        ['turkish', 'Turkish'],
+        ['portuguese', 'Portuguese'],
+        ['italian', 'Italian'],
+        ['latin', 'Latin'],
+        ['greek', 'Greek (ancient/modern)'],
+        ['__grp', 'Humanities'],
+        ['world-history', 'World history'],
+        ['regional-history', 'Regional history'],
+        ['geography', 'Geography'],
+        ['philosophy', 'Philosophy'],
+        ['ethics', 'Ethics'],
+        ['comp-religion', 'Comparative religion'],
+        ['classics', 'Classics'],
+        ['__grp', 'Social sciences'],
+        ['economics', 'Economics'],
+        ['psychology', 'Psychology'],
+        ['sociology', 'Sociology'],
+        ['politics', 'Political science'],
+        ['anthropology', 'Anthropology'],
+        ['linguistics', 'Linguistics'],
+        ['law', 'Law'],
+        ['__grp', 'Arts'],
+        ['visual-arts', 'Visual arts'],
+        ['music', 'Music'],
+        ['theatre', 'Theatre / drama'],
+        ['dance', 'Dance'],
+        ['film', 'Film'],
+        ['design', 'Design'],
+        ['architecture', 'Architecture'],
+        ['creative-writing', 'Creative writing'],
+        ['__grp', 'Business'],
+        ['financial-lit', 'Financial literacy'],
+        ['accounting', 'Accounting'],
+        ['marketing', 'Marketing'],
+        ['management', 'Management'],
+        ['entrepreneurship', 'Entrepreneurship'],
+        ['__grp', 'Life skills'],
+        ['critical-thinking', 'Critical thinking'],
+        ['digital-literacy', 'Digital literacy'],
+        ['media-literacy', 'Media literacy'],
+        ['communication', 'Communication'],
+        ['time-mgmt', 'Time management'],
+        ['emotional-intel', 'Emotional intelligence'],
+        ['first-aid', 'First aid'],
+        ['cooking', 'Cooking / home ec'],
+        ['parenting', 'Parenting skills'],
+        ['__grp', 'PE & health'],
+        ['pe', 'Physical education'],
+        ['nutrition', 'Nutrition'],
+        ['mental-health', 'Mental health'],
+        ['sports', 'Sports'],
+        ['__grp', 'Vocational'],
+        ['carpentry', 'Carpentry'],
+        ['electrical', 'Electrical'],
+        ['plumbing', 'Plumbing'],
+        ['automotive', 'Automotive'],
+        ['agriculture', 'Agriculture'],
+        ['culinary', 'Culinary arts'],
+        ['tailoring', 'Tailoring / textile']
+      ];
+
+      function buildOptions(arr) {
+        let out = '';
+        let openGroup = false;
+        for (const [val, label] of arr) {
+          if (val === '__grp') {
+            if (openGroup) out += '</optgroup>';
+            out += `<optgroup label="${esc(label)}">`;
+            openGroup = true;
+          } else {
+            out += `<option value="${esc(val)}">${esc(label)}</option>`;
+          }
+        }
+        if (openGroup) out += '</optgroup>';
+        return out;
+      }
+
+      // Populate all curriculum/subject dropdowns
+      document.querySelectorAll('#p-curriculum, #l-curriculum').forEach(el => el.innerHTML = buildOptions(curricula));
+      document.querySelectorAll('#p-subject, #l-subject').forEach(el => el.innerHTML = buildOptions(subjects));
+
+      // ============ BLOOM'S VERBS ============
+      const bloomVerbs = {
+        remember: ['identify','list','define','label','name','recall','recognize','describe','select','state'],
+        understand: ['explain','summarize','compare','contrast','classify','interpret','paraphrase','illustrate','infer'],
+        apply: ['apply','use','demonstrate','solve','calculate','implement','execute','illustrate-app'],
+        analyze: ['analyze','differentiate','examine','investigate','categorize','distinguish','attribute','deconstruct'],
+        evaluate: ['evaluate','justify','critique','defend','judge','argue','appraise','assess'],
+        create: ['create','design','construct','compose','develop','invent','produce','plan','generate']
+      };
+      function populateVerbs() {
+        const level = document.getElementById('l-bloom').value;
+        const verbs = bloomVerbs[level] || [];
+        document.getElementById('l-verb').innerHTML = verbs.map(v => `<option value="${esc(v)}">${esc(v)}</option>`).join('');
+        syncObjective();
+      }
+      function syncObjective() {
+        const topic = document.getElementById('l-topic').value.trim();
+        const verb = document.getElementById('l-verb').value;
+        const objEl = document.getElementById('l-objective');
+        if (!objEl.dataset.userEdited && topic && verb) {
+          objEl.value = `Students will be able to ${verb} ${topic}.`;
+        }
+      }
+      document.getElementById('l-bloom').addEventListener('change', populateVerbs);
+      document.getElementById('l-verb').addEventListener('change', syncObjective);
+      document.getElementById('l-topic').addEventListener('input', syncObjective);
+      document.getElementById('l-objective').addEventListener('input', (e) => { if (e.target.value.trim()) e.target.dataset.userEdited = '1'; });
+      populateVerbs();
+
+      // ============ BEST-OF-THE-WEB RESOURCE PICKER ============
+      // Curated: only genuine top-tier resources, mapped by subject keyword
+      const topResources = {
+        // Math
+        'math-all': [
+          { t:'Khan Academy — Math', d:'World-class free videos + practice, K-university', u:'https://www.khanacademy.org/math' },
+          { t:'Desmos', d:'The gold-standard graphing calculator + classroom activities', u:'https://www.desmos.com' },
+          { t:'3Blue1Brown', d:'Intuitive visual explanations for deep math concepts', u:'https://www.3blue1brown.com' }
+        ],
+        calculus: [
+          { t:'3Blue1Brown — Essence of Calculus', d:'The series that makes calculus click', u:'https://www.3blue1brown.com/topics/calculus' },
+          { t:'MIT OCW — 18.01 Single Variable Calculus', d:'Free Harvard-level course with problem sets', u:'https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010' },
+          { t:'Paul\'s Online Math Notes', d:'Clear, comprehensive calculus notes and practice', u:'https://tutorial.math.lamar.edu' }
+        ],
+        // Science
+        'science-all': [
+          { t:'PhET Simulations', d:'Research-backed free interactive sims (physics, chem, bio)', u:'https://phet.colorado.edu' },
+          { t:'Khan Academy — Science', d:'Curriculum-aligned videos and practice', u:'https://www.khanacademy.org/science' },
+          { t:'CrashCourse', d:'Fast, well-produced video series across every science', u:'https://thecrashcourse.com' }
+        ],
+        biology: [
+          { t:'CrashCourse Biology', d:'40 episodes covering a full high-school biology course', u:'https://www.youtube.com/playlist?list=PL3EED4C1D684D3ADF' },
+          { t:'HHMI BioInteractive', d:'Free, classroom-ready biology activities and videos', u:'https://www.biointeractive.org' },
+          { t:'Khan Academy Biology', d:'Thorough, mastery-based practice for every topic', u:'https://www.khanacademy.org/science/biology' }
+        ],
+        // CS
+        'cs-all': [
+          { t:'CS50 by Harvard', d:'The legendary free intro to CS', u:'https://cs50.harvard.edu' },
+          { t:'freeCodeCamp', d:'Hands-on coding + certifications, entirely free', u:'https://www.freecodecamp.org' },
+          { t:'MDN Web Docs', d:'The authoritative reference for web tech', u:'https://developer.mozilla.org' }
+        ],
+        python: [
+          { t:'Automate the Boring Stuff with Python', d:'The best free beginner Python book', u:'https://automatetheboringstuff.com' },
+          { t:'Real Python', d:'Deep, practical tutorials for every Python skill level', u:'https://realpython.com' }
+        ],
+        // ELA
+        'ela-all': [
+          { t:'CommonLit', d:'Free reading passages with questions, grades 3-12', u:'https://www.commonlit.org' },
+          { t:'ReadWriteThink', d:'NCTE/IRA lesson plans and student activities', u:'http://www.readwritethink.org' },
+          { t:'Reading Rockets', d:'Research-based strategies for teaching reading', u:'https://www.readingrockets.org' }
+        ],
+        // Arabic
+        'arabic-all': [
+          { t:'Madinah Arabic', d:'Best free Arabic-for-non-natives course online', u:'https://www.madinaharabic.com' },
+          { t:'Al-Kitaab Series', d:'Standard university textbook for Arabic', u:'https://alkitaabtextbook.com' },
+          { t:'Qutrub verb conjugator', d:'Every Arabic verb, every tense — free', u:'https://qutrub.arabeyes.org' }
+        ],
+        // Quran
+        'quran-all': [
+          { t:'Quran.com', d:'Cleanest Quran reader with translations &amp; recitations', u:'https://quran.com' },
+          { t:'Quranic Arabic Corpus', d:'Word-by-word grammatical analysis — unmatched for study', u:'https://corpus.quran.com' },
+          { t:'Bayyinah Institute', d:'Quranic Arabic + tafsir for English speakers', u:'https://bayyinah.com' }
+        ],
+        // Languages
+        'lang-all': [
+          { t:'Duolingo', d:'Daily practice for 40+ languages, free', u:'https://www.duolingo.com' },
+          { t:'Language Transfer', d:'Revelatory audio courses (Spanish, French, Arabic, Turkish...)', u:'https://www.languagetransfer.org' },
+          { t:'Anki', d:'The best spaced-repetition system for vocabulary', u:'https://apps.ankiweb.net' }
+        ],
+        // Humanities
+        'hum-all': [
+          { t:'Stanford Encyclopedia of Philosophy', d:'Authoritative free reference for philosophy', u:'https://plato.stanford.edu' },
+          { t:'Yale Open Courses', d:'Full undergraduate lecture courses, free', u:'https://oyc.yale.edu' },
+          { t:'Khan Academy Humanities', d:'Art history, grammar, world history', u:'https://www.khanacademy.org/humanities' }
+        ],
+        // Default / general
+        'default': [
+          { t:'Khan Academy', d:'Free, mastery-based K-university content in 40+ languages', u:'https://www.khanacademy.org' },
+          { t:'MIT OpenCourseWare', d:'Free university-level courses across every discipline', u:'https://ocw.mit.edu' },
+          { t:'CK-12', d:'Free, customizable K-12 textbooks and practice', u:'https://www.ck12.org' }
+        ]
+      };
+
+      const subjectToKey = (s) => {
+        if (!s) return 'default';
+        if (['arithmetic','algebra','geometry','trig','precalc','statistics','probability','linalg','discrete'].includes(s)) return 'math-all';
+        if (s === 'calculus') return 'calculus';
+        if (['gen-science','earth','astronomy','environmental','chemistry','physics'].includes(s)) return 'science-all';
+        if (s === 'biology') return 'biology';
+        if (['intro-cs','javascript','ds-algo','web','databases','ai-ml','security'].includes(s)) return 'cs-all';
+        if (s === 'python') return 'python';
+        if (['reading','writing','grammar','vocab','literature','poetry','speech'].includes(s)) return 'ela-all';
+        if (['arabic-alphabet','arabic-fusha','arabic-egy','arabic-lev','arabic-gulf','arabic-mag','nahw','sarf','balagha','khat'].includes(s)) return 'arabic-all';
+        if (['quran-recite','tajweed-s','hifz-s','tafsir-s','seerah-s','fiqh-s','aqeedah-s','hadith-s','adab','islamic-history'].includes(s)) return 'quran-all';
+        if (['french','spanish','german','mandarin','japanese','korean','russian','hindi','urdu','turkish','portuguese','italian','latin','greek'].includes(s)) return 'lang-all';
+        if (['world-history','regional-history','geography','philosophy','ethics','comp-religion','classics'].includes(s)) return 'hum-all';
+        return 'default';
+      };
+
+      // ============ EORA PROMPTS (Extract · Observe · Reflect · Apply) ============
+      function eoraFor(topic, subject, age) {
+        topic = topic || 'this concept';
+        return {
+          extract: `List three key ideas or facts you want to take away from "${topic}."`,
+          observe: `Note one example, pattern, or detail you didn't notice on a first read — what made it stand out?`,
+          reflect: `What does "${topic}" connect to that you already know? Where does it clash with a prior belief?`,
+          apply: `Name one specific place — this week, in your own life or work — where you will use this.`
+        };
+      }
+
+      // ============ PATH MODE GENERATION ============
+      function genPath(q) {
+        const key = subjectToKey(q.subject);
+        const picks = (topResources[key] || topResources.default).slice(0, 3);
+        const fw = ['E² Teaching Framework', 'UDL 3.0', "Bloom's Taxonomy"];
+        if (q.special && q.special.length) fw.push('UDL 3.0 (special-needs supports)');
+        if (q.curriculum === 'arabic-l2') fw.push('CEFR A1–C2');
+        if (['quran','tajweed','hifz','tafsir','fiqh','seerah','aqeedah','hadith','azhar'].includes(q.curriculum)) fw.push('Traditional Islamic pedagogy (ijazah)');
+        return { picks, fw };
+      }
+
+      function renderPath(q) {
+        const { picks, fw } = genPath(q);
+        const eora = eoraFor('your chosen path', q.subject, q.age);
+        const pills = [q.role, q.curriculum, q.subject, q.age, ...(q.special||[])].filter(Boolean).map(x => `<span class="pill">${esc(x)}</span>`).join('');
+
+        document.getElementById('p-result').innerHTML = `
+          <article class="result">
+            <h3>Your Pathways bundle</h3>
+            <div style="margin-bottom:12px;">${pills || '<span class="pill">any</span>'}</div>
+
+            <h4>Best-in-class resources for this path</h4>
+            ${picks.map(p => `
+              <div class="resource-mini">
+                <h5>${esc(p.t)}</h5>
+                <p>${esc(p.d)}</p>
+                <a href="${esc(p.u)}" target="_blank" rel="noopener">Visit ↗</a>
+              </div>`).join('')}
+
+            <h4>Frameworks to lean on</h4>
+            <ul>${fw.map(f => `<li>${esc(f)}</li>`).join('')}</ul>
+
+            <div class="eora">
+              <h5>Extract · Observe · Reflect · Apply</h5>
+              <div class="eora-row"><strong>Extract:</strong> <span>${esc(eora.extract)}</span></div>
+              <div class="eora-row"><strong>Observe:</strong> <span>${esc(eora.observe)}</span></div>
+              <div class="eora-row"><strong>Reflect:</strong> <span>${esc(eora.reflect)}</span></div>
+              <div class="eora-row"><strong>Apply:</strong> <span>${esc(eora.apply)}</span></div>
+            </div>
+          </article>
+        `;
+        document.getElementById('p-result').scrollIntoView({ behavior:'smooth' });
+      }
+
+      // ============ LESSON MODE GENERATION (E² 5-part blueprint) ============
+      function genLesson(q) {
+        const len = parseInt(q.length, 10) || 45;
+        // Proportional E² timing
+        const hook = Math.max(2, Math.round(len * 0.05));
+        const teach = Math.round(len * 0.3);
+        const practice = Math.round(len * 0.4);
+        const connect = Math.round(len * 0.12);
+        const reflect = len - hook - teach - practice - connect;
+
+        const topic = q.topic || 'the lesson topic';
+        const objective = q.objective || `Students will be able to ${q.verb || 'understand'} ${topic}.`;
+
+        const phases = [
+          { name: 'Hook', min: hook,
+            body: `Open with a one-question provocation tied to "${topic}" — something puzzling, counter-intuitive, or personally relevant. Write it on the board; give 60 seconds of silent thinking, 60 seconds of pair share, then a fast whole-class poll.` },
+          { name: 'Teach', min: teach,
+            body: `Deliver the core content in 2–3 chunks, never more. For "${topic}": introduce the key idea, show a worked example, then surface one common misconception explicitly. Chunk 1 (new), Chunk 2 (example), Chunk 3 (misconception).` },
+          { name: 'Practice', min: practice,
+            body: `Guided then independent. Start with an "I do / we do / you do" cycle on "${topic}." Then a tiered task: struggling learners use the scaffolded version, on-level the standard version, advanced the extension. Circulate and give real-time feedback — do not sit.` },
+          { name: 'Connect', min: connect,
+            body: `Pull "${topic}" into the real world. One prompt: "Where have you encountered this outside school — this week or ever?" Take 2–3 student answers. Name why this matters beyond the test.` },
+          { name: 'Reflect', min: reflect,
+            body: `Exit ticket (3 lines): (1) Restate ${objective} in your own words. (2) Rate understanding 🔴/🟡/🟢. (3) One question you still have. Collect before students leave.` }
+        ];
+
+        // Differentiation block
+        const diffNotes = [];
+        if ((q.diff||[]).includes('dyslexia')) diffNotes.push('Provide text in OpenDyslexic or Lexie Readable; give audio version of any reading; colour-overlay PDFs.');
+        if ((q.diff||[]).includes('adhd')) diffNotes.push('Pre-printed checklist of the 5 phases; movement break at Connect; timer visible for each chunk.');
+        if ((q.diff||[]).includes('autism')) diffNotes.push('Visual schedule of the 5 phases on the board; social story for any group work; sensory break option.');
+        if ((q.diff||[]).includes('esl')) diffNotes.push('Pre-teach 5 key terms with images; sentence frames on board; allow home-language notes.');
+        if ((q.diff||[]).includes('gifted')) diffNotes.push('Extension task: have students design a new problem that applies "${topic}" in an unfamiliar context.');
+        if ((q.diff||[]).includes('visual')) diffNotes.push('Add a diagram or infographic for every chunk; use colour coding consistently.');
+        if ((q.diff||[]).includes('auditory')) diffNotes.push('Record the Teach chunks as audio for re-listening; include a think-aloud demonstration.');
+        if ((q.diff||[]).includes('kinesthetic')) diffNotes.push('Build in a physical manipulation or movement activity in Practice.');
+
+        // Pillar emphasis
+        const pillarNote = {
+          balanced: 'Balanced — all four E² pillars carry weight.',
+          design: 'Lesson Design emphasis — focus on chunking and pacing.',
+          diff: 'Differentiation emphasis — tier every task; lead with accessibility supports.',
+          eng: 'Engagement emphasis — curiosity + active participation + feedback loops.',
+          culture: 'Classroom Culture emphasis — open with a relationship moment; co-create norms for the activity.'
+        }[q.pillar || 'balanced'];
+
+        // Resources picked by subject
+        const key = subjectToKey(q.subject);
+        const picks = (topResources[key] || topResources.default).slice(0, 3);
+
+        // Engagement levers (E² Pillar 3)
+        const engagement = [
+          'Curiosity — open with a genuine question, not a topic announcement.',
+          'Active participation — every student produces something within the first 5 minutes.',
+          'Purpose — say out loud why this matters beyond the test.',
+          'Feedback — at least one specific, non-grade piece of feedback per student this lesson.',
+          'Gamification — only where it helps (e.g. a Kahoot at Reflect, not decoration).',
+          'Routine + novelty — same 5 phases (routine), one surprise element (novelty).'
+        ];
+
+        // Learning-style activities
+        const styleKey = q.style || 'multimodal';
+        const styleOpt = document.querySelector(`#l-style option[value="${styleKey}"]`);
+        const styleLabel = styleOpt ? styleOpt.textContent.trim() : styleKey;
+        const styleActs = styleActivities[styleKey] || styleActivities.multimodal;
+
+        return { phases, diffNotes, pillarNote, picks, objective, engagement, topic, styleLabel, styleActs };
+      }
+
+      function renderLesson(q) {
+        const g = genLesson(q);
+        const eora = eoraFor(g.topic, q.subject, q.age);
+
+        document.getElementById('l-result').innerHTML = `
+          <article class="result" id="lesson-output">
+            <h3>Lesson plan — ${esc(g.topic)}</h3>
+            <div style="margin-bottom:10px;">
+              ${[q.subject, q.age, q.curriculum, q.bloom, q.length+' min'].filter(Boolean).map(x => `<span class="pill">${esc(x)}</span>`).join('')}
+            </div>
+            <p><strong>Objective:</strong> ${esc(g.objective)}</p>
+            <p style="color:var(--muted); font-style:italic;">${esc(g.pillarNote)}</p>
+
+            <h4>E² 5-Part Blueprint</h4>
+            ${g.phases.map(p => `
+              <div class="phase">
+                <h5>${esc(p.name)} (${p.min} min)</h5>
+                <p>${esc(p.body)}</p>
+              </div>`).join('')}
+
+            <h4>Engagement levers in play (E² Pillar 3)</h4>
+            <ul>${g.engagement.map(e => `<li>${esc(e)}</li>`).join('')}</ul>
+
+            <h4>Learning style — ${esc(g.styleLabel)}</h4>
+            <ul>${g.styleActs.map(a => `<li>${esc(a)}</li>`).join('')}</ul>
+
+            ${g.diffNotes.length ? `
+              <h4>Differentiation supports</h4>
+              <ul>${g.diffNotes.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
+            ` : ''}
+
+            <h4>Best resources for this topic</h4>
+            ${g.picks.map(p => `
+              <div class="resource-mini">
+                <h5>${esc(p.t)}</h5>
+                <p>${esc(p.d)}</p>
+                <a href="${esc(p.u)}" target="_blank" rel="noopener">Visit ↗</a>
+              </div>`).join('')}
+
+            <div class="eora">
+              <h5>Extract · Observe · Reflect · Apply</h5>
+              <p style="color:var(--muted); font-size:0.85rem; margin-bottom:10px;">Give these to students to turn passive learning into active thinking.</p>
+              <div class="eora-row"><strong>Extract:</strong> <span>${esc(eora.extract)}</span></div>
+              <div class="eora-row"><strong>Observe:</strong> <span>${esc(eora.observe)}</span></div>
+              <div class="eora-row"><strong>Reflect:</strong> <span>${esc(eora.reflect)}</span></div>
+              <div class="eora-row"><strong>Apply:</strong> <span>${esc(eora.apply)}</span></div>
+            </div>
+          </article>
+        `;
+        document.getElementById('l-result').scrollIntoView({ behavior:'smooth' });
+      }
+
+      // ============ FORMS ============
+      function readPath() {
+        return {
+          mode: 'path',
+          role: document.getElementById('p-role').value,
+          curriculum: document.getElementById('p-curriculum').value,
+          subject: document.getElementById('p-subject').value,
+          age: document.getElementById('p-age').value,
+          special: [...document.querySelectorAll('input[name="p-special"]:checked')].map(c => c.value)
+        };
+      }
+      function readLesson() {
+        return {
+          mode: 'lesson',
+          subject: document.getElementById('l-subject').value,
+          age: document.getElementById('l-age').value,
+          curriculum: document.getElementById('l-curriculum').value,
+          topic: document.getElementById('l-topic').value.trim(),
+          bloom: document.getElementById('l-bloom').value,
+          verb: document.getElementById('l-verb').value,
+          objective: document.getElementById('l-objective').value.trim(),
+          pillar: document.getElementById('l-pillar').value,
+          length: document.getElementById('l-length').value,
+          diff: [...document.querySelectorAll('input[name="l-diff"]:checked')].map(c => c.value),
+          style: document.getElementById('l-style').value
+        };
+      }
+
+      // ============ LEARNING STYLE ACTIVITIES ============
+      const styleActivities = {
+        visual: ['Present core idea as a one-page diagram or concept map.','Use colour-coded text: one colour per idea family.','Show a short annotated video clip during Teach.','Exit ticket: sketch your understanding — no words.'],
+        auditory: ['Read the key passage aloud twice — student echo on the second pass.','Pair talk: 60-second explain-it-to-your-partner.','Record a 1-minute audio summary as homework.','Use a class chant or rhythm for the definition.'],
+        readwrite: ['Give a half-page structured note-taking frame.','Require students to rewrite the objective in their own words.','Short written exit ticket with sentence stems.','Cornell notes during Teach phase.'],
+        kinesthetic: ['Walking debate: "agree" and "disagree" corners.','Manipulatives — cards, blocks, or body parts to model the idea.','Gallery walk instead of sitting review.','Act out the concept (e.g. students become the water cycle).'],
+        multimodal: ['Visual: concept map on the board. Auditory: think-aloud narration. Read/write: note-taking frame. Kinesthetic: gallery walk. Run all four in rotation.'],
+        linguistic: ['Storytelling entry — frame the topic as a short narrative.','Vocabulary bingo before Teach.','Journal prompt at Reflect.','Etymology or word-origin mini-lesson.'],
+        logical: ['Present the idea as a rule + counter-example.','Set up a "find the pattern" discovery task.','Logic puzzle at Hook that uses the concept.','Predict-then-verify structure for Practice.'],
+        spatial: ['Mind map or infographic as the primary artefact.','Movement across a mental "map" of the topic.','Sketch-first, words-second rule during Practice.','Use colour-zoned regions on the board.'],
+        musical: ['Chant or rhythm for the key rule or definition.','Background music at consistent tempos for focus phases.','Song-writing extension task (for gifted or arts learners).','Clap-and-count for memorisation (especially Arabic/Quran patterns).'],
+        body: ['Role play or drama to embody the concept.','Total Physical Response (TPR) — action-per-word.','Build a physical model in pairs.','Stand / sit / move to show understanding.'],
+        interpersonal: ['Group task with defined roles (facilitator, recorder, reporter, timekeeper).','Peer-teach: each student teaches one chunk to a partner.','Debate format for Evaluate-level objectives.','Jigsaw: experts regroup to share.'],
+        intrapersonal: ['Silent journal response before any discussion.','Self-rating scale: "How confident am I now vs at the start?"','One-sentence-summary reflection before exit.','Personal goal-setting tied to the objective.'],
+        naturalistic: ['Classify examples into categories students name themselves.','Take the lesson outdoors if possible, or use nature examples.','Compare-and-contrast with familiar living things.','Observation logs over a week for extended units.'],
+        activist: ['Do first, theorise later — start with a hands-on trial.','Sequence: Try → Debrief → Formalise the rule.','Fast-paced challenge at the Hook.','Open-ended problem with no one right path.'],
+        reflector: ['Show a worked example; students annotate what the expert did.','Silent watch-and-write segment in Teach.','Pause at each chunk for "what did you notice?"','End with a longer written reflection.'],
+        theorist: ['Give the framework first, then examples that fit it.','Ask: "Where would this rule break?"','Comparative table: this idea vs adjacent ideas.','Require a labelled diagram of the model.'],
+        pragmatist: ['Open with a real-world scenario needing a solution.','Students produce a 30-second "how I would use this" pitch.','Apply-to-your-own-context homework task.','Case-study based Practice phase.'],
+        'dyslexia-friendly': ['Orton-Gillingham multi-sensory: see, say, write, trace each new term.','Pre-teach 5 key words with images and phonemic breakdown.','Use cream/yellow paper or high-contrast colour overlays for any reading.','Audio version of any text given; no cold reading aloud unless volunteered.'],
+        'adhd-friendly': ['Break the lesson into visible 5-minute mini-segments with a movement break between.','Use a visible countdown timer for each chunk.','Pre-printed checklist of the 5 E² phases on every desk.','Fidget-tool allowance stated explicitly at the start.'],
+        'autism-friendly': ['Visual schedule of the lesson on the board from minute one; don\'t deviate without a verbal warning.','Social story for any partner work — roles and scripts provided.','Sensory-break pass available without public ask.','Avoid sarcasm / figurative language in instructions; be literal.'],
+        'gifted-depth': ['Extension task: design a new problem that applies the concept in an unfamiliar context.','Choice of depth: pick a rabbit hole to explore for the last 15 minutes.','Socratic-seminar Evaluate phase with harder source material.','Mentor-match: connect to a real-world practitioner for long-term.'],
+        'esl-scaffolded': ['Sentence frames on the board at all times.','Visual support for every new term (image dictionary).','Think time doubled; no cold-calling on output.','Home-language note-taking explicitly permitted.'],
+        'arabic-script': ['Letter-form practice in isolation, then initial/medial/final positions.','Trace the word with finger in the air, then on paper, then pen.','Colour-code harakat (fatha/damma/kasra) consistently.','Pair script-reading with audio — never silent in the early stages.'],
+        'tajweed-auditory': ['Listen → repeat → compare waveform / qari recording.','Isolate one rule per lesson (e.g. madd, ghunnah) with 3 verse examples.','Group majlis: recite in small circles with peer correction.','Record self → listen back → adjust. Re-record.'],
+        'hifz-memory': ['Chunk verse into 3–5 phrase units; master one before adding the next.','Listen 5x → recite with mushaf 5x → recite without mushaf 5x.','Murajaah (revision) schedule: today, +1 day, +3 days, +7 days.','Flag mutashabihat (similar verses) explicitly — teach the difference, not just the pattern.']
+      };
+
+      // Auto-suggest style based on differentiation ticks
+      const diffToStyle = {
+        dyslexia: 'dyslexia-friendly',
+        adhd: 'adhd-friendly',
+        autism: 'autism-friendly',
+        gifted: 'gifted-depth',
+        esl: 'esl-scaffolded',
+        vision: 'auditory',
+        hearing: 'visual',
+        motor: 'readwrite',
+        trauma: 'intrapersonal'
+      };
+      function updateStyleSuggestion() {
+        const diffs = [...document.querySelectorAll('input[name="l-diff"]:checked')].map(c => c.value);
+        const suggested = diffs.map(d => diffToStyle[d]).filter(Boolean);
+        const el = document.getElementById('style-suggest');
+        if (suggested.length) {
+          const human = suggested.map(v => {
+            const opt = document.querySelector(`#l-style option[value="${v}"]`);
+            return opt ? opt.textContent.trim() : v;
+          });
+          el.innerHTML = `💡 Suggested for your case: <strong>${human.map(h => esc(h)).join(' · ')}</strong>`;
+          // Auto-pick the first suggestion if user hasn't changed the default
+          const cur = document.getElementById('l-style').value;
+          if (cur === 'multimodal') document.getElementById('l-style').value = suggested[0];
+        } else {
+          el.textContent = '';
+        }
+      }
+      // Subject-based style auto-suggestion
+      function updateStyleFromSubject() {
+        const subj = document.getElementById('l-subject').value;
+        const styleEl = document.getElementById('l-style');
+        if (styleEl.dataset.userPicked) return;
+        const map = {
+          'arabic-alphabet':'arabic-script','nahw':'arabic-script','sarf':'arabic-script','khat':'arabic-script',
+          'arabic-fusha':'esl-scaffolded','arabic-egy':'auditory','arabic-lev':'auditory','arabic-gulf':'auditory','arabic-mag':'auditory',
+          'quran-recite':'tajweed-auditory','tajweed-s':'tajweed-auditory','hifz-s':'hifz-memory',
+          'tafsir-s':'interpersonal','seerah-s':'linguistic','fiqh-s':'logical','aqeedah-s':'logical','hadith-s':'logical',
+          'music':'musical','pe':'body','sports':'body','theatre':'body','dance':'body','visual-arts':'spatial','design':'spatial','architecture':'spatial',
+          'environmental':'naturalistic','earth':'naturalistic',
+          'philosophy':'theorist','ethics':'theorist','economics':'logical','politics':'interpersonal',
+          'intro-cs':'activist','python':'activist','javascript':'activist','web':'activist',
+          'entrepreneurship':'pragmatist','accounting':'logical','marketing':'pragmatist','financial-lit':'pragmatist',
+          'critical-thinking':'theorist','media-literacy':'interpersonal','first-aid':'kinesthetic','cooking':'kinesthetic'
+        };
+        if (map[subj]) styleEl.value = map[subj];
+      }
+      document.querySelectorAll('input[name="l-diff"]').forEach(c => c.addEventListener('change', updateStyleSuggestion));
+      document.getElementById('l-style').addEventListener('change', (e) => { e.target.dataset.userPicked = '1'; });
+      document.getElementById('l-subject').addEventListener('change', updateStyleFromSubject);
+
+      document.getElementById('path-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        renderPath(readPath());
+      });
+      document.getElementById('lesson-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        renderLesson(readLesson());
+      });
+
+      // ============ MODE TOGGLE ============
+      document.querySelectorAll('.mode-toggle button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.mode-toggle button').forEach(b => { b.classList.remove('is-active'); b.setAttribute('aria-selected', 'false'); });
+          btn.classList.add('is-active');
+          btn.setAttribute('aria-selected', 'true');
+          document.querySelectorAll('.mode-section').forEach(s => s.classList.remove('is-active'));
+          document.getElementById('mode-' + btn.dataset.mode).classList.add('is-active');
+        });
+      });
+
+      // ============ SAVE / SHARE ============
+      function loadSaved() { try { return JSON.parse(localStorage.getItem(SAVED) || '[]'); } catch { return []; } }
+      function writeSaved(list) { localStorage.setItem(SAVED, JSON.stringify(list)); }
+      function renderSaved() {
+        const list = loadSaved();
+        const el = document.getElementById('saved-list');
+        if (!list.length) { el.innerHTML = '<p style="color:var(--muted);">Nothing saved yet.</p>'; return; }
+        el.innerHTML = '<div class="suggested-grid">' + list.map(p => `
+          <div class="suggested-card" data-id="${esc(p.id)}">
+            <h4>${esc(p.label)}</h4>
+            <p>${esc(p.q.mode)} · ${esc(p.q.subject || p.q.role || '')}</p>
+          </div>`).join('') + '</div>';
+        el.querySelectorAll('.suggested-card').forEach(c => c.addEventListener('click', () => {
+          const item = loadSaved().find(p => p.id === c.dataset.id);
+          if (!item) return;
+          if (item.q.mode === 'path') {
+            document.querySelector('.mode-toggle button[data-mode="path"]').click();
+            renderPath(item.q);
+          } else {
+            document.querySelector('.mode-toggle button[data-mode="lesson"]').click();
+            renderLesson(item.q);
+          }
+        }));
+      }
+      function saveCurrent(modeGetter) {
+        const q = modeGetter();
+        const suggested = q.mode === 'lesson' ? `${q.subject || 'lesson'} · ${q.topic || ''}` : `${q.role || 'path'} · ${q.subject || ''}`;
+        const label = prompt('Name it:', suggested);
+        if (!label) return;
+        const list = loadSaved();
+        list.unshift({ id: 'p-' + Math.random().toString(36).slice(2, 10), label, q });
+        writeSaved(list);
+        renderSaved();
+      }
+      function shareCurrent(modeGetter) {
+        const q = modeGetter();
+        const qs = new URLSearchParams();
+        Object.keys(q).forEach(k => {
+          const v = Array.isArray(q[k]) ? q[k].join(',') : q[k];
+          if (v) qs.set(k, v);
+        });
+        const url = `${location.origin}${location.pathname}?${qs.toString()}`;
+        navigator.clipboard.writeText(url).then(() => alert('Share link copied.'), () => prompt('Copy this link:', url));
+      }
+      document.getElementById('p-save').addEventListener('click', () => saveCurrent(readPath));
+      document.getElementById('l-save').addEventListener('click', () => saveCurrent(readLesson));
+      document.getElementById('p-share').addEventListener('click', () => shareCurrent(readPath));
+      document.getElementById('l-share').addEventListener('click', () => shareCurrent(readLesson));
+      document.getElementById('l-print').addEventListener('click', () => window.print());
+
+      // ============ SUGGESTED PATHS (condensed) ============
+      const templates = [
+        { id:'t1', title:'First-year Grade 3 teacher', desc:'Gentle onboarding for new teachers.', prefill:{ role:'teachers', age:'35', curriculum:'ccss' } },
+        { id:'t2', title:'IB DP Mathematics', desc:'IB syllabus + rubrics + flipped videos.', prefill:{ role:'teachers', age:'912', curriculum:'ib', subject:'calculus' } },
+        { id:'t3', title:'Homeschool Year 1 (ages 6-7)', desc:'Full-day bundle for beginners.', prefill:{ role:'homeschoolers', age:'k2' } },
+        { id:'t4', title:'Dyslexia support (Year 4)', desc:'Specialist supports + UDL template.', prefill:{ role:'accessibility', age:'35', subject:'reading', special:['dyslexia'] } },
+        { id:'t5', title:'Quran hifz club (teens)', desc:'HifzHelper + tajweed + progress tracker.', prefill:{ role:'tutors', age:'68', curriculum:'hifz', subject:'hifz-s' } },
+        { id:'t6', title:'Teach Arabic to adults', desc:'Al-Arabiyya + pronunciation coach + SRS.', prefill:{ role:'tutors', age:'adult', curriculum:'arabic-l2', subject:'arabic-fusha' } },
+        { id:'t7', title:'Egyptian curriculum Grade 5', desc:'MoE-aligned bilingual bundle.', prefill:{ role:'teachers', age:'35', curriculum:'eg' } },
+        { id:'t8', title:'Saudi secondary (V2030)', desc:'Saudi MoE + STEM enrichment.', prefill:{ role:'teachers', age:'912', curriculum:'sa' } },
+        { id:'t9', title:'Al-Azhar integrated stream', desc:'Azhar + Quran + Arabic + modern subjects.', prefill:{ role:'teachers', age:'68', curriculum:'azhar' } },
+        { id:'t10', title:'PhD thesis workflow', desc:'Citations + writing + experiment runner.', prefill:{ role:'researchers', age:'adult' } },
+        { id:'t11', title:'Autism-friendly classroom', desc:'Visual schedules + social stories.', prefill:{ role:'accessibility', age:'35', special:['autism'] } },
+        { id:'t12', title:'Refugee/EAL primary', desc:'Low-bandwidth + multilingual + trauma-informed.', prefill:{ role:'teachers', age:'35', special:['refugee','esl','remote'] } }
+      ];
+      const grid = document.getElementById('suggested-grid');
+      grid.innerHTML = templates.map(t => `
+        <article class="suggested-card" data-id="${esc(t.id)}">
+          <h4>${esc(t.title)}</h4><p>${esc(t.desc)}</p>
+        </article>`).join('');
+      grid.querySelectorAll('.suggested-card').forEach(c => c.addEventListener('click', () => {
+        const t = templates.find(x => x.id === c.dataset.id);
+        if (!t) return;
+        document.querySelector('.mode-toggle button[data-mode="path"]').click();
+        document.getElementById('p-role').value = t.prefill.role || '';
+        document.getElementById('p-curriculum').value = t.prefill.curriculum || '';
+        document.getElementById('p-subject').value = t.prefill.subject || '';
+        document.getElementById('p-age').value = t.prefill.age || '';
+        document.querySelectorAll('input[name="p-special"]').forEach(c => {
+          c.checked = (t.prefill.special || []).includes(c.value);
+        });
+        renderPath({ mode:'path', ...t.prefill, special: t.prefill.special || [] });
+      }));
+
+      // ============ QUICK FIND ============
+      const qf = document.getElementById('qf');
+      const qfRes = document.getElementById('qf-results');
+      qf.addEventListener('input', () => {
+        const q = qf.value.trim().toLowerCase();
+        if (q.length < 2) { qfRes.innerHTML = ''; return; }
+        const subjMatches = subjects.filter(([v,l]) => v && v !== '__grp' && l.toLowerCase().includes(q)).slice(0, 5);
+        const curMatches = curricula.filter(([v,l]) => v && v !== '__grp' && l.toLowerCase().includes(q)).slice(0, 5);
+        const tmpMatches = templates.filter(t => t.title.toLowerCase().includes(q)).slice(0, 3);
+        if (!subjMatches.length && !curMatches.length && !tmpMatches.length) {
+          qfRes.innerHTML = '<p style="color:var(--muted);">No matches — try a different keyword.</p>';
+          return;
+        }
+        qfRes.innerHTML = `
+          ${subjMatches.length ? `<p style="color:var(--accent-2); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; margin:8px 0 4px;">Subjects</p>` : ''}
+          ${subjMatches.map(([v,l]) => `<div class="suggested-card" data-subj="${esc(v)}" style="cursor:pointer; margin-bottom:6px;"><h4>${esc(l)}</h4></div>`).join('')}
+          ${curMatches.length ? `<p style="color:var(--accent-2); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; margin:8px 0 4px;">Curricula</p>` : ''}
+          ${curMatches.map(([v,l]) => `<div class="suggested-card" data-cur="${esc(v)}" style="cursor:pointer; margin-bottom:6px;"><h4>${esc(l)}</h4></div>`).join('')}
+          ${tmpMatches.length ? `<p style="color:var(--accent-2); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; margin:8px 0 4px;">Suggested paths</p>` : ''}
+          ${tmpMatches.map(t => `<div class="suggested-card" data-tmp="${esc(t.id)}" style="cursor:pointer; margin-bottom:6px;"><h4>${esc(t.title)}</h4><p>${esc(t.desc)}</p></div>`).join('')}
+        `;
+        qfRes.querySelectorAll('[data-subj]').forEach(el => el.addEventListener('click', () => {
+          document.getElementById('p-subject').value = el.dataset.subj;
+          document.getElementById('l-subject').value = el.dataset.subj;
+          el.scrollIntoView({ behavior:'smooth' });
+        }));
+        qfRes.querySelectorAll('[data-cur]').forEach(el => el.addEventListener('click', () => {
+          document.getElementById('p-curriculum').value = el.dataset.cur;
+          document.getElementById('l-curriculum').value = el.dataset.cur;
+        }));
+        qfRes.querySelectorAll('[data-tmp]').forEach(el => el.addEventListener('click', () => {
+          const t = templates.find(x => x.id === el.dataset.tmp);
+          if (t) {
+            document.querySelector('.mode-toggle button[data-mode="path"]').click();
+            renderPath({ mode:'path', ...t.prefill, special: t.prefill.special || [] });
+          }
+        }));
+      });
+
+      // Load from URL if present
+      const params = new URLSearchParams(location.search);
+      if (params.get('mode') === 'lesson') {
+        document.querySelector('.mode-toggle button[data-mode="lesson"]').click();
+        ['subject','age','curriculum','topic','bloom','verb','objective','pillar','length'].forEach(k => {
+          const el = document.getElementById('l-' + k);
+          if (el && params.get(k)) el.value = params.get(k);
+        });
+        document.querySelectorAll('input[name="l-diff"]').forEach(c => {
+          c.checked = (params.get('diff') || '').split(',').includes(c.value);
+        });
+        if (params.get('topic')) renderLesson(readLesson());
+      } else if (params.get('role')) {
+        ['role','curriculum','subject','age'].forEach(k => {
+          const el = document.getElementById('p-' + k);
+          if (el && params.get(k)) el.value = params.get(k);
+        });
+        document.querySelectorAll('input[name="p-special"]').forEach(c => {
+          c.checked = (params.get('special') || '').split(',').includes(c.value);
+        });
+        renderPath(readPath());
+      }
+
+      renderSaved();
+    })();
+  </script>
+</body>
+</html>

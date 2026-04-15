@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources — Pathways</title>
+  <meta name="description" content="The world's best education resources, curated: open courseware, Arabic and Quran platforms, special-needs references, datasets, standards, and more — filterable by role and type.">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/resources.css">
+  <script defer src="assets/js/main.js"></script>
+  <style>
+    .filter-row { display: grid; gap: 12px; margin-bottom: 20px; }
+    .filter-row .search-wrap { position: relative; }
+    .filter-row input[type="search"] {
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      font: inherit;
+      font-size: 1rem;
+    }
+    .filter-row input[type="search"]:focus { outline: 2px solid var(--accent); border-color: transparent; }
+    .filter-row .two-selects { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 640px) { .filter-row .two-selects { grid-template-columns: 1fr; } }
+    .filter-row select {
+      padding: 10px 14px;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-btn);
+      font: inherit;
+    }
+    .filter-bar { flex-wrap: wrap; }
+    .result-count { color: var(--muted); font-size: 0.9rem; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo">Pathways</a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="desk.html">Plan a lesson</a>
+        <a href="resources.html" class="is-active">Resources</a>
+        <a href="flipped.html">Flipped</a>
+        <a href="interactive-video.html">Interactive video</a>
+        <a href="lms.html">Export to LMS</a>
+        <a href="docs.html">Docs</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="resources-header">
+      <h1>Resources</h1>
+      <p>The best of the open web — curated. Pick a role, pick a type, or just type what you need. Autocomplete helps you find it faster.</p>
+    </section>
+
+    <article class="spotlight" aria-label="Featured resource">
+      <span class="spotlight-label">Spotlight</span>
+      <h2>The E² Teaching Framework</h2>
+      <div class="spotlight-author">by Dina El Ahl</div>
+      <p class="spotlight-desc">Every Student Has the Right to Understand. A four-pillar framework — Lesson Design, Differentiation, Engagement, Classroom Culture — that powers every flipped video and suggested path on Pathways. Six core beliefs, thirty practical levers, zero tolerance for "they just don't get it."</p>
+      <div class="spotlight-actions">
+        <a href="docs/frameworks.html#e2" class="btn-visit">
+          Read the framework
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 17L17 7"></path>
+            <path d="M7 7h10v10"></path>
+          </svg>
+        </a>
+        <span class="type-pill" data-type="framework">Framework</span>
+      </div>
+    </article>
+
+    <!-- Simple filter row -->
+    <div class="filter-row">
+      <div class="search-wrap">
+        <input type="search" id="resource-search" list="resource-suggestions" placeholder="🔎 Search 60+ resources — try &quot;Khan Academy&quot;, &quot;Quran&quot;, &quot;dyslexia&quot;, &quot;PhET&quot;, &quot;IB math&quot;..." aria-label="Search resources" autocomplete="off" />
+        <datalist id="resource-suggestions">
+          <option value="Khan Academy"></option>
+          <option value="MIT OpenCourseWare"></option>
+          <option value="Coursera"></option>
+          <option value="edX"></option>
+          <option value="FutureLearn"></option>
+          <option value="Duolingo"></option>
+          <option value="BBC Bitesize"></option>
+          <option value="PhET Simulations"></option>
+          <option value="Desmos"></option>
+          <option value="GeoGebra"></option>
+          <option value="Wolfram Alpha"></option>
+          <option value="3Blue1Brown"></option>
+          <option value="CrashCourse"></option>
+          <option value="TED-Ed"></option>
+          <option value="Quran.com"></option>
+          <option value="Tanzil.net"></option>
+          <option value="Corpus Quran"></option>
+          <option value="Bayyinah"></option>
+          <option value="Madinah Arabic"></option>
+          <option value="Understood.org"></option>
+          <option value="CAST UDL"></option>
+          <option value="Reading Rockets"></option>
+          <option value="Project Gutenberg"></option>
+          <option value="Internet Archive"></option>
+          <option value="OER Commons"></option>
+          <option value="Common Core"></option>
+          <option value="IB"></option>
+          <option value="Cambridge"></option>
+          <option value="Al-Azhar"></option>
+          <option value="Saudi MoE"></option>
+          <option value="Egyptian MoE"></option>
+          <option value="WCAG"></option>
+          <option value="FERPA"></option>
+          <option value="GDPR-K"></option>
+          <option value="UDL"></option>
+          <option value="dyslexia"></option>
+          <option value="ADHD"></option>
+          <option value="autism"></option>
+          <option value="gifted"></option>
+          <option value="tajweed"></option>
+          <option value="hifz"></option>
+          <option value="tafsir"></option>
+          <option value="seerah"></option>
+          <option value="fiqh"></option>
+        </datalist>
+      </div>
+
+      <div class="two-selects">
+        <select id="path-filter" aria-label="Filter by role">
+          <option value="all">All roles</option>
+          <option value="teachers">👩‍🏫 Teachers</option>
+          <option value="learners">🎓 Learners</option>
+          <option value="schools">🏫 Schools (K-12)</option>
+          <option value="universities">🎓 Universities</option>
+          <option value="institutions">🏛️ Institutions</option>
+          <option value="parents">👪 Parents</option>
+          <option value="homeschoolers">🏠 Homeschoolers</option>
+          <option value="tutors">🧑‍🏫 Tutors &amp; Mentors</option>
+          <option value="administrators">📋 Administrators</option>
+          <option value="curriculum">🧩 Curriculum Designers</option>
+          <option value="researchers">🔬 Researchers</option>
+          <option value="accessibility">♿ Accessibility &amp; Special Needs</option>
+        </select>
+        <select id="type-filter" aria-label="Filter by type">
+          <option value="all">All types</option>
+          <option value="courseware">📚 Courseware / MOOC</option>
+          <option value="reference">📖 Reference</option>
+          <option value="framework">🗺️ Framework</option>
+          <option value="tool">🛠️ Tool</option>
+          <option value="dataset">📊 Dataset</option>
+          <option value="template">📝 Template</option>
+          <option value="policy">📜 Policy</option>
+          <option value="checklist">✅ Checklist</option>
+          <option value="guide">📘 Guide</option>
+          <option value="video">🎥 Video channel</option>
+          <option value="library">🏛️ Library</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="result-count" id="result-count"></p>
+    <div class="resource-list" id="resource-list" aria-live="polite"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <small>&copy; 2026 Pathways</small>
+      <nav class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="apps.html">Apps</a>
+        <a href="resources.html">Resources</a>
+        <a href="flipped.html">Flipped</a>
+        <a href="path-builder.html">Build a path</a>
+        <a href="docs.html">Docs</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const listEl = document.getElementById('resource-list');
+      const countEl = document.getElementById('result-count');
+      const searchEl = document.getElementById('resource-search');
+      const pathSel = document.getElementById('path-filter');
+      const typeSel = document.getElementById('type-filter');
+
+      const extIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>';
+
+      function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+      // Deep-link: resources.html?path=teachers
+      const params = new URLSearchParams(location.search);
+      if (params.get('path')) pathSel.value = params.get('path');
+      if (params.get('type')) typeSel.value = params.get('type');
+      if (params.get('q')) searchEl.value = params.get('q');
+
+      const resources = [
+        // --- Featured frameworks ---
+        { title:'E² Teaching Framework', author:'Dina El Ahl', type:'framework', description:'Every Student Has the Right to Understand — a four-pillar framework for effective, engaging, equitable teaching.', tags:['e2','pedagogy','teaching'], paths:['teachers','tutors','curriculum','schools','universities'], url:'docs/frameworks.html#e2' },
+        { title:'UDL Guidelines 3.0', author:'CAST', type:'framework', description:'Universal Design for Learning — multiple means of engagement, representation, and action & expression.', tags:['udl','accessibility','inclusion'], paths:['teachers','schools','universities','institutions','accessibility'], url:'https://udlguidelines.cast.org' },
+        { title:"Bloom's Taxonomy", author:'Vanderbilt CFT', type:'framework', description:'Six cognitive levels for targeting the depth of thinking a lesson demands.', tags:['pedagogy','assessment'], paths:['teachers','tutors','curriculum'], url:'docs/frameworks.html#pedagogy' },
+        { title:'SAMR Model', author:'Ruben Puentedura', type:'framework', description:'Evaluate how tech is used in instruction: Substitution, Augmentation, Modification, Redefinition.', tags:['edtech','samr'], paths:['teachers','schools','curriculum'], url:'docs/frameworks.html#pedagogy' },
+        { title:'TPACK', author:'Mishra & Koehler', type:'framework', description:'Intersection of Technological, Pedagogical, and Content Knowledge.', tags:['tpack','edtech'], paths:['teachers','curriculum'], url:'docs/frameworks.html#pedagogy' },
+
+        // --- Open courseware ---
+        { title:'Khan Academy', author:'Khan Academy', type:'courseware', description:'Free K-12 and early university content with mastery practice, videos, and progress tracking. Arabic interface available.', tags:['k12','mastery','free','arabic'], paths:['learners','parents','teachers','homeschoolers'], url:'https://www.khanacademy.org' },
+        { title:'MIT OpenCourseWare', author:'MIT', type:'courseware', description:'Thousands of free university courses with lecture notes, videos, and problem sets.', tags:['open','university','free'], paths:['learners','universities','researchers'], url:'https://ocw.mit.edu' },
+        { title:'Coursera', author:'Coursera', type:'courseware', description:'University and industry courses, many free to audit. Certificates and degrees available.', tags:['mooc','university'], paths:['learners','universities','institutions'], url:'https://www.coursera.org' },
+        { title:'edX', author:'edX', type:'courseware', description:'University-level MOOCs with MicroMasters and MicroBachelors programs.', tags:['mooc','university'], paths:['learners','universities','institutions'], url:'https://www.edx.org' },
+        { title:'FutureLearn', author:'FutureLearn', type:'courseware', description:'Short courses from UK and global universities; strong in humanities and social sciences.', tags:['mooc','university'], paths:['learners','universities'], url:'https://www.futurelearn.com' },
+        { title:'OpenLearn', author:'Open University (UK)', type:'courseware', description:'Free courses and articles from the Open University across every subject.', tags:['open','uk','free'], paths:['learners','homeschoolers'], url:'https://www.open.edu/openlearn' },
+        { title:'CK-12', author:'CK-12 Foundation', type:'courseware', description:'Free K-12 textbooks, videos, and adaptive practice — customizable per learner.', tags:['k12','open','free'], paths:['teachers','learners','homeschoolers'], url:'https://www.ck12.org' },
+        { title:'OER Commons', author:'ISKME', type:'courseware', description:'Global library of openly licensed lesson plans, textbooks, and multimedia.', tags:['oer','open','free'], paths:['teachers','institutions','learners','homeschoolers','curriculum'], url:'https://www.oercommons.org' },
+        { title:'Open Yale Courses', author:'Yale University', type:'courseware', description:'Full Yale undergraduate lecture courses, free to watch.', tags:['open','university','free'], paths:['learners','universities'], url:'https://oyc.yale.edu' },
+        { title:'Stanford Online', author:'Stanford', type:'courseware', description:'Free and paid courses across computer science, engineering, medicine, and humanities.', tags:['university'], paths:['learners','universities'], url:'https://online.stanford.edu' },
+        { title:'Saylor Academy', author:'Saylor', type:'courseware', description:'Free, self-paced, credit-eligible college courses.', tags:['open','free','college-credit'], paths:['learners','institutions'], url:'https://www.saylor.org' },
+        { title:'BBC Bitesize', author:'BBC', type:'courseware', description:'UK curriculum-aligned study guides for KS1–KS4 and GCSE. Rich, free, beautifully made.', tags:['uk','k12','ks3','ks4'], paths:['learners','teachers','parents','homeschoolers'], url:'https://www.bbc.co.uk/bitesize' },
+
+        // --- Math & science tools ---
+        { title:'Desmos', author:'Desmos', type:'tool', description:'Free graphing calculator and classroom activities — the gold standard for teaching graphs.', tags:['math','graphing','free'], paths:['teachers','learners','tutors'], url:'https://www.desmos.com' },
+        { title:'GeoGebra', author:'GeoGebra', type:'tool', description:'Dynamic math software for geometry, algebra, statistics, and calculus — free and open source.', tags:['math','geometry','free'], paths:['teachers','learners','tutors'], url:'https://www.geogebra.org' },
+        { title:'Wolfram Alpha', author:'Wolfram', type:'tool', description:'Computational knowledge engine — answers math, science, and factual queries with steps.', tags:['math','computation'], paths:['learners','researchers','universities'], url:'https://www.wolframalpha.com' },
+        { title:'PhET Interactive Simulations', author:'University of Colorado Boulder', type:'tool', description:'Free, research-backed simulations for physics, chemistry, biology, math, and earth science.', tags:['science','sim','free'], paths:['teachers','learners','homeschoolers'], url:'https://phet.colorado.edu' },
+        { title:'3Blue1Brown', author:'Grant Sanderson', type:'video', description:'Beautiful, intuitive mathematics video series — linear algebra, calculus, and more.', tags:['math','video','free'], paths:['learners','universities'], url:'https://www.3blue1brown.com' },
+        { title:'Brilliant.org', author:'Brilliant', type:'courseware', description:'Interactive STEM courses for problem-solvers — math, CS, data science.', tags:['stem','problem-solving'], paths:['learners','gifted'], url:'https://brilliant.org' },
+        { title:'Art of Problem Solving', author:'AoPS', type:'courseware', description:'Math for strong and gifted learners — olympiad-level problems and community.', tags:['math','gifted','competition'], paths:['learners','homeschoolers'], url:'https://artofproblemsolving.com' },
+        { title:'NASA Education', author:'NASA', type:'library', description:'Lesson plans, posters, data sets, and career resources across STEM.', tags:['science','stem','free'], paths:['teachers','learners','homeschoolers'], url:'https://www.nasa.gov/learning-resources' },
+        { title:'National Geographic Education', author:'National Geographic', type:'library', description:'Lesson plans and multimedia on geography, science, and social studies.', tags:['geography','science'], paths:['teachers','learners','homeschoolers'], url:'https://education.nationalgeographic.org' },
+
+        // --- Video channels ---
+        { title:'TED-Ed', author:'TED', type:'video', description:'Short, animated educational videos with discussion questions and extension resources.', tags:['video','free'], paths:['teachers','learners','tutors'], url:'https://ed.ted.com' },
+        { title:'CrashCourse', author:'Green brothers', type:'video', description:'Entire YouTube curricula on history, biology, chemistry, philosophy, literature, and more.', tags:['video','free'], paths:['learners','teachers'], url:'https://thecrashcourse.com' },
+
+        // --- Language learning (general) ---
+        { title:'Duolingo', author:'Duolingo', type:'tool', description:'Gamified language learning across 40+ languages including Arabic.', tags:['language','arabic','free'], paths:['learners','homeschoolers'], url:'https://www.duolingo.com' },
+        { title:'Busuu', author:'Busuu', type:'tool', description:'Language learning with community corrections from native speakers.', tags:['language'], paths:['learners'], url:'https://www.busuu.com' },
+        { title:'Memrise', author:'Memrise', type:'tool', description:'Spaced-repetition language learning with user-contributed decks.', tags:['language','srs'], paths:['learners'], url:'https://www.memrise.com' },
+        { title:'italki', author:'italki', type:'tool', description:'1:1 language lessons with tutors worldwide — affordable and flexible.', tags:['language','tutoring'], paths:['learners','tutors'], url:'https://www.italki.com' },
+        { title:'Preply', author:'Preply', type:'tool', description:'Language and academic tutoring marketplace, including Arabic and Quran tutors.', tags:['language','tutoring','arabic'], paths:['learners','tutors'], url:'https://preply.com' },
+
+        // --- Arabic specific ---
+        { title:'Madinah Arabic', author:'madinaharabic.com', type:'courseware', description:'Free classical Arabic course (Madinah Books 1-3) for non-native speakers, with audio.', tags:['arabic','non-natives','fusha','free'], paths:['learners','tutors','homeschoolers'], url:'https://www.madinaharabic.com' },
+        { title:'ArabicPod101', author:'Innovative Language', type:'courseware', description:'Audio-first Arabic lessons covering MSA and dialects (Egyptian, Levantine, Moroccan).', tags:['arabic','audio','dialect'], paths:['learners','tutors'], url:'https://www.arabicpod101.com' },
+        { title:'Al-Kitaab Textbook Series', author:'Brustad, Al-Batal, Al-Tonsi', type:'courseware', description:'The standard university-level Arabic-as-a-foreign-language textbook series.', tags:['arabic','university','fusha'], paths:['learners','universities'], url:'https://alkitaabtextbook.com' },
+        { title:'Qutrub Verb Conjugator', author:'Arabeyes', type:'tool', description:'Free Arabic verb conjugation across all tenses and forms.', tags:['arabic','grammar','free'], paths:['learners','tutors'], url:'https://qutrub.arabeyes.org' },
+
+        // --- Quran & Islamic studies ---
+        { title:'Quran.com', author:'Quran.com', type:'library', description:'Clean, fast interface for the Quran with translations, recitations, and tafsir in many languages.', tags:['quran','free','recitation'], paths:['learners','tutors','homeschoolers','parents'], url:'https://quran.com' },
+        { title:'Tanzil', author:'Tanzil Project', type:'library', description:'Authenticated Quran text in multiple scripts and recitations — download-friendly.', tags:['quran','free','research'], paths:['learners','researchers','tutors'], url:'https://tanzil.net' },
+        { title:'Quranic Arabic Corpus', author:'University of Leeds', type:'library', description:'Word-by-word grammatical analysis of the Quran — unmatched for serious study.', tags:['quran','arabic','grammar','research'], paths:['learners','researchers','tutors'], url:'https://corpus.quran.com' },
+        { title:'Bayyinah Institute', author:'Nouman Ali Khan', type:'courseware', description:'Quranic Arabic and tafsir courses designed for non-native English-speaking audiences.', tags:['quran','arabic','tafsir'], paths:['learners','tutors'], url:'https://bayyinah.com' },
+        { title:'Understand Quran Academy', author:'UQA', type:'courseware', description:'Short, structured courses to understand 50% of Quranic Arabic quickly.', tags:['quran','arabic','fast'], paths:['learners','parents','homeschoolers'], url:'https://www.understandquran.com' },
+        { title:'SeekersGuidance', author:'SeekersGuidance', type:'courseware', description:'Free on-demand and live-cohort courses in Islamic studies, Arabic, and spirituality.', tags:['islamic','fiqh','free'], paths:['learners','tutors'], url:'https://seekersguidance.org' },
+        { title:'Al-Islam.org', author:'Ahlul Bayt Digital Islamic Library', type:'library', description:'Large library of Islamic books, articles, and references.', tags:['islamic','library','free'], paths:['learners','researchers'], url:'https://www.al-islam.org' },
+
+        // --- Reading / literacy ---
+        { title:'Reading Rockets', author:'WETA', type:'library', description:'Research-based strategies and videos for teaching reading, with strong dyslexia support.', tags:['reading','literacy','dyslexia'], paths:['teachers','parents','accessibility'], url:'https://www.readingrockets.org' },
+        { title:'Project Gutenberg', author:'Project Gutenberg', type:'library', description:'70,000+ free ebooks in the public domain, in many languages.', tags:['books','free','public-domain'], paths:['learners','universities','parents','homeschoolers'], url:'https://www.gutenberg.org' },
+        { title:'Internet Archive', author:'Internet Archive', type:'library', description:'Free lending library of millions of books, plus audio, video, and web archives.', tags:['library','free','archive'], paths:['learners','researchers','universities'], url:'https://archive.org' },
+        { title:'Library of Congress', author:'LoC', type:'library', description:'Primary sources, digitized collections, and teacher resources from the US national library.', tags:['primary-sources','us'], paths:['teachers','researchers'], url:'https://www.loc.gov/education' },
+
+        // --- Special needs / accessibility ---
+        { title:'Understood.org', author:'Understood', type:'guide', description:'The most comprehensive site for parents of kids with learning and thinking differences (ADHD, dyslexia, dyscalculia, autism).', tags:['sped','dyslexia','adhd','autism'], paths:['parents','teachers','accessibility'], url:'https://www.understood.org' },
+        { title:'ADDitude Magazine', author:'ADDitude', type:'guide', description:'Evidence-informed guidance for ADHD at every age — classroom, home, and workplace.', tags:['adhd','sped'], paths:['parents','teachers','accessibility'], url:'https://www.additudemag.com' },
+        { title:'British Dyslexia Association', author:'BDA', type:'guide', description:'Dyslexia-friendly teaching guides, assessments, and policies.', tags:['dyslexia','sped','uk'], paths:['teachers','parents','accessibility'], url:'https://www.bdadyslexia.org.uk' },
+        { title:'Autism Society', author:'Autism Society', type:'guide', description:'Support, advocacy, and classroom guides for autism across ages.', tags:['autism','sped'], paths:['parents','teachers','accessibility'], url:'https://autismsociety.org' },
+
+        // --- Curriculum references ---
+        { title:'Common Core Standards', author:'Achieve the Core', type:'reference', description:'Browse the Common Core ELA and Math standards by grade with aligned tasks.', tags:['ccss','us','curriculum'], paths:['teachers','schools','curriculum'], url:'https://achievethecore.org' },
+        { title:'Next Generation Science Standards', author:'NGSS Lead States', type:'reference', description:'Three-dimensional US science standards with practice, crosscutting concepts, and core ideas.', tags:['ngss','science','us'], paths:['teachers','schools','curriculum'], url:'https://www.nextgenscience.org' },
+        { title:'IB Programme Resources', author:'International Baccalaureate', type:'reference', description:'Official IB subject guides for PYP, MYP, DP, and CP.', tags:['ib','curriculum','international'], paths:['teachers','schools','universities','curriculum'], url:'https://www.ibo.org' },
+        { title:'Cambridge Syllabus Library', author:'Cambridge Assessment', type:'reference', description:'IGCSE, AS/A Level, and Cambridge Primary/Lower Secondary syllabuses.', tags:['cie','igcse','international'], paths:['teachers','schools','curriculum'], url:'https://www.cambridgeinternational.org' },
+        { title:'UK DfE National Curriculum', author:'UK Department for Education', type:'reference', description:'The statutory curriculum for English state-funded schools, KS1–KS4.', tags:['uk','ks1','ks2','ks3','ks4'], paths:['teachers','schools','curriculum'], url:'https://www.gov.uk/government/collections/national-curriculum' },
+        { title:'ACARA Australian Curriculum', author:'ACARA', type:'reference', description:'Australia\'s F-10 curriculum across all learning areas.', tags:['ab','australia','curriculum'], paths:['teachers','schools','curriculum'], url:'https://www.australiancurriculum.edu.au' },
+        { title:'Egyptian National Curriculum', author:'Egyptian MoE', type:'reference', description:'The post-2018 competency-based Egyptian curriculum, with supporting resources.', tags:['egypt','arabic','curriculum'], paths:['teachers','schools','curriculum'], url:'https://moe.gov.eg' },
+        { title:'Saudi MoE Curriculum', author:'Saudi MoE', type:'reference', description:'Reformed Saudi curriculum aligned to Vision 2030 outcomes.', tags:['saudi','vision-2030','arabic'], paths:['teachers','schools','curriculum'], url:'https://moe.gov.sa' },
+        { title:'Al-Azhar Curriculum', author:'Al-Azhar al-Sharif', type:'reference', description:'The integrated Azhari stream combining modern subjects with Quran, Arabic, and Islamic sciences.', tags:['azhar','islamic','arabic'], paths:['teachers','schools','curriculum'], url:'https://www.azhar.eg' },
+
+        // --- Compliance & privacy ---
+        { title:'FERPA for EdTech Buyers', author:'US Dept. of Education', type:'reference', description:'Plain-language guide to FERPA for anyone deploying EdTech in a US school.', tags:['ferpa','privacy','us'], paths:['schools','institutions','administrators','universities'], url:'docs/frameworks.html#compliance' },
+        { title:'GDPR-K Compliance Checklist', author:'European Schoolnet', type:'checklist', description:'Step-by-step checklist for EU schools handling children\'s personal data.', tags:['gdpr','privacy','eu'], paths:['schools','institutions','administrators'], url:'docs/frameworks.html#compliance' },
+        { title:'WCAG 2.2 Quick Reference', author:'W3C', type:'reference', description:'Filterable list of all WCAG 2.2 success criteria with techniques and failures.', tags:['accessibility','wcag','web'], paths:['schools','institutions','teachers','accessibility'], url:'https://www.w3.org/WAI/WCAG22/quickref' },
+
+        // --- Templates & tools ---
+        { title:'Universal Design Lesson Plan', author:'Pathways', type:'template', description:'UDL-aligned lesson template with accessibility checkpoints.', tags:['udl','template','planning'], paths:['teachers','homeschoolers'], url:'path-builder.html' },
+        { title:'School AI Use Policy Starter', author:'Pathways', type:'policy', description:'Ready-to-adapt policy covering acceptable use of generative AI by students and staff.', tags:['ai','policy','safeguarding'], paths:['schools','institutions','administrators'], url:'docs/frameworks.html#compliance' },
+        { title:'Class Project Kickoff Kit', author:'Pathways', type:'template', description:'Project brief, milestone tracker, and peer-review rubric for student-led projects.', tags:['template','pbl'], paths:['teachers','learners','homeschoolers'], url:'path-builder.html' },
+        { title:'Safeguarding in EdTech Checklist', author:'UNICEF', type:'checklist', description:'Safeguarding-by-design checklist for schools selecting tools that minors will use.', tags:['safeguarding','procurement','children'], paths:['schools','institutions','administrators'], url:'https://www.unicef.org/globalinsight/safeguarding' },
+
+        // --- Datasets & research ---
+        { title:'OECD PISA Data Explorer', author:'OECD', type:'dataset', description:'International assessment data on 15-year-olds across reading, math, and science.', tags:['data','assessment','international'], paths:['researchers','institutions','universities'], url:'https://pisadataexplorer.oecd.org' },
+        { title:'UNESCO Institute for Statistics', author:'UNESCO UIS', type:'dataset', description:'Global education statistics: enrolment, completion, literacy, spend.', tags:['data','international'], paths:['researchers','administrators','institutions'], url:'http://uis.unesco.org' },
+        { title:'World Bank EdStats', author:'World Bank', type:'dataset', description:'Cross-country education indicators and projects database.', tags:['data','international'], paths:['researchers','administrators'], url:'https://datatopics.worldbank.org/education' },
+        { title:'Handbook of Learning Analytics', author:'SoLAR', type:'reference', description:'The definitive open-access handbook on learning analytics methods, ethics, and applications.', tags:['analytics','research'], paths:['researchers','institutions','universities'], url:'https://www.solaresearch.org/publications/hla-22' },
+
+        // --- Parenting ---
+        { title:"A Parent's Guide to Screen Time", author:'Common Sense Media', type:'guide', description:'Evidence-based guidance on balancing screen time by age.', tags:['family','digital-wellness'], paths:['parents'], url:'https://www.commonsensemedia.org' },
+        { title:'Reading Lists by Age', author:'ReadBrightly', type:'reference', description:'Curated book lists for ages 0-18 with themes and difficulty bands.', tags:['reading','family','literacy'], paths:['parents','teachers'], url:'https://www.readbrightly.com' },
+
+        // --- CS / coding ---
+        { title:'Code.org', author:'Code.org', type:'courseware', description:'Free K-12 computer science curriculum and the famous Hour of Code.', tags:['cs','k12','free'], paths:['teachers','learners','homeschoolers'], url:'https://code.org' },
+        { title:'CS50 by Harvard', author:'Harvard', type:'courseware', description:"Harvard's introduction to computer science — free and legendary.", tags:['cs','university','free'], paths:['learners','universities'], url:'https://cs50.harvard.edu' },
+        { title:'freeCodeCamp', author:'freeCodeCamp', type:'courseware', description:'Free interactive coding curriculum with certifications in web dev, data, Python.', tags:['cs','web','free'], paths:['learners'], url:'https://www.freecodecamp.org' },
+        { title:'MDN Web Docs', author:'Mozilla', type:'reference', description:'The reference for web technologies — HTML, CSS, JavaScript, APIs.', tags:['web','reference','free'], paths:['learners','universities'], url:'https://developer.mozilla.org' },
+
+        // --- Writing & research ---
+        { title:'Zotero', author:'Zotero', type:'tool', description:'Free, open-source reference manager with browser capture and citation styles.', tags:['citations','research','free'], paths:['learners','researchers','universities'], url:'https://www.zotero.org' },
+        { title:'Purdue OWL', author:'Purdue University', type:'reference', description:'The standard writing and citation reference for students and academics.', tags:['writing','citations'], paths:['learners','universities'], url:'https://owl.purdue.edu' }
+      ];
+
+      function render() {
+        const q = searchEl.value.trim().toLowerCase();
+        const p = pathSel.value;
+        const t = typeSel.value;
+        const items = resources.filter(r => {
+          if (p !== 'all' && !(r.paths || []).includes(p)) return false;
+          if (t !== 'all' && r.type !== t) return false;
+          if (q) {
+            const hay = [r.title, r.author, r.description, r.type, ...(r.tags||[])].join(' ').toLowerCase();
+            if (!hay.includes(q)) return false;
+          }
+          return true;
+        });
+        countEl.textContent = `${items.length} of ${resources.length} resources`;
+        if (!items.length) {
+          listEl.innerHTML = '<div class="empty-state">Nothing matches — try broadening your filters or the search term.</div>';
+          return;
+        }
+        listEl.innerHTML = items.map(r => `
+          <article class="resource-item">
+            <div class="resource-top">
+              <h3 class="resource-title">${esc(r.title)}</h3>
+              <span class="type-pill" data-type="${esc(r.type)}">${esc(r.type)}</span>
+            </div>
+            <p class="resource-author">${esc(r.author)}</p>
+            <p class="resource-desc">${esc(r.description)}</p>
+            <div class="resource-bottom">
+              <div class="resource-tags">${(r.tags||[]).map(x => `<span class="tag">${esc(x)}</span>`).join('')}</div>
+              <a class="visit-link" href="${esc(r.url)}" ${/^https?:/.test(r.url) ? 'target="_blank" rel="noopener"' : ''}>Visit ${extIcon}</a>
+            </div>
+          </article>
+        `).join('');
+      }
+
+      searchEl.addEventListener('input', render);
+      pathSel.addEventListener('change', render);
+      typeSel.addEventListener('change', render);
+      render();
+    })();
+  </script>
+</body>
+</html>

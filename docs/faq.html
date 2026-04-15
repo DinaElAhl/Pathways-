@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — Pathways Documentation</title>
+  <meta name="description" content="Answers to common questions about Pathways: privacy, licensing, LMS integration, and contributing.">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/docs.css">
+  <script defer src="../assets/js/main.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">Pathways</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#paths">Paths</a>
+        <a href="../apps.html">Apps</a>
+        <a href="../resources.html">Resources</a>
+        <a href="../flipped.html">Flipped</a>
+        <a href="../path-builder.html">Build a path</a>
+        <a href="../docs.html" class="is-active" aria-current="page">Docs</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>FAQ</h1>
+        <p class="lede">Honest answers to the questions teachers, learners, and administrators ask most often.</p>
+      </div>
+    </section>
+
+    <div class="container docs-layout">
+      <aside class="docs-sidebar" aria-label="Documentation navigation">
+        <nav class="docs-nav">
+          <div class="docs-nav-group">
+            <h3 class="docs-nav-heading">Get started</h3>
+            <ul>
+              <li><a href="getting-started.html">Welcome to Pathways</a></li>
+            </ul>
+          </div>
+          <div class="docs-nav-group">
+            <h3 class="docs-nav-heading">Reference</h3>
+            <ul>
+              <li><a href="frameworks.html">Frameworks &amp; standards</a></li>
+              <li><a href="api-reference.html">API reference</a></li>
+            </ul>
+          </div>
+          <div class="docs-nav-group">
+            <h3 class="docs-nav-heading">Help</h3>
+            <ul>
+              <li><a href="faq.html" class="is-active" aria-current="page">FAQ</a></li>
+              <li><a href="#privacy">Privacy &amp; data</a></li>
+              <li><a href="#licensing">Licensing</a></li>
+              <li><a href="#integration">LMS &amp; SIS integration</a></li>
+              <li><a href="#contributing">Contributing</a></li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+
+      <article class="docs-content">
+        <h1>Frequently asked questions</h1>
+
+        <h2 id="privacy"><a href="#privacy" class="anchor" aria-label="Link to this section">#</a> Privacy &amp; data</h2>
+
+        <h3>Is Pathways FERPA / GDPR-K compliant?</h3>
+        <p>Pathways itself is a directory — it does not collect or process student data. Individual apps in the directory vary. Each app listing indicates whether the developer has self-attested to FERPA, GDPR, or GDPR-K handling. For any deployment, review the app's own DPA (Data Processing Agreement) before onboarding students.</p>
+
+        <h3>Do apps on Pathways train AI models on student work?</h3>
+        <p>Apps that use AI must disclose it clearly. The directory's submission review checks for: whether user inputs are used for model training, whether data is retained after deletion, and whether minors' data is segregated. See the <a href="../resources.html?path=schools">School AI Use Policy Starter</a>.</p>
+
+        <h3>Where is data stored?</h3>
+        <p>Depends on the app. Look for the "Data residency" field on each app's detail page. EU-hosted options are filterable via the <code>eu-hosted</code> tag.</p>
+
+        <h2 id="licensing"><a href="#licensing" class="anchor" aria-label="Link to this section">#</a> Licensing</h2>
+
+        <h3>Are the resources free to use in my classroom?</h3>
+        <p>Every resource entry includes a license field. Open licenses (CC BY, CC BY-SA, CC0, MIT, Apache 2.0) mean you can remix and share within the terms of that license. Others may be "all rights reserved" — usable but not redistributable.</p>
+
+        <h3>Can I submit a commercial app?</h3>
+        <p>Yes. Pathways lists both free and paid apps. The submission must be honest about pricing, including whether student accounts are billed separately.</p>
+
+        <h3>What license are Pathways's own templates under?</h3>
+        <p>Pathways-authored templates and checklists (anything attributed to "Pathways" as author) are released under <strong>CC BY 4.0</strong> unless otherwise noted. Attribution: "Pathways, CC BY 4.0."</p>
+
+        <h2 id="integration"><a href="#integration" class="anchor" aria-label="Link to this section">#</a> LMS &amp; SIS integration</h2>
+
+        <h3>Which LMSs do Pathways apps support?</h3>
+        <p>Apps tagged <code>lti-1.3</code> can launch from any LTI 1.3 conformant LMS — Canvas, Moodle 4+, Blackboard Ultra, D2L Brightspace, Schoology, and Google Classroom (via LTI add-on). See <a href="frameworks.html#interop">Frameworks: Interoperability</a>.</p>
+
+        <h3>Can I roster students automatically?</h3>
+        <p>Yes — via OneRoster 1.2. <strong>Attendly</strong> and <strong>Timetabler</strong> read rosters directly; other apps can consume rostering data via the Pathways API.</p>
+
+        <h3>What about xAPI?</h3>
+        <p>Apps tagged <code>xapi</code> emit statements to an LRS of your choice. <strong>InsightsLED</strong> can be used as your LRS front-end if you don't have one.</p>
+
+        <h2 id="contributing"><a href="#contributing" class="anchor" aria-label="Link to this section">#</a> Contributing</h2>
+
+        <h3>How do I submit an app or resource?</h3>
+        <p>See <a href="getting-started.html#submitting">Submitting your work</a> in the getting-started guide. In short: fork the repo, append a JSON entry, open a PR.</p>
+
+        <h3>How are submissions reviewed?</h3>
+        <p>Volunteer reviewers — teachers, ed-tech engineers, and accessibility specialists — check each submission against the review checklist. Typical review turnaround is under a week.</p>
+
+        <h3>I found a broken link or incorrect info. How do I report it?</h3>
+        <p>Open an issue on the public repo, or email <a href="mailto:docs@pathways.example">docs@pathways.example</a>.</p>
+
+        <div class="callout">
+          <span class="callout-title">Still stuck?</span>
+          <p>The <a href="getting-started.html">getting-started guide</a> covers the tour; the <a href="frameworks.html">frameworks reference</a> covers the specs; the <a href="api-reference.html">API reference</a> covers the programmatic surface. If the answer isn't in any of those, <a href="mailto:docs@pathways.example">write to us</a>.</p>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Pathways</p>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="../index.html">Home</a>
+        <a href="../apps.html">Apps</a>
+        <a href="../resources.html">Resources</a>
+        <a href="../flipped.html">Flipped</a>
+        <a href="../path-builder.html">Build a path</a>
+        <a href="../docs.html">Docs</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

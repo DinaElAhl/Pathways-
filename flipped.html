@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flipped Studio — Pathways</title>
+  <meta name="description" content="Paste a video or article link and turn it into an engaging flipped-learning experience with hook, chapters, pause-point checks, and an exit ticket.">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <style>
+    .flipped-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      display: grid;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .flipped-form label {
+      display: grid;
+      gap: 6px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .flipped-form input[type="url"],
+    .flipped-form input[type="text"],
+    .flipped-form textarea,
+    .flipped-form select {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-btn);
+      font: inherit;
+    }
+    .flipped-form textarea { min-height: 80px; resize: vertical; }
+    .flipped-form .row { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 720px) { .flipped-form .row { grid-template-columns: 1fr; } }
+    .flipped-form .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .output {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .output h3 { margin-bottom: 8px; }
+    .output h4 { margin-top: 18px; color: var(--accent-2); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .output ol, .output ul { margin: 8px 0 8px 20px; color: var(--muted); }
+    .output li { margin-bottom: 4px; }
+    .output .meta-pill {
+      display: inline-block;
+      background: rgba(124, 92, 255, 0.1);
+      color: var(--accent);
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-size: 0.78rem;
+      margin-right: 6px;
+    }
+
+    .slots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .slot-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 18px;
+      display: grid;
+      gap: 8px;
+    }
+    .slot-card h4 { font-size: 1rem; color: var(--text); margin: 0; }
+    .slot-card p { font-size: 0.88rem; color: var(--muted); margin: 0; word-break: break-word; }
+    .slot-card .slot-actions { display: flex; gap: 8px; margin-top: 6px; }
+    .slot-card button {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-btn);
+      padding: 6px 12px;
+      font: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .slot-card button:hover { color: var(--text); border-color: #2a3042; }
+    .slot-card .del { color: #ff7878; }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .why-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 18px; }
+    .why-card h4 { color: var(--accent-2); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+
+  <header class="site-nav">
+    <div class="container">
+      <a href="index.html" class="logo">Pathways</a>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="desk.html">Plan a lesson</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="flipped.html" class="is-active">Flipped</a></li>
+          <li><a href="interactive-video.html">Interactive video</a></li>
+          <li><a href="lms.html">Export to LMS</a></li>
+          <li><a href="docs.html">Docs</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="section" style="padding-top:64px;">
+      <div class="container" style="max-width:860px;">
+        <h1>Flipped Studio</h1>
+        <p style="margin-top:12px; font-size:1.1rem;">Paste any video or article link and turn it into an engaging flipped-learning experience — structured on the <a href="docs/frameworks.html#e2">E² Framework's</a> 5-part blueprint: Hook, Teach, Practice, Connect, Reflect.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0;">
+      <div class="container" style="max-width:860px;">
+        <form class="flipped-form" id="flipped-form" aria-label="Flip a link">
+          <label>
+            Source link
+            <input type="url" id="f-url" required placeholder="https://youtube.com/watch?v=... or https://example.com/article" />
+          </label>
+          <div class="row">
+            <label>
+              Lesson title
+              <input type="text" id="f-title" required placeholder="Photosynthesis: From sunlight to sugar" />
+            </label>
+            <label>
+              Subject
+              <input type="text" id="f-subject" placeholder="Biology · Year 8" />
+            </label>
+          </div>
+          <div class="row">
+            <label>
+              Age / year level
+              <select id="f-age">
+                <option value="K-2">K-2 (ages 5-7)</option>
+                <option value="3-5">Grade 3-5 (ages 8-10)</option>
+                <option value="6-8" selected>Grade 6-8 (ages 11-13)</option>
+                <option value="9-12">Grade 9-12 (ages 14-18)</option>
+                <option value="univ">University / adult</option>
+                <option value="professional">Professional / CPD</option>
+              </select>
+            </label>
+            <label>
+              Learning objective
+              <input type="text" id="f-objective" placeholder="Students will be able to explain…" />
+            </label>
+          </div>
+          <label>
+            Key vocabulary (comma-separated, optional)
+            <input type="text" id="f-vocab" placeholder="chloroplast, glucose, chlorophyll" />
+          </label>
+          <div class="actions">
+            <button type="submit" class="btn btn-primary">Flip this link</button>
+            <button type="button" class="btn btn-ghost" id="f-example">Fill example</button>
+          </div>
+        </form>
+
+        <div id="output" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section" id="slots">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2>Your flipped slots</h2>
+            <p>Saved locally to this browser. Organise them by class or unit; copy a slot's link to share with students.</p>
+          </div>
+          <button type="button" class="btn btn-ghost" id="clear-slots">Clear all slots</button>
+        </div>
+        <div id="slots-grid" class="slots-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section" id="why">
+      <div class="container" style="max-width:900px;">
+        <h2>Why Flipped Studio looks like this</h2>
+        <p style="margin-bottom:20px;">Flipping isn't just "watch this at home." Real flipped learning structures the experience so students come to class primed, curious, and ready to do the hard cognitive work <em>with</em> the teacher. Flipped Studio follows the <a href="docs/frameworks.html#e2-design">E² 5-part blueprint</a>:</p>
+        <div class="why-grid">
+          <div class="why-card"><h4>Hook (2 min)</h4><p>A curiosity-sparking question or scenario so watching feels like it matters.</p></div>
+          <div class="why-card"><h4>Teach (10-15 min)</h4><p>Chunked content delivery with chapter markers so students can rewatch the exact part they missed.</p></div>
+          <div class="why-card"><h4>Practice (15-20 min)</h4><p>Pause-point checks and guided questions — active, not passive watching.</p></div>
+          <div class="why-card"><h4>Connect (5 min)</h4><p>Real-world tie-ins that answer "why does this matter to me?"</p></div>
+          <div class="why-card"><h4>Reflect (5 min)</h4><p>An exit ticket that lets students show they understood — and flags what they didn't.</p></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; 2026 Pathways</span>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="apps.html">Apps</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="flipped.html">Flipped</a></li>
+        <li><a href="path-builder.html">Build a path</a></li>
+        <li><a href="docs.html">Docs</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = 'pathways.flipped.slots.v1';
+      const form = document.getElementById('flipped-form');
+      const output = document.getElementById('output');
+      const slotsGrid = document.getElementById('slots-grid');
+      const clearBtn = document.getElementById('clear-slots');
+      const exampleBtn = document.getElementById('f-example');
+
+      const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+      // --- Rule-based generator (no fake AI) ---
+      function detectSource(url) {
+        try {
+          const u = new URL(url);
+          if (/youtube\.com|youtu\.be/.test(u.hostname)) return 'YouTube video';
+          if (/vimeo\.com/.test(u.hostname)) return 'Vimeo video';
+          if (/\.mp4$/i.test(u.pathname)) return 'Hosted video';
+          if (/\.pdf$/i.test(u.pathname)) return 'PDF document';
+          return 'Article / web page';
+        } catch { return 'External resource'; }
+      }
+
+      function generate(input) {
+        const source = detectSource(input.url);
+        const vocab = (input.vocab || '').split(',').map(s => s.trim()).filter(Boolean);
+
+        const hook = `Before opening the link, jot down one question you hope this ${source.toLowerCase()} will answer about "${input.title}."`;
+
+        const chapters = [
+          '00:00 — Orientation: what is this about?',
+          '02:00 — Core idea #1 (pause and write it in your own words)',
+          '05:00 — Core idea #2 (sketch it as a diagram)',
+          '08:00 — Worked example',
+          '11:00 — Common misconception corrected',
+          '14:00 — Wrap-up and takeaway'
+        ];
+
+        const checks = [
+          `At 02:00 — In one sentence, what is the main claim so far?`,
+          `At 05:00 — List two pieces of evidence the source gives for its claim.`,
+          `At 08:00 — Try the worked example yourself before continuing.`,
+          `At 11:00 — What mistake does the source say is common, and why?`
+        ];
+
+        const connect = [
+          `Where have you seen "${input.title}" show up in your own life this week?`,
+          input.subject ? `Name one concept from ${input.subject} this connects to.` : `Name one other topic this connects to.`,
+          `If you had to explain this to a younger sibling in one sentence, what would you say?`
+        ];
+
+        const exit = [
+          input.objective ? `Restate today's objective in your own words: "${input.objective}"` : `In 1-2 sentences, what did you learn?`,
+          `Rate your understanding: 🔴 unclear · 🟡 getting there · 🟢 confident.`,
+          `Write one question you still have. Bring it to class tomorrow.`
+        ];
+
+        return { source, hook, chapters, checks, vocab, connect, exit };
+      }
+
+      // --- Render one generated lesson ---
+      function renderOutput(input, gen) {
+        output.innerHTML = `
+          <article class="output">
+            <div>
+              <span class="meta-pill">${esc(gen.source)}</span>
+              <span class="meta-pill">${esc(input.age)}</span>
+              ${input.subject ? `<span class="meta-pill">${esc(input.subject)}</span>` : ''}
+            </div>
+            <h3 style="margin-top:12px;">${esc(input.title)}</h3>
+            <p><a href="${esc(input.url)}" target="_blank" rel="noopener">${esc(input.url)}</a></p>
+
+            <h4>Hook (2 min)</h4>
+            <p>${esc(gen.hook)}</p>
+
+            <h4>Teach — chapter markers</h4>
+            <ol>${gen.chapters.map(c => `<li>${esc(c)}</li>`).join('')}</ol>
+
+            <h4>Practice — pause-point checks</h4>
+            <ol>${gen.checks.map(c => `<li>${esc(c)}</li>`).join('')}</ol>
+
+            ${gen.vocab.length ? `<h4>Key vocabulary</h4><ul>${gen.vocab.map(v => `<li>${esc(v)}</li>`).join('')}</ul>` : ''}
+
+            <h4>Connect (5 min)</h4>
+            <ul>${gen.connect.map(c => `<li>${esc(c)}</li>`).join('')}</ul>
+
+            <h4>Reflect — exit ticket</h4>
+            <ol>${gen.exit.map(c => `<li>${esc(c)}</li>`).join('')}</ol>
+
+            <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-primary" id="save-slot">Save to slot</button>
+              <button type="button" class="btn btn-ghost" id="copy-plain">Copy as text</button>
+            </div>
+          </article>
+        `;
+
+        document.getElementById('save-slot').addEventListener('click', () => {
+          saveSlot({ ...input, gen, createdAt: Date.now() });
+        });
+        document.getElementById('copy-plain').addEventListener('click', () => {
+          const text = buildPlainText(input, gen);
+          navigator.clipboard.writeText(text).then(
+            () => alert('Copied to clipboard.'),
+            () => alert('Could not copy — select and copy the text yourself.')
+          );
+        });
+      }
+
+      function buildPlainText(input, gen) {
+        return [
+          `FLIPPED LESSON: ${input.title}`,
+          `Source: ${input.url}  (${gen.source})`,
+          input.subject ? `Subject: ${input.subject}` : '',
+          `Age: ${input.age}`,
+          input.objective ? `Objective: ${input.objective}` : '',
+          '',
+          '== HOOK (2 min) ==',
+          gen.hook,
+          '',
+          '== TEACH — chapters ==',
+          ...gen.chapters.map((c,i) => `${i+1}. ${c}`),
+          '',
+          '== PRACTICE — pause-point checks ==',
+          ...gen.checks.map((c,i) => `${i+1}. ${c}`),
+          gen.vocab.length ? '\n== KEY VOCAB ==\n' + gen.vocab.join(', ') : '',
+          '',
+          '== CONNECT (5 min) ==',
+          ...gen.connect.map(c => '- ' + c),
+          '',
+          '== REFLECT — exit ticket ==',
+          ...gen.exit.map((c,i) => `${i+1}. ${c}`)
+        ].filter(Boolean).join('\n');
+      }
+
+      // --- Slots (localStorage) ---
+      function loadSlots() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+        catch { return []; }
+      }
+      function saveSlots(slots) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(slots));
+      }
+      function saveSlot(slot) {
+        const slots = loadSlots();
+        slot.id = 'slot-' + Math.random().toString(36).slice(2, 10);
+        slots.unshift(slot);
+        saveSlots(slots);
+        renderSlots();
+        alert('Saved. Scroll down to "Your flipped slots" to see it.');
+      }
+      function removeSlot(id) {
+        saveSlots(loadSlots().filter(s => s.id !== id));
+        renderSlots();
+      }
+      function renderSlots() {
+        const slots = loadSlots();
+        if (!slots.length) {
+          slotsGrid.innerHTML = '<p style="color:var(--muted);">No flipped slots yet. Generate one above and click "Save to slot".</p>';
+          return;
+        }
+        slotsGrid.innerHTML = slots.map(s => `
+          <article class="slot-card" data-id="${esc(s.id)}">
+            <h4>${esc(s.title || 'Untitled')}</h4>
+            <p><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></p>
+            <p style="font-size:0.78rem;">${esc(s.subject || '')} · ${esc(s.age || '')}</p>
+            <div class="slot-actions">
+              <button type="button" data-act="view">View</button>
+              <button type="button" data-act="copy">Copy text</button>
+              <button type="button" class="del" data-act="del">Delete</button>
+            </div>
+          </article>
+        `).join('');
+
+        slotsGrid.querySelectorAll('.slot-card').forEach(card => {
+          const id = card.dataset.id;
+          card.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const slot = loadSlots().find(s => s.id === id);
+              if (!slot) return;
+              if (btn.dataset.act === 'view') {
+                renderOutput(slot, slot.gen);
+                document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
+              } else if (btn.dataset.act === 'copy') {
+                navigator.clipboard.writeText(buildPlainText(slot, slot.gen)).then(
+                  () => alert('Copied.'),
+                  () => alert('Copy failed.')
+                );
+              } else if (btn.dataset.act === 'del') {
+                if (confirm('Delete this slot?')) removeSlot(id);
+              }
+            });
+          });
+        });
+      }
+
+      clearBtn.addEventListener('click', () => {
+        if (confirm('Delete ALL flipped slots in this browser?')) {
+          saveSlots([]);
+          renderSlots();
+        }
+      });
+
+      exampleBtn.addEventListener('click', () => {
+        document.getElementById('f-url').value = 'https://www.youtube.com/watch?v=CMiSoEuDmP8';
+        document.getElementById('f-title').value = 'Photosynthesis: From sunlight to sugar';
+        document.getElementById('f-subject').value = 'Biology · Year 8';
+        document.getElementById('f-age').value = '6-8';
+        document.getElementById('f-objective').value = 'Explain how plants convert light energy into chemical energy.';
+        document.getElementById('f-vocab').value = 'chloroplast, glucose, chlorophyll, ATP';
+      });
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = {
+          url: document.getElementById('f-url').value.trim(),
+          title: document.getElementById('f-title').value.trim(),
+          subject: document.getElementById('f-subject').value.trim(),
+          age: document.getElementById('f-age').value,
+          objective: document.getElementById('f-objective').value.trim(),
+          vocab: document.getElementById('f-vocab').value.trim()
+        };
+        const gen = generate(input);
+        renderOutput(input, gen);
+        document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      renderSlots();
+    })();
+  </script>
+</body>
+</html>

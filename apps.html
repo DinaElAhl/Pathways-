@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apps — Pathways</title>
+  <meta name="description" content="Browse the Pathways directory of apps for every education role: classroom, lesson planning, assessment, study, administration, accessibility, Arabic, Quran, and more.">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/apps.css">
+  <script defer src="assets/js/main.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="brand">Pathways</a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#paths">Paths</a>
+        <a href="apps.html" class="is-active" aria-current="page">Apps</a>
+        <a href="resources.html">Resources</a>
+        <a href="flipped.html">Flipped</a>
+        <a href="path-builder.html">Build a path</a>
+        <a href="docs.html">Docs</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-header">
+      <h1>Apps</h1>
+      <p>Focused tools for every role in education — from K-12 classrooms and universities to homeschooling, Arabic language learning, Quran studies, and special-needs support. Filter by category or search.</p>
+    </section>
+
+    <section class="filter-bar" aria-label="Filter apps">
+      <input type="search" id="app-search" class="search-input" placeholder="Search apps by name, description, or tag (try &quot;dyslexia&quot;, &quot;tajweed&quot;, &quot;rubric&quot;)..." aria-label="Search apps">
+      <div class="chips" id="category-chips" role="tablist">
+        <button class="chip is-active" data-category="All" type="button">All</button>
+        <button class="chip" data-category="Lesson Planning" type="button">Lesson Planning</button>
+        <button class="chip" data-category="Assessment" type="button">Assessment</button>
+        <button class="chip" data-category="Classroom" type="button">Classroom</button>
+        <button class="chip" data-category="Study" type="button">Study</button>
+        <button class="chip" data-category="Administration" type="button">Administration</button>
+        <button class="chip" data-category="Communication" type="button">Communication</button>
+        <button class="chip" data-category="Accessibility" type="button">Accessibility</button>
+        <button class="chip" data-category="Analytics" type="button">Analytics</button>
+        <button class="chip" data-category="Arabic" type="button">Arabic</button>
+        <button class="chip" data-category="Quran &amp; Islamic" type="button">Quran &amp; Islamic</button>
+      </div>
+    </section>
+
+    <section id="app-grid" class="app-grid" aria-live="polite"></section>
+
+    <section class="submit-cta">
+      <div>
+        <h2>Built an app that helps teachers or learners?</h2>
+        <p>Submit it to the Pathways directory. We feature tools that are accessible, privacy-respecting, and genuinely useful.</p>
+      </div>
+      <a href="docs/getting-started.html#submitting">Submit your app</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <span>© 2026 Pathways</span>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="apps.html">Apps</a>
+        <a href="resources.html">Resources</a>
+        <a href="flipped.html">Flipped</a>
+        <a href="path-builder.html">Build a path</a>
+        <a href="docs.html">Docs</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const grid = document.getElementById('app-grid');
+      const search = document.getElementById('app-search');
+      const chips = document.getElementById('category-chips');
+      let apps = [];
+      let activeCategory = 'All';
+
+      const escape = (s) => String(s).replace(/[&<>"']/g, (c) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+
+      function render() {
+        const q = search.value.trim().toLowerCase();
+        const list = apps.filter((a) => {
+          const inCat = activeCategory === 'All' || a.category === activeCategory;
+          const inQ = !q || a.name.toLowerCase().includes(q) || a.description.toLowerCase().includes(q) || a.tags.some(t => t.toLowerCase().includes(q));
+          return inCat && inQ;
+        });
+        if (!list.length) {
+          grid.innerHTML = '<div class="empty-state">No apps match your filters yet. Try a different category or search.</div>';
+          return;
+        }
+        grid.innerHTML = list.map((a) => `
+          <article class="app-card">
+            <div class="app-card__head">
+              <span class="app-card__icon" aria-hidden="true">${escape(a.icon)}</span>
+              <span class="app-card__pill">${escape(a.category)}</span>
+            </div>
+            <h3 class="app-card__name">${escape(a.name)}</h3>
+            <p class="app-card__desc">${escape(a.description)}</p>
+            <div class="app-card__tags">${a.tags.map((t) => `<span class="app-card__tag">${escape(t)}</span>`).join('')}</div>
+            <a class="app-card__open" href="${escape(a.url)}">Open</a>
+          </article>
+        `).join('');
+      }
+
+      chips.addEventListener('click', (e) => {
+        const btn = e.target.closest('.chip');
+        if (!btn) return;
+        chips.querySelectorAll('.chip').forEach((c) => c.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        activeCategory = btn.dataset.category;
+        render();
+      });
+      search.addEventListener('input', render);
+
+      apps = [
+        {"id":"lessonloom","name":"LessonLoom","category":"Lesson Planning","description":"Build standards-aligned lesson plans from a prompt, auto-generate worksheets, and share with your grade team. Supports E² blueprint by default.","tags":["teachers","planning","e2","standards"],"icon":"📘","url":"docs/getting-started.html#teachers"},
+        {"id":"quizforge","name":"QuizForge","category":"Assessment","description":"Create auto-graded quizzes, exit tickets, and formative checks with QTI-compatible question banks.","tags":["teachers","quiz","qti","formative"],"icon":"📝","url":"docs/getting-started.html#teachers"},
+        {"id":"flashflow","name":"FlashFlow","category":"Study","description":"Spaced-repetition flashcards with audio, image occlusion, Arabic script support, and shared decks.","tags":["learners","srs","flashcards","arabic"],"icon":"🃏","url":"docs/getting-started.html#learners"},
+        {"id":"classroomcompass","name":"ClassroomCompass","category":"Classroom","description":"Seat maps, behaviour trackers, random picker, timers and group makers — all the in-lesson essentials.","tags":["teachers","classroom","behaviour"],"icon":"🧭","url":"docs/getting-started.html#teachers"},
+        {"id":"gradegrove","name":"GradeGrove","category":"Assessment","description":"A private gradebook with rubric-based marking, standards tracking, and parent-ready report export.","tags":["teachers","gradebook","rubric"],"icon":"📊","url":"docs/getting-started.html#teachers"},
+        {"id":"timetabler","name":"Timetabler","category":"Administration","description":"Constraint-solver that generates conflict-free school and university timetables.","tags":["schools","universities","timetabling","ops"],"icon":"🗓️","url":"docs/getting-started.html#schools"},
+        {"id":"attendly","name":"Attendly","category":"Administration","description":"Take attendance in ten seconds per class, with automatic absence notifications to parents.","tags":["schools","attendance","notifications"],"icon":"✅","url":"docs/getting-started.html#schools"},
+        {"id":"parentline","name":"ParentLine","category":"Communication","description":"Two-way messaging between teachers and parents with translation into 40+ languages including Arabic.","tags":["parents","communication","translation","arabic"],"icon":"💬","url":"docs/getting-started.html#parents"},
+        {"id":"mindmapr","name":"MindMapr","category":"Study","description":"Collaborative concept maps for note-taking, revision, and group projects — exportable to PDF and Anki.","tags":["learners","notes","collaboration"],"icon":"🧠","url":"docs/getting-started.html#learners"},
+        {"id":"readability","name":"ReadAbility","category":"Accessibility","description":"Dyslexia-friendly formatting, text-to-speech, phoneme breakdowns, and Arabic vowel marks (tashkeel).","tags":["accessibility","dyslexia","literacy","tts","arabic"],"icon":"🔤","url":"docs/frameworks.html#accessibility"},
+        {"id":"pronouncepal","name":"PronouncePal","category":"Accessibility","description":"AI pronunciation coach with waveform feedback for language learners — supports Arabic makharij and tajweed.","tags":["language","speech","accessibility","arabic","tajweed"],"icon":"🗣️","url":"docs/frameworks.html#accessibility"},
+        {"id":"labsafe","name":"LabSafe","category":"Classroom","description":"Interactive safety briefings for science labs and workshops with quiz sign-off.","tags":["schools","safety","science"],"icon":"🧪","url":"docs/getting-started.html#schools"},
+        {"id":"citeright","name":"CiteRight","category":"Study","description":"Reference manager for students and researchers — APA, MLA, Chicago, Harvard, and Arabic citation styles.","tags":["learners","researchers","citations","arabic"],"icon":"📚","url":"docs/getting-started.html#learners"},
+        {"id":"insightsled","name":"InsightsLED","category":"Analytics","description":"Learning analytics dashboard that surfaces at-risk students using xAPI events from your LMS.","tags":["institutions","universities","analytics","xapi"],"icon":"📈","url":"docs/frameworks.html#interop"},
+        {"id":"rubricraft","name":"RubricRaft","category":"Assessment","description":"Build, share, and reuse analytic rubrics that work in Canvas, Moodle, and Google Classroom.","tags":["teachers","rubric","lms","lti"],"icon":"🧾","url":"docs/frameworks.html#interop"},
+        {"id":"homeworkhero","name":"HomeworkHero","category":"Study","description":"Homework tracker for learners with parent view, gentle reminders, and study-session timers.","tags":["learners","parents","homework"],"icon":"🦸","url":"docs/getting-started.html#learners"},
+        {"id":"policyforge","name":"PolicyForge","category":"Administration","description":"Assemble safeguarding, AI-use, and data-protection policies from vetted institutional templates.","tags":["schools","institutions","universities","compliance"],"icon":"📜","url":"docs/frameworks.html#compliance"},
+        {"id":"openlecture","name":"OpenLecture","category":"Classroom","description":"Record, caption, and publish lectures with searchable transcripts and chapter markers. Arabic captions supported.","tags":["universities","video","captions","arabic"],"icon":"🎥","url":"docs/getting-started.html#institutions"},
+        {"id":"studybuddy","name":"StudyBuddy","category":"Study","description":"AI study partner that quizzes you on your own notes using the Socratic method — no answers handed over.","tags":["learners","ai","socratic"],"icon":"🤖","url":"docs/getting-started.html#learners"},
+        {"id":"signalpath","name":"SignalPath","category":"Analytics","description":"Researcher-friendly experiment runner for A/B testing pedagogical interventions in classrooms.","tags":["researchers","experiments","analytics"],"icon":"🧬","url":"docs/getting-started.html#researchers"},
+        {"id":"hifz-helper","name":"HifzHelper","category":"Quran &amp; Islamic","description":"Quran memorization tracker with mutashabihat (similar-verse) hints, murajaah cycles, and teacher ijazah logging.","tags":["quran","hifz","memorization","islamic"],"icon":"📖","url":"docs/frameworks.html#arabic"},
+        {"id":"tajweed-trainer","name":"TajweedTrainer","category":"Quran &amp; Islamic","description":"Tajweed rules practice with audio comparison to qaris. Covers all rules of Hafs 'an 'Asim with other qira'at extensions.","tags":["quran","tajweed","recitation","islamic"],"icon":"🎙️","url":"docs/frameworks.html#arabic"},
+        {"id":"tafsir-lens","name":"TafsirLens","category":"Quran &amp; Islamic","description":"Side-by-side classical (Ibn Kathir, al-Tabari, al-Qurtubi) and modern tafsir with age-banded student versions.","tags":["quran","tafsir","islamic"],"icon":"🔎","url":"docs/frameworks.html#arabic"},
+        {"id":"seerah-path","name":"SeerahPath","category":"Quran &amp; Islamic","description":"Interactive life-of-the-Prophet ﷺ timeline with age-appropriate tracks from K-12 to adult.","tags":["islamic","seerah","history"],"icon":"🕌","url":"docs/frameworks.html#arabic"},
+        {"id":"arabic-alif","name":"AlifBuilder","category":"Arabic","description":"Arabic alphabet + reading for absolute beginners. From letter recognition to full words with tashkeel.","tags":["arabic","beginners","a1","non-natives"],"icon":"ا","url":"docs/frameworks.html#arabic"},
+        {"id":"fusha-flow","name":"FushaFlow","category":"Arabic","description":"Modern Standard Arabic (Fusha) for non-natives, CEFR-aligned A1 to C2 with grammar-in-context.","tags":["arabic","fusha","cefr","non-natives"],"icon":"📚","url":"docs/frameworks.html#arabic"},
+        {"id":"dialect-match","name":"DialectMatch","category":"Arabic","description":"Diglossia-aware: pick a spoken dialect (Egyptian, Levantine, Gulf, Maghrebi) alongside your Fusha track.","tags":["arabic","dialect","spoken"],"icon":"🗨️","url":"docs/frameworks.html#arabic"},
+        {"id":"khat-practice","name":"KhatPractice","category":"Arabic","description":"Arabic handwriting practice for Ruq'ah and Naskh scripts with stroke-order hints.","tags":["arabic","handwriting","calligraphy"],"icon":"✍️","url":"docs/frameworks.html#arabic"},
+        {"id":"madrasa-ops","name":"MadrasaOps","category":"Administration","description":"Admin + fee management purpose-built for Islamic schools, madaris, and Quran academies.","tags":["schools","administrators","islamic","admin"],"icon":"🏫","url":"docs/getting-started.html#schools"},
+        {"id":"gifted-forge","name":"GiftedForge","category":"Classroom","description":"Extension tasks and enrichment modules for gifted learners, banded by age and depth.","tags":["teachers","gifted","enrichment"],"icon":"✨","url":"docs/getting-started.html#teachers"},
+        {"id":"autism-cue","name":"AutismCue","category":"Accessibility","description":"Visual schedules, social stories, and sensory-break reminders for autism support — editable by teachers and parents.","tags":["accessibility","autism","sped"],"icon":"🧩","url":"docs/frameworks.html#accessibility"},
+        {"id":"focusfence","name":"FocusFence","category":"Accessibility","description":"ADHD-friendly work timers with distraction guards, body-doubling mode, and task chunking.","tags":["accessibility","adhd","focus"],"icon":"⏳","url":"docs/frameworks.html#accessibility"}
+      ];
+      render();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API reference — Pathways Documentation</title>
+  <meta name="description" content="HTTP API reference for the Pathways directory: apps, resources, paths, and frameworks.">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/docs.css">
+  <script defer src="../assets/js/main.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">Pathways</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#paths">Paths</a>
+        <a href="../apps.html">Apps</a>
+        <a href="../resources.html">Resources</a>
+        <a href="../flipped.html">Flipped</a>
+        <a href="../path-builder.html">Build a path</a>
+        <a href="../docs.html" class="is-active" aria-current="page">Docs</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>API reference</h1>
+        <p class="lede">HTTP endpoints for the Pathways directory: apps, resources, paths, and frameworks. Public, read-only, rate-limited.</p>
+      </div>
+    </section>
+
+    <div class="container docs-layout">
+      <aside class="docs-sidebar" aria-label="Documentation navigation">
+        <nav class="docs-nav">
+          <div class="docs-nav-group">
+            <h3 class="docs-nav-heading">Get started</h3>
+            <ul>
+              <li><a href="getting-started.html">Welcome to Pathways</a></li>
+            </ul>
+          </div>
+          <div class="docs-nav-group">
+            <h3 class="docs-nav-heading">Reference</h3>
+            <ul>
+              <li><a href="frameworks.html">Frameworks &amp; standards</a></li>
+              <li><a href="api-reference.html" class="is-active" aria-current="page">API reference</a></li>
+              <li><a href="#auth">Authentication</a></li>
+              <li><a href="#apps">Apps endpoints</a></li>
+              <li><a href="#resources">Resources endpoints</a></li>
+              <li><a href="#paths">Paths endpoint</a></li>
+              <li><a href="#errors">Errors</a></li>
+            </ul>
+          </div>
+          <div class="docs-nav-group">
+            <h3 class="docs-nav-heading">Help</h3>
+            <ul>
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+
+      <article class="docs-content">
+        <h1>API reference</h1>
+        <p>The Pathways API is read-only and serves the same data that powers the directory. Base URL:</p>
+        <pre><code>https://api.pathways.example/v1</code></pre>
+
+        <h2 id="auth"><a href="#auth" class="anchor" aria-label="Link to this section">#</a> Authentication</h2>
+        <p>Public endpoints require no auth. Institutional endpoints (rostering, xAPI forwarding) use OAuth 2.0 client-credentials; request a client ID at <a href="mailto:api@pathways.example">api@pathways.example</a>.</p>
+
+        <h2 id="apps"><a href="#apps" class="anchor" aria-label="Link to this section">#</a> Apps</h2>
+
+        <h3>GET /apps</h3>
+        <p>List all apps. Supports filtering and pagination.</p>
+        <h4>Query parameters</h4>
+        <ul>
+          <li><code>category</code> — <code>Lesson Planning</code>, <code>Assessment</code>, <code>Classroom</code>, <code>Study</code>, <code>Administration</code>, <code>Communication</code>, <code>Accessibility</code>, <code>Analytics</code></li>
+          <li><code>path</code> — <code>teachers</code>, <code>learners</code>, <code>schools</code>, <code>institutions</code>, <code>parents</code>, <code>researchers</code></li>
+          <li><code>tag</code> — any tag string (repeatable)</li>
+          <li><code>q</code> — full-text search across name, description, and tags</li>
+          <li><code>page</code> (default <code>1</code>), <code>per_page</code> (default <code>20</code>, max <code>100</code>)</li>
+        </ul>
+
+        <h4>Example</h4>
+        <pre><code>GET /v1/apps?category=Assessment&amp;path=teachers&amp;per_page=5</code></pre>
+
+        <h4>Response</h4>
+        <pre><code>{
+  "data": [
+    {
+      "id": "quizforge",
+      "name": "QuizForge",
+      "category": "Assessment",
+      "description": "Create auto-graded quizzes...",
+      "tags": ["teachers", "quiz", "formative"],
+      "icon": "📝",
+      "url": "/apps/quizforge.html",
+      "standards": ["qti-3.0", "lti-1.3"]
+    }
+  ],
+  "page": 1,
+  "per_page": 5,
+  "total": 1
+}</code></pre>
+
+        <h3>GET /apps/{id}</h3>
+        <p>Return a single app by its <code>id</code>. Returns <code>404</code> if not found.</p>
+
+        <h2 id="resources"><a href="#resources" class="anchor" aria-label="Link to this section">#</a> Resources</h2>
+
+        <h3>GET /resources</h3>
+        <p>List resources. Same pagination conventions as <code>/apps</code>.</p>
+        <h4>Query parameters</h4>
+        <ul>
+          <li><code>type</code> — <code>template</code>, <code>policy</code>, <code>framework</code>, <code>courseware</code>, <code>dataset</code>, <code>guide</code>, <code>reference</code>, <code>checklist</code>, <code>cheatsheet</code>, <code>tool</code></li>
+          <li><code>path</code> — same set as apps</li>
+          <li><code>license</code> — SPDX identifier (e.g. <code>CC-BY-4.0</code>, <code>MIT</code>)</li>
+          <li><code>q</code> — full-text search</li>
+        </ul>
+
+        <h3>GET /resources/{id}</h3>
+        <p>Return a single resource by its <code>id</code>.</p>
+
+        <h2 id="paths"><a href="#paths" class="anchor" aria-label="Link to this section">#</a> Paths</h2>
+
+        <h3>GET /paths</h3>
+        <p>List the six audience paths with counts of apps and resources in each.</p>
+        <pre><code>{
+  "data": [
+    { "id": "teachers",     "apps": 14, "resources": 28 },
+    { "id": "learners",     "apps": 11, "resources": 22 },
+    { "id": "schools",      "apps":  9, "resources": 17 },
+    { "id": "institutions", "apps":  8, "resources": 19 },
+    { "id": "parents",      "apps":  4, "resources":  9 },
+    { "id": "researchers",  "apps":  5, "resources": 12 }
+  ]
+}</code></pre>
+
+        <h2 id="frameworks"><a href="#frameworks" class="anchor" aria-label="Link to this section">#</a> Frameworks</h2>
+
+        <h3>GET /frameworks</h3>
+        <p>List frameworks that Pathways indexes (LTI, xAPI, SCORM, QTI, UDL, WCAG, FERPA, etc.) grouped by category: <code>interop</code>, <code>pedagogy</code>, <code>compliance</code>, <code>accessibility</code>, <code>curriculum</code>.</p>
+
+        <h2 id="errors"><a href="#errors" class="anchor" aria-label="Link to this section">#</a> Errors</h2>
+        <p>The API returns standard HTTP status codes. Errors have a JSON body:</p>
+        <pre><code>{
+  "error": {
+    "code": "not_found",
+    "message": "No app with id 'lessonweaver'."
+  }
+}</code></pre>
+        <ul>
+          <li><code>400 bad_request</code> — invalid query parameters</li>
+          <li><code>404 not_found</code> — unknown <code>id</code></li>
+          <li><code>429 rate_limited</code> — more than 60 requests/min per IP</li>
+          <li><code>503 service_unavailable</code> — upstream maintenance</li>
+        </ul>
+
+        <div class="callout">
+          <span class="callout-title">Rate limits</span>
+          <p>Public endpoints: 60 req/min per IP. Authenticated institutional endpoints: 600 req/min per client. Responses include <code>X-RateLimit-Remaining</code> and <code>X-RateLimit-Reset</code> headers.</p>
+        </div>
+
+        <h2 id="next">Next steps</h2>
+        <p>See <a href="frameworks.html">Frameworks &amp; standards</a> for what each <code>standards</code> field means, or the <a href="faq.html">FAQ</a> for integration questions.</p>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Pathways</p>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="../index.html">Home</a>
+        <a href="../apps.html">Apps</a>
+        <a href="../resources.html">Resources</a>
+        <a href="../flipped.html">Flipped</a>
+        <a href="../path-builder.html">Build a path</a>
+        <a href="../docs.html">Docs</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
