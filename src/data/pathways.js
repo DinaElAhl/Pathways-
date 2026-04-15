@@ -1,0 +1,160 @@
+// Central source of pathway data used across the site.
+export const pathways = [
+  {
+    slug: 'web-development',
+    title: 'Modern Web Development',
+    tagline: 'From zero to shipping real apps with React, APIs, and deployment.',
+    level: 'Beginner → Intermediate',
+    duration: '12 weeks',
+    hours: '6–8 hrs / week',
+    category: 'Engineering',
+    color: 'from-brand-500 to-brand-700',
+    icon: 'code',
+    summary:
+      'Learn HTML, CSS, JavaScript, React, and the fundamentals of backend APIs while building a portfolio of real, deployable projects.',
+    outcomes: [
+      'Build responsive, accessible websites with modern CSS',
+      'Create interactive applications with React and hooks',
+      'Integrate REST APIs and manage application state',
+      'Deploy full-stack projects to the cloud',
+    ],
+    modules: [
+      { title: 'Foundations: HTML, CSS & Git', lessons: 8 },
+      { title: 'JavaScript in the browser', lessons: 10 },
+      { title: 'Thinking in React', lessons: 12 },
+      { title: 'APIs, auth & data', lessons: 9 },
+      { title: 'Ship it: deploy & monitor', lessons: 6 },
+    ],
+  },
+  {
+    slug: 'data-science',
+    title: 'Applied Data Science',
+    tagline: 'Turn raw data into decisions with Python, statistics, and ML.',
+    level: 'Intermediate',
+    duration: '14 weeks',
+    hours: '7–9 hrs / week',
+    category: 'Data',
+    color: 'from-emerald-500 to-emerald-700',
+    icon: 'chart',
+    summary:
+      'Master the full data workflow: wrangling messy datasets, modeling with scikit-learn, and communicating insights stakeholders actually use.',
+    outcomes: [
+      'Clean and explore real-world datasets in Python',
+      'Apply supervised and unsupervised ML techniques',
+      'Evaluate models and avoid common pitfalls',
+      'Communicate results with clear visualizations',
+    ],
+    modules: [
+      { title: 'Python for analysis', lessons: 9 },
+      { title: 'Statistics you actually use', lessons: 8 },
+      { title: 'Machine learning essentials', lessons: 12 },
+      { title: 'Storytelling with data', lessons: 6 },
+      { title: 'Capstone project', lessons: 4 },
+    ],
+  },
+  {
+    slug: 'ux-design',
+    title: 'UX & Product Design',
+    tagline: 'Design delightful products that solve real user problems.',
+    level: 'Beginner → Intermediate',
+    duration: '10 weeks',
+    hours: '5–7 hrs / week',
+    category: 'Design',
+    color: 'from-accent-500 to-accent-600',
+    icon: 'sparkles',
+    summary:
+      'Learn to research, prototype, and validate product experiences end to end — from empathy interviews to polished Figma systems.',
+    outcomes: [
+      'Run user interviews and synthesize insights',
+      'Design flows, wireframes, and hi-fi mockups',
+      'Build a component-based design system in Figma',
+      'Present and defend design decisions',
+    ],
+    modules: [
+      { title: 'User research fundamentals', lessons: 7 },
+      { title: 'Information architecture', lessons: 6 },
+      { title: 'Interaction & visual design', lessons: 10 },
+      { title: 'Prototyping & testing', lessons: 8 },
+      { title: 'Design systems at scale', lessons: 5 },
+    ],
+  },
+  {
+    slug: 'product-management',
+    title: 'Product Management Essentials',
+    tagline: 'Ship products people love — on strategy, spec, and on time.',
+    level: 'Beginner',
+    duration: '8 weeks',
+    hours: '4–6 hrs / week',
+    category: 'Product',
+    color: 'from-fuchsia-500 to-fuchsia-700',
+    icon: 'rocket',
+    summary:
+      'Develop the instincts of a great PM: discovery, prioritization, crisp writing, and cross-functional leadership.',
+    outcomes: [
+      'Turn ambiguous problems into clear product bets',
+      'Write specs engineers and designers love',
+      'Prioritize with frameworks that actually work',
+      'Run effective launches and measure impact',
+    ],
+    modules: [
+      { title: 'Discovery & customer development', lessons: 6 },
+      { title: 'Strategy & prioritization', lessons: 7 },
+      { title: 'Specs, roadmaps & rituals', lessons: 8 },
+      { title: 'Metrics & experimentation', lessons: 5 },
+    ],
+  },
+  {
+    slug: 'cloud-devops',
+    title: 'Cloud & DevOps',
+    tagline: 'Run production-grade systems with confidence.',
+    level: 'Intermediate → Advanced',
+    duration: '12 weeks',
+    hours: '6–8 hrs / week',
+    category: 'Engineering',
+    color: 'from-sky-500 to-sky-700',
+    icon: 'server',
+    summary:
+      'Go deep on Linux, Docker, Kubernetes, CI/CD, and observability. Build the skills to operate reliable software at scale.',
+    outcomes: [
+      'Package applications with Docker and Kubernetes',
+      'Design resilient CI/CD pipelines',
+      'Instrument systems with metrics, logs, and traces',
+      'Apply SRE principles to real services',
+    ],
+    modules: [
+      { title: 'Linux & networking refresher', lessons: 6 },
+      { title: 'Containers & orchestration', lessons: 10 },
+      { title: 'CI/CD pipelines', lessons: 7 },
+      { title: 'Observability & SRE', lessons: 8 },
+    ],
+  },
+  {
+    slug: 'ai-fundamentals',
+    title: 'AI Fundamentals for Builders',
+    tagline: 'Build with large language models — the pragmatic way.',
+    level: 'Beginner → Intermediate',
+    duration: '9 weeks',
+    hours: '5–7 hrs / week',
+    category: 'AI',
+    color: 'from-purple-500 to-purple-700',
+    icon: 'bolt',
+    summary:
+      'Understand how modern AI systems work and build real products with retrieval, tools, and evaluation — without a PhD.',
+    outcomes: [
+      'Understand transformers, embeddings, and retrieval',
+      'Design effective prompts and tool-using agents',
+      'Build a RAG app end to end',
+      'Evaluate and monitor AI systems in production',
+    ],
+    modules: [
+      { title: 'How LLMs actually work', lessons: 6 },
+      { title: 'Prompting & structured outputs', lessons: 7 },
+      { title: 'Retrieval-augmented generation', lessons: 8 },
+      { title: 'Agents, tools & evals', lessons: 7 },
+    ],
+  },
+]
+
+export function getPathway(slug) {
+  return pathways.find((p) => p.slug === slug)
+}
