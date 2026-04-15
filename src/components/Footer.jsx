@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
+import { audiences } from '../data/audiences.js'
 
 export default function Footer() {
   const year = new Date().getFullYear()
   return (
     <footer className="mt-20 border-t border-slate-200 bg-slate-50">
-      <div className="container-page py-12 grid gap-10 md:grid-cols-4">
+      <div className="container-page py-14 grid gap-10 md:grid-cols-5">
         <div className="md:col-span-2">
           <div className="flex items-center gap-2.5">
             <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-800 text-white">
@@ -19,27 +20,44 @@ export default function Footer() {
             </span>
           </div>
           <p className="mt-4 max-w-sm text-sm text-slate-600">
-            Structured learning journeys that help you grow new skills and reach your
-            goals — one step at a time.
+            One hub for everyone who learns and teaches — learners, teachers, parents,
+            schools, and educators. Find whatever you need to grow.
           </p>
         </div>
 
         <div>
           <h4 className="text-sm font-semibold text-slate-900">Explore</h4>
           <ul className="mt-3 space-y-2 text-sm">
-            <li><Link to="/pathways" className="text-slate-600 hover:text-brand-700">All pathways</Link></li>
-            <li><Link to="/about" className="text-slate-600 hover:text-brand-700">About us</Link></li>
+            <li><Link to="/resources" className="text-slate-600 hover:text-brand-700">Resources</Link></li>
+            <li><Link to="/pathways" className="text-slate-600 hover:text-brand-700">Pathways</Link></li>
+            <li><Link to="/about" className="text-slate-600 hover:text-brand-700">About</Link></li>
             <li><Link to="/contact" className="text-slate-600 hover:text-brand-700">Contact</Link></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="text-sm font-semibold text-slate-900">For</h4>
+          <ul className="mt-3 space-y-2 text-sm">
+            {audiences.map((a) => (
+              <li key={a.slug}>
+                <Link
+                  to={`/for/${a.slug}`}
+                  className="text-slate-600 hover:text-brand-700"
+                >
+                  {a.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
         <div>
           <h4 className="text-sm font-semibold text-slate-900">Stay in the loop</h4>
           <p className="mt-3 text-sm text-slate-600">
-            Monthly roundups of new pathways and learning tips. No spam, ever.
+            Monthly roundups of new resources and pathways. No spam, ever.
           </p>
           <form
-            className="mt-3 flex gap-2"
+            className="mt-3 flex flex-wrap gap-2"
             onSubmit={(e) => {
               e.preventDefault()
               const form = e.currentTarget
@@ -73,7 +91,7 @@ export default function Footer() {
 
       <div className="border-t border-slate-200">
         <div className="container-page flex flex-col items-center justify-between gap-2 py-6 text-xs text-slate-500 sm:flex-row">
-          <p>&copy; {year} Pathways. Built for curious learners.</p>
+          <p>&copy; {year} Pathways. Built for curious learners and the people who teach them.</p>
           <p>Made with care &middot; All rights reserved.</p>
         </div>
       </div>

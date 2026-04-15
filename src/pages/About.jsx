@@ -70,12 +70,12 @@ export default function About() {
         <div className="max-w-3xl">
           <span className="chip">About Pathways</span>
           <h1 className="mt-4 text-4xl sm:text-5xl font-bold tracking-tight">
-            We believe learning should feel like progress — not pressure.
+            A hub for everyone who learns and teaches.
           </h1>
           <p className="mt-4 text-lg text-slate-600">
-            Pathways was built to fix the gap between "I want to learn this" and "I
-            actually built something real." We design structured journeys with clear
-            outcomes, honest feedback, and the kind of community that keeps you going.
+            Pathways brings learners, teachers, parents, schools, and educators into
+            one place — so the person with the question, the person with the lesson
+            plan, and the person who can mentor them can actually find each other.
           </p>
         </div>
       </section>
@@ -87,12 +87,13 @@ export default function About() {
             Our mission
           </span>
           <h2 className="mt-4 font-display text-3xl sm:text-4xl font-bold tracking-tight">
-            Make ambitious learning feel possible, human, and actually finishable.
+            Make ambitious learning feel possible, human, and actually finishable — for everyone in the ecosystem.
           </h2>
           <p className="mt-4 max-w-2xl text-brand-100">
-            We're a small team of builders, teachers, and designers. We craft pathways
-            we'd want to follow ourselves — with real projects, real mentors, and zero
-            fluff. If you care about growing, we want to walk the path with you.
+            We're a small team of builders, teachers, and designers. We craft
+            pathways, resources, and tools we'd want to use ourselves — with real
+            projects, real educators, and zero fluff. If you care about growing, or
+            helping someone else grow, we want to walk the path with you.
           </p>
         </div>
       </section>
