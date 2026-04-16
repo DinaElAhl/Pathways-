@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pathways — Visual Learning Path Builder</title>
+<meta name="description" content="Build, organize, and share structured learning journeys. Drag-and-drop your way to the perfect curriculum.">
+<style>
+:root{--primary:#6C63FF;--primary-dark:#5A52D5;--secondary:#FF6584;--accent:#43E97B;--bg:#0F0F1A;--bg2:#16162A;--bg3:#1E1E38;--card:#1A1A2E;--border:rgba(108,99,255,0.2);--text:#E8E8F0;--text-muted:#8888A8;--shadow:0 8px 32px rgba(0,0,0,0.4);--glow:0 0 20px rgba(108,99,255,0.3)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:rgba(15,15,26,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:.75rem;font-size:1.3rem;font-weight:700;color:var(--primary);text-decoration:none}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.nav-links{display:flex;list-style:none;gap:.5rem}
+.nav-links a{color:var(--text-muted);text-decoration:none;padding:.5rem 1rem;border-radius:8px;transition:all .2s;font-weight:500;font-size:.9rem}
+.nav-links a:hover,.nav-links a.active{color:var(--primary);background:rgba(108,99,255,0.1)}
+.nav-cta{display:flex;gap:.75rem;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border-radius:10px;border:none;cursor:pointer;font-weight:600;font-size:.9rem;transition:all .2s;text-decoration:none}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;box-shadow:0 4px 15px rgba(108,99,255,0.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(108,99,255,0.4)}
+.btn-ghost{background:rgba(108,99,255,0.1);color:var(--primary);border:1px solid rgba(108,99,255,0.3)}
+.btn-ghost:hover{background:rgba(108,99,255,0.2)}
+.btn-success{background:rgba(67,233,123,0.15);color:var(--accent);border:1px solid rgba(67,233,123,0.3)}
+.btn-success:hover{background:rgba(67,233,123,0.25)}
+.btn-sm{padding:.4rem .9rem;font-size:.8rem}.btn-lg{padding:.8rem 1.8rem;font-size:1rem}
+.tab-content{display:none}
+.hero{text-align:center;padding:5rem 2rem 3rem}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem 1rem;background:rgba(108,99,255,0.1);border:1px solid rgba(108,99,255,0.3);border-radius:50px;font-size:.85rem;color:var(--primary);margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;line-height:1.1;margin-bottom:1rem}
+.hero h1 span{background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:1.15rem;color:var(--text-muted);max-width:520px;margin:0 auto 2rem;line-height:1.7}
+.hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.stats{display:flex;justify-content:center;gap:3rem;padding:2rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-size:2rem;font-weight:800;color:var(--primary)}
+.stat-label{font-size:.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-top:.2rem}
+.container{max-width:1200px;margin:0 auto;padding:2rem}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.section-title{font-size:1.4rem;font-weight:700}
+.section-title span{color:var(--primary)}
+.search-box{display:flex;align-items:center;gap:.5rem;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:.5rem 1rem}
+.search-icon{color:var(--text-muted)}
+.search-box input{background:none;border:none;outline:none;color:var(--text);font-size:.9rem;width:200px}
+.pathways-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;margin-top:1rem}
+.pathway-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .3s}
+.pathway-card:hover{transform:translateY(-4px);border-color:var(--primary);box-shadow:var(--glow)}
+.pathway-card-header{padding:1.5rem}
+.pathway-card-icon{font-size:2rem;margin-bottom:.75rem;width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.pathway-card-title{font-size:1.1rem;font-weight:700;margin-bottom:.4rem}
+.pathway-card-desc{font-size:.85rem;color:var(--text-muted);line-height:1.6}
+.pathway-card-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;gap:.75rem}
+.progress-bar{flex:1;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;border-radius:2px;transition:width .5s ease}
+.tag{display:inline-flex;align-items:center;padding:.2rem .6rem;border-radius:50px;font-size:.72rem;font-weight:600}
+.tag-type{background:rgba(108,99,255,0.15);color:var(--primary)}
+.tag-duration{background:rgba(255,255,255,0.06);color:var(--text-muted)}
+.node-meta{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.5rem}
+#emptyState{text-align:center;padding:5rem 2rem;color:var(--text-muted)}
+#emptyState div:first-child{font-size:4rem;margin-bottom:1rem}
+#emptyState h3{font-size:1.3rem;color:var(--text);margin-bottom:.5rem}
+#emptyState p{margin-bottom:1.5rem}
+.builder-header{display:flex;align-items:center;gap:1rem;padding:1.5rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:65px;z-index:50}
+.pathway-name-input{flex:1;background:transparent;border:none;outline:none;font-size:1.2rem;font-weight:700;color:var(--text);border-bottom:2px solid transparent;padding:.25rem 0;transition:border-color .2s}
+.pathway-name-input:focus{border-bottom-color:var(--primary)}
+.pathway-name-input::placeholder{color:var(--text-muted)}
+.builder-layout{display:grid;grid-template-columns:240px 1fr 280px;gap:0;min-height:calc(100vh - 130px)}
+.panel{background:var(--bg2);border-right:1px solid var(--border);padding:1.5rem;overflow-y:auto}
+.panel-title{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:1rem}
+.step-type-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem;margin-bottom:.5rem;cursor:grab;transition:all .2s;display:flex;align-items:center;gap:.75rem}
+.step-type-card:hover{border-color:var(--primary);background:rgba(108,99,255,0.05);transform:translateX(4px)}
+.step-type-icon{font-size:1.2rem;width:32px;text-align:center}
+.step-type-label{font-size:.85rem;font-weight:600}
+.step-type-desc{font-size:.75rem;color:var(--text-muted)}
+.divider{border:none;border-top:1px solid var(--border);margin:1rem 0}
+.form-group{margin-bottom:1rem}
+.form-label{display:block;font-size:.8rem;font-weight:600;color:var(--text-muted);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+.form-input,.form-select,.form-textarea{width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9rem;font-family:inherit;transition:border-color .2s}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--primary)}
+.form-textarea{resize:vertical;min-height:80px}
+.color-options{display:flex;gap:.5rem;flex-wrap:wrap}
+.color-opt{width:26px;height:26px;border-radius:50%;cursor:pointer;transition:transform .2s;border:2px solid transparent}
+.color-opt:hover,.color-opt.selected{transform:scale(1.2);border-color:white}
+.canvas-area{border-right:1px solid var(--border);position:relative;padding:1.5rem;background:var(--bg);overflow-y:auto}
+.canvas-area.drag-over{background:rgba(108,99,255,0.05)}
+#canvasEmpty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;color:var(--text-muted);text-align:center}
+#canvasEmpty .empty-icon{font-size:3rem;margin-bottom:1rem;opacity:.5}
+#canvasEmpty h3{font-size:1.1rem;margin-bottom:.5rem}
+#canvasEmpty p{font-size:.85rem;opacity:.7}
+#pathwayNodes{display:flex;flex-direction:column;gap:0}
+.pathway-node{display:flex;flex-direction:column;align-items:center}
+.node-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.75rem;width:100%}
+.node-card:hover{border-color:var(--primary)}
+.node-card.selected{border-color:var(--primary);box-shadow:0 0 0 2px rgba(108,99,255,0.2);background:rgba(108,99,255,0.05)}
+.node-number{min-width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700}
+.node-body{flex:1;min-width:0}
+.node-title{font-weight:600;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.node-subtitle{font-size:.8rem;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.node-connector{width:2px;height:20px;background:linear-gradient(to bottom,var(--border),transparent);margin:2px 0;position:relative}
+.node-connector::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:8px solid var(--primary);margin-left:-4px}
+.node-actions{display:flex;gap:.5rem;margin-left:auto;opacity:0;transition:opacity .2s}
+.node-card:hover .node-actions{opacity:1}
+.node-action-btn{width:28px;height:28px;border-radius:6px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:all .2s}
+.node-action-btn.edit{background:rgba(108,99,255,0.2);color:var(--primary)}
+.node-action-btn.del{background:rgba(255,71,87,0.15);color:#FF4757}
+.node-action-btn:hover{transform:scale(1.1)}
+.drag-handle{color:var(--text-muted);cursor:grab;padding:.2rem;margin-right:-.5rem;opacity:.5;font-size:.9rem;transition:opacity .2s}
+.node-card:hover .drag-handle{opacity:1}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.5rem;width:90%;max-width:480px;max-height:90vh;overflow-y:auto;animation:modalIn .2s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(0.95) translateY(-10px)}to{opacity:1;transform:scale(1)}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.modal-header h3{font-size:1.1rem;font-weight:700}
+.modal-close{background:rgba(255,255,255,0.06);border:none;width:32px;height:32px;border-radius:8px;cursor:pointer;color:var(--text-muted);font-size:1rem;transition:all .2s}
+.modal-close:hover{background:rgba(255,71,87,0.2);color:#FF4757}
+.modal-footer{display:flex;gap:.75rem;justify-content:flex-end;margin-top:1.5rem}
+.toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:2000;display:flex;flex-direction:column;gap:.5rem}
+.toast{display:flex;align-items:center;gap:.75rem;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:.75rem 1.25rem;font-size:.9rem;transform:translateX(120%);transition:transform .3s ease;box-shadow:var(--shadow)}
+.toast.show{transform:translateX(0)}
+.toast-icon{font-size:1.1rem}
+.templates-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+.emoji-grid{display:flex;flex-wrap:wrap;gap:.5rem}
+.emoji-opt{font-size:1.4rem;width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;background:var(--bg3);transition:all .2s}
+.emoji-opt:hover{border-color:var(--primary);transform:scale(1.1)}
+.progress-range{width:100%;accent-color:var(--primary)}
+.animate-in{animation:fadeInUp .3s ease forwards}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:768px){.builder-layout{grid-template-columns:1fr}.panel{display:none}.hero h1{font-size:2rem}.stats{gap:1.5rem}nav{padding:.75rem 1rem}.nav-links{display:none}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="#" class="logo" onclick="showTab('browse')">
+    <div class="logo-icon">&#x1F5FA;&#xFE0F;</div>
+    <span>Pathways</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showTab('browse')" id="nav-browse" class="active">Browse</a></li>
+    <li><a href="#" onclick="showTab('builder')" id="nav-builder">Builder</a></li>
+    <li><a href="#" onclick="showTab('templates')" id="nav-templates">Templates</a></li>
+  </ul>
+  <div class="nav-cta">
+    <button class="btn btn-ghost btn-sm" onclick="showModal('importModal')">Import</button>
+    <button class="btn btn-primary btn-sm" onclick="newPathway()">+ New Pathway</button>
+  </div>
+</nav>
+<div id="toastContainer" class="toast-container"></div>
+<div id="tab-browse" class="tab-content">
+  <div class="hero">
+    <div class="hero-badge">&#x2728; Visual Learning Path Builder</div>
+    <h1>Build your <span>Learning Path</span><br>from scratch</h1>
+    <p>Design, organize, and share structured learning journeys. Drag-and-drop your way to the perfect curriculum.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary btn-lg" onclick="newPathway()">&#x1F680; Create Pathway</button>
+      <button class="btn btn-ghost btn-lg" onclick="showTab('templates')">Browse Templates</button>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-num" id="totalPathways">0</div><div class="stat-label">Your Pathways</div></div>
+    <div class="stat"><div class="stat-num" id="totalSteps">0</div><div class="stat-label">Total Steps</div></div>
+    <div class="stat"><div class="stat-num" id="totalHours">0h</div><div class="stat-label">Est. Learning Time</div></div>
+    <div class="stat"><div class="stat-num" id="avgComplete">0%</div><div class="stat-label">Avg. Completion</div></div>
+  </div>
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">Your <span>Pathways</span></div>
+      <div style="display:flex;gap:.75rem;align-items:center;">
+        <div class="search-box">
+          <span class="search-icon">&#x1F50D;</span>
+          <input type="text" id="searchInput" placeholder="Search pathways..." oninput="filterPathways(this.value)">
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="newPathway()">+ New</button>
+      </div>
+    </div>
+    <div class="pathways-grid" id="pathwaysGrid"></div>
+    <div id="emptyState" style="display:none;">
+      <div>&#x1F5FA;&#xFE0F;</div>
+      <h3>No pathways yet</h3>
+      <p>Create your first learning pathway to get started</p>
+      <button class="btn btn-primary" onclick="newPathway()">Create First Pathway</button>
+    </div>
+  </div>
+</div>
+<div id="tab-builder" class="tab-content">
+  <div class="builder-header">
+    <button class="btn btn-ghost btn-sm" onclick="showTab('browse')">&larr; Back</button>
+    <input type="text" id="pathwayName" class="pathway-name-input" placeholder="Untitled Pathway">
+    <div style="display:flex;gap:.5rem;">
+      <button class="btn btn-ghost btn-sm" onclick="exportJSON()">&#x1F4E4; Export</button>
+      <button class="btn btn-success btn-sm" onclick="savePathway()">&#x1F4BE; Save</button>
+    </div>
+  </div>
+  <div class="builder-layout">
+    <div class="panel step-library-sidebar">
+      <div class="panel-title">Step Types</div>
+      <div class="step-type-card" draggable="true" ondragstart="dragStart(event,'learn')">
+        <div class="step-type-icon">&#x1F4DA;</div>
+        <div><div class="step-type-label">Learn</div><div class="step-type-desc">Reading, watching, studying</div></div>
+      </div>
+      <div class="step-type-card" draggable="true" ondragstart="dragStart(event,'build')">
+        <div class="step-type-icon">&#x1F528;</div>
+        <div><div class="step-type-label">Build</div><div class="step-type-desc">Hands-on project or exercise</div></div>
+      </div>
+      <div class="step-type-card" draggable="true" ondragstart="dragStart(event,'assess')">
+        <div class="step-type-icon">&#x2705;</div>
+        <div><div class="step-type-label">Assess</div><div class="step-type-desc">Quiz, test, or evaluation</div></div>
+      </div>
+      <div class="step-type-card" draggable="true" ondragstart="dragStart(event,'milestone')">
+        <div class="step-type-icon">&#x1F3C6;</div>
+        <div><div class="step-type-label">Milestone</div><div class="step-type-desc">Achievement checkpoint</div></div>
+      </div>
+      <div class="step-type-card" draggable="true" ondragstart="dragStart(event,'resource')">
+        <div class="step-type-icon">&#x1F517;</div>
+        <div><div class="step-type-label">Resource</div><div class="step-type-desc">Links, tools, references</div></div>
+      </div>
+      <hr class="divider">
+      <div class="panel-title">Settings</div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea id="pathwayDesc" class="form-textarea" rows="3" placeholder="What will learners achieve?"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Difficulty</label>
+        <select id="pathwayDiff" class="form-select">
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Color Theme</label>
+        <div class="color-options">
+          <div class="color-opt selected" style="background:#6C63FF" data-color="#6C63FF" onclick="selectColor(this)"></div>
+          <div class="color-opt" style="background:#FF6584" data-color="#FF6584" onclick="selectColor(this)"></div>
+          <div class="color-opt" style="background:#43E97B" data-color="#43E97B" onclick="selectColor(this)"></div>
+          <div class="color-opt" style="background:#FFD700" data-color="#FFD700" onclick="selectColor(this)"></div>
+          <div class="color-opt" style="background:#00D2FF" data-color="#00D2FF" onclick="selectColor(this)"></div>
+          <div class="color-opt" style="background:#FF9500" data-color="#FF9500" onclick="selectColor(this)"></div>
+        </div>
+      </div>
+    </div>
+    <div class="canvas-area" id="canvasArea" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="drop(event)">
+      <div id="canvasEmpty">
+        <div class="empty-icon">&#x1F5FA;&#xFE0F;</div>
+        <h3>Drag steps here to build your pathway</h3>
+        <p>Or click "Add Step" below to start building</p>
+      </div>
+      <div id="pathwayNodes" style="display:none;"></div>
+      <button class="btn btn-ghost" id="addStepBtn" style="display:none;margin-top:1rem;" onclick="addStepDialog()">+ Add Step</button>
+    </div>
+    <div class="panel props-panel">
+      <div class="panel-title">Properties</div>
+      <div id="propsEmpty" style="text-align:center;padding:2rem 1rem;color:var(--text-muted);">
+        <div style="font-size:2rem;margin-bottom:.5rem;">&#x1F448;</div>
+        <div>Select a step to edit its properties</div>
+      </div>
+      <div id="propsForm" style="display:none;">
+        <div class="form-group">
+          <label class="form-label">Step Title</label>
+          <input type="text" id="propTitle" class="form-input" oninput="updateSelectedNode()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea id="propDesc" class="form-textarea" oninput="updateSelectedNode()"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Duration</label>
+          <input type="text" id="propDuration" class="form-input" placeholder="e.g. 2 weeks" oninput="updateSelectedNode()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Resource URL</label>
+          <input type="text" id="propUrl" class="form-input" placeholder="https://..." oninput="updateSelectedNode()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Type</label>
+          <select id="propType" class="form-select" onchange="updateSelectedNode()">
+            <option value="learn">&#x1F4DA; Learn</option>
+            <option value="build">&#x1F528; Build</option>
+            <option value="assess">&#x2705; Assess</option>
+            <option value="milestone">&#x1F3C6; Milestone</option>
+            <option value="resource">&#x1F517; Resource</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Difficulty</label>
+          <select id="propDifficulty" class="form-select" onchange="updateSelectedNode()">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Completion <span id="propProgressVal">0%</span></label>
+          <input type="range" id="propProgress" class="progress-range" min="0" max="100" value="0" oninput="document.getElementById('propProgressVal').textContent=this.value+'%';updateSelectedNode()">
+        </div>
+        <div style="display:flex;gap:.5rem;margin-top:1rem;">
+          <button class="btn btn-ghost btn-sm" style="flex:1;color:#FF4757;" onclick="deleteSelectedNode()">&#x1F5D1; Delete Step</button>
+          <button class="btn btn-ghost btn-sm" style="flex:1;" onclick="duplicateSelectedNode()">&#x2295; Duplicate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="tab-templates" class="tab-content">
+  <div class="container">
+    <div style="text-align:center;padding:3rem 0 2rem;">
+      <h2 style="font-size:2rem;font-weight:800;margin-bottom:.5rem;">Pathway <span style="color:var(--primary)">Templates</span></h2>
+      <p style="color:var(--text-muted);">Start with a pre-built template to jumpstart your learning journey</p>
+    </div>
+    <div class="templates-grid" id="templatesGrid"></div>
+  </div>
+</div>
+<div id="addStepModal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Add New Step</h3>
+      <button class="modal-close" onclick="closeModal('addStepModal')">&#x2715;</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Step Title *</label>
+      <input type="text" id="newStepTitle" class="form-input" placeholder="e.g. Introduction to HTML">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Type</label>
+      <select id="newStepType" class="form-select">
+        <option value="learn">&#x1F4DA; Learn</option>
+        <option value="build">&#x1F528; Build</option>
+        <option value="assess">&#x2705; Assess</option>
+        <option value="milestone">&#x1F3C6; Milestone</option>
+        <option value="resource">&#x1F517; Resource</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea id="newStepDesc" class="form-textarea" placeholder="What will learners do in this step?"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Estimated Duration</label>
+      <input type="text" id="newStepDuration" class="form-input" placeholder="e.g. 2 hours">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('addStepModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmAddStep()">Add Step</button>
+    </div>
+  </div>
+</div>
+<div id="newPathwayModal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>&#x1F5FA;&#xFE0F; Create New Pathway</h3>
+      <button class="modal-close" onclick="closeModal('newPathwayModal')">&#x2715;</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Pathway Name *</label>
+      <input type="text" id="newPathwayName" class="form-input" placeholder="e.g. Full-Stack Web Development">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea id="newPathwayDesc" class="form-textarea" placeholder="What will learners achieve?"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Difficulty</label>
+      <select id="newPathwayDiff" class="form-select">
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Category</label>
+      <select id="newPathwayCat" class="form-select">
+        <option value="technology">Technology</option>
+        <option value="design">Design</option>
+        <option value="business">Business</option>
+        <option value="science">Science</option>
+        <option value="language">Language</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Emoji Icon</label>
+      <div class="emoji-grid">
+        <span class="emoji-opt" onclick="selectEmoji(this)" style="border-color:var(--primary);">&#x1F4BB;</span>
+        <span class="emoji-opt" onclick="selectEmoji(this)">&#x1F3A8;</span>
+        <span class="emoji-opt" onclick="selectEmoji(this)">&#x1F4CA;</span>
+        <span class="emoji-opt" onclick="selectEmoji(this)">&#x1F52C;</span>
+        <span class="emoji-opt" onclick="selectEmoji(this)">&#x1F310;</span>
+        <span class="emoji-opt" onclick="selectEmoji(this)">&#x1F916;</span>
+        <span class="emoji-opt" onclick="selectEmoji(this)">&#x1F4F1;</span>
+        <span class="emoji-opt" onclick="selectEmoji(this)">&#x1F3B5;</span>
+        <span class="emoji-opt" onclick="selectEmoji(this)">&#x270F;&#xFE0F;</span>
+        <span class="emoji-opt" onclick="selectEmoji(this)">&#x1F3CB;&#xFE0F;</span>
+        <span class="emoji-opt" onclick="selectEmoji(this)">&#x1F5FA;&#xFE0F;</span>
+        <span class="emoji-opt" onclick="selectEmoji(this)">&#x26A1;</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('newPathwayModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmNewPathway()">Create Pathway</button>
+    </div>
+  </div>
+</div>
+<div id="importModal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>&#x1F4E5; Import Pathway</h3>
+      <button class="modal-close" onclick="closeModal('importModal')">&#x2715;</button>
+    </div>
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:1rem;">Paste exported JSON or upload a file to import a pathway</p>
+    <div class="form-group">
+      <textarea id="importJson" class="form-textarea" rows="8" placeholder='{"name":"My Pathway","steps":[]}'></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('importModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="importPathway()">Import</button>
+    </div>
+  </div>
+</div>
+<script>
+var pathways=[],currentPathwayId=null,selectedNodeId=null,currentEmoji='💻',currentColor='#6C63FF',dragType=null;
+var TYPE_CONFIG={learn:{icon:'📚',color:'#6C63FF',label:'Learn'},build:{icon:'🔨',color:'#43E97B',label:'Build'},assess:{icon:'✅',color:'#FF6584',label:'Assess'},milestone:{icon:'🏆',color:'#FFD700',label:'Milestone'},resource:{icon:'🔗',color:'#00D2FF',label:'Resource'}};
+var DIFF_CONFIG={beginner:{label:'Beginner',color:'#43E97B'},intermediate:{label:'Intermediate',color:'#FFD700'},advanced:{label:'Advanced',color:'#FF6584'},easy:{label:'Easy',color:'#43E97B'},medium:{label:'Medium',color:'#FFD700'},hard:{label:'Hard',color:'#FF6584'}};
+var TEMPLATES=[{name:'Full-Stack Web Development',icon:'💻',desc:'Complete journey from HTML basics to deploying full-stack apps with React and Node.js',color:'#6C63FF',difficulty:'intermediate',steps:[{title:'HTML & CSS Fundamentals',type:'learn',desc:'Master semantic HTML and modern CSS including Flexbox and Grid',duration:'2 weeks'},{title:'JavaScript Essentials',type:'learn',desc:'Variables, functions, DOM manipulation, async/await',duration:'3 weeks'},{title:'Build a Static Website',type:'build',desc:'Create a responsive portfolio site using HTML, CSS, JS',duration:'1 week'},{title:'JS Proficiency Quiz',type:'assess',desc:'Test your JavaScript fundamentals',duration:'2 hours'},{title:'React Fundamentals',type:'learn',desc:'Components, hooks, state management, and routing',duration:'3 weeks'},{title:'Node.js & Express',type:'learn',desc:'Backend APIs, middleware, REST architecture',duration:'2 weeks'},{title:'Build a Full-Stack App',type:'build',desc:'Build and deploy a CRUD application with React + Node',duration:'2 weeks'},{title:'Full-Stack Developer!',type:'milestone',desc:'You are now a full-stack web developer!',duration:'🎉'}]},{name:'UI/UX Design Mastery',icon:'🎨',desc:'Learn design principles, tools, and processes to create stunning user interfaces',color:'#FF6584',difficulty:'beginner',steps:[{title:'Design Principles & Theory',type:'learn',desc:'Color theory, typography, visual hierarchy',duration:'1 week'},{title:'Figma Deep Dive',type:'learn',desc:'Frames, components, auto-layout, prototyping',duration:'2 weeks'},{title:'User Research Basics',type:'learn',desc:'Interviews, surveys, usability testing',duration:'1 week'},{title:'Design a Mobile App',type:'build',desc:'Full UI kit for a mobile app of your choice',duration:'2 weeks'},{title:'Design Systems',type:'learn',desc:'Create scalable component libraries',duration:'1 week'},{title:'Portfolio Review',type:'assess',desc:'Peer review your design work',duration:'3 days'},{title:'Certified UX Designer',type:'milestone',desc:'Ready for your first UX design role!',duration:'🎉'}]},{name:'Data Science & ML',icon:'🤖',desc:'From Python basics to building machine learning models and deploying AI apps',color:'#43E97B',difficulty:'advanced',steps:[{title:'Python for Data Science',type:'learn',desc:'NumPy, Pandas, Matplotlib',duration:'2 weeks'},{title:'Statistics & Probability',type:'learn',desc:'Descriptive stats, distributions, hypothesis testing',duration:'2 weeks'},{title:'Machine Learning Basics',type:'learn',desc:'scikit-learn, regression, classification, clustering',duration:'3 weeks'},{title:'Exploratory Data Analysis',type:'build',desc:'Analyze a real dataset and produce insights',duration:'1 week'},{title:'Deep Learning Foundations',type:'learn',desc:'Neural networks, CNNs, RNNs with PyTorch',duration:'3 weeks'},{title:'ML Model Challenge',type:'assess',desc:'Kaggle competition or capstone project',duration:'2 weeks'},{title:'Data Scientist!',type:'milestone',desc:'You can build and deploy ML models!',duration:'🎉'}]},{name:'Digital Marketing',icon:'📊',desc:'Master SEO, social media, content strategy, and paid advertising',color:'#FFD700',difficulty:'beginner',steps:[{title:'Marketing Fundamentals',type:'learn',desc:'The 4 Ps, buyer personas, customer journey',duration:'1 week'},{title:'SEO Mastery',type:'learn',desc:'On-page, off-page, technical SEO',duration:'2 weeks'},{title:'Content Strategy',type:'learn',desc:'Blog, video, social media content planning',duration:'1 week'},{title:'Build a Content Calendar',type:'build',desc:'Create 3-month content plan for a sample brand',duration:'3 days'},{title:'Paid Ads (Google & Meta)',type:'learn',desc:'Campaign setup, bidding, ad copy, analytics',duration:'2 weeks'},{title:'Marketing Audit',type:'assess',desc:'Audit a real brand and present recommendations',duration:'1 week'},{title:'Digital Marketer!',type:'milestone',desc:'Launch your marketing career!',duration:'🎉'}]}];
+function loadData(){var s=localStorage.getItem('pathways_data');pathways=s?JSON.parse(s):[];}
+function saveData(){localStorage.setItem('pathways_data',JSON.stringify(pathways));}
+function genId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function showTab(tab){document.querySelectorAll('.tab-content').forEach(function(t){t.style.display='none';});document.getElementById('tab-'+tab).style.display='block';document.querySelectorAll('.nav-links a').forEach(function(a){a.classList.remove('active');});var navEl=document.getElementById('nav-'+tab);if(navEl)navEl.classList.add('active');if(tab==='browse')renderBrowse();if(tab==='templates')renderTemplates();if(tab==='builder')renderBuilder();}
+function renderBrowse(){updateStats();var grid=document.getElementById('pathwaysGrid');var empty=document.getElementById('emptyState');if(pathways.length===0){grid.innerHTML='';empty.style.display='block';return;}empty.style.display='none';grid.innerHTML=pathways.map(pathwayCardHTML).join('');}
+function pathwayCardHTML(p){var steps=p.steps||[];var done=steps.filter(function(s){return(s.progress||0)>=100;}).length;var pct=steps.length?Math.round((done/steps.length)*100):0;return '<div class="pathway-card animate-in" onclick="openPathway(''+p.id+'')">'+'<div class="pathway-card-header">'+'<div class="pathway-card-icon" style="background:'+p.color+'22;">'+(p.icon||'🗺️')+'</div>'+'<div class="pathway-card-title">'+(p.name||'Untitled')+'</div>'+'<div class="pathway-card-desc">'+(p.desc||'No description')+'</div>'+'<div class="node-meta" style="margin-top:.75rem;">'+'<span class="tag tag-type">'+(p.difficulty||'beginner')+'</span>'+'<span class="tag tag-duration">'+steps.length+' steps</span>'+'</div></div>'+'<div class="pathway-card-footer">'+'<div style="font-size:.8rem;color:var(--text-muted);">'+done+'/'+steps.length+' done</div>'+'<div class="progress-bar"><div class="progress-fill" style="width:'+pct+'%;background:'+(p.color||'var(--primary)')+'"></div></div>'+'<div style="font-size:.85rem;font-weight:700;color:'+(p.color||'var(--primary)')+';">'+pct+'%</div>'+'</div></div>';}
+function updateStats(){document.getElementById('totalPathways').textContent=pathways.length;var steps=pathways.reduce(function(a,p){return a+(p.steps||[]).length;},0);document.getElementById('totalSteps').textContent=steps;document.getElementById('totalHours').textContent=pathways.reduce(function(a,p){return a+(p.steps||[]).reduce(function(b,s){var m=(s.duration||'').match(/(\d+)\s*(hour|hr|week|day)/i);if(!m)return b;var n=parseInt(m[1]);if(/week/i.test(m[2]))return b+n*40;if(/day/i.test(m[2]))return b+n*8;return b+n;},0);},0)+'h';var avg=pathways.length?Math.round(pathways.reduce(function(a,p){var s=p.steps||[];if(!s.length)return a;return a+s.reduce(function(b,st){return b+(st.progress||0);},0)/s.length;},0)/pathways.length):0;document.getElementById('avgComplete').textContent=avg+'%';}
+function filterPathways(q){var grid=document.getElementById('pathwaysGrid');var filtered=pathways.filter(function(p){return p.name.toLowerCase().includes(q.toLowerCase());});grid.innerHTML=filtered.map(pathwayCardHTML).join('')||'<div style="color:var(--text-muted);padding:2rem;">No results found</div>';}
+function openPathway(id){currentPathwayId=id;showTab('builder');}
+function renderBuilder(){var p=pathways.find(function(p){return p.id===currentPathwayId;});if(!p)return;document.getElementById('pathwayName').value=p.name||'';document.getElementById('pathwayDesc').value=p.desc||'';document.getElementById('pathwayDiff').value=p.difficulty||'beginner';currentColor=p.color||'#6C63FF';document.querySelectorAll('.color-opt').forEach(function(el){el.classList.toggle('selected',el.dataset.color===currentColor);});renderNodes(p.steps||[]);}
+function renderNodes(steps){var container=document.getElementById('pathwayNodes');var empty=document.getElementById('canvasEmpty');var addBtn=document.getElementById('addStepBtn');if(!steps.length){empty.style.display='flex';container.style.display='none';addBtn.style.display='none';return;}empty.style.display='none';container.style.display='flex';addBtn.style.display='block';container.innerHTML=steps.map(function(s,i){var tc=TYPE_CONFIG[s.type]||TYPE_CONFIG.learn;var dc=DIFF_CONFIG[s.difficulty||'easy']||DIFF_CONFIG.easy;var isLast=i===steps.length-1;return '<div class="pathway-node">'+'<div class="node-card '+(selectedNodeId===s.id?'selected':'')+'" onclick="selectNode(''+s.id+'')" id="node-'+s.id+'">'+'<span class="drag-handle">⢿</span>'+'<div class="node-number" style="background:'+tc.color+'22;color:'+tc.color+';">'+(i+1)+'</div>'+'<div class="node-body">'+'<div class="node-title">'+(s.title||'Untitled Step')+'</div>'+'<div class="node-subtitle">'+(s.desc||'No description')+'</div>'+'<div class="node-meta">'+'<span class="tag tag-type">'+tc.icon+' '+tc.label+'</span>'+(s.duration?'<span class="tag tag-duration">⏱ '+s.duration+'</span>':'')+'<span class="tag tag-difficulty" style="background:'+dc.color+'18;color:'+dc.color+';">'+dc.label+'</span>'+((s.progress||0)>0?'<span class="tag" style="background:rgba(67,233,123,0.12);color:#43E97B;">'+(s.progress||0)+'%</span>':'')+'</div></div>'+'<div class="node-actions">'+'<button class="node-action-btn edit" onclick="selectNode(''+s.id+'');event.stopPropagation();">✎</button>'+'<button class="node-action-btn del" onclick="deleteNode(''+s.id+'');event.stopPropagation();">✕</button>'+'</div></div>'+(isLast?'':'<div class="node-connector"></div>')+'</div>';}).join('');}
+function selectNode(id){selectedNodeId=id;var p=pathways.find(function(p){return p.id===currentPathwayId;});if(!p)return;var step=(p.steps||[]).find(function(s){return s.id===id;});if(!step)return;document.getElementById('propsEmpty').style.display='none';document.getElementById('propsForm').style.display='block';document.getElementById('propTitle').value=step.title||'';document.getElementById('propDesc').value=step.desc||'';document.getElementById('propDuration').value=step.duration||'';document.getElementById('propUrl').value=step.url||'';document.getElementById('propType').value=step.type||'learn';document.getElementById('propDifficulty').value=step.difficulty||'easy';document.getElementById('propProgress').value=step.progress||0;document.getElementById('propProgressVal').textContent=(step.progress||0)+'%';document.querySelectorAll('.node-card').forEach(function(el){el.classList.remove('selected');});var nodeEl=document.getElementById('node-'+id);if(nodeEl)nodeEl.classList.add('selected');}
+function updateSelectedNode(){if(!selectedNodeId)return;var p=pathways.find(function(p){return p.id===currentPathwayId;});if(!p)return;var step=(p.steps||[]).find(function(s){return s.id===selectedNodeId;});if(!step)return;step.title=document.getElementById('propTitle').value;step.desc=document.getElementById('propDesc').value;step.duration=document.getElementById('propDuration').value;step.url=document.getElementById('propUrl').value;step.type=document.getElementById('propType').value;step.difficulty=document.getElementById('propDifficulty').value;step.progress=parseInt(document.getElementById('propProgress').value)||0;renderNodes(p.steps);selectNode(selectedNodeId);}
+function deleteNode(id){var p=pathways.find(function(p){return p.id===currentPathwayId;});if(!p)return;p.steps=(p.steps||[]).filter(function(s){return s.id!==id;});if(selectedNodeId===id){selectedNodeId=null;document.getElementById('propsEmpty').style.display='block';document.getElementById('propsForm').style.display='none';}renderNodes(p.steps);saveData();toast('Step deleted','💡');}
+function deleteSelectedNode(){if(selectedNodeId)deleteNode(selectedNodeId);}
+function duplicateSelectedNode(){var p=pathways.find(function(p){return p.id===currentPathwayId;});if(!p||!selectedNodeId)return;var idx=(p.steps||[]).findIndex(function(s){return s.id===selectedNodeId;});if(idx<0)return;var copy=Object.assign({},p.steps[idx],{id:genId(),title:p.steps[idx].title+' (copy)'});p.steps.splice(idx+1,0,copy);renderNodes(p.steps);saveData();toast('Step duplicated','📋');}
+function dragStart(e,type){dragType=type;e.dataTransfer.effectAllowed='copy';}
+function dragOver(e){e.preventDefault();e.dataTransfer.dropEffect='copy';document.getElementById('canvasArea').classList.add('drag-over');}
+function dragLeave(e){document.getElementById('canvasArea').classList.remove('drag-over');}
+function drop(e){e.preventDefault();document.getElementById('canvasArea').classList.remove('drag-over');if(!currentPathwayId||!dragType)return;var tc=TYPE_CONFIG[dragType];var step={id:genId(),type:dragType,title:tc.label+' Step',desc:'',duration:'',progress:0,difficulty:'easy'};var p=pathways.find(function(p){return p.id===currentPathwayId;});if(!p)return;p.steps=(p.steps||[]).concat([step]);renderNodes(p.steps);saveData();selectNode(step.id);toast('Step added!','✅');dragType=null;}
+function savePathway(){var p=pathways.find(function(p){return p.id===currentPathwayId;});if(!p)return;p.name=document.getElementById('pathwayName').value||'Untitled';p.desc=document.getElementById('pathwayDesc').value;p.difficulty=document.getElementById('pathwayDiff').value;p.color=currentColor;saveData();toast('Pathway saved!','💾');}
+function selectColor(el){document.querySelectorAll('.color-opt').forEach(function(e){e.classList.remove('selected');});el.classList.add('selected');currentColor=el.dataset.color;}
+function exportJSON(){var p=pathways.find(function(p){return p.id===currentPathwayId;});if(!p)return;var blob=new Blob([JSON.stringify(p,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(p.name||'pathway').toLowerCase().replace(/\s+/g,'-')+'.json';a.click();toast('Exported!','📤');}
+function importPathway(){try{var data=JSON.parse(document.getElementById('importJson').value);var p=Object.assign({},data,{id:genId()});pathways.push(p);saveData();closeModal('importModal');toast('Pathway imported!','📥');renderBrowse();}catch(e){toast('Invalid JSON!','❌');}}
+function showModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.addEventListener('click',function(e){if(e.target.classList.contains('modal-overlay')){e.target.classList.remove('open');}});
+function addStepDialog(){document.getElementById('newStepTitle').value='';document.getElementById('newStepDesc').value='';document.getElementById('newStepDuration').value='';document.getElementById('newStepType').value='learn';showModal('addStepModal');setTimeout(function(){document.getElementById('newStepTitle').focus();},100);}
+function confirmAddStep(){var title=document.getElementById('newStepTitle').value.trim();if(!title){toast('Please enter a step title','⚠️');return;}if(!currentPathwayId)return;var p=pathways.find(function(p){return p.id===currentPathwayId;});if(!p)return;var step={id:genId(),title:title,type:document.getElementById('newStepType').value,desc:document.getElementById('newStepDesc').value,duration:document.getElementById('newStepDuration').value,progress:0,difficulty:'easy'};p.steps=(p.steps||[]).concat([step]);renderNodes(p.steps);saveData();closeModal('addStepModal');selectNode(step.id);toast('Step added!','✅');}
+function newPathway(){document.getElementById('newPathwayName').value='';document.getElementById('newPathwayDesc').value='';currentEmoji='💻';document.querySelectorAll('[onclick="selectEmoji(this)"]').forEach(function(e,i){e.style.borderColor='transparent';if(i===0)e.style.borderColor='var(--primary)';});showModal('newPathwayModal');setTimeout(function(){document.getElementById('newPathwayName').focus();},100);}
+function selectEmoji(el){document.querySelectorAll('[onclick="selectEmoji(this)"]').forEach(function(e){e.style.borderColor='transparent';});el.style.borderColor='var(--primary)';currentEmoji=el.textContent.trim();}
+function confirmNewPathway(){var name=document.getElementById('newPathwayName').value.trim();if(!name){toast('Please enter a pathway name','⚠️');return;}var p={id:genId(),name:name,desc:document.getElementById('newPathwayDesc').value,difficulty:document.getElementById('newPathwayDiff').value.toLowerCase(),category:document.getElementById('newPathwayCat').value,icon:currentEmoji,color:currentColor,steps:[],createdAt:new Date().toISOString()};pathways.push(p);saveData();closeModal('newPathwayModal');currentPathwayId=p.id;showTab('builder');toast('Pathway created!','🎉');}
+function renderTemplates(){var grid=document.getElementById('templatesGrid');grid.innerHTML=TEMPLATES.map(function(t,i){return '<div class="pathway-card animate-in" onclick="useTemplate('+i+')" style="cursor:pointer;">'+'<div class="pathway-card-header">'+'<div class="pathway-card-icon" style="background:'+t.color+'22;">'+t.icon+'</div>'+'<div class="pathway-card-title">'+t.name+'</div>'+'<div class="pathway-card-desc">'+t.desc+'</div>'+'<div class="node-meta" style="margin-top:.75rem;">'+'<span class="tag tag-type">'+t.difficulty+'</span>'+'<span class="tag tag-duration">'+t.steps.length+' steps</span>'+'</div></div>'+'<div class="pathway-card-footer">'+'<button class="btn btn-primary btn-sm" onclick="useTemplate('+i+');event.stopPropagation();">Use Template &rarr;</button>'+'</div></div>';}).join('');}
+function useTemplate(i){var t=TEMPLATES[i];var p={id:genId(),name:t.name,desc:t.desc,difficulty:t.difficulty,icon:t.icon,color:t.color,steps:t.steps.map(function(s){return Object.assign({},s,{id:genId(),progress:0,difficulty:'medium'});}),createdAt:new Date().toISOString()};pathways.push(p);saveData();currentPathwayId=p.id;showTab('builder');toast('Template loaded!','🚀');}
+function toast(msg,icon,type){icon=icon||'✅';type=type||'success';var c=document.getElementById('toastContainer');var el=document.createElement('div');el.className='toast '+type;el.innerHTML='<span class="toast-icon">'+icon+'</span><span>'+msg+'</span>';c.appendChild(el);setTimeout(function(){el.classList.add('show');},50);setTimeout(function(){el.classList.remove('show');setTimeout(function(){el.remove();},300);},3000);}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.querySelectorAll('.modal-overlay.open').forEach(function(m){m.classList.remove('open');});}if(e.key==='s'&&(e.ctrlKey||e.metaKey)){e.preventDefault();savePathway();}if(e.key==='Delete'&&selectedNodeId&&document.getElementById('tab-builder').style.display!=='none'){if(document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA')deleteSelectedNode();}});
+loadData();renderBrowse();
+</script>
+</body>
+</html>
