@@ -217,6 +217,48 @@ export default function Home() {
         </figure>
       </section>
 
+      {/* Build Your Own Pathway — CTA */}
+      <section className="bg-gradient-to-br from-brand-600 to-accent-600 py-16 sm:py-20">
+        <div className="container-page text-center text-white">
+          <span className="inline-block rounded-full bg-white/20 px-4 py-1 text-sm font-semibold tracking-wide mb-4">
+            ✨ Free Visual Builder
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+            Build your own learning path
+          </h2>
+          <p className="mx-auto max-w-xl text-brand-100 text-lg mb-8">
+            Use our drag-and-drop builder to design, organize, and share
+            structured learning journeys — for any subject, any level.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <a
+              href="https://pathways-builder.netlify.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary bg-white text-brand-700 hover:bg-brand-50 px-8 py-3 text-base font-semibold shadow-lg"
+            >
+              🚀 Open Pathway Builder
+            </a>
+            <Link to="/pathways" className="btn-ghost border-white/40 text-white hover:bg-white/10 px-8 py-3 text-base">
+              Browse Existing Pathways
+            </Link>
+          </div>
+          <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto text-center">
+            {[
+              { icon: '🎯', text: '5 step types' },
+              { icon: '📦', text: '4 templates' },
+              { icon: '🔗', text: 'Shareable links' },
+              { icon: '💾', text: 'Export as JSON' },
+            ].map((f) => (
+              <div key={f.text} className="rounded-xl bg-white/10 p-3">
+                <div className="text-2xl mb-1">{f.icon}</div>
+                <div className="text-sm text-brand-100">{f.text}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="container-page pb-20">
         <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center sm:p-12">
