@@ -153,7 +153,84 @@ export const pathways = [
       { title: 'Agents, tools & evals', lessons: 7 },
     ],
   },
-]
+,
+  {
+    slug: 'arabic-language',
+    title: 'Arabic Language Learning',
+    tagline: 'From alphabet to conversation — a structured path for all learners.',
+    level: 'Beginner → Intermediate',
+    duration: '16 weeks',
+    hours: '4–6 hrs / week',
+    category: 'Language',
+    color: 'from-emerald-500 to-teal-700',
+    icon: 'bookOpen',
+    summary:
+      'A comprehensive journey through Modern Standard Arabic and spoken dialects — covering reading, writing, listening, and speaking.',
+    outcomes: [
+      'Read and write the Arabic alphabet fluently',
+      'Build vocabulary for everyday conversations',
+      'Understand grammar patterns for MSA and spoken Arabic',
+      'Hold beginner-to-intermediate level conversations',
+    ],
+    modules: [
+      { title: 'The Arabic Alphabet & Sounds', lessons: 8 },
+      { title: 'Core Vocabulary & Phrases', lessons: 10 },
+      { title: 'Grammar Foundations', lessons: 9 },
+      { title: 'Reading & Writing Practice', lessons: 8 },
+      { title: 'Listening & Conversation', lessons: 9 },
+    ],
+  },
+  {
+    slug: 'python-beginners',
+    title: 'Python for Absolute Beginners',
+    tagline: 'Write your first program and never look back.',
+    level: 'Beginner',
+    duration: '8 weeks',
+    hours: '3–5 hrs / week',
+    category: 'Programming',
+    color: 'from-yellow-500 to-orange-600',
+    icon: 'code',
+    summary:
+      'Start from zero and build confidence with Python — covering the fundamentals every developer needs, with hands-on projects from day one.',
+    outcomes: [
+      'Write and run Python programs confidently',
+      'Work with variables, loops, functions, and files',
+      'Build 3 mini-projects: calculator, quiz app, and data formatter',
+      'Understand how to read documentation and debug errors',
+    ],
+    modules: [
+      { title: 'Python Basics: Variables & Types', lessons: 6 },
+      { title: 'Control Flow & Loops', lessons: 7 },
+      { title: 'Functions & Modules', lessons: 6 },
+      { title: 'Lists, Dicts & Files', lessons: 7 },
+      { title: 'Mini Projects', lessons: 5 },
+    ],
+  },
+  {
+    slug: 'digital-literacy',
+    title: 'Digital Literacy for Everyone',
+    tagline: 'Navigate the modern world with confidence and safety.',
+    level: 'Beginner',
+    duration: '6 weeks',
+    hours: '2–3 hrs / week',
+    category: 'Life Skills',
+    color: 'from-sky-500 to-blue-700',
+    icon: 'globe',
+    summary:
+      'A practical guide to using the internet, devices, and digital tools safely and effectively — designed for learners of all backgrounds.',
+    outcomes: [
+      'Use email, browsers, and online services confidently',
+      'Protect yourself from scams and misinformation',
+      'Collaborate with others using digital tools',
+      'Understand privacy settings and online safety basics',
+    ],
+    modules: [
+      { title: 'Devices & the Internet', lessons: 5 },
+      { title: 'Email, Search & Cloud', lessons: 6 },
+      { title: 'Online Safety & Privacy', lessons: 6 },
+      { title: 'Collaboration Tools', lessons: 5 },
+    ],
+  }]
 
 export function getPathway(slug) {
   return pathways.find((p) => p.slug === slug)
