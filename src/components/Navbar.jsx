@@ -99,6 +99,15 @@ export default function Navbar() {
             </NavLink>
           ))}
 
+          <a
+            href="https://pathways-builder.netlify.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full px-4 py-2 text-sm font-medium text-brand-700 hover:bg-brand-50 transition"
+          >
+            🚀 Builder
+          </a>
+
           {/* For you dropdown */}
           <div className="relative" ref={forRef}>
             <button
@@ -188,6 +197,15 @@ export default function Navbar() {
                 {l.label}
               </NavLink>
             ))}
+
+            <a
+              href="https://pathways-builder.netlify.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-xl px-4 py-3 text-base font-medium text-brand-700 hover:bg-brand-50 flex items-center gap-2"
+            >
+              🚀 Pathway Builder
+            </a>
 
             <p className="mt-3 px-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
               For
