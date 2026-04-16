@@ -187,7 +187,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
     <button class="btn btn-ghost btn-sm" onclick="showTab('browse')">&larr; Back</button>
     <input type="text" id="pathwayName" class="pathway-name-input" placeholder="Untitled Pathway">
     <div style="display:flex;gap:.5rem;">
-      <button class="btn btn-ghost btn-sm" onclick="exportJSON()">&#x1F4E4; Export</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportJSON()">&#x1F4E4; Export</button><button class="btn btn-ghost btn-sm" onclick="sharePathway()">&#x1F517; Share</button>
       <button class="btn btn-success btn-sm" onclick="savePathway()">&#x1F4BE; Save</button>
     </div>
   </div>
@@ -458,7 +458,13 @@ function renderTemplates(){var grid=document.getElementById('templatesGrid');gri
 function useTemplate(i){var t=TEMPLATES[i];var p={id:genId(),name:t.name,desc:t.desc,difficulty:t.difficulty,icon:t.icon,color:t.color,steps:t.steps.map(function(s){return Object.assign({},s,{id:genId(),progress:0,difficulty:'medium'});}),createdAt:new Date().toISOString()};pathways.push(p);saveData();currentPathwayId=p.id;showTab('builder');toast('Template loaded!','🚀');}
 function toast(msg,icon,type){icon=icon||'✅';type=type||'success';var c=document.getElementById('toastContainer');var el=document.createElement('div');el.className='toast '+type;el.innerHTML='<span class="toast-icon">'+icon+'</span><span>'+msg+'</span>';c.appendChild(el);setTimeout(function(){el.classList.add('show');},50);setTimeout(function(){el.classList.remove('show');setTimeout(function(){el.remove();},300);},3000);}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.querySelectorAll('.modal-overlay.open').forEach(function(m){m.classList.remove('open');});}if(e.key==='s'&&(e.ctrlKey||e.metaKey)){e.preventDefault();savePathway();}if(e.key==='Delete'&&selectedNodeId&&document.getElementById('tab-builder').style.display!=='none'){if(document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA')deleteSelectedNode();}});
-loadData();renderBrowse();
+loadData();checkSharedPathway();renderBrowse();
+
+// ==================== SHARE ====================
+function sharePathway(){var p=pathways.find(function(p){return p.id===currentPathwayId;});if(!p){toast('No pathway to share','⚠️');return;}try{var data=JSON.stringify(p);var encoded=btoa(unescape(encodeURIComponent(data)));var shareUrl=window.location.origin+window.location.pathname+'?share='+encoded;if(navigator.share){navigator.share({title:p.name,text:'Check out my learning pathway: '+p.name,url:shareUrl}).then(function(){toast('Shared!','🔗');}).catch(function(){copyToClipboard(shareUrl);});}else{copyToClipboard(shareUrl);}}catch(e){toast('Error sharing pathway','❌');}}
+function copyToClipboard(text){if(navigator.clipboard){navigator.clipboard.writeText(text).then(function(){toast('Share link copied to clipboard!','🔗');}).catch(function(){fallbackCopy(text);});}else{fallbackCopy(text);}}
+function fallbackCopy(text){var el=document.createElement('textarea');el.value=text;document.body.appendChild(el);el.select();document.execCommand('copy');document.body.removeChild(el);toast('Share link copied!','🔗');}
+function checkSharedPathway(){var params=new URLSearchParams(window.location.search);var shareData=params.get('share');if(shareData){try{var decoded=JSON.parse(decodeURIComponent(escape(atob(shareData))));decoded.id=genId();pathways.push(decoded);saveData();currentPathwayId=decoded.id;history.replaceState(null,'',window.location.pathname);toast('Pathway loaded from share link!','🎉');showTab('builder');}catch(e){console.error('Invalid share data',e);}}}
 </script>
 </body>
 </html>
