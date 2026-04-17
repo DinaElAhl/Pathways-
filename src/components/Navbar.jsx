@@ -6,6 +6,7 @@ import { audiences } from '../data/audiences.js'
 const links = [
   { to: '/', label: 'Home', end: true },
   { to: '/pathways', label: 'Pathways' },
+  { to: '/recommend', label: 'AI Match' },
   { to: '/resources', label: 'Resources' },
   { to: '/events', label: 'Events' },
   { to: '/about', label: 'About' },
