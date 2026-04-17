@@ -749,6 +749,214 @@ export const pathways = [
       },
     ],
   },
+  {
+    slug: 'k12-computer-science',
+    title: 'K-12 Computer Science',
+    description: 'A full K-12 CS curriculum aligned with CSTA standards. Block-based coding for early grades, text-based coding for middle school, and AP-level content for high school.',
+    color: 'from-blue-500 to-indigo-600',
+    tags: ['k12','schools','cs','csta','curriculum'],
+    nextPath: 'web-development',
+    relatedPaths: ['ai-in-classroom','digital-literacy','python-beginners'],
+    stages: [
+      { title: 'Elementary (K-5)', weeks: 'Grades K-5', lessons: 40, description: 'Block-based coding, computational thinking, and digital citizenship.',
+        resources: [
+          { title: 'Code.org CS Fundamentals', url: 'https://code.org/educate/curriculum/elementary-school', type: 'Free Curriculum', source: 'Code.org', recommended: true },
+          { title: 'Scratch for Educators', url: 'https://scratch.mit.edu/educators', type: 'Free Platform', source: 'MIT', recommended: true },
+          { title: 'CS Unplugged', url: 'https://csunplugged.org/', type: 'Free Lessons', source: 'CSU NZ' },
+          { title: 'Tynker K-5', url: 'https://www.tynker.com/school/elementary', type: 'Paid', source: 'Tynker' },
+        ]
+      },
+      { title: 'Middle School (6-8)', weeks: 'Grades 6-8', lessons: 50, description: 'Text-based programming in Python, web basics, and intro to data.',
+        resources: [
+          { title: 'Code.org CS Discoveries', url: 'https://code.org/educate/csd', type: 'Free Curriculum', source: 'Code.org', recommended: true },
+          { title: 'Bootstrap: Algebra', url: 'https://www.bootstrapworld.org/materials/algebra/', type: 'Free Curriculum', source: 'Bootstrap' },
+          { title: 'BBC micro:bit lessons', url: 'https://microbit.org/teach/', type: 'Free Lessons', source: 'BBC' },
+        ]
+      },
+      { title: 'High School (9-12)', weeks: 'Grades 9-12', lessons: 60, description: 'Java, AP CS Principles, AP CS A, and college-prep portfolios.',
+        resources: [
+          { title: 'AP Computer Science Principles', url: 'https://apcentral.collegeboard.org/courses/ap-computer-science-principles', type: 'Official Curriculum', source: 'College Board', recommended: true },
+          { title: 'CMU CS Academy', url: 'https://academy.cs.cmu.edu/', type: 'Free', source: 'Carnegie Mellon', recommended: true },
+          { title: 'Code.org CSA', url: 'https://code.org/educate/csa', type: 'Free', source: 'Code.org' },
+        ]
+      },
+    ],
+  },
+  {
+    slug: 'ai-in-classroom',
+    title: 'AI in the Classroom — for Teachers',
+    description: 'A practical, hands-on pathway for teachers who want to use generative AI responsibly with their students. No coding required.',
+    color: 'from-violet-500 to-purple-600',
+    tags: ['teachers','ai','professional-development','ethics'],
+    nextPath: 'ai-fundamentals',
+    relatedPaths: ['k12-computer-science','data-literacy'],
+    stages: [
+      { title: 'Foundations of generative AI', weeks: 'Week 1-2', lessons: 10, description: 'How LLMs work at a conceptual level — enough to teach from, not build from.',
+        resources: [
+          { title: 'AI for Every Educator (MIT RAISE)', url: 'https://raise.mit.edu/resources.html', type: 'Free Course', source: 'MIT', recommended: true },
+          { title: 'Google AI Essentials', url: 'https://grow.google/ai-essentials/', type: 'Paid Course', source: 'Google' },
+          { title: 'ISTE Generative AI Guide', url: 'https://iste.org/ai', type: 'Free Guide', source: 'ISTE', recommended: true },
+        ]
+      },
+      { title: 'Classroom use cases', weeks: 'Week 3-5', lessons: 15, description: 'Lesson planning, feedback, differentiation, and formative assessment with AI.',
+        resources: [
+          { title: 'MagicSchool AI for teachers', url: 'https://www.magicschool.ai/', type: 'Freemium Tool', source: 'MagicSchool' },
+          { title: 'Khanmigo for Teachers', url: 'https://www.khanmigo.ai/', type: 'Free Tool', source: 'Khan Academy', recommended: true },
+          { title: 'AI for Education — lesson library', url: 'https://www.aiforeducation.io/', type: 'Free', source: 'AI for Education' },
+        ]
+      },
+      { title: 'Ethics, integrity & policy', weeks: 'Week 6-8', lessons: 12, description: 'AI detection, academic integrity, privacy, and writing a classroom AI policy.',
+        resources: [
+          { title: 'UNESCO guidance on generative AI', url: 'https://www.unesco.org/en/digital-education/artificial-intelligence', type: 'Free Guide', source: 'UNESCO', recommended: true },
+          { title: 'TeachAI policy toolkit', url: 'https://www.teachai.org/toolkit', type: 'Free Toolkit', source: 'TeachAI' },
+        ]
+      },
+    ],
+  },
+  {
+    slug: 'data-literacy',
+    title: 'Data Literacy for Every Student',
+    description: 'A cross-disciplinary pathway teaching students to read, interpret, and reason with data — from middle school to first-year university.',
+    color: 'from-teal-500 to-cyan-600',
+    tags: ['data','literacy','schools','universities'],
+    nextPath: 'data-science',
+    relatedPaths: ['k12-computer-science','ai-in-classroom','statistics-for-social-science'],
+    stages: [
+      { title: 'Reading charts and claims', weeks: 'Week 1-3', lessons: 12, description: 'How to read a chart critically and evaluate statistical claims in the news.',
+        resources: [
+          { title: 'Calling Bullshit — Univ. of Washington', url: 'https://www.callingbullshit.org/', type: 'Free Course', source: 'UW', recommended: true },
+          { title: 'Our World in Data — teaching', url: 'https://ourworldindata.org/teaching', type: 'Free Lessons', source: 'OWID', recommended: true },
+        ]
+      },
+      { title: 'Working with spreadsheets', weeks: 'Week 4-6', lessons: 14, description: 'Formulas, pivot tables, and basic charts in Google Sheets / Excel.',
+        resources: [
+          { title: 'GCFLearnFree Excel', url: 'https://edu.gcfglobal.org/en/excel/', type: 'Free Course', source: 'GCFGlobal' },
+          { title: 'Google Sheets training', url: 'https://support.google.com/a/users/answer/9282959', type: 'Free', source: 'Google' },
+        ]
+      },
+      { title: 'Introduction to statistics', weeks: 'Week 7-10', lessons: 18, description: 'Central tendency, variability, probability, and the scientific method.',
+        resources: [
+          { title: 'OpenIntro Statistics', url: 'https://www.openintro.org/book/os/', type: 'Free Book', source: 'OpenIntro', recommended: true },
+          { title: 'Khan Academy Statistics', url: 'https://www.khanacademy.org/math/statistics-probability', type: 'Free Course', source: 'Khan Academy' },
+        ]
+      },
+    ],
+  },
+  {
+    slug: 'stem-high-school',
+    title: 'STEM for High School',
+    description: 'An integrated high-school STEM pathway covering physics, chemistry, biology, and mathematics with lab simulations and project work.',
+    color: 'from-amber-500 to-orange-600',
+    tags: ['stem','high-school','physics','chemistry','biology','math'],
+    relatedPaths: ['k12-computer-science','data-literacy'],
+    stages: [
+      { title: 'Mathematics: algebra to calculus', weeks: '16 weeks', lessons: 40, description: 'From algebra II through pre-calculus and into intro calculus.',
+        resources: [
+          { title: 'Khan Academy — Math', url: 'https://www.khanacademy.org/math', type: 'Free Course', source: 'Khan Academy', recommended: true },
+          { title: 'MIT OCW 18.01 Calculus', url: 'https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/', type: 'Free Course', source: 'MIT' },
+        ]
+      },
+      { title: 'Physics fundamentals', weeks: '12 weeks', lessons: 30, description: 'Mechanics, waves, electricity & magnetism with PhET simulations.',
+        resources: [
+          { title: 'PhET Interactive Simulations', url: 'https://phet.colorado.edu/', type: 'Free Simulations', source: 'UC Boulder', recommended: true },
+          { title: 'MIT OCW 8.01 Classical Mechanics', url: 'https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/', type: 'Free Course', source: 'MIT' },
+        ]
+      },
+      { title: 'Chemistry & Biology', weeks: '14 weeks', lessons: 35, description: 'Atomic theory, stoichiometry, genetics, and cell biology.',
+        resources: [
+          { title: 'CK-12 FlexBooks', url: 'https://www.ck12.org/fb/', type: 'Free Textbooks', source: 'CK-12', recommended: true },
+          { title: 'HHMI BioInteractive', url: 'https://www.biointeractive.org/', type: 'Free Resources', source: 'HHMI' },
+          { title: 'Crash Course Chemistry', url: 'https://thecrashcourse.com/topic/chemistry/', type: 'Free Videos', source: 'Crash Course' },
+        ]
+      },
+    ],
+  },
+  {
+    slug: 'statistics-for-social-science',
+    title: 'Statistics for Social Science',
+    description: 'A first-year university statistics pathway designed for psychology, sociology, economics, and political science majors. R and SPSS covered.',
+    color: 'from-rose-500 to-pink-600',
+    tags: ['universities','statistics','social-science','r','spss'],
+    relatedPaths: ['data-literacy','data-science'],
+    stages: [
+      { title: 'Descriptive statistics', weeks: 'Week 1-4', lessons: 12, description: 'Distributions, central tendency, variability, and visualisation.',
+        resources: [
+          { title: 'OpenIntro Statistics', url: 'https://www.openintro.org/book/os/', type: 'Free Book', source: 'OpenIntro', recommended: true },
+          { title: 'StatQuest with Josh Starmer', url: 'https://statquest.org/', type: 'Free Videos', source: 'StatQuest', recommended: true },
+        ]
+      },
+      { title: 'Inferential statistics', weeks: 'Week 5-9', lessons: 15, description: 'Hypothesis testing, t-tests, ANOVA, chi-square, and effect sizes.',
+        resources: [
+          { title: 'Learning Statistics with R (Navarro)', url: 'https://learningstatisticswithr.com/', type: 'Free Book', source: 'Open', recommended: true },
+          { title: 'Discovering Statistics (Andy Field)', url: 'https://www.discoveringstatistics.com/', type: 'Paid Book', source: 'Andy Field' },
+        ]
+      },
+      { title: 'Regression & modelling', weeks: 'Week 10-14', lessons: 15, description: 'Linear regression, logistic regression, and multi-level models.',
+        resources: [
+          { title: 'Regression & Other Stories (Gelman)', url: 'https://avehtari.github.io/ROS-Examples/', type: 'Free Companion', source: 'Aalto', recommended: true },
+          { title: 'QuantEcon — Econometrics', url: 'https://python.quantecon.org/', type: 'Free Lectures', source: 'QuantEcon' },
+        ]
+      },
+    ],
+  },
+  {
+    slug: 'business-essentials',
+    title: 'Business Essentials — University',
+    description: 'A first-year business pathway covering microeconomics, accounting, marketing, and entrepreneurship.',
+    color: 'from-emerald-500 to-green-600',
+    tags: ['universities','business','economics','marketing'],
+    relatedPaths: ['product-management','statistics-for-social-science'],
+    stages: [
+      { title: 'Microeconomics', weeks: 'Week 1-6', lessons: 20, description: 'Supply, demand, elasticity, market structures, and game theory.',
+        resources: [
+          { title: 'MIT OCW 14.01 Principles of Microeconomics', url: 'https://ocw.mit.edu/courses/14-01-principles-of-microeconomics-fall-2018/', type: 'Free Course', source: 'MIT', recommended: true },
+          { title: 'Khan Academy Micro', url: 'https://www.khanacademy.org/economics-finance-domain/microeconomics', type: 'Free', source: 'Khan Academy' },
+        ]
+      },
+      { title: 'Financial accounting', weeks: 'Week 7-11', lessons: 18, description: 'Reading the three statements, accruals, and the accounting equation.',
+        resources: [
+          { title: 'Wharton Intro to Financial Accounting', url: 'https://www.coursera.org/learn/wharton-accounting', type: 'Free to audit', source: 'Coursera / Wharton', recommended: true },
+          { title: 'CFI Accounting Fundamentals', url: 'https://corporatefinanceinstitute.com/resources/accounting/', type: 'Freemium', source: 'CFI' },
+        ]
+      },
+      { title: 'Marketing & entrepreneurship', weeks: 'Week 12-16', lessons: 16, description: 'Brand, positioning, go-to-market, and lean startup.',
+        resources: [
+          { title: 'HBS Online — Entrepreneurship Essentials', url: 'https://online.hbs.edu/courses/entrepreneurship-essentials/', type: 'Paid', source: 'HBS' },
+          { title: 'YC Startup School', url: 'https://www.startupschool.org/', type: 'Free', source: 'Y Combinator', recommended: true },
+        ]
+      },
+    ],
+  },
+  {
+    slug: 'cybersecurity-foundations',
+    title: 'Cybersecurity Foundations',
+    description: 'From password hygiene to network security — a foundational cybersecurity pathway for school IT programs and first-year university.',
+    color: 'from-slate-600 to-gray-700',
+    tags: ['security','cybersecurity','networking','universities','schools'],
+    relatedPaths: ['cloud-devops','web-development'],
+    stages: [
+      { title: 'Security fundamentals', weeks: 'Week 1-4', lessons: 15, description: 'CIA triad, threat modelling, authentication, and passwords.',
+        resources: [
+          { title: 'CompTIA Security+ Study Guide', url: 'https://www.comptia.org/certifications/security', type: 'Paid Cert', source: 'CompTIA', recommended: true },
+          { title: 'Google Cybersecurity Certificate', url: 'https://www.coursera.org/professional-certificates/google-cybersecurity', type: 'Paid', source: 'Google / Coursera', recommended: true },
+          { title: 'Professor Messer — Security+', url: 'https://www.professormesser.com/', type: 'Free Videos', source: 'Professor Messer' },
+        ]
+      },
+      { title: 'Networking & cryptography', weeks: 'Week 5-9', lessons: 18, description: 'TCP/IP, TLS, symmetric and asymmetric crypto, PKI.',
+        resources: [
+          { title: 'Cryptography I (Stanford / Coursera)', url: 'https://www.coursera.org/learn/crypto', type: 'Free to audit', source: 'Stanford', recommended: true },
+          { title: 'Cisco Networking Academy', url: 'https://www.netacad.com/', type: 'Free', source: 'Cisco' },
+        ]
+      },
+      { title: 'Offensive & defensive labs', weeks: 'Week 10-14', lessons: 16, description: 'Hands-on labs in penetration testing and blue-team defence.',
+        resources: [
+          { title: 'TryHackMe', url: 'https://tryhackme.com/', type: 'Freemium', source: 'TryHackMe', recommended: true },
+          { title: 'HackTheBox Academy', url: 'https://academy.hackthebox.com/', type: 'Freemium', source: 'HackTheBox' },
+          { title: 'OWASP Top 10', url: 'https://owasp.org/www-project-top-ten/', type: 'Free Reference', source: 'OWASP' },
+        ]
+      },
+    ],
+  },
 ];
 
 export function getPathway(slug) {
