@@ -15,6 +15,9 @@ import About from './pages/About.jsx'
 import Contact from './pages/Contact.jsx'
 import NotFound from './pages/NotFound.jsx'
 import AIRecommender from './pages/AIRecommender.jsx'
+import LMS from './pages/LMS.jsx'
+import Pricing from './pages/Pricing.jsx'
+import LMSAudience from './pages/LMSAudience.jsx'
 
 export default function App() {
   return (
@@ -24,6 +27,9 @@ export default function App() {
         <Route path="/pathways" element={<Pathways />} />
         <Route path="/pathways/:slug" element={<PathwayDetail />} />
         <Route path="/recommend" element={<AIRecommender />} />
+        <Route path="/lms" element={<LMS />} />
+        <Route path="/lms/:slug" element={<LMSAudience />} />
+        <Route path="/pricing" element={<Pricing />} />
         <Route path="/for/:slug" element={<AudiencePage />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/resources/:slug" element={<ResourceDetail />} />
