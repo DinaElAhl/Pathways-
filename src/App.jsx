@@ -21,6 +21,7 @@ import LMSAudience from './pages/LMSAudience.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import AIStudio from './pages/AIStudio.jsx'
 import Join from './pages/Join.jsx'
+import PartnerPicks from './pages/PartnerPicks.jsx'
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/ai-studio" element={<AIStudio />} />
         <Route path="/join" element={<Join />} />
+        <Route path="/partners" element={<PartnerPicks />} />
         <Route path="/for/:slug" element={<AudiencePage />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/resources/:slug" element={<ResourceDetail />} />
