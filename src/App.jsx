@@ -18,6 +18,9 @@ import AIRecommender from './pages/AIRecommender.jsx'
 import LMS from './pages/LMS.jsx'
 import Pricing from './pages/Pricing.jsx'
 import LMSAudience from './pages/LMSAudience.jsx'
+import Dashboard from './pages/Dashboard.jsx'
+import AIStudio from './pages/AIStudio.jsx'
+import Join from './pages/Join.jsx'
 
 export default function App() {
   return (
@@ -30,6 +33,9 @@ export default function App() {
         <Route path="/lms" element={<LMS />} />
         <Route path="/lms/:slug" element={<LMSAudience />} />
         <Route path="/pricing" element={<Pricing />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/ai-studio" element={<AIStudio />} />
+        <Route path="/join" element={<Join />} />
         <Route path="/for/:slug" element={<AudiencePage />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/resources/:slug" element={<ResourceDetail />} />
