@@ -9,6 +9,7 @@ const links = [
   { to: '/recommend', label: 'AI Match' },
   { to: '/lms', label: 'For Schools' },
   { to: '/pricing', label: 'Pricing' },
+  { to: '/dashboard', label: 'Dashboard' },
   { to: '/resources', label: 'Resources' },
   { to: '/events', label: 'Events' },
   { to: '/about', label: 'About' },
