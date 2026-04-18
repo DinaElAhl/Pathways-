@@ -957,6 +957,176 @@ export const pathways = [
       },
     ],
   },
+  {
+    slug: 'pre-med-essentials',
+    title: 'Pre-Med Essentials',
+    description: 'A pre-med pathway covering MCAT-aligned biology, biochemistry, organic chemistry, and clinical foundations.',
+    color: 'from-red-500 to-rose-600',
+    tags: ['universities','medicine','pre-med','mcat','biology','chemistry'],
+    relatedPaths: ['stem-high-school','statistics-for-social-science'],
+    stages: [
+      { title: 'Biochemistry & cell biology', weeks: '8 weeks', lessons: 24, description: 'Macromolecules, enzymes, cellular respiration, and membrane transport.',
+        resources: [
+          { title: 'Khan Academy MCAT', url: 'https://www.khanacademy.org/test-prep/mcat', type: 'Free Course', source: 'Khan Academy', recommended: true },
+          { title: 'MIT OCW 7.01SC Fundamentals of Biology', url: 'https://ocw.mit.edu/courses/7-01sc-fundamentals-of-biology-fall-2011/', type: 'Free Course', source: 'MIT' },
+        ]
+      },
+      { title: 'Organic & general chemistry', weeks: '10 weeks', lessons: 28, description: 'Reaction mechanisms, stereochemistry, acid-base, and lab techniques.',
+        resources: [
+          { title: 'Organic Chemistry as a Second Language', url: 'https://www.wiley.com/en-us/Organic+Chemistry+As+a+Second+Language', type: 'Paid Book', source: 'Wiley', recommended: true },
+          { title: 'Professor Dave — Organic Chemistry', url: 'https://www.youtube.com/c/ProfessorDaveExplains', type: 'Free Videos', source: 'YouTube' },
+        ]
+      },
+      { title: 'Clinical foundations', weeks: '6 weeks', lessons: 18, description: 'Patient communication, medical ethics, epidemiology basics, and healthcare systems.',
+        resources: [
+          { title: 'AAMC MCAT resources', url: 'https://students-residents.aamc.org/mcat-preparation/mcat-preparation', type: 'Official', source: 'AAMC', recommended: true },
+          { title: 'Yale OCW — Introduction to Clinical Medicine', url: 'https://oyc.yale.edu/', type: 'Free', source: 'Yale' },
+        ]
+      },
+    ],
+  },
+  {
+    slug: 'mechanical-engineering-fundamentals',
+    title: 'Mechanical Engineering Fundamentals',
+    description: 'A first- and second-year undergraduate pathway: statics, dynamics, thermodynamics, and CAD.',
+    color: 'from-orange-500 to-red-600',
+    tags: ['universities','engineering','mechanical','cad'],
+    relatedPaths: ['stem-high-school','cybersecurity-foundations'],
+    stages: [
+      { title: 'Statics & dynamics', weeks: '10 weeks', lessons: 30, description: 'Free-body diagrams, equilibrium, Newton\'s laws, and kinematics.',
+        resources: [
+          { title: 'MIT OCW 2.001 Mechanics & Materials I', url: 'https://ocw.mit.edu/courses/2-001-mechanics-materials-i-fall-2006/', type: 'Free', source: 'MIT', recommended: true },
+          { title: 'Hibbeler — Engineering Mechanics', url: 'https://www.pearson.com/', type: 'Paid Book', source: 'Pearson' },
+        ]
+      },
+      { title: 'Thermodynamics', weeks: '8 weeks', lessons: 24, description: 'First and second laws, ideal gas, cycles, and heat transfer intro.',
+        resources: [
+          { title: 'MIT OCW 2.005 Thermal-Fluids Engineering I', url: 'https://ocw.mit.edu/courses/2-005-thermal-fluids-engineering-i-fall-2008/', type: 'Free', source: 'MIT', recommended: true },
+          { title: 'LearnThermo.com', url: 'https://www.learnthermo.com/', type: 'Free', source: 'LearnThermo' },
+        ]
+      },
+      { title: 'CAD & design', weeks: '6 weeks', lessons: 18, description: 'Sketching, part modelling, assemblies, and basic FEA in Fusion 360 or SolidWorks.',
+        resources: [
+          { title: 'Autodesk Fusion 360 for students (free)', url: 'https://www.autodesk.com/education/edu-software/overview', type: 'Free (edu)', source: 'Autodesk', recommended: true },
+          { title: 'Onshape Learning Center', url: 'https://learn.onshape.com/', type: 'Free', source: 'Onshape' },
+        ]
+      },
+    ],
+  },
+  {
+    slug: 'visual-arts-foundations',
+    title: 'Visual Arts Foundations',
+    description: 'Drawing, colour theory, composition, and digital illustration for high-school and first-year art students.',
+    color: 'from-pink-500 to-rose-500',
+    tags: ['arts','visual-arts','illustration','schools','universities'],
+    relatedPaths: ['ux-design'],
+    stages: [
+      { title: 'Drawing fundamentals', weeks: '8 weeks', lessons: 20, description: 'Line, value, form, and perspective through daily sketching.',
+        resources: [
+          { title: 'Proko — Drawing basics', url: 'https://www.proko.com/', type: 'Freemium', source: 'Proko', recommended: true },
+          { title: 'Drawabox', url: 'https://drawabox.com/', type: 'Free', source: 'Drawabox', recommended: true },
+        ]
+      },
+      { title: 'Colour & composition', weeks: '6 weeks', lessons: 15, description: 'Colour theory, harmonies, and visual storytelling.',
+        resources: [
+          { title: 'James Gurney — Color and Light', url: 'https://gurneyjourney.blogspot.com/', type: 'Blog (free)', source: 'James Gurney' },
+          { title: 'Marco Bucci — Color & Light YouTube', url: 'https://www.youtube.com/@MarcoBucci', type: 'Free', source: 'YouTube', recommended: true },
+        ]
+      },
+      { title: 'Digital illustration', weeks: '6 weeks', lessons: 16, description: 'Procreate / Photoshop workflows, layers, and painting techniques.',
+        resources: [
+          { title: 'Krita — free digital painting', url: 'https://krita.org/', type: 'Free Software', source: 'Krita', recommended: true },
+          { title: 'Procreate Handbook', url: 'https://procreate.com/handbook', type: 'Free', source: 'Procreate' },
+        ]
+      },
+    ],
+  },
+  {
+    slug: 'early-childhood-education',
+    title: 'Early Childhood Education',
+    description: 'A professional pathway for pre-school and kindergarten teachers — developmentally appropriate practice, play-based learning, and family engagement.',
+    color: 'from-yellow-500 to-amber-500',
+    tags: ['teachers','ece','early-childhood','schools','professional-development'],
+    nextPath: 'ai-in-classroom',
+    relatedPaths: ['ai-in-classroom'],
+    stages: [
+      { title: 'Child development 0-8', weeks: 'Week 1-4', lessons: 12, description: 'Cognitive, social-emotional, language, and motor milestones.',
+        resources: [
+          { title: 'Zero to Three — developmental milestones', url: 'https://www.zerotothree.org/resources/', type: 'Free', source: 'Zero to Three', recommended: true },
+          { title: 'Harvard Center on the Developing Child', url: 'https://developingchild.harvard.edu/', type: 'Free', source: 'Harvard', recommended: true },
+        ]
+      },
+      { title: 'Play-based curriculum', weeks: 'Week 5-9', lessons: 16, description: 'Designing learning centres, provocations, and project-based play.',
+        resources: [
+          { title: 'NAEYC — Developmentally Appropriate Practice', url: 'https://www.naeyc.org/resources/topics/dap', type: 'Free Resources', source: 'NAEYC', recommended: true },
+          { title: 'Reggio Emilia Approach', url: 'https://www.reggiochildren.it/en/', type: 'Free', source: 'Reggio Children' },
+        ]
+      },
+      { title: 'Family engagement', weeks: 'Week 10-12', lessons: 10, description: 'Partnering with families across cultures and languages.',
+        resources: [
+          { title: 'Harvard FINE toolkit', url: 'https://fine.hfrp.org/', type: 'Free', source: 'Harvard Family Research Project' },
+        ]
+      },
+    ],
+  },
+  {
+    slug: 'trades-electrician-foundations',
+    title: 'Electrical Trades Foundations',
+    description: 'An entry-level pathway for vocational schools and apprenticeship programs — DC/AC circuits, code, and safety.',
+    color: 'from-amber-600 to-orange-700',
+    tags: ['vocational','trades','electrician','schools'],
+    relatedPaths: ['stem-high-school'],
+    stages: [
+      { title: 'Electrical theory', weeks: '8 weeks', lessons: 20, description: 'Ohm\'s law, series/parallel circuits, and AC fundamentals.',
+        resources: [
+          { title: 'All About Circuits — textbook', url: 'https://www.allaboutcircuits.com/textbook/', type: 'Free', source: 'AAC', recommended: true },
+          { title: 'Mike Holt electrical training', url: 'https://www.mikeholt.com/', type: 'Paid', source: 'Mike Holt' },
+        ]
+      },
+      { title: 'NEC code & safety', weeks: '6 weeks', lessons: 16, description: 'NFPA 70 National Electrical Code highlights and OSHA safety.',
+        resources: [
+          { title: 'NFPA NEC overview', url: 'https://www.nfpa.org/codes-and-standards/nfpa-70-standard-development/70', type: 'Official', source: 'NFPA', recommended: true },
+          { title: 'OSHA — Electrical safety', url: 'https://www.osha.gov/electrical', type: 'Free', source: 'OSHA' },
+        ]
+      },
+      { title: 'Hands-on wiring', weeks: '10 weeks', lessons: 24, description: 'Residential wiring, conduit, panels, and troubleshooting.',
+        resources: [
+          { title: 'Construction Industry Institute — apprenticeship resources', url: 'https://www.construction-institute.org/', type: 'Free', source: 'CII' },
+          { title: 'IBEW apprenticeship', url: 'https://www.ibew.org/apprenticeship', type: 'Apprenticeship', source: 'IBEW', recommended: true },
+        ]
+      },
+    ],
+  },
+  {
+    slug: 'spanish-for-beginners',
+    title: 'Spanish for Beginners',
+    description: 'From hola to holding a conversation — a structured 16-week pathway with speaking practice, grammar, and cultural context.',
+    color: 'from-red-500 to-amber-500',
+    tags: ['language','spanish','beginners','schools','universities'],
+    relatedPaths: ['arabic-language','digital-literacy'],
+    stages: [
+      { title: 'Survival Spanish', weeks: 'Week 1-4', lessons: 16, description: 'Greetings, numbers, time, food, and directions — the 500 most useful words.',
+        resources: [
+          { title: 'Duolingo Spanish', url: 'https://www.duolingo.com/course/es/en/Learn-Spanish', type: 'Freemium', source: 'Duolingo', recommended: true },
+          { title: 'Language Transfer — Complete Spanish', url: 'https://www.languagetransfer.org/complete-spanish', type: 'Free', source: 'Language Transfer', recommended: true },
+          { title: 'SpanishDict', url: 'https://www.spanishdict.com/', type: 'Free', source: 'SpanishDict' },
+        ]
+      },
+      { title: 'Grammar & tenses', weeks: 'Week 5-10', lessons: 20, description: 'Present, past, future, and subjunctive — with real sentences.',
+        resources: [
+          { title: 'StudySpanish.com free grammar units', url: 'https://studyspanish.com/grammar', type: 'Free', source: 'StudySpanish' },
+          { title: 'Dreaming Spanish (comprehensible input)', url: 'https://www.dreamingspanish.com/', type: 'Freemium', source: 'Dreaming Spanish', recommended: true },
+        ]
+      },
+      { title: 'Speaking & culture', weeks: 'Week 11-16', lessons: 18, description: 'Real conversations, Latin American film, and literature intros.',
+        resources: [
+          { title: 'iTalki — language tutors', url: 'https://www.italki.com/', type: 'Paid', source: 'iTalki' },
+          { title: 'News in Slow Spanish', url: 'https://www.newsinslowspanish.com/', type: 'Freemium', source: 'News in Slow Spanish', recommended: true },
+          { title: 'Radio Ambulante podcast', url: 'https://radioambulante.org/', type: 'Free', source: 'NPR', recommended: true },
+        ]
+      },
+    ],
+  },
 ];
 
 export function getPathway(slug) {
