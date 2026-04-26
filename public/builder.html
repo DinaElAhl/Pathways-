@@ -465,6 +465,7 @@ function sharePathway(){var p=pathways.find(function(p){return p.id===currentPat
 function copyToClipboard(text){if(navigator.clipboard){navigator.clipboard.writeText(text).then(function(){toast('Share link copied to clipboard!','🔗');}).catch(function(){fallbackCopy(text);});}else{fallbackCopy(text);}}
 function fallbackCopy(text){var el=document.createElement('textarea');el.value=text;document.body.appendChild(el);el.select();document.execCommand('copy');document.body.removeChild(el);toast('Share link copied!','🔗');}
 function checkSharedPathway(){var params=new URLSearchParams(window.location.search);var shareData=params.get('share');if(shareData){try{var decoded=JSON.parse(decodeURIComponent(escape(atob(shareData))));decoded.id=genId();pathways.push(decoded);saveData();currentPathwayId=decoded.id;history.replaceState(null,'',window.location.pathname);toast('Pathway loaded from share link!','🎉');showTab('builder');}catch(e){console.error('Invalid share data',e);}}}
+loadData();showTab('browse');checkSharedPathway();
 </script>
 </body>
 </html>
