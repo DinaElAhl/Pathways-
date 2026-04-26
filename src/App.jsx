@@ -27,6 +27,7 @@ import RootsNames from './pages/RootsNames.jsx'
 import RootDiscipline from './pages/RootDiscipline.jsx'
 import Tools from './pages/Tools.jsx'
 import E2TeachingTool from './pages/E2TeachingTool.jsx'
+import EduHub from './pages/EduHub'
 
 export default function App() {
   return (
@@ -48,6 +49,7 @@ export default function App() {
         <Route path="/roots/:slug" element={<RootDiscipline />} />
         <Route path="/tools" element={<Tools />} />
         <Route path="/tools/e2-teaching" element={<E2TeachingTool />} />
+      <Route path="/edu-hub" element={<EduHub />} />
         <Route path="/for/:slug" element={<AudiencePage />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/resources/:slug" element={<ResourceDetail />} />
