@@ -7,6 +7,7 @@ const links = [
   { to: '/', label: 'Home', end: true },
   { to: '/pathways', label: 'Pathways' },
   { to: '/roots', label: 'Roots' },
+  { to: '/tools', label: 'Tools' },
   { to: '/recommend', label: 'AI Match' },
   { to: '/lms', label: 'For Schools' },
   { to: '/pricing', label: 'Pricing' },
