@@ -1,5 +1,48 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { rootsHero, rootDisciplines } from '../data/rootsOfKnowledge.js'
+import { namesIntro, quranicNames } from '../data/quranicNames.js'
+
+function NameCard({ n }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left"
+      >
+        <div className="min-w-0">
+          <div className="flex items-baseline gap-3">
+            <span className="text-xl font-bold text-brand-700">{n.transliteration}</span>
+            <span className="text-2xl font-arabic text-slate-900" dir="rtl" lang="ar">{n.arabic}</span>
+          </div>
+          <div className="text-sm text-slate-600 mt-0.5">{n.meaning}</div>
+        </div>
+        <span className="text-xs text-slate-500 flex-none">{open ? '−' : '+'}</span>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-3 border-t border-slate-100 pt-3">
+          <div>
+            <div className="text-xs uppercase tracking-wide font-semibold text-slate-500">Qur'anic reference</div>
+            <p className="text-sm text-slate-700 mt-1">{n.ayah}</p>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-wide font-semibold text-emerald-700">Manifestation in the universe</div>
+            <p className="text-sm text-slate-800 mt-1 leading-relaxed">{n.manifestation}</p>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-wide font-semibold text-amber-700">Tafakkur — ponder</div>
+            <p className="text-sm text-slate-800 mt-1 leading-relaxed">{n.tafakkur}</p>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-wide font-semibold text-brand-700">Akhlāq — life takeaway</div>
+            <p className="text-sm text-slate-800 mt-1 leading-relaxed">{n.akhlaq}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function RootsOfKnowledge() {
   return (
@@ -41,11 +84,29 @@ export default function RootsOfKnowledge() {
         </div>
       </section>
 
+      <section className="bg-gradient-to-b from-amber-50/60 to-white">
+        <div className="container-page py-14">
+          <span className="chip">{namesIntro.eyebrow}</span>
+          <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">{namesIntro.title}</h2>
+          <p className="mt-2 text-lg text-amber-800 font-medium">{namesIntro.tagline}</p>
+          <p className="mt-4 max-w-3xl text-slate-700 leading-relaxed">{namesIntro.intro}</p>
+          <div className="mt-4 max-w-3xl rounded-xl bg-amber-100/70 border border-amber-200 p-4 text-amber-900 text-sm leading-relaxed">
+            {namesIntro.call}
+          </div>
+          <div className="mt-2 text-sm text-slate-500">{quranicNames.length} Names — click any to expand.</div>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {quranicNames.map((n) => (
+              <NameCard key={n.transliteration} n={n} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="container-page py-12">
         <div className="flex items-end justify-between gap-4 flex-wrap">
           <div>
             <h2 className="text-2xl font-bold text-slate-900">The disciplines</h2>
-            <p className="mt-2 text-slate-600 max-w-3xl">Each science, re-rooted. Click in to read its framing, six curriculum units, weekly practices, and reading list.</p>
+            <p className="mt-2 text-slate-600 max-w-3xl">Each science, re-rooted. Click in to read its framing, six curriculum units, weekly practices, the Names of Allah it reflects, and reading list.</p>
           </div>
           <span className="text-sm text-slate-500">{rootDisciplines.length} disciplines</span>
         </div>
