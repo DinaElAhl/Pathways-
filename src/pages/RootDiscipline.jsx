@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { rootDisciplines } from '../data/rootsOfKnowledge.js'
+import { quranicNames, disciplineNames } from '../data/quranicNames.js'
 
 export default function RootDiscipline() {
   const { slug } = useParams()
@@ -15,6 +16,10 @@ export default function RootDiscipline() {
   }
 
   const others = rootDisciplines.filter((x) => x.slug !== slug).slice(0, 3)
+  const reflectedKeys = disciplineNames[slug] || []
+  const reflectedNames = reflectedKeys
+    .map((k) => quranicNames.find((n) => n.transliteration === k))
+    .filter(Boolean)
 
   return (
     <>
@@ -49,6 +54,38 @@ export default function RootDiscipline() {
           ))}
         </ol>
       </section>
+
+      {reflectedNames.length > 0 && (
+        <section className="bg-gradient-to-b from-amber-50/60 to-white">
+          <div className="container-page py-12">
+            <span className="chip">Asmāʾu Llāh</span>
+            <h2 className="mt-3 text-2xl font-bold text-slate-900">Allah's Names reflected in this science</h2>
+            <p className="mt-2 text-slate-700 max-w-3xl leading-relaxed">
+              Studying {d.title.toLowerCase()} is, at root, walking through these Names. Each unit above can be re-read by asking: which Name am I being shown here, and how must my life echo it for real success?
+            </p>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {reflectedNames.map((n) => (
+                <div key={n.transliteration} className="rounded-2xl border border-amber-200 bg-white p-5 shadow-sm">
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-lg font-bold text-amber-800">{n.transliteration}</span>
+                    <span className="text-xl font-arabic text-slate-900" dir="rtl" lang="ar">{n.arabic}</span>
+                  </div>
+                  <div className="mt-1 text-sm text-slate-600">{n.meaning}</div>
+                  <div className="mt-3 text-xs uppercase tracking-wide font-semibold text-emerald-700">Manifestation</div>
+                  <p className="mt-1 text-sm text-slate-800 leading-relaxed">{n.manifestation}</p>
+                  <div className="mt-3 text-xs uppercase tracking-wide font-semibold text-amber-700">Tafakkur</div>
+                  <p className="mt-1 text-sm text-slate-800 leading-relaxed">{n.tafakkur}</p>
+                  <div className="mt-3 text-xs uppercase tracking-wide font-semibold text-brand-700">Akhlāq — for real success</div>
+                  <p className="mt-1 text-sm text-slate-800 leading-relaxed">{n.akhlaq}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6">
+              <Link to="/roots" className="text-sm font-semibold text-brand-600 hover:text-brand-700">See all of Allah's Names in the universe →</Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {d.practices && d.practices.length > 0 && (
         <section className="bg-slate-50">
