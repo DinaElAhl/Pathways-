@@ -19,7 +19,6 @@ function ResourceBadge({ type }) {
     'Free Book': 'bg-green-100 text-green-800',
     'Free Video': 'bg-blue-100 text-blue-800',
     'Free Tutorial': 'bg-blue-100 text-blue-800',
-    'Free Course': 'bg-green-100 text-green-800',
     'Free Audit': 'bg-green-100 text-green-800',
     'Free App': 'bg-green-100 text-green-800',
     'Free Tool': 'bg-green-100 text-green-800',
