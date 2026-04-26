@@ -22,6 +22,8 @@ import Dashboard from './pages/Dashboard.jsx'
 import AIStudio from './pages/AIStudio.jsx'
 import Join from './pages/Join.jsx'
 import PartnerPicks from './pages/PartnerPicks.jsx'
+import RootsOfKnowledge from './pages/RootsOfKnowledge.jsx'
+import RootDiscipline from './pages/RootDiscipline.jsx'
 
 export default function App() {
   return (
@@ -38,6 +40,8 @@ export default function App() {
         <Route path="/ai-studio" element={<AIStudio />} />
         <Route path="/join" element={<Join />} />
         <Route path="/partners" element={<PartnerPicks />} />
+        <Route path="/roots" element={<RootsOfKnowledge />} />
+        <Route path="/roots/:slug" element={<RootDiscipline />} />
         <Route path="/for/:slug" element={<AudiencePage />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/resources/:slug" element={<ResourceDetail />} />
