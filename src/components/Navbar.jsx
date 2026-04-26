@@ -107,7 +107,7 @@ export default function Navbar() {
           ))}
 
           <a
-            href="https://pathways-builder.netlify.app"
+            href="/builder.html"
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-full px-4 py-2 text-sm font-medium text-brand-700 hover:bg-brand-50 transition"
@@ -206,7 +206,7 @@ export default function Navbar() {
             ))}
 
             <a
-              href="https://pathways-builder.netlify.app"
+              href="/builder.html"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-xl px-4 py-3 text-base font-medium text-brand-700 hover:bg-brand-50 flex items-center gap-2"
