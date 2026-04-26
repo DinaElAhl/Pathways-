@@ -23,6 +23,7 @@ import AIStudio from './pages/AIStudio.jsx'
 import Join from './pages/Join.jsx'
 import PartnerPicks from './pages/PartnerPicks.jsx'
 import RootsOfKnowledge from './pages/RootsOfKnowledge.jsx'
+import RootsNames from './pages/RootsNames.jsx'
 import RootDiscipline from './pages/RootDiscipline.jsx'
 import Tools from './pages/Tools.jsx'
 import E2TeachingTool from './pages/E2TeachingTool.jsx'
@@ -43,6 +44,7 @@ export default function App() {
         <Route path="/join" element={<Join />} />
         <Route path="/partners" element={<PartnerPicks />} />
         <Route path="/roots" element={<RootsOfKnowledge />} />
+        <Route path="/roots/names" element={<RootsNames />} />
         <Route path="/roots/:slug" element={<RootDiscipline />} />
         <Route path="/tools" element={<Tools />} />
         <Route path="/tools/e2-teaching" element={<E2TeachingTool />} />
