@@ -24,6 +24,8 @@ import Join from './pages/Join.jsx'
 import PartnerPicks from './pages/PartnerPicks.jsx'
 import RootsOfKnowledge from './pages/RootsOfKnowledge.jsx'
 import RootDiscipline from './pages/RootDiscipline.jsx'
+import Tools from './pages/Tools.jsx'
+import E2TeachingTool from './pages/E2TeachingTool.jsx'
 
 export default function App() {
   return (
@@ -42,6 +44,8 @@ export default function App() {
         <Route path="/partners" element={<PartnerPicks />} />
         <Route path="/roots" element={<RootsOfKnowledge />} />
         <Route path="/roots/:slug" element={<RootDiscipline />} />
+        <Route path="/tools" element={<Tools />} />
+        <Route path="/tools/e2-teaching" element={<E2TeachingTool />} />
         <Route path="/for/:slug" element={<AudiencePage />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/resources/:slug" element={<ResourceDetail />} />
