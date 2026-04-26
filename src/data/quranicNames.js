@@ -652,14 +652,14 @@ export const quranicNames = [
 // Per-discipline mapping: which Names of Allah this science most directly reflects.
 // Used by RootDiscipline.jsx to render a 'Names reflected here' block.
 export const disciplineNames = {
-  mathematics: ['al-Muḥṣī','al-Ḥakīm','al-Ḥasīb','al-Wāḥid wa al-Aḥad','al-ʿAlīm','al-Bāqī'],
-  physics: ['al-Khāliq','al-Ḥakīm','al-Qawīy','al-Matīn','al-Ḥayy wa al-Qayyūm','al-Bāʿith'],
+  mathematics: ['al-Muḥṣī','al-Ḥakīm','al-Ḥasīb','al-Wāḥid wa al-Aḥad','al-ʿAlīm','al-Bāqī','al-Qadīr'],
+  physics: ['al-Khāliq','al-Ḥakīm','al-Qawīy','al-Matīn','al-Ḥayy wa al-Qayyūm','al-Qadīr','al-Muḥṣī'],
   astronomy: ['al-ʿAẓīm','al-Kabīr','al-ʿAlīy','al-Bāriʾ','al-Khāliq','an-Nūr','al-Bāqī'],
-  biology: ['al-Muṣawwir','al-Bāriʾ','al-Khāliq','al-Muḥyī wa al-Mumīt','ar-Razzāq','al-Ḥafīẓ','al-Bāʿith'],
-  medicine: ['ash-Shakūr','al-Laṭīf','ar-Raḥīm','al-Muḥyī wa al-Mumīt','al-Ḥafīẓ','al-Mujīb'],
-  psychology: ['al-Qābiḍ wa al-Bāsiṭ','al-Ḥalīm','as-Salām','at-Tawwāb','al-Hādī','al-Walīy'],
-  economics: ['ar-Razzāq','al-Karīm','al-Ghanīy wa al-Mughnī','al-Wahhāb','al-Muqsiṭ','al-ʿAdl'],
-  sociology: ['al-Jāmiʿ','al-ʿAdl','al-Ḥakīm','al-Mālik','al-Muqsiṭ','al-Walīy'],
+  biology: ['al-Muṣawwir','al-Bāriʾ','al-Khāliq','al-Muḥyī wa al-Mumīt','ar-Razzāq','al-Ḥafīẓ','al-Bāʿith','al-Laṭīf'],
+  medicine: ['ash-Shakūr','al-Laṭīf','ar-Raḥīm','al-Muḥyī wa al-Mumīt','al-Ḥafīẓ','al-Mujīb','al-ʿAfūw'],
+  psychology: ['al-Qābiḍ wa al-Bāsiṭ','al-Ḥalīm','as-Salām','at-Tawwāb','al-Hādī','al-Walīy','al-Khabīr'],
+  economics: ['ar-Razzāq','al-Karīm','al-Ghanīy wa al-Mughnī','al-Wahhāb','al-Muqsiṭ','al-ʿAdl','al-Wakīl'],
+  sociology: ['al-Jāmiʿ','al-ʿAdl','al-Ḥakīm','al-Mālik','al-Muqsiṭ','al-Walīy','al-Wakīl'],
   history: ['al-Mālik','Mālik al-Mulk','al-ʿAdl','al-Qahhār','al-Muntaqim','al-Wārith','aṣ-Ṣabūr'],
   'arts-and-nature': ['al-Khāliq','al-Muṣawwir','al-Bāriʾ','al-Badīʿ','al-Wadūd','al-Wāḥid wa al-Aḥad','aẓ-Ẓāhir wa al-Bāṭin']
 };
