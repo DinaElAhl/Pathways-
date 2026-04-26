@@ -2,48 +2,62 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { e2ToolMeta, e2Sections } from '../data/e2TeachingHelpers.js'
 
-function PhraseChip({ text }) {
+function SlotDropdown({ label, phrases }) {
+  const [value, setValue] = useState('')
   const [copied, setCopied] = useState(false)
-  function copy() {
+
+  function onChange(e) {
+    const v = e.target.value
+    setValue(v)
+    if (!v) return
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(() => {
+      navigator.clipboard.writeText(v).then(() => {
         setCopied(true)
-        setTimeout(() => setCopied(false), 1200)
+        setTimeout(() => setCopied(false), 1500)
       })
     }
   }
-  return (
-    <button
-      onClick={copy}
-      className={
-        'text-left text-sm rounded-xl border px-3 py-2 transition ' +
-        (copied
-          ? 'border-emerald-400 bg-emerald-50 text-emerald-800'
-          : 'border-slate-200 bg-white hover:border-brand-300 hover:bg-brand-50 text-slate-700')
-      }
-      title="Click to copy"
-    >
-      {copied ? 'Copied ✓' : text}
-    </button>
-  )
-}
 
-function Slot({ label, phrases }) {
-  const [open, setOpen] = useState(false)
   return (
-    <div className="rounded-xl border border-slate-200 bg-white">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between px-4 py-3 text-left"
+    <div className="rounded-xl border border-slate-200 bg-white p-4">
+      <div className="flex items-center justify-between gap-2">
+        <label className="font-semibold text-slate-900 text-sm">{label}</label>
+        <span className="text-xs text-slate-500">{phrases.length} options</span>
+      </div>
+      <select
+        value={value}
+        onChange={onChange}
+        className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
       >
-        <span className="font-semibold text-slate-900">{label}</span>
-        <span className="text-xs text-slate-500">{phrases.length} phrases {open ? '−' : '+'}</span>
-      </button>
-      {open && (
-        <div className="px-4 pb-4 grid gap-2">
-          {phrases.map((p) => (
-            <PhraseChip key={p} text={p} />
-          ))}
+        <option value="">Choose a phrase…</option>
+        {phrases.map((p) => (
+          <option key={p} value={p}>{p.length > 90 ? p.slice(0, 87) + '…' : p}</option>
+        ))}
+      </select>
+      {value && (
+        <div className="mt-2 rounded-lg bg-slate-50 p-3 text-sm text-slate-700 leading-relaxed border border-slate-200">
+          <div className="flex items-start justify-between gap-2">
+            <p className="flex-1 whitespace-pre-wrap">{value}</p>
+            <button
+              onClick={() => {
+                if (navigator.clipboard) {
+                  navigator.clipboard.writeText(value).then(() => {
+                    setCopied(true)
+                    setTimeout(() => setCopied(false), 1500)
+                  })
+                }
+              }}
+              className={
+                'flex-none rounded-md px-2 py-1 text-xs font-semibold transition ' +
+                (copied
+                  ? 'bg-emerald-100 text-emerald-800'
+                  : 'bg-brand-50 text-brand-700 hover:bg-brand-100')
+              }
+              title="Copy to clipboard"
+            >
+              {copied ? 'Copied ✓' : 'Copy'}
+            </button>
+          </div>
         </div>
       )}
     </div>
@@ -69,7 +83,7 @@ export default function E2TeachingTool() {
               Open in full screen ↗
             </a>
             <span className="inline-flex items-center rounded-full bg-amber-100 text-amber-800 px-3 py-2">
-              Tip: open phrases below → click to copy → paste into the matching slot in the tool.
+              Tip: pick a phrase from a dropdown → it auto-copies → paste into the matching slot in the tool.
             </span>
           </div>
         </div>
@@ -89,15 +103,15 @@ export default function E2TeachingTool() {
       <section className="container-page py-8">
         <h2 className="text-2xl font-bold text-slate-900">Helping phrases for every slot</h2>
         <p className="mt-2 text-slate-600 max-w-3xl">
-          Click any phrase to copy it. Then paste it into the matching slot in the tool above. Edit freely — these are starters, not scripts.
+          Pick a phrase from the dropdown — it copies automatically. Then paste into the matching field in the tool above. Edit freely; these are starters, not scripts.
         </p>
-        <div className="mt-6 space-y-8">
+        <div className="mt-6 space-y-10">
           {e2Sections.map((sec) => (
             <div key={sec.name}>
               <h3 className="text-lg font-bold text-slate-900">{sec.name}</h3>
               <div className="mt-3 grid gap-3 lg:grid-cols-2">
                 {sec.slots.map((s) => (
-                  <Slot key={s.label} label={s.label} phrases={s.phrases} />
+                  <SlotDropdown key={s.label} label={s.label} phrases={s.phrases} />
                 ))}
               </div>
             </div>
