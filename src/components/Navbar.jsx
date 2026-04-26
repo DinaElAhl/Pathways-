@@ -87,6 +87,9 @@ export default function Navbar() {
             Pathways
           </span>
         </Link>
+            <Link to="/edu-hub" className="text-slate-700 hover:text-emerald-700 text-sm font-medium transition">
+              EduHub & Tools
+            </Link>
 
         <nav className="hidden md:flex items-center gap-1">
           {links.map((l) => (
