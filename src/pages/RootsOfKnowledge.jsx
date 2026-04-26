@@ -93,7 +93,7 @@ export default function RootsOfKnowledge() {
           <div className="mt-4 max-w-3xl rounded-xl bg-amber-100/70 border border-amber-200 p-4 text-amber-900 text-sm leading-relaxed">
             {namesIntro.call}
           </div>
-          <div className="mt-2 text-sm text-slate-500">{quranicNames.length} Names — click any to expand.</div>
+          <div className="mt-2 text-sm text-slate-500">{quranicNames.length} Names — click any to expand. <Link to="/roots/names" className="ml-1 text-brand-700 font-semibold hover:underline">Open the full Names page →</Link></div>
           <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {quranicNames.map((n) => (
               <NameCard key={n.transliteration} n={n} />
