@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pathways — One place to learn, teach, and grow</title>
+<meta name="description" content="A holistic hub for learners, teachers, and parents. Pathways unites E² EduHub, Pathways Learn, and the Frameworks Navigator in one place." />
+<style>
+  :root{
+    --bg:#0b1020; --bg-2:#11183a; --ink:#0f172a; --paper:#ffffff;
+    --muted:#475569; --line:#e2e8f0;
+    --brand:#2563eb; --brand-2:#7c3aed; --accent:#10b981;
+    --learn:#2563eb; --teach:#7c3aed; --parent:#10b981; --school:#f59e0b;
+    --radius:14px; --shadow:0 10px 30px rgba(15,23,42,.08);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;color:var(--ink);background:var(--paper);line-height:1.55}
+  a{color:var(--brand);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .container{max-width:1180px;margin:0 auto;padding:0 22px}
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
+  .logo .mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand-2))}
+  nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0}
+  nav a{color:var(--ink);font-weight:500}
+  .cta{background:var(--ink);color:#fff;padding:9px 14px;border-radius:10px;font-weight:600}
+  .cta:hover{text-decoration:none;opacity:.92}
+  .hero{background:radial-gradient(1200px 500px at 10% -10%,rgba(124,58,237,.18),transparent),radial-gradient(900px 400px at 100% 0%,rgba(37,99,235,.18),transparent),linear-gradient(180deg,#0b1020,#11183a);color:#fff;padding:84px 0 70px}
+  .hero h1{font-size:clamp(34px,5vw,56px);line-height:1.1;margin:0 0 14px;font-weight:800;letter-spacing:-.02em}
+  .hero h1 span{background:linear-gradient(90deg,#9bb6ff,#c4a8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{font-size:18px;color:#cbd5e1;max-width:720px}
+  .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+  .btn{display:inline-block;padding:12px 18px;border-radius:12px;font-weight:600;border:0;cursor:pointer}
+  .btn-primary{background:#fff;color:#0b1020}
+  .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35)}
+  .roles{margin:-40px auto 0;position:relative;z-index:2}
+  .role-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .role{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);cursor:pointer;transition:transform .15s ease, box-shadow .15s ease}
+  .role:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(15,23,42,.12)}
+  .role .ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;margin-bottom:10px}
+  .role h3{margin:4px 0 4px;font-size:17px}
+  .role p{margin:0;color:var(--muted);font-size:14px}
+  section{padding:64px 0}
+  .eyebrow{color:var(--brand);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12px;margin-bottom:8px}
+  h2{font-size:clamp(26px,3.2vw,36px);margin:0 0 10px;letter-spacing:-.01em}
+  .lede{color:var(--muted);max-width:760px}
+  .app-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+  .app{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:transform .15s ease, box-shadow .15s ease}
+  .app:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+  .app .cover{height:140px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:22px;text-align:center;padding:0 18px}
+  .cover.learn{background:linear-gradient(135deg,#2563eb,#3b82f6)}
+  .cover.edu{background:linear-gradient(135deg,#7c3aed,#a855f7)}
+  .cover.hub{background:linear-gradient(135deg,#10b981,#059669)}
+  .app .body{padding:18px;flex:1;display:flex;flex-direction:column}
+  .tag{display:inline-block;background:#eef2ff;color:#3730a3;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:600;margin-bottom:10px}
+  .app h3{margin:2px 0 6px;font-size:18px}
+  .app p{color:var(--muted);font-size:14px;margin:0 0 14px;flex:1}
+  .open-btn{align-self:flex-start;background:var(--ink);color:#fff;padding:9px 14px;border-radius:10px;font-weight:600;font-size:14px}
+  .open-btn:hover{text-decoration:none;opacity:.92}
+  .journey{background:#f8fafc;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px;counter-reset:step}
+  .step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;position:relative}
+  .step:before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:18px;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+  .step h4{margin:6px 0 6px;font-size:16px}
+  .step p{margin:0;color:var(--muted);font-size:14px}
+  .frameworks{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .chip{background:#fff;border:1px solid var(--line);padding:7px 12px;border-radius:999px;font-size:13px;color:#334155}
+  footer{background:#0b1020;color:#cbd5e1;padding:48px 0 28px}
+  footer h5{color:#fff;margin:0 0 10px;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:24px}
+  footer ul{list-style:none;padding:0;margin:0}
+  footer li{margin:6px 0}
+  footer a{color:#cbd5e1}
+  .copy{border-top:1px solid #1e293b;margin-top:32px;padding-top:18px;font-size:13px;color:#94a3b8;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  @media (max-width:880px){
+    .role-grid,.app-grid,.steps,.foot-grid{grid-template-columns:1fr 1fr}
+    nav ul{display:none}
+  }
+  @media (max-width:520px){
+    .role-grid,.app-grid,.steps,.foot-grid{grid-template-columns:1fr}
+  }
+  .hidden{display:none !important}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav-row">
+    <a href="#" class="logo"><span class="mark"></span> Pathways</a>
+    <nav>
+      <ul>
+        <li><a href="#apps">Apps</a></li>
+        <li><a href="#journey">How it works</a></li>
+        <li><a href="#frameworks">Frameworks</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+    <a href="#apps" class="cta">Get started</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>One place to <span>learn, teach, and grow.</span></h1>
+    <p>Pathways unites three free apps into a single, holistic home — so learners, teachers, and parents can move smoothly from curiosity to mastery, all built on the E² teaching framework: <em>Every Student Has the Right to Understand.</em></p>
+    <div class="hero-cta">
+      <a href="#apps" class="btn btn-primary">Explore the apps</a>
+      <a href="#journey" class="btn btn-ghost">See how it works</a>
+    </div>
+  </div>
+</section>
+
+<div class="container roles">
+  <div class="role-grid">
+    <div class="role" data-role="learner">
+      <div class="ico" style="background:var(--learn)">🎓</div>
+      <h3>I'm a Learner</h3>
+      <p>Find a structured path and resources that meet you where you are.</p>
+    </div>
+    <div class="role" data-role="teacher">
+      <div class="ico" style="background:var(--teach)">👩‍🏫</div>
+      <h3>I'm a Teacher</h3>
+      <p>Plan lessons, build rubrics, and reach every learner with E².</p>
+    </div>
+    <div class="role" data-role="parent">
+      <div class="ico" style="background:var(--parent)">👪</div>
+      <h3>I'm a Parent</h3>
+      <p>Support home learning with trusted resources and weekly plans.</p>
+    </div>
+    <div class="role" data-role="school">
+      <div class="ico" style="background:var(--school)">🏫</div>
+      <h3>School / University</h3>
+      <p>Map staff CPD, frameworks, and curricula in one navigator.</p>
+    </div>
+  </div>
+</div>
+
+<section id="apps">
+  <div class="container">
+    <div class="eyebrow">The Pathways suite</div>
+    <h2>Three apps. One coherent journey.</h2>
+    <p class="lede">Each app is free and built to work alongside the others. Pick a starting point — Pathways links them together so the next step is always one click away.</p>
+
+    <div class="app-grid">
+      <article class="app" data-roles="learner teacher parent school">
+        <div class="cover learn">Pathways Learn</div>
+        <div class="body">
+          <span class="tag">For learners</span>
+          <h3>Structured learning journeys</h3>
+          <p>Curated, mentor-guided pathways across engineering, data, design, product, and AI. Searchable, filterable, and mapped to global curricula.</p>
+          <a class="open-btn" href="https://pathways-learn.netlify.app" target="_blank" rel="noopener">Open Pathways Learn →</a>
+        </div>
+      </article>
+
+      <article class="app" data-roles="teacher school parent">
+        <div class="cover hub">E² EduHub</div>
+        <div class="body">
+          <span class="tag">For teachers & parents</span>
+          <h3>The all-in-one educator platform</h3>
+          <p>Adaptive lesson generator, weekly planner, 25+ trusted resources, rubrics, and the full E² teaching framework — free and no login required.</p>
+          <a class="open-btn" href="https://e2eduhub.netlify.app" target="_blank" rel="noopener">Open E² EduHub →</a>
+        </div>
+      </article>
+
+      <article class="app" data-roles="teacher school">
+        <div class="cover edu">Frameworks Navigator</div>
+        <div class="body">
+          <span class="tag">For schools & curriculum leads</span>
+          <h3>Standards & frameworks, demystified</h3>
+          <p>The single navigator for E², UDL, LTI 1.3, xAPI, WCAG, plus every major curriculum from IB and Cambridge to Egyptian, Saudi, UAE, and Al-Azhar.</p>
+          <a class="open-btn" href="https://pathways-edu.netlify.app" target="_blank" rel="noopener">Open Frameworks Navigator →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="journey" class="journey">
+  <div class="container">
+    <div class="eyebrow">How it works</div>
+    <h2>From first spark to confident mastery</h2>
+    <p class="lede">A simple loop that connects what learners need, what teachers plan, and what parents can support at home.</p>
+    <div class="steps">
+      <div class="step"><h4>Discover</h4><p>Pick a goal in <strong>Pathways Learn</strong>. Get a roadmap that matches the learner's level and curriculum.</p></div>
+      <div class="step"><h4>Plan</h4><p>Teachers and parents open <strong>E² EduHub</strong> to generate lesson plans, weekly grids, and rubrics in seconds.</p></div>
+      <div class="step"><h4>Align</h4><p>Map every step to standards in the <strong>Frameworks Navigator</strong> — IB, Common Core, Egyptian 2.0, Al-Azhar, and more.</p></div>
+      <div class="step"><h4>Reflect</h4><p>Use E² rubrics and exit tickets to adjust. The teacher adapts first — never the student.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="frameworks">
+  <div class="container">
+    <div class="eyebrow">Built on real standards</div>
+    <h2>Pedagogy, accessibility, and curricula — covered.</h2>
+    <p class="lede">Every Pathways app aligns with widely used frameworks so your work travels across schools, regions, and tools.</p>
+    <div class="frameworks">
+      <span class="chip">E² Framework</span>
+      <span class="chip">UDL 3.0</span>
+      <span class="chip">Bloom's (revised)</span>
+      <span class="chip">SAMR · TPACK</span>
+      <span class="chip">LTI 1.3</span>
+      <span class="chip">xAPI · cmi5</span>
+      <span class="chip">QTI 2.2 / 3.0</span>
+      <span class="chip">WCAG 2.2 AA</span>
+      <span class="chip">FERPA · COPPA · GDPR-K</span>
+      <span class="chip">IB · Cambridge · Common Core</span>
+      <span class="chip">Egyptian 2.0 · Saudi MoE · UAE MoE</span>
+      <span class="chip">Al-Azhar · CEFR · ACTFL</span>
+    </div>
+  </div>
+</section>
+
+<section id="about" style="background:#f8fafc;border-top:1px solid var(--line)">
+  <div class="container">
+    <div class="eyebrow">About Pathways</div>
+    <h2>Every student has the right to understand.</h2>
+    <p class="lede">Pathways was built by Dina El Ahl as a holistic home for the E² philosophy — a teaching framework that puts adaptation on the teacher, not blame on the student. The suite is free, open, and made to support educators and families everywhere.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot-grid">
+    <div>
+      <div class="logo" style="color:#fff"><span class="mark"></span> Pathways</div>
+      <p style="margin-top:10px;max-width:320px">A holistic home for learners, teachers, and parents — built on the E² teaching framework.</p>
+    </div>
+    <div>
+      <h5>Apps</h5>
+      <ul>
+        <li><a href="https://pathways-learn.netlify.app" target="_blank" rel="noopener">Pathways Learn</a></li>
+        <li><a href="https://e2eduhub.netlify.app" target="_blank" rel="noopener">E² EduHub</a></li>
+        <li><a href="https://pathways-edu.netlify.app" target="_blank" rel="noopener">Frameworks Navigator</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Explore</h5>
+      <ul>
+        <li><a href="#journey">How it works</a></li>
+        <li><a href="#frameworks">Frameworks</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>For</h5>
+      <ul>
+        <li><a href="#apps" data-jump="learner">Learners</a></li>
+        <li><a href="#apps" data-jump="teacher">Teachers</a></li>
+        <li><a href="#apps" data-jump="parent">Parents</a></li>
+        <li><a href="#apps" data-jump="school">Schools</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container copy">
+    <span>© 2026 Pathways · Built with ❤️ for educators and learners everywhere.</span>
+    <span>Free · No login required</span>
+  </div>
+</footer>
+
+<script>
+  const roleCards = document.querySelectorAll('.role');
+  const apps = document.querySelectorAll('.app');
+  let activeRole = null;
+  function applyFilter(role){
+    apps.forEach(a => {
+      const roles = (a.dataset.roles || '').split(/\s+/);
+      if(!role || roles.includes(role)) a.classList.remove('hidden');
+      else a.classList.add('hidden');
+    });
+    roleCards.forEach(c => c.style.outline = (c.dataset.role === role) ? '3px solid #2563eb' : 'none');
+  }
+  roleCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const role = card.dataset.role;
+      activeRole = (activeRole === role) ? null : role;
+      applyFilter(activeRole);
+      document.getElementById('apps').scrollIntoView({behavior:'smooth'});
+    });
+  });
+  document.querySelectorAll('[data-jump]').forEach(el => {
+    el.addEventListener('click', e => {
+      activeRole = el.dataset.jump;
+      applyFilter(activeRole);
+    });
+  });
+</script>
+
+</body>
+</html>
