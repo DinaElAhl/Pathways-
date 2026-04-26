@@ -1,123 +1,243 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { e2ToolMeta, e2Sections } from '../data/e2TeachingHelpers.js'
+import { useEffect, useMemo, useState } from 'react'
 
-function SlotDropdown({ label, phrases }) {
-  const [value, setValue] = useState('')
-  const [copied, setCopied] = useState(false)
+const STAGES = [
+  {
+    key: 'engage',
+    label: 'Engage',
+    color: 'amber',
+    intent: 'Spark curiosity and connect to the learner’s reality and to Allāh’s signs.',
+    prompts: [
+      'What did you notice about this topic in the world around you today?',
+      'Which sign of Allāh does this topic point to (آية في الآفاق أو في الأنفس)?',
+      'When did you first wonder about this idea?',
+      'What question would you ask Allāh about this if you could?',
+      'Why does this topic matter for your life and your ākhirah?'
+    ]
+  },
+  {
+    key: 'explore',
+    label: 'Explore',
+    color: 'sky',
+    intent: 'Investigate the phenomenon directly: observe, measure, classify, compare.',
+    prompts: [
+      'What can you observe directly with your senses?',
+      'What pattern, order, or balance (ميزان) do you find?',
+      'What changes and what stays constant?',
+      'What examples and counter-examples can you collect?',
+      'How precise is the design here — which Name of Allāh is manifest?'
+    ]
+  },
+  {
+    key: 'explain',
+    label: 'Explain',
+    color: 'emerald',
+    intent: 'Build understanding with concepts, models, and the language of the discipline.',
+    prompts: [
+      'In your own words, what is happening and why?',
+      'Which secondary causes (asbāb) are at work — and Who created and sustains them?',
+      'What model or definition captures this best?',
+      'Where does the textbook/curriculum stop short of meaning?',
+      'How does this concept point back to its Source?'
+    ]
+  },
+  {
+    key: 'elaborate',
+    label: 'Elaborate',
+    color: 'violet',
+    intent: 'Apply, transfer, and deepen — connect to other disciplines and to akhlāq.',
+    prompts: [
+      'Where else in life or in another subject does this idea apply?',
+      'What akhlāq (character) does this knowledge call you to?',
+      'How would you teach this to a younger sibling?',
+      'What real problem could this help solve, and for whose benefit?',
+      'How does this strengthen tawakkul, shukr, or ḥusn al-ẓann bi-Llāh?'
+    ]
+  },
+  {
+    key: 'evaluate',
+    label: 'Evaluate',
+    color: 'rose',
+    intent: 'Reflect on what was learned, judge it against tawhīd, and plan next steps.',
+    prompts: [
+      'What is the strongest evidence for what you concluded?',
+      'Where might you be wrong — and how would you know?',
+      'How does this knowledge increase your khashyah and humility?',
+      'What will you do differently because of this?',
+      'Which duʿā fits what you learned today?'
+    ]
+  }
+]
 
-  function onChange(e) {
-    const v = e.target.value
-    setValue(v)
-    if (!v) return
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(v).then(() => {
-        setCopied(true)
-        setTimeout(() => setCopied(false), 1500)
-      })
-    }
+const COLOR_CLASSES = {
+  amber: { ring: 'ring-amber-200', bg: 'bg-amber-50', text: 'text-amber-900', chip: 'bg-amber-100 text-amber-800', btn: 'bg-amber-600 hover:bg-amber-700' },
+  sky: { ring: 'ring-sky-200', bg: 'bg-sky-50', text: 'text-sky-900', chip: 'bg-sky-100 text-sky-800', btn: 'bg-sky-600 hover:bg-sky-700' },
+  emerald: { ring: 'ring-emerald-200', bg: 'bg-emerald-50', text: 'text-emerald-900', chip: 'bg-emerald-100 text-emerald-800', btn: 'bg-emerald-600 hover:bg-emerald-700' },
+  violet: { ring: 'ring-violet-200', bg: 'bg-violet-50', text: 'text-violet-900', chip: 'bg-violet-100 text-violet-800', btn: 'bg-violet-600 hover:bg-violet-700' },
+  rose: { ring: 'ring-rose-200', bg: 'bg-rose-50', text: 'text-rose-900', chip: 'bg-rose-100 text-rose-800', btn: 'bg-rose-600 hover:bg-rose-700' }
+}
+
+const STORAGE_KEY = 'pathways.e2.session.v1'
+
+function loadInitial() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (raw) return JSON.parse(raw)
+  } catch (e) {}
+  return { topic: '', discipline: '', notes: { engage: '', explore: '', explain: '', elaborate: '', evaluate: '' } }
+}
+
+function StageCard({ stage, value, onChange }) {
+  const c = COLOR_CLASSES[stage.color]
+  const [picker, setPicker] = useState('')
+
+  function insertPrompt(p) {
+    if (!p) return
+    const sep = value && !value.endsWith('\n') ? '\n' : ''
+    onChange((value || '') + sep + '• ' + p + '\n')
+    setPicker('')
   }
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4">
-      <div className="flex items-center justify-between gap-2">
-        <label className="font-semibold text-slate-900 text-sm">{label}</label>
-        <span className="text-xs text-slate-500">{phrases.length} options</span>
-      </div>
-      <select
-        value={value}
-        onChange={onChange}
-        className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
-      >
-        <option value="">Choose a phrase…</option>
-        {phrases.map((p) => (
-          <option key={p} value={p}>{p.length > 90 ? p.slice(0, 87) + '…' : p}</option>
-        ))}
-      </select>
-      {value && (
-        <div className="mt-2 rounded-lg bg-slate-50 p-3 text-sm text-slate-700 leading-relaxed border border-slate-200">
-          <div className="flex items-start justify-between gap-2">
-            <p className="flex-1 whitespace-pre-wrap">{value}</p>
-            <button
-              onClick={() => {
-                if (navigator.clipboard) {
-                  navigator.clipboard.writeText(value).then(() => {
-                    setCopied(true)
-                    setTimeout(() => setCopied(false), 1500)
-                  })
-                }
-              }}
-              className={
-                'flex-none rounded-md px-2 py-1 text-xs font-semibold transition ' +
-                (copied
-                  ? 'bg-emerald-100 text-emerald-800'
-                  : 'bg-brand-50 text-brand-700 hover:bg-brand-100')
-              }
-              title="Copy to clipboard"
-            >
-              {copied ? 'Copied ✓' : 'Copy'}
-            </button>
-          </div>
+    <div className={`rounded-2xl ring-1 ${c.ring} ${c.bg} p-5 shadow-sm`}>
+      <div className="flex items-center justify-between gap-3 mb-2">
+        <div>
+          <div className={`text-xs font-semibold uppercase tracking-wide ${c.text}`}>{stage.label}</div>
+          <p className="text-sm text-slate-700 mt-1">{stage.intent}</p>
         </div>
-      )}
+      </div>
+      <div className="mt-3 mb-2 flex flex-wrap items-center gap-2">
+        <select
+          value={picker}
+          onChange={(e) => insertPrompt(e.target.value)}
+          className={`rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm ${c.text}`}
+          aria-label={`Insert a ${stage.label} prompt`}
+        >
+          <option value="">+ Insert a guiding prompt…</option>
+          {stage.prompts.map((p, i) => (
+            <option key={i} value={p}>{p}</option>
+          ))}
+        </select>
+        <span className={`text-[11px] px-2 py-0.5 rounded-full ${c.chip}`}>auto-saves</span>
+      </div>
+      <textarea
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        rows={6}
+        placeholder={`Write your ${stage.label.toLowerCase()} reflections here…`}
+        className="w-full rounded-xl border border-slate-200 bg-white p-3 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-emerald-300"
+      />
     </div>
   )
 }
 
 export default function E2TeachingTool() {
+  const [state, setState] = useState(loadInitial)
+
+  useEffect(() => {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)) } catch (e) {}
+  }, [state])
+
+  function setNote(key, val) {
+    setState((s) => ({ ...s, notes: { ...s.notes, [key]: val } }))
+  }
+
+  function clearAll() {
+    if (!confirm('Clear all E² notes for this session?')) return
+    setState({ topic: '', discipline: '', notes: { engage: '', explore: '', explain: '', elaborate: '', evaluate: '' } })
+  }
+
+  function exportText() {
+    const lines = []
+    lines.push('# E² Teaching — ' + (state.topic || 'Untitled topic'))
+    if (state.discipline) lines.push('Discipline: ' + state.discipline)
+    lines.push('')
+    STAGES.forEach((s) => {
+      lines.push('## ' + s.label)
+      lines.push(state.notes[s.key] || '(empty)')
+      lines.push('')
+    })
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'e2-session.txt'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const filledCount = useMemo(
+    () => STAGES.filter((s) => (state.notes[s.key] || '').trim().length > 0).length,
+    [state.notes]
+  )
+
   return (
-    <>
-      <section className="bg-gradient-to-b from-brand-50/80 to-white">
-        <div className="container-page pt-10 pb-6 sm:pt-14">
-          <Link to="/tools" className="text-sm font-semibold text-brand-600 hover:text-brand-700">← Tools</Link>
-          <h1 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">{e2ToolMeta.title}</h1>
-          <p className="mt-2 text-lg text-brand-700 font-medium">{e2ToolMeta.tagline}</p>
-          <p className="mt-4 max-w-3xl text-slate-700 leading-relaxed">{e2ToolMeta.intro}</p>
-          <div className="mt-4 flex flex-wrap gap-2 text-sm">
-            <a
-              href={e2ToolMeta.toolUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center rounded-full bg-brand-600 text-white px-4 py-2 font-semibold hover:bg-brand-700"
-            >
-              Open in full screen ↗
-            </a>
-            <span className="inline-flex items-center rounded-full bg-amber-100 text-amber-800 px-3 py-2">
-              Tip: pick a phrase from a dropdown → it auto-copies → paste into the matching slot in the tool.
-            </span>
+    <section className="container-page py-10">
+      <header className="mb-6">
+        <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">Pathways tool</p>
+        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mt-1">E² Teaching Framework</h1>
+        <p className="text-slate-700 mt-2 max-w-3xl">
+          A native, in-app workspace for the five E² stages — Engage, Explore, Explain, Elaborate, Evaluate —
+          with guiding prompts built into each field. Use it on any topic from your school curriculum
+          and let the Roots approach desecularize what you learn by anchoring it to Allāh’s Names and signs.
+        </p>
+      </header>
+
+      <div className="grid md:grid-cols-2 gap-3 mb-6 rounded-2xl ring-1 ring-slate-200 bg-white p-5">
+        <label className="block">
+          <span className="text-xs font-semibold uppercase tracking-wide text-slate-600">Topic / Lesson</span>
+          <input
+            type="text"
+            value={state.topic}
+            onChange={(e) => setState({ ...state, topic: e.target.value })}
+            placeholder="e.g., Photosynthesis, Derivatives, Ottoman trade"
+            className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300"
+          />
+        </label>
+        <label className="block">
+          <span className="text-xs font-semibold uppercase tracking-wide text-slate-600">Discipline</span>
+          <input
+            type="text"
+            value={state.discipline}
+            onChange={(e) => setState({ ...state, discipline: e.target.value })}
+            placeholder="e.g., Biology, Mathematics, History"
+            className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300"
+          />
+        </label>
+        <div className="md:col-span-2 flex items-center justify-between text-sm text-slate-600 pt-1">
+          <span>Progress: {filledCount}/5 stages with notes</span>
+          <div className="flex gap-2">
+            <button onClick={exportText} className="rounded-md bg-slate-900 text-white px-3 py-1.5 text-xs font-semibold hover:bg-slate-800">Export .txt</button>
+            <button onClick={clearAll} className="rounded-md bg-rose-50 text-rose-700 px-3 py-1.5 text-xs font-semibold hover:bg-rose-100">Clear session</button>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section className="container-page py-8">
-        <div className="rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-sm">
-          <iframe
-            title="E2 Teaching Framework"
-            src={e2ToolMeta.toolUrl}
-            className="w-full"
-            style={{ height: '900px', border: 0 }}
+      <div className="grid lg:grid-cols-2 gap-5">
+        {STAGES.map((s) => (
+          <StageCard
+            key={s.key}
+            stage={s}
+            value={state.notes[s.key]}
+            onChange={(v) => setNote(s.key, v)}
           />
-        </div>
-      </section>
+        ))}
+      </div>
 
-      <section className="container-page py-8">
-        <h2 className="text-2xl font-bold text-slate-900">Helping phrases for every slot</h2>
-        <p className="mt-2 text-slate-600 max-w-3xl">
-          Pick a phrase from the dropdown — it copies automatically. Then paste into the matching field in the tool above. Edit freely; these are starters, not scripts.
+      <aside className="mt-8 rounded-2xl ring-1 ring-emerald-200 bg-emerald-50/60 p-5">
+        <h2 className="text-lg font-semibold text-emerald-900">Roots overlay — desecularize what you learn</h2>
+        <p className="text-sm text-emerald-900/90 mt-2">
+          Whatever curriculum you follow, end every E² cycle by asking: <em>Which of Allāh’s Names is
+          manifest in what I just studied? What tafakkur does it call me to? What akhlāq does it ask of me
+          for real success in this life and the next?</em>
         </p>
-        <div className="mt-6 space-y-10">
-          {e2Sections.map((sec) => (
-            <div key={sec.name}>
-              <h3 className="text-lg font-bold text-slate-900">{sec.name}</h3>
-              <div className="mt-3 grid gap-3 lg:grid-cols-2">
-                {sec.slots.map((s) => (
-                  <SlotDropdown key={s.label} label={s.label} phrases={s.phrases} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    </>
+        <p className="text-sm text-emerald-900/90 mt-2">
+          Visit the <a href="/roots/names" className="underline font-semibold">Roots of Knowledge — Names</a> page
+          to find the Names that fit your topic, and the discipline page (e.g.&nbsp;
+          <a href="/roots/biology" className="underline font-semibold">Biology</a>,&nbsp;
+          <a href="/roots/physics" className="underline font-semibold">Physics</a>) for tafakkur prompts and akhlāq
+          tied to that subject.
+        </p>
+      </aside>
+    </section>
   )
 }
