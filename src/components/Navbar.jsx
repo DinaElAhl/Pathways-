@@ -108,7 +108,7 @@ export default function Navbar() {
                                       }
                                     >
                         {l.label}
-                      </NavLink>NavLink>
+                      </NavLink>
                     ))}
                         
                           {/* More dropdown */}
