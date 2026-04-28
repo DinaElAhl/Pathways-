@@ -16,7 +16,7 @@ const links = [
   { to: '/events', label: 'Events' },
   { to: '/partners', label: 'Partners' },
   { to: '/about', label: 'About' },
-  { to: '/accredit-exams', label: 'Accredit Exams' },
+  { to: '/accredit-exams', label: 'Accredited Exams' },
 ]
 
 export default function Navbar() {
