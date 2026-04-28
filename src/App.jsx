@@ -61,7 +61,7 @@ export default function App() {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-                <Route path="/accredit-exams" element={<AccreditedExams />} />
+                <Route path="/accredited-exams" element={<AccreditedExams />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
