@@ -381,6 +381,66 @@ export const accreditedExams = [
     }
     ];
 
+{
+            id: 21,
+                        name: 'Ijazah in Quran Recitation (Hafs an Asim)',
+                        category: 'Quran',
+                        type: 'Certification',
+                        countries: ['Saudi Arabia', 'Egypt', 'Global', 'Middle East & North Africa (MENA)'],
+                        description: 'The gold standard Quranic certification — a continuous chain (isnad) back to the Prophet. Awarded after memorising the Quran and mastering Tajweed rules under a certified sheikh.',
+                        recognizedBy: 'Islamic universities, mosques, and scholars worldwide',
+                        level: 'Advanced — full Hifz with Tajweed mastery',
+                        cost: 'Varies (often free with a qualified sheikh)',
+                        availability: 'Year-round, by appointment with a certified scholar',
+                        difficulty: 5,
+                        url: 'https://quran.com',
+                        prepResources: [
+                { name: 'Quran.com — Read & Listen', url: 'https://quran.com' },
+                { name: 'Bayyinah Institute — Arabic & Quran', url: 'https://bayyinah.com' },
+                { name: 'Al-Azhar University Resources', url: 'https://azhar.edu.eg' },
+                { name: 'Tajweed Rules (Tajweed Me)', url: 'https://tajweed.me' }
+                        ]
+},
+{
+            id: 22,
+                        name: 'Ijazah in Quran Memorisation (Hifz)',
+                        category: 'Quran',
+                        type: 'Certification',
+                        countries: ['Global', 'Saudi Arabia', 'Egypt', 'Pakistan', 'Middle East & North Africa (MENA)'],
+                        description: 'Official certification for complete memorisation of the Holy Quran (30 juz). Issued by accredited Islamic institutes after oral examination with a certified examiner.',
+                        recognizedBy: 'Islamic institutions, madrasas, and religious authorities globally',
+                        level: 'All levels (partial Hifz certifications also available)',
+                        cost: 'Varies by institution (many offer free certification)',
+                        availability: 'Year-round — multiple examination sessions',
+                        difficulty: 5,
+                        url: 'https://quran.com/memorization',
+                        prepResources: [
+                { name: 'Quran.com Memorisation Tools', url: 'https://quran.com/memorization' },
+                { name: 'Memorize Quran App', url: 'https://memorizequran.com' },
+                { name: 'Tarteel AI — Quran Recitation', url: 'https://tarteel.ai' },
+                { name: 'Al-Huda Institute', url: 'https://alhudapk.com' }
+                        ]
+},
+{
+            id: 23,
+                        name: 'Quran Tajweed Certificate (Online)',
+                        category: 'Quran',
+                        type: 'Certificate',
+                        countries: ['Global'],
+                        description: 'Structured online certification in Quran recitation with correct Tajweed rules. Widely available through accredited online institutes with flexible scheduling.',
+                        recognizedBy: 'Islamic learning centres, mosques and online Quran academies',
+                        level: 'Beginner to Advanced',
+                        cost: '$10-50 per month (institute-dependent)',
+                        availability: 'Year-round, fully online',
+                        difficulty: 2,
+                        url: 'https://quranacademy.io',
+                        prepResources: [
+                { name: 'Quran Academy', url: 'https://quranacademy.io' },
+                { name: 'Mishary Rashid Alafasy — Recitation', url: 'https://youtube.com/alafasy' },
+                { name: 'Nouman Ali Khan — Bayyinah TV', url: 'https://bayyinah.tv' },
+                { name: 'Learn Tajweed Free', url: 'https://learntajweed.com' }
+                        ]
+},
 export const examCategories = [
       'All Exams',
       'English',
@@ -393,7 +453,8 @@ export const examCategories = [
       'Technology',
       'University Entrance',
       'Professional',
-      'European Standard'
+      'European Standard',
+        'Quran'
     ];
 
 export const examRegions = [
