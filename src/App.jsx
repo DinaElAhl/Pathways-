@@ -28,6 +28,7 @@ import RootDiscipline from './pages/RootDiscipline.jsx'
 import Tools from './pages/Tools.jsx'
 import E2TeachingTool from './pages/E2TeachingTool.jsx'
 import EduHub from './pages/EduHub'
+import AccreditedExams from './pages/AccreditedExams.jsx'
 
 export default function App() {
   return (
@@ -60,6 +61,7 @@ export default function App() {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+                <Route path="/accredit-exams" element={<AccreditedExams />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
