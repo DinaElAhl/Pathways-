@@ -465,4 +465,29 @@ export const examRegions = [
       'Middle East & North Africa (MENA)',
       'Latin America',
       'Australia & Oceania'
-    ];
+    ,
+  {
+    id: 24,
+    name: 'Pathways Arabic & Quran Proficiency Exam',
+    category: 'Arabic',
+    type: 'Proficiency Assessment',
+    countries: ['Global'],
+    description: 'A multi-level Arabic and Quranic literacy assessment by Pathways, mapping learners from elementary to advanced using CEFR standards (A1–C1) with Quranic surah benchmarks and tajweed evaluation.',
+    recognizedBy: 'Pathways (Accreditation Pending)',
+    level: 'A1–C1 (4 Levels)',
+    cost: 'Free (Paid upon accreditation)',
+    availability: 'Online, year-round',
+    difficulty: 2,
+    status: 'pending',
+    levels: [
+      { level: 1, arabic: 'مبتدئ', name: 'Mubtadi', audience: 'Elementary', cefr: 'A1', surahs: 'Al-Fatiha, Al-Ikhlas, Al-Kawthar, Al-Nas' },
+      { level: 2, arabic: 'أساسي', name: 'Asasi', audience: 'Middle School', cefr: 'B1', surahs: "Juz' Amma (short)" },
+      { level: 3, arabic: 'متوسط', name: 'Mutawassit', audience: 'High School', cefr: 'B2', surahs: "Full Juz' Amma + Al-Mulk excerpt" },
+      { level: 4, arabic: 'متقدّم', name: 'Mutaqaddim', audience: 'Adults', cefr: 'C1', surahs: "Thematic study across Juz' Amma" }
+    ],
+    prepResources: [
+      { name: 'Take the Exam (Free)', url: 'https://claude.ai/public/artifacts/130ad91f-9ec4-42a3-8f5d-479aef8a5b59' },
+      { name: 'Pathways Arabic Pathway', url: 'https://pathways-learn-gamma.vercel.app/pathways/arabic-language' },
+      { name: 'Quran Study Resources', url: 'https://pathways-learn-gamma.vercel.app/resources' }
+    ]
+  }];
