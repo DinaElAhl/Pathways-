@@ -1,203 +1,266 @@
-import React, { useState, useMemo } from 'react';
-import { accreditedExams, examCategories, examRegions } from '../data/accreditedExams';
+import { useState } from 'react';
+import { accreditedExams } from '../data/accreditedExams';
+
+const getDifficultyColor = (difficulty) => {
+  if (difficulty <= 2) return '#22c55e';
+  if (difficulty <= 3) return '#f59e0b';
+  if (difficulty <= 4) return '#ef4444';
+  return '#7c3aed';
+};
+
+const getDifficultyLabel = (difficulty) => {
+  if (difficulty <= 1) return 'Beginner';
+  if (difficulty <= 2) return 'Intermediate';
+  if (difficulty <= 3) return 'Advanced';
+  if (difficulty <= 4) return 'Expert';
+  return 'Master';
+};
 
 export default function AccreditedExams() {
-  const [selectedCategory, setSelectedCategory] = useState('All Exams');
-  const [selectedRegion, setSelectedRegion] = useState('Global');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('All Exams');
+  const [region, setRegion] = useState('Global');
 
-  const filteredExams = useMemo(() => {
-    return accreditedExams.filter(exam => {
-      const matchesCategory = selectedCategory === 'All Exams' || exam.category === selectedCategory;
-      const matchesRegion = selectedRegion === 'Global' || exam.countries.includes(selectedRegion) || exam.countries.includes('Global');
-      const matchesSearch = exam.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        exam.description.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesRegion && matchesSearch;
-    });
-  }, [selectedCategory, selectedRegion, searchQuery]);
+  const categories = ['All Exams', ...new Set(accreditedExams.map(e => e.category))];
+  const regions = ['Global', 'USA', 'UK', 'Europe', 'Australia', 'Canada', 'Arab States', 'MENA', 'Asia', 'New Zealand'];
 
-  const getDifficultyColor = (difficulty) => {
-    if (!difficulty) return 'bg-gray-100 text-gray-700';
-    if (difficulty <= 2) return 'bg-green-100 text-green-700';
-    if (difficulty <= 3) return 'bg-yellow-100 text-yellow-700';
-    return 'bg-red-100 text-red-700';
-  };
-
-  const getDifficultyLabel = (difficulty) => {
-    if (!difficulty) return null;
-    if (difficulty <= 2) return 'Beginner';
-    if (difficulty <= 3) return 'Intermediate';
-    return 'Advanced';
-  };
+  const filtered = accreditedExams.filter(exam => {
+    const matchSearch = search === '' ||
+      exam.name.toLowerCase().includes(search.toLowerCase()) ||
+      exam.description.toLowerCase().includes(search.toLowerCase());
+    const matchCategory = category === 'All Exams' || exam.category === category;
+    const matchRegion = region === 'Global' || (exam.countries && exam.countries.includes(region));
+    return matchSearch && matchCategory && matchRegion;
+  });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+    <div style={{ minHeight: '100vh', background: '#f0f4ff', padding: '40px 20px', fontFamily: 'sans-serif' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <h1 style={{ fontSize: 36, fontWeight: 800, color: '#1e293b', marginBottom: 12 }}>
             Accredited Exams Worldwide
           </h1>
-          <p className="text-xl text-gray-700 max-w-2xl mx-auto">
+          <p style={{ fontSize: 16, color: '#64748b', maxWidth: 600, margin: '0 auto' }}>
             Discover and compare language proficiency tests, university entrance exams, and professional certifications recognized globally.
           </p>
         </div>
 
-        {/* Filters */}
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Search */}
+        <div style={{ background: '#fff', borderRadius: 16, padding: 24, marginBottom: 32, boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Search Exams
-              </label>
+              <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Search Exams</label>
               <input
                 type="text"
                 placeholder="Search by name or description..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                style={{ width: '100%', padding: '10px 14px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 14, boxSizing: 'border-box' }}
               />
             </div>
-
-            {/* Category Filter */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Category
-              </label>
+              <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Category</label>
               <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white cursor-pointer"
+                value={category}
+                onChange={e => setCategory(e.target.value)}
+                style={{ width: '100%', padding: '10px 14px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 14, boxSizing: 'border-box' }}
               >
-                {examCategories.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
+                {categories.map(c => (
+                  <option key={c} value={c}>{c}</option>
                 ))}
               </select>
             </div>
-
-            {/* Region Filter */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Region
-              </label>
+              <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Region</label>
               <select
-                value={selectedRegion}
-                onChange={(e) => setSelectedRegion(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white cursor-pointer"
+                value={region}
+                onChange={e => setRegion(e.target.value)}
+                style={{ width: '100%', padding: '10px 14px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 14, boxSizing: 'border-box' }}
               >
-                {examRegions.map(region => (
-                  <option key={region} value={region}>{region}</option>
+                {regions.map(r => (
+                  <option key={r} value={r}>{r}</option>
                 ))}
               </select>
             </div>
           </div>
-
-          {/* Results Count */}
-          <div className="mt-4 text-sm text-gray-600">
-            Showing <span className="font-semibold">{filteredExams.length}</span> exam{filteredExams.length !== 1 ? 's' : ''}
-          </div>
+          <p style={{ marginTop: 16, fontSize: 14, color: '#64748b' }}>
+            Showing <strong>{filtered.length}</strong> exams
+          </p>
         </div>
 
-        {/* Exams Grid */}
-        {filteredExams.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredExams.map(exam => (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(330px, 1fr))', gap: 24 }}>
+          {filtered.map(exam => {
+            const isPending = exam.status === 'pending';
+            return (
               <div
                 key={exam.id}
-                className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-6 border-l-4 border-blue-500 flex flex-col"
+                style={{
+                  background: '#fff',
+                  borderRadius: 16,
+                  padding: 24,
+                  boxShadow: isPending ? '0 0 0 2px #7c3aed, 0 4px 20px rgba(124,58,237,0.15)' : '0 2px 12px rgba(0,0,0,0.07)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 12,
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
               >
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg font-bold text-gray-900 flex-1">{exam.name}</h3>
-                  <span className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ml-2">
+                {isPending && (
+                  <div style={{
+                    position: 'absolute',
+                    top: 0, left: 0, right: 0,
+                    background: 'linear-gradient(90deg, #7c3aed, #a855f7)',
+                    color: '#fff',
+                    fontSize: 11,
+                    fontWeight: 700,
+                    textAlign: 'center',
+                    padding: '4px 0',
+                    letterSpacing: 1
+                  }}>
+                    ✦ PATHWAYS ORIGINAL · ACCREDITATION IN PROGRESS ✦
+                  </div>
+                )}
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: isPending ? 20 : 0 }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: '#1e293b', margin: 0, flex: 1, paddingRight: 8 }}>
+                    {exam.name}
+                  </h3>
+                  <span style={{
+                    background: '#ede9fe',
+                    color: '#6d28d9',
+                    borderRadius: 20,
+                    padding: '3px 10px',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap'
+                  }}>
                     {exam.category}
                   </span>
                 </div>
 
-                {exam.difficulty && (
-                  <span className={`inline-block px-2 py-1 rounded text-xs font-semibold mb-3 w-fit ${getDifficultyColor(exam.difficulty)}`}>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <span style={{
+                    background: getDifficultyColor(exam.difficulty) + '22',
+                    color: getDifficultyColor(exam.difficulty),
+                    borderRadius: 20,
+                    padding: '3px 10px',
+                    fontSize: 12,
+                    fontWeight: 600
+                  }}>
                     {getDifficultyLabel(exam.difficulty)} (Difficulty: {exam.difficulty}/5)
                   </span>
-                )}
-
-                <p className="text-gray-600 text-sm mb-4">{exam.description}</p>
-
-                <div className="space-y-2 text-sm mb-4 bg-gray-50 p-3 rounded">
-                  <div>
-                    <span className="font-semibold text-gray-700">Type:</span>
-                    <span className="text-gray-600 ml-2">{exam.type}</span>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-gray-700">Level:</span>
-                    <span className="text-gray-600 ml-2">{exam.level}</span>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-gray-700">Cost:</span>
-                    <span className="text-gray-600 ml-2">{exam.cost}</span>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-gray-700">Availability:</span>
-                    <span className="text-gray-600 ml-2 text-xs">{exam.availability}</span>
-                  </div>
+                  {isPending && (
+                    <span style={{
+                      background: '#f3e8ff',
+                      color: '#7c3aed',
+                      borderRadius: 20,
+                      padding: '3px 10px',
+                      fontSize: 12,
+                      fontWeight: 600
+                    }}>
+                      🕐 Pending Accreditation
+                    </span>
+                  )}
                 </div>
 
-                <div className="mb-4">
-                  <span className="font-semibold text-gray-700 text-sm">Countries:</span>
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {exam.countries.map(country => (
-                      <span key={country} className="bg-indigo-50 text-indigo-700 px-2 py-1 rounded text-xs">
-                        {country}
-                      </span>
+                <p style={{ fontSize: 14, color: '#64748b', margin: 0, lineHeight: 1.6 }}>
+                  {exam.description}
+                </p>
+
+                {isPending && exam.levels && (
+                  <div style={{ background: '#faf5ff', borderRadius: 10, padding: 12, border: '1px solid #e9d5ff' }}>
+                    <p style={{ fontSize: 12, fontWeight: 700, color: '#7c3aed', margin: '0 0 8px 0' }}>EXAM LEVELS</p>
+                    {exam.levels.map(l => (
+                      <div key={l.level} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                        <span style={{ background: '#7c3aed', color: '#fff', borderRadius: 4, padding: '1px 7px', fontSize: 11, fontWeight: 700 }}>
+                          {l.cefr}
+                        </span>
+                        <span style={{ fontSize: 13, color: '#1e293b', fontWeight: 600 }}>{l.name}</span>
+                        <span style={{ fontSize: 12, color: '#7c3aed', fontFamily: 'serif' }}>{l.arabic}</span>
+                        <span style={{ fontSize: 11, color: '#64748b' }}>· {l.audience}</span>
+                      </div>
                     ))}
                   </div>
+                )}
+
+                <div style={{ background: '#f8fafc', borderRadius: 10, padding: 12, fontSize: 13 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4 }}>
+                    <span style={{ color: '#64748b' }}>Type: <strong style={{ color: '#1e293b' }}>{exam.type}</strong></span>
+                    <span style={{ color: '#64748b' }}>Level: <strong style={{ color: '#1e293b' }}>{exam.level}</strong></span>
+                    <span style={{ color: '#64748b' }}>Cost: <strong style={{ color: '#1e293b' }}>{exam.cost}</strong></span>
+                    <span style={{ color: '#64748b' }}>Availability: <strong style={{ color: '#1e293b' }}>{exam.availability}</strong></span>
+                  </div>
                 </div>
 
-                <div className="mb-4">
-                  <p className="text-sm">
-                    <span className="font-semibold text-gray-700">Recognized by:</span>
-                    <span className="text-gray-600 ml-2">{exam.recognizedBy}</span>
-                  </p>
-                </div>
-
-                {exam.prepResources && exam.prepResources.length > 0 && (
-                  <div className="mb-4">
-                    <p className="font-semibold text-gray-700 text-sm mb-2">Prep Resources:</p>
-                    <ul className="space-y-1">
-                      {exam.prepResources.map((resource, index) => (
-                        <li key={index}>
-                          <a
-                            href={resource.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:text-blue-800 text-xs underline"
-                          >
-                            {resource.name}
-                          </a>
-                        </li>
+                {exam.countries && (
+                  <div>
+                    <p style={{ fontSize: 12, fontWeight: 700, color: '#374151', margin: '0 0 6px 0' }}>Countries:</p>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                      {exam.countries.map(c => (
+                        <span key={c} style={{ background: '#e0f2fe', color: '#0369a1', borderRadius: 20, padding: '2px 9px', fontSize: 12, fontWeight: 500 }}>
+                          {c}
+                        </span>
                       ))}
-                    </ul>
+                    </div>
                   </div>
                 )}
 
-                <div className="mt-auto">
-                  <a
-                    href={exam.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
-                  >
-                    Learn More →
-                  </a>
-                </div>
+                {exam.recognizedBy && (
+                  <p style={{ fontSize: 13, color: '#64748b', margin: 0 }}>
+                    Recognized by: <strong style={{ color: '#1e293b' }}>{exam.recognizedBy}</strong>
+                  </p>
+                )}
+
+                {exam.prepResources && exam.prepResources.length > 0 && (
+                  <div>
+                    <p style={{ fontSize: 12, fontWeight: 700, color: '#374151', margin: '0 0 6px 0' }}>
+                      {isPending ? 'Try It Now:' : 'Prep Resources:'}
+                    </p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                      {exam.prepResources.map((r, i) => (
+                        <a
+                          key={i}
+                          href={r.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            color: isPending ? '#7c3aed' : '#2563eb',
+                            fontSize: 13,
+                            textDecoration: 'none',
+                            fontWeight: isPending && i === 0 ? 700 : 400
+                          }}
+                        >
+                          {isPending && i === 0 ? '▶ ' : ''}{r.name}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <a
+                  href={exam.url || (isPending ? 'https://claude.ai/public/artifacts/130ad91f-9ec4-42a3-8f5d-479aef8a5b59' : '#')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'block',
+                    textAlign: 'center',
+                    padding: '11px',
+                    borderRadius: 10,
+                    background: isPending ? 'linear-gradient(90deg, #7c3aed, #a855f7)' : '#1d4ed8',
+                    color: '#fff',
+                    fontWeight: 700,
+                    fontSize: 14,
+                    textDecoration: 'none',
+                    marginTop: 'auto'
+                  }}
+                >
+                  {isPending ? 'Take Free Exam →' : 'Learn More →'}
+                </a>
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="bg-white rounded-lg shadow-md p-12 text-center">
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No exams found</h3>
-            <p className="text-gray-600">Try adjusting your filters or search query to find exams.</p>
-          </div>
-        )}
+            );
+          })}
+        </div>
       </div>
     </div>
   );
