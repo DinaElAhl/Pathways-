@@ -51,14 +51,14 @@ export default function AccreditedExams() {
                                                           <label className="block text-sm font-semibold text-gray-700 mb-2">
                                                                           Category
                                                           </label>label>
-                                                          <select
+                                                          h60
+                                                
                                                                             value={selectedCategory}
                                                                             onChange={(e) => setSelectedCategory(e.target.value)}
                                                                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white cursor-pointer"
                                                                           >
                                                             {examCategories.map(cat => (
-                                                                                              <option key={cat} value={cat}>{cat}</option>option>
-                                                                                            ))}
+            <option key={cat} value={cat}>{cat}</option>option>                                                                                            ))}
                                                           </select>select>
                                             </div>div>
                                 
@@ -67,14 +67,14 @@ export default function AccreditedExams() {
                                                           <label className="block text-sm font-semibold text-gray-700 mb-2">
                                                                           Region
                                                           </label>label>
-                                                          <select
+                                                          77
+                                                
                                                                             value={selectedRegion}
                                                                             onChange={(e) => setSelectedRegion(e.target.value)}
                                                                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white cursor-pointer"
                                                                           >
                                                             {examRegions.map(region => (
-                                                                                              <option key={region} value={region}>{region}</option>option>
-                                                                                            ))}
+                        <option key={region} value={region}>{region}</option>option>                                                                                            ))}
                                                           </select>select>
                                             </div>div>
                                 </div>div>
