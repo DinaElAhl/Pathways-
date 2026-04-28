@@ -16,6 +16,20 @@ export default function AccreditedExams() {
     });
   }, [selectedCategory, selectedRegion, searchQuery]);
 
+  const getDifficultyColor = (difficulty) => {
+    if (!difficulty) return 'bg-gray-100 text-gray-700';
+    if (difficulty <= 2) return 'bg-green-100 text-green-700';
+    if (difficulty <= 3) return 'bg-yellow-100 text-yellow-700';
+    return 'bg-red-100 text-red-700';
+  };
+
+  const getDifficultyLabel = (difficulty) => {
+    if (!difficulty) return null;
+    if (difficulty <= 2) return 'Beginner';
+    if (difficulty <= 3) return 'Intermediate';
+    return 'Advanced';
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
       <div className="max-w-7xl mx-auto">
@@ -91,7 +105,7 @@ export default function AccreditedExams() {
             {filteredExams.map(exam => (
               <div
                 key={exam.id}
-                className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-6 border-l-4 border-blue-500"
+                className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-6 border-l-4 border-blue-500 flex flex-col"
               >
                 <div className="flex items-start justify-between mb-3">
                   <h3 className="text-lg font-bold text-gray-900 flex-1">{exam.name}</h3>
@@ -99,6 +113,12 @@ export default function AccreditedExams() {
                     {exam.category}
                   </span>
                 </div>
+
+                {exam.difficulty && (
+                  <span className={`inline-block px-2 py-1 rounded text-xs font-semibold mb-3 w-fit ${getDifficultyColor(exam.difficulty)}`}>
+                    {getDifficultyLabel(exam.difficulty)} (Difficulty: {exam.difficulty}/5)
+                  </span>
+                )}
 
                 <p className="text-gray-600 text-sm mb-4">{exam.description}</p>
 
@@ -139,14 +159,36 @@ export default function AccreditedExams() {
                   </p>
                 </div>
 
-                <a
-                  href={exam.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
-                >
-                  Learn More →
-                </a>
+                {exam.prepResources && exam.prepResources.length > 0 && (
+                  <div className="mb-4">
+                    <p className="font-semibold text-gray-700 text-sm mb-2">Prep Resources:</p>
+                    <ul className="space-y-1">
+                      {exam.prepResources.map((resource, index) => (
+                        <li key={index}>
+                          <a
+                            href={resource.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:text-blue-800 text-xs underline"
+                          >
+                            {resource.name}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div className="mt-auto">
+                  <a
+                    href={exam.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+                  >
+                    Learn More →
+                  </a>
+                </div>
               </div>
             ))}
           </div>
