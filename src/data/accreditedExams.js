@@ -439,21 +439,6 @@ export const accreditedExams = [
                 { name: 'Learn Tajweed Free', url: 'https://learntajweed.com' }
                         ]
 },
-export const examCategories = [
-      'All Exams',
-      'English',
-      'French',
-      'Spanish',
-      'German',
-      'Arabic',
-      'Chinese',
-      'Japanese',
-      'Technology',
-      'University Entrance',
-      'Professional',
-      'European Standard',
-        'Quran'
-    ];
 
 export const examRegions = [
       'Global',
