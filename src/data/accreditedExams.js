@@ -378,10 +378,8 @@ export const accreditedExams = [
                 { name: 'Free Practice', url: 'https://www.ets.org/gre/revised_general/prepare' },
                 { name: 'Study Guides', url: 'https://www.ets.org/gre/pdf/gre_guide.pdf' }
                     ]
-    }
-    ];
-
-{
+    },
+  {
             id: 21,
                         name: 'Ijazah in Quran Recitation (Hafs an Asim)',
                         category: 'Quran',
