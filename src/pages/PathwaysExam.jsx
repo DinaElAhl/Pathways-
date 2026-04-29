@@ -55,6 +55,7 @@ function PrepScreen({ questions, level, onDone }) {
   const [timeKey, setTimeKey] = useState(0);
   const prepQs = questions.slice(0, 5);
   const q = prepQs[idx];
+  if (!q) { onDone({ xp, hearts }); return null; }
 
   const handleTimeout = useCallback(() => {
     if (picked) return;
@@ -261,6 +262,7 @@ function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
   const q = questions[current];
   const total = questions.length;
   const pct = (current/total)*100;
+  if (!q) { return null; }
 
   const handleEnd = useCallback(() => {
     onFinish([...answers, {q:q?.id, chosen:null, correct:q?.answer, passed:false}]);
