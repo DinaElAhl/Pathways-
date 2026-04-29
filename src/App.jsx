@@ -30,6 +30,7 @@ import E2TeachingTool from './pages/E2TeachingTool.jsx'
 import EduHub from './pages/EduHub'
 import AccreditedExams from './pages/AccreditedExams.jsx'
 import QuranExams from './pages/QuranExams.jsx'
+import PathwaysExam from './pages/PathwaysExam.jsx'
 
 export default function App() {
   return (
@@ -64,6 +65,7 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
                 <Route path="/accredited-exams" element={<AccreditedExams />} />
         <Route path="/quran-exams" element={<QuranExams />} />
+        <Route path="/pathways-exam" element={<PathwaysExam />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
