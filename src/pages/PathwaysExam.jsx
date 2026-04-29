@@ -1,589 +1,716 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { SCHOOL_TYPES, LEVELS, QUESTIONS, EXAM_META, calcScore } from '../data/examData';
+import { SCHOOL_TYPES, LEVELS, QUESTIONS, calcScore } from '../data/examData';
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
-const pad = (n) => String(n).padStart(2, '0');
+// ─── Global CSS (injected once) ───────────────────────────────────────────────
+const CSS = `
+@keyframes popIn   { 0%{transform:scale(0.7);opacity:0} 70%{transform:scale(1.1)} 100%{transform:scale(1);opacity:1} }
+@keyframes shake   { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)} }
+@keyframes slideUp { from{transform:translateY(40px);opacity:0} to{transform:translateY(0);opacity:1} }
+@keyframes glow    { 0%,100%{box-shadow:0 0 0 0 rgba(88,204,2,0)} 50%{box-shadow:0 0 0 12px rgba(88,204,2,0.18)} }
+@keyframes heartBeat{ 0%,100%{transform:scale(1)} 30%{transform:scale(1.35)} 60%{transform:scale(0.9)} }
+@keyframes xpFloat { 0%{opacity:1;transform:translateY(0) scale(1)} 100%{opacity:0;transform:translateY(-48px) scale(1.5)} }
+@keyframes progressFill { from{width:0} to{width:100%} }
+@keyframes spin    { to{transform:rotate(360deg)} }
+@keyframes streakPop { 0%{transform:scale(1)} 50%{transform:scale(1.4) rotate(-8deg)} 100%{transform:scale(1)} }
+.duo-opt { transition: transform 0.12s, box-shadow 0.12s; }
+.duo-opt:active { transform: scale(0.97); }
+.duo-opt.correct { animation: glow 0.6s ease; }
+.duo-opt.wrong   { animation: shake 0.4s ease; }
+.duo-btn { transition: transform 0.1s, opacity 0.1s; }
+.duo-btn:active { transform: scale(0.97); }
+.xp-float { animation: xpFloat 1s ease forwards; }
+.heart-pop { animation: heartBeat 0.4s ease; }
+.streak-pop { animation: streakPop 0.5s ease; }
+`;
 
-const SECTION_LABELS = {
-  vocabulary: 'Vocabulary / المفردات',
-  grammar:    'Grammar / القواعد',
-  reading:    'Reading / القراءة',
-  quran:      'Quran & Tajweed / القرآن والتجويد',
-  writing:    'Writing Skills / مهارات الكتابة',
-};
+function injectCSS() {
+  if (document.getElementById('duo-css')) return;
+  const s = document.createElement('style');
+  s.id = 'duo-css'; s.textContent = CSS;
+  document.head.appendChild(s);
+}
 
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+const pad = n => String(n).padStart(2, '0');
 const LS_KEY = 'raqp_results';
+function saveResult(r) { try { const p=JSON.parse(localStorage.getItem(LS_KEY)||'[]'); p.unshift(r); localStorage.setItem(LS_KEY,JSON.stringify(p.slice(0,100))); } catch(e){} }
 
-function saveResult(result) {
-  try {
-    const prev = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
-    prev.unshift(result);
-    localStorage.setItem(LS_KEY, JSON.stringify(prev.slice(0, 100)));
-  } catch(e) {}
-}
-
-function loadResults() {
-  try { return JSON.parse(localStorage.getItem(LS_KEY) || '[]'); } catch(e) { return []; }
-}
-
-function clearResults() {
-  try { localStorage.removeItem(LS_KEY); } catch(e) {}
-}
-
-function useTimer(seconds, onEnd) {
-  const [left, setLeft] = useState(seconds);
-  useEffect(() => {
-    if (left <= 0) { onEnd(); return; }
-    const id = setTimeout(() => setLeft(l => l - 1), 1000);
-    return () => clearTimeout(id);
-  }, [left, onEnd]);
+function useTimer(secs, onEnd) {
+  const [left, setLeft] = useState(secs);
+  useEffect(() => { if(left<=0){onEnd();return;} const id=setTimeout(()=>setLeft(l=>l-1),1000); return ()=>clearTimeout(id); }, [left, onEnd]);
   return left;
 }
 
-// ── Sub-components ────────────────────────────────────────────────────────────
-function ProgressBar({ value, max, color }) {
-  const pct = Math.round((value / max) * 100);
-  return (
-    <div style={{ background: '#e2e8f0', borderRadius: 99, height: 8, overflow: 'hidden' }}>
-      <div style={{ width: pct + '%', background: color, height: '100%', borderRadius: 99, transition: 'width 0.4s' }} />
-    </div>
-  );
-}
+// ─── Prep "flashcard" questions (5 per level, timed 8s, 3 hearts) ────────────
+// Uses first 5 questions from the level as warm-up with immediate feedback & XP
+function PrepScreen({ questions, level, onDone }) {
+  const [idx,   setIdx]    = useState(0);
+  const [hearts, setHearts]= useState(3);
+  const [xp,     setXp]    = useState(0);
+  const [streak, setStreak]= useState(0);
+  const [picked, setPicked]= useState(null);   // null | 'correct' | 'wrong'
+  const [chosenOpt, setChosen] = useState(null);
+  const [xpAnim,  setXpAnim]  = useState(false);
+  const [timeKey, setTimeKey] = useState(0);
+  const prepQs = questions.slice(0, 5);
+  const q = prepQs[idx];
 
-function LevelBadge({ level }) {
-  return (
-    <span style={{ background: level.bg, color: level.color, borderRadius: 20, padding: '3px 12px', fontSize: 12, fontWeight: 700 }}>
-      {level.cefr} · {level.name}
-    </span>
-  );
-}
+  const handleTimeout = useCallback(() => {
+    if (picked) return;
+    setHearts(h => Math.max(0, h-1));
+    setPicked('wrong');
+    setStreak(0);
+  }, [picked]);
 
-function CertificateView({ studentName, schoolType, finalLevel, levelResults, onClose }) {
-  const school = SCHOOL_TYPES.find(s => s.id === schoolType);
-  const level  = LEVELS.find(l => l.id === finalLevel) || LEVELS[0];
-  const date   = new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+  const timeLeft = useTimer(8, handleTimeout);
 
-  const handlePrint = () => {
-    const w = window.open('', '_blank');
-    w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>RAQP Certificate</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;700&display=swap');
-  body { margin:0; background:#fff; font-family: 'Playfair Display', serif; }
-  .cert { width:900px; min-height:640px; margin:20px auto; border:12px solid #1e293b; padding:48px 60px; position:relative; box-sizing:border-box; background:linear-gradient(145deg,#fdfbf7 0%,#f8f4ed 100%); }
-  .cert:before { content:''; position:absolute; inset:8px; border:2px solid #c9a84c; pointer-events:none; }
-  .seal { text-align:center; font-size:48px; margin-bottom:8px; }
-  .title-ar { font-family:'Amiri',serif; font-size:22px; color:#c9a84c; text-align:center; direction:rtl; margin-bottom:4px; }
-  .title-en { font-size:13px; letter-spacing:3px; text-transform:uppercase; text-align:center; color:#64748b; margin-bottom:24px; }
-  .presents { font-size:14px; text-align:center; color:#94a3b8; margin-bottom:6px; }
-  .name { font-size:38px; font-weight:700; text-align:center; color:#1e293b; border-bottom:2px solid #c9a84c; display:inline-block; padding:0 40px 6px; margin:0 auto 20px; }
-  .name-wrap { text-align:center; margin-bottom:20px; }
-  .achieved { font-size:14px; text-align:center; color:#475569; margin-bottom:8px; }
-  .level { font-size:28px; font-weight:700; text-align:center; color:${level.color}; background:${level.bg}; display:inline-block; padding:8px 32px; border-radius:40px; margin:0 auto 8px; }
-  .level-wrap { text-align:center; margin-bottom:12px; }
-  .cefr { font-size:13px; text-align:center; color:#64748b; margin-bottom:24px; }
-  .details { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin:24px 0; }
-  .detail { text-align:center; background:#f1f5f9; border-radius:8px; padding:12px; }
-  .detail-label { font-size:10px; text-transform:uppercase; letter-spacing:2px; color:#94a3b8; margin-bottom:4px; }
-  .detail-value { font-size:14px; font-weight:700; color:#1e293b; }
-  .scores { margin:16px 0; }
-  .score-row { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #e2e8f0; font-size:13px; color:#475569; }
-  .score-pass { color:#10b981; font-weight:700; }
-  .score-fail { color:#ef4444; font-weight:700; }
-  .footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:32px; }
-  .sig-line { border-top:1px solid #1e293b; padding-top:6px; font-size:11px; color:#64748b; text-align:center; width:180px; }
-  .date { font-size:11px; color:#94a3b8; text-align:center; }
-  @media print { body { margin:0; } .cert { margin:0; border:12px solid #1e293b; } }
-</style></head><body>
-<div class="cert">
-  <div class="seal">📖</div>
-  <div class="title-ar">شهادة كفاءة اللغة العربية والقرآن الكريم</div>
-  <div class="title-en">Pathways Arabic &amp; Quran Proficiency Certificate &mdash; RAQP</div>
-  <div class="presents">This is to certify that</div>
-  <div class="name-wrap"><span class="name">${studentName || 'Student'}</span></div>
-  <div class="achieved">has demonstrated proficiency in Arabic Language &amp; Quranic Studies at the level of</div>
-  <div class="level-wrap"><span class="level">${level.name}</span></div>
-  <div class="cefr">CEFR Level: ${level.cefr} &nbsp;&bull;&nbsp; School Track: ${school?.name || schoolType}</div>
-  <div class="details">
-    <div class="detail"><div class="detail-label">School Track</div><div class="detail-value">${school?.name || schoolType}</div></div>
-    <div class="detail"><div class="detail-label">Levels Assessed</div><div class="detail-value">${levelResults.length} of 4</div></div>
-    <div class="detail"><div class="detail-label">Date Issued</div><div class="detail-value">${date}</div></div>
-  </div>
-  <div class="scores">${levelResults.map(r => {
-    const lv = LEVELS.find(l => l.id === r.levelId);
-    return `<div class="score-row"><span>${lv?.name || r.levelId} (${lv?.cefr})</span><span class="${r.passed ? 'score-pass' : 'score-fail'}">${r.score}/10 &mdash; ${r.passed ? 'PASSED' : 'STOPPED'}</span></div>`;
-  }).join('')}</div>
-  <div class="footer">
-    <div class="sig-line">Pathways Education<br/>Authorised Examiner</div>
-    <div class="date">Issued: ${date}</div>
-    <div class="sig-line">RAQP Certification<br/>Official Record</div>
-  </div>
-</div>
-<script>window.onload=()=>window.print();</script>
-</body></html>`);
-    w.document.close();
-  };
+  function choose(opt) {
+    if (picked) return;
+    const correct = opt === q.answer;
+    setChosen(opt);
+    setPicked(correct ? 'correct' : 'wrong');
+    if (correct) {
+      const earned = 10 + streak*2;
+      setXp(x => x+earned);
+      setStreak(s => s+1);
+      setXpAnim(true);
+      setTimeout(()=>setXpAnim(false), 1000);
+    } else {
+      setHearts(h => Math.max(0,h-1));
+      setStreak(0);
+    }
+  }
+
+  function next() {
+    if (idx+1 >= prepQs.length || hearts === 0) {
+      onDone({ xp, hearts });
+    } else {
+      setIdx(i=>i+1);
+      setPicked(null);
+      setChosen(null);
+      setTimeKey(k=>k+1);
+    }
+  }
+
+  const pct = ((8-timeLeft)/8)*100;
+  const timerColor = timeLeft<3 ? '#ff4b4b' : timeLeft<5 ? '#ffc800' : '#58cc02';
 
   return (
-    <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.7)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:16 }}>
-      <div style={{ background:'#fff', borderRadius:16, padding:'32px 40px', maxWidth:560, width:'100%', boxShadow:'0 20px 60px rgba(0,0,0,0.3)' }}>
-        <div style={{ textAlign:'center', marginBottom:24 }}>
-          <div style={{ fontSize:48, marginBottom:8 }}>🏅</div>
-          <h2 style={{ fontSize:22, fontWeight:800, color:'#1e293b', margin:'0 0 4px' }}>Certificate of Proficiency</h2>
-          <p style={{ fontSize:13, color:'#64748b', margin:0 }}>RAQP — Pathways Arabic & Quran Proficiency</p>
+    <div style={{ minHeight:'100vh', background:'#fff', display:'flex', flexDirection:'column' }}>
+      {/* Top bar */}
+      <div style={{ display:'flex', alignItems:'center', padding:'16px 20px', gap:16, borderBottom:'2px solid #e5e5e5', position:'sticky', top:0, background:'#fff', zIndex:10 }}>
+        <div style={{ display:'flex', gap:4 }}>
+          {[0,1,2].map(i=>(
+            <span key={i} style={{ fontSize:20, filter: i>=hearts ? 'grayscale(1) opacity(0.3)' : 'none', transition:'all 0.3s' }}
+              className={i===hearts-1 && picked==='wrong' ? 'heart-pop' : ''}>
+              ❤️
+            </span>
+          ))}
         </div>
-        <div style={{ background:'linear-gradient(135deg,#1e293b,#3b4f6b)', borderRadius:12, padding:'20px 24px', marginBottom:20, color:'#fff', textAlign:'center' }}>
-          <p style={{ fontSize:12, color:'#94a3b8', margin:'0 0 4px', letterSpacing:2, textTransform:'uppercase' }}>Awarded to</p>
-          <p style={{ fontSize:24, fontWeight:700, margin:'0 0 8px' }}>{studentName || 'Student'}</p>
-          <div style={{ background: level.bg, color: level.color, display:'inline-block', padding:'4px 16px', borderRadius:20, fontSize:14, fontWeight:700 }}>
-            {level.name} — {level.cefr}
+        <div style={{ flex:1, background:'#e5e5e5', borderRadius:99, height:8, overflow:'hidden' }}>
+          <div style={{ width: ((idx)/prepQs.length*100)+'%', background:'#58cc02', height:'100%', transition:'width 0.4s', borderRadius:99 }} />
+        </div>
+        <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+          <span style={{ fontSize:16 }}>⚡</span>
+          <span style={{ fontWeight:800, color:'#ff9600', fontSize:15 }}>{xp} XP</span>
+          {streak>1 && <span style={{ fontSize:13, fontWeight:700, color:'#ff4b4b', background:'#fff0f0', borderRadius:12, padding:'2px 8px' }} className="streak-pop">🔥{streak}</span>}
+        </div>
+        {/* Timer ring */}
+        <div style={{ position:'relative', width:36, height:36 }}>
+          <svg width="36" height="36" style={{ transform:'rotate(-90deg)' }}>
+            <circle cx="18" cy="18" r="14" fill="none" stroke="#e5e5e5" strokeWidth="4"/>
+            <circle cx="18" cy="18" r="14" fill="none" stroke={timerColor} strokeWidth="4"
+              strokeDasharray={2*Math.PI*14} strokeDashoffset={2*Math.PI*14*(1-pct/100)}
+              style={{ transition:'stroke-dashoffset 1s linear, stroke 0.3s' }}/>
+          </svg>
+          <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center', fontSize:10, fontWeight:800, color:timerColor }}>
+            {timeLeft}
           </div>
-          <p style={{ fontSize:12, color:'#94a3b8', margin:'8px 0 0' }}>{school?.name || schoolType}</p>
         </div>
-        <div style={{ marginBottom:20 }}>
-          {levelResults.map((r) => {
-            const lv = LEVELS.find(l => l.id === r.levelId);
+      </div>
+
+      {/* XP floating */}
+      {xpAnim && <div className="xp-float" style={{ position:'fixed', top:80, right:80, fontSize:20, fontWeight:900, color:'#58cc02', zIndex:100 }}>+{10+streak*2} XP</div>}
+
+      {/* Question */}
+      <div style={{ flex:1, display:'flex', flexDirection:'column', maxWidth:620, margin:'0 auto', width:'100%', padding:'32px 20px' }}>
+        <div style={{ marginBottom:8, fontSize:13, fontWeight:700, color:'#afafaf', letterSpacing:1, textTransform:'uppercase' }}>
+          Warm-up {idx+1} of {prepQs.length} • {level.name} ({level.cefr})
+        </div>
+        <div style={{ fontSize:12, fontWeight:700, color:level.color, background:level.bg, display:'inline-block', padding:'3px 10px', borderRadius:20, marginBottom:20, alignSelf:'flex-start' }}>
+          {level.cefr} • Prep Mode
+        </div>
+        <div style={{ fontSize: q.rtl?22:18, fontWeight:700, color:'#1f1f1f', direction:q.rtl?'rtl':'ltr', textAlign:q.rtl?'right':'left', lineHeight:1.6, marginBottom:28, padding:'0 4px', animation:'popIn 0.3s ease' }}>
+          {q.question}
+        </div>
+        <div style={{ display:'grid', gap:12 }}>
+          {q.options.map((opt,i)=>{
+            let bg='#fff', border='#e5e5e5', color='#1f1f1f', extra='';
+            if (picked) {
+              if (opt===q.answer) { bg='#d7ffb8'; border='#58cc02'; color='#2d7a00'; extra=' correct'; }
+              else if (opt===chosenOpt && opt!==q.answer) { bg='#ffdfe0'; border='#ff4b4b'; color='#8b0000'; extra=' wrong'; }
+            } else if (opt===chosenOpt) { bg='#ddf4ff'; border='#1cb0f6'; }
             return (
-              <div key={r.levelId} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'6px 0', borderBottom:'1px solid #f1f5f9', fontSize:13 }}>
-                <span style={{ color:'#475569' }}>{lv?.name} ({lv?.cefr})</span>
-                <span style={{ fontWeight:700, color: r.passed ? '#10b981' : '#ef4444' }}>{r.score}/10 — {r.passed ? 'PASSED' : 'STOPPED'}</span>
-              </div>
+              <button key={i} onClick={()=>choose(opt)} className={'duo-opt'+extra} style={{
+                background:bg, border:`2px solid ${border}`, borderRadius:14, padding:'14px 18px',
+                textAlign: q.rtl?'right':'left', fontSize:q.rtl?18:15, direction:q.rtl?'rtl':'ltr',
+                cursor:picked?'default':'pointer', color, fontWeight:600, display:'flex', alignItems:'center', gap:12,
+                boxShadow: opt===q.answer && picked ? '0 4px 0 #58cc02' : opt===chosenOpt && picked && opt!==q.answer ? '0 4px 0 #ff4b4b' : '0 4px 0 #e5e5e5',
+                transform:'translateY(-2px)',
+              }}>
+                <span style={{ minWidth:28, height:28, borderRadius:8, border:`2px solid ${border}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:800, color:border, background:'transparent', flexShrink:0 }}>
+                  {['A','B','C','D'][i]}
+                </span>
+                {opt}
+                {picked && opt===q.answer && <span style={{ marginLeft:'auto', fontSize:18 }}>✅</span>}
+                {picked && opt===chosenOpt && opt!==q.answer && <span style={{ marginLeft:'auto', fontSize:18 }}>❌</span>}
+              </button>
             );
           })}
         </div>
-        <div style={{ display:'flex', gap:12 }}>
-          <button onClick={handlePrint} style={{ flex:1, background:'linear-gradient(135deg,#1d4ed8,#7c3aed)', color:'#fff', border:'none', borderRadius:10, padding:'12px 0', fontSize:14, fontWeight:700, cursor:'pointer' }}>
-            🖨 Print / Save PDF
-          </button>
-          <button onClick={onClose} style={{ flex:1, background:'#f1f5f9', color:'#475569', border:'none', borderRadius:10, padding:'12px 0', fontSize:14, fontWeight:700, cursor:'pointer' }}>
-            Close
-          </button>
+
+        {/* Feedback panel */}
+        {picked && (
+          <div style={{ marginTop:20, borderRadius:14, padding:'16px 18px', background: picked==='correct'?'#d7ffb8':'#ffdfe0', border:`2px solid ${picked==='correct'?'#58cc02':'#ff4b4b'}`, animation:'slideUp 0.3s ease' }}>
+            <div style={{ fontWeight:800, fontSize:16, color:picked==='correct'?'#2d7a00':'#a00000', marginBottom:4 }}>
+              {picked==='correct' ? '🎊 Excellent! ✨' : '💪 Almost there!'}
+            </div>
+            <div style={{ fontSize:13, color:picked==='correct'?'#3a8a00':'#c00000' }}>
+              {picked==='correct' ? 'Great work! Keep the streak going.' : `Correct answer: ${q.answer}`}
+            </div>
+            {q.explanation && picked==='wrong' && <div style={{ fontSize:12, color:'#666', marginTop:6 }}>💡 {q.explanation}</div>}
+          </div>
+        )}
+      </div>
+
+      {/* Bottom action */}
+      {picked && (
+        <div style={{ padding:'16px 20px', borderTop:'2px solid #e5e5e5', background: picked==='correct'?'#d7ffb8':'#ffdfe0', animation:'slideUp 0.3s ease' }}>
+          <div style={{ maxWidth:620, margin:'0 auto' }}>
+            <button onClick={next} className="duo-btn" style={{
+              width:'100%', background: picked==='correct'?'#58cc02':'#ff4b4b', color:'#fff',
+              border:'none', borderRadius:14, padding:'16px 0', fontSize:16, fontWeight:800, cursor:'pointer',
+              boxShadow: picked==='correct'?'0 4px 0 #3d9900':'0 4px 0 #c03030',
+            }}>
+              {idx+1>=prepQs.length||hearts===0 ? '🏁 Finish Warm-Up →' : 'Continue →'}
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Prep Summary (between prep and exam) ────────────────────────────────────
+function PrepSummary({ level, xp, hearts, onStartExam, onRetryPrep }) {
+  const stars = hearts>=3?3:hearts>=2?2:hearts>=1?1:0;
+  return (
+    <div style={{ minHeight:'100vh', background:'#fff', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'32px 20px', textAlign:'center' }}>
+      <div style={{ fontSize:72, marginBottom:8, animation:'popIn 0.5s ease' }}>{stars===3?'🌟':stars===2?'💫':stars===1?'💪':'💡'}</div>
+      <h2 style={{ fontSize:26, fontWeight:900, color:'#1f1f1f', margin:'0 0 6px' }}>Warm-Up Complete!</h2>
+      <p style={{ fontSize:15, color:'#777', margin:'0 0 24px' }}>You're ready for the real exam</p>
+
+      {/* Stars */}
+      <div style={{ display:'flex', gap:8, justifyContent:'center', marginBottom:20 }}>
+        {[1,2,3].map(s=>(
+          <span key={s} style={{ fontSize:32, filter: s<=stars?'none':'grayscale(1) opacity(0.3)', animation:s<=stars?`popIn 0.4s ease ${s*0.15}s both`:'' }}>⭐</span>
+        ))}
+      </div>
+
+      {/* Stats */}
+      <div style={{ display:'flex', gap:20, justifyContent:'center', marginBottom:32 }}>
+        <div style={{ background:'#fff7e0', borderRadius:14, padding:'14px 20px', textAlign:'center', border:'2px solid #ffc800' }}>
+          <div style={{ fontSize:22, fontWeight:900, color:'#ff9600' }}>{xp}</div>
+          <div style={{ fontSize:12, color:'#999', fontWeight:700 }}>XP EARNED</div>
+        </div>
+        <div style={{ background: hearts>0?'#fff0f0':'#f0f0f0', borderRadius:14, padding:'14px 20px', textAlign:'center', border:`2px solid ${hearts>0?'#ff4b4b':'#ddd'}` }}>
+          <div style={{ fontSize:22 }}>{'❤️'.repeat(hearts)||'💔'}</div>
+          <div style={{ fontSize:12, color:'#999', fontWeight:700 }}>HEARTS LEFT</div>
         </div>
       </div>
-    </div>
-  );
-}
 
-// ── Screen: Welcome ──────────────────────────────────────────────────────────
-function WelcomeScreen({ onStart }) {
-  const [name, setName] = useState('');
-  const feats = [
-    { icon:'🎯', title:'4 Progressive Levels', desc:'Mubtadi A1 → Asasi B1 → Mutawassit B2 → Mutaqaddim C1' },
-    { icon:'🏠', title:'Age-Appropriate', desc:'Questions adapt to your school level for fair assessment' },
-    { icon:'✅', title:'10 Questions / Level', desc:'Vocabulary, grammar, reading, Quran & writing' },
-    { icon:'⏱', title:'25 Min / Level', desc:'International standard timing — auto-submits on timeout' },
-  ];
-  return (
-    <div style={{ textAlign:'center', padding:'48px 20px' }}>
-      <div style={{ fontSize:48, marginBottom:12 }}>📖</div>
-      <h1 style={{ fontSize:28, fontWeight:800, color:'#1e293b', margin:'0 0 0 12px' }}>
-        Pathways Arabic & Quran Proficiency Exam
-      </h1>
-      <p style={{ fontSize:13, color:'#7c3aed', fontWeight:700, letterSpacing:1, margin:'0 0 8px' }}>
-        RAQP — امتحان مهارات اللغة العربية والقرآن الكريم
-      </p>
-      <p style={{ color:'#64748b', maxWidth:540, margin:'0 auto 24px', lineHeight:1.7 }}>
-        A fully adaptive, internationally-aligned proficiency assessment covering four levels (A1–C1).
-        You begin at Level 1. Pass each level to advance. Your final level is your certified proficiency.
-      </p>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:12, maxWidth:560, margin:'0 auto 28px' }}>
-        {feats.map((f,i) => (
-          <div key={i} style={{ background:'#f8fafc', borderRadius:12, padding:'14px 16px', textAlign:'left', border:'1px solid #e2e8f0' }}>
-            <div style={{ fontSize:22, marginBottom:6 }}>{f.icon}</div>
-            <div style={{ fontSize:13, marginBottom:2, fontWeight:700, color:'#1e293b' }}>{f.title}</div>
-            <div style={{ fontSize:12, color:'#64748b' }}>{f.desc}</div>
-          </div>
-        ))}
+      <div style={{ background:'#fffbe0', borderRadius:16, padding:'16px 20px', maxWidth:400, width:'100%', marginBottom:28, border:'2px solid #ffc800' }}>
+        <div style={{ fontWeight:800, color:'#b07800', marginBottom:4, fontSize:14 }}>📋 What's next?</div>
+        <div style={{ fontSize:13, color:'#7a5800', lineHeight:1.6 }}>
+          The real exam has <strong>10 questions</strong>, 25 minutes, no timer per question. You need <strong>70%</strong> to pass and advance to the next level.
+        </div>
       </div>
-      <div style={{ maxWidth:400, margin:'0 auto 28px' }}>
-        <label style={{ display:'block', fontSize:13, fontWeight:600, color:'#374151', marginBottom:8, textAlign:'left' }}>
-          Student Name (optional — appears on certificate)
-        </label>
-        <input
-          type="text"
-          value={name}
-          onChange={e => setName(e.target.value)}
-          placeholder="اكتب اسمك هنا / Enter your name here"
-          style={{ width:'100%', border:'1.5px solid #e2e8f0', borderRadius:10, padding:'12px 16px', fontSize:14, boxSizing:'border-box', outline:'none', background:'#fafbfc' }}
-        />
-      </div>
-      <button onClick={() => onStart(name.trim())} style={{ background:'linear-gradient(135deg,#1d4ed8,#7c3aed)', color:'#fff', border:'none', borderRadius:12, padding:'14px 40px', fontSize:16, fontWeight:700, cursor:'pointer' }}>
-        لنبدأ الامتحان → Start Exam
-      </button>
-    </div>
-  );
-}
 
-// ── Screen: School Type Selector ──────────────────────────────────────────────
-function SchoolSelector({ onSelect }) {
-  return (
-    <div style={{ textAlign:'center', padding:'48px 20px' }}>
-      <div style={{ fontSize:40, marginBottom:12 }}>🏫</div>
-      <h2 style={{ fontSize:22, fontWeight:800, color:'#1e293b', margin:'0 0 8px' }}>Select Your School Level</h2>
-      <p style={{ color:'#64748b', margin:'0 0 32px', fontSize:14 }}>
-        Questions are adapted to your age group and educational stage.
-      </p>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:16, maxWidth:560, margin:'0 auto' }}>
-        {SCHOOL_TYPES.map(s => (
-          <button key={s.id} onClick={() => onSelect(s.id)} style={{
-            background:'#f8fafc', border:'2px solid #e2e8f0', borderRadius:14, padding:'20px 16px',
-            cursor:'pointer', textAlign:'center', transition:'all 0.2s',
-          }}
-          onMouseOver={e => { e.currentTarget.style.borderColor='#7c3aed'; e.currentTarget.style.background='#f5f3ff'; }}
-          onMouseOut={e => { e.currentTarget.style.borderColor='#e2e8f0'; e.currentTarget.style.background='#f8fafc'; }}>
-            <div style={{ fontSize:32, marginBottom:8 }}>{s.icon}</div>
-            <div style={{ fontSize:15, fontWeight:700, color:'#1e293b', marginBottom:4 }}>{s.name}</div>
-            <div style={{ fontSize:12, color:'#64748b' }}>{s.ageRange}</div>
-          </button>
-        ))}
+      <div style={{ display:'flex', gap:12, flexDirection:'column', width:'100%', maxWidth:400 }}>
+        <button onClick={onStartExam} className="duo-btn" style={{ background:'#58cc02', color:'#fff', border:'none', borderRadius:14, padding:'16px 0', fontSize:16, fontWeight:800, cursor:'pointer', boxShadow:'0 4px 0 #3d9900' }}>
+          🏁 Start Real Exam →
+        </button>
+        <button onClick={onRetryPrep} className="duo-btn" style={{ background:'#fff', color:'#1cb0f6', border:'2px solid #1cb0f6', borderRadius:14, padding:'14px 0', fontSize:14, fontWeight:700, cursor:'pointer' }}>
+          🔄 Redo Warm-Up
+        </button>
       </div>
     </div>
   );
 }
 
-// ── Screen: Level Intro ────────────────────────────────────────────────────────
-function LevelIntro({ level, levelIndex, schoolName, onBegin }) {
-  return (
-    <div style={{ textAlign:'center', padding:'48px 20px' }}>
-      <LevelBadge level={level} />
-      <h2 style={{ fontSize:24, fontWeight:800, color:'#1e293b', margin:'16px 0 8px' }}>
-        Level {levelIndex + 1}: {level.nameAr}
-      </h2>
-      <p style={{ fontSize:14, color:'#64748b', maxWidth:480, margin:'0 auto 12px', lineHeight:1.7 }}>
-        {level.description}
-      </p>
-      <div style={{ background:'#f8fafc', borderRadius:12, padding:'16px 20px', maxWidth:400, margin:'0 auto 28px', fontSize:13, color:'#475569', border:'1px solid #e2e8f0' }}>
-        <div style={{ marginBottom:6 }}>🏫 <strong>School Track:</strong> {schoolName}</div>
-        <div style={{ marginBottom:6 }}>📋 <strong>Questions:</strong> 10 (Vocabulary, Grammar, Reading, Quran, Writing)</div>
-        <div style={{ marginBottom:6 }}>⏱ <strong>Time Limit:</strong> 25 minutes</div>
-        <div>✅ <strong>Pass Mark:</strong> 7/10 (70%)</div>
-      </div>
-      <button onClick={onBegin} style={{ background:'linear-gradient(135deg,#059669,#0d9488)', color:'#fff', border:'none', borderRadius:12, padding:'14px 40px', fontSize:16, fontWeight:700, cursor:'pointer' }}>
-        Begin Level {levelIndex + 1} ➜
-      </button>
-    </div>
-  );
-}
-
-// ── Screen: Exam ───────────────────────────────────────────────────────────────
-function ExamScreen({ questions, level, schoolName, onFinish }) {
+// ─── Real Exam Screen (Duolingo-style full-focus) ─────────────────────────────
+function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
   const [current, setCurrent] = useState(0);
-  const [selected, setSelected] = useState(null);
+  const [chosen,  setChosen]  = useState(null);
   const [revealed, setRevealed] = useState(false);
-  const [answers, setAnswers] = useState([]);
+  const [answers,  setAnswers]  = useState([]);
+  const [examXp,   setExamXp]  = useState(prepXp||0);
+  const [xpAnim,   setXpAnim]  = useState(false);
 
   const q = questions[current];
   const total = questions.length;
+  const pct = (current/total)*100;
 
   const handleEnd = useCallback(() => {
-    const finalAnswers = answers.length < total ? [...answers, { q: q?.id, chosen: null, correct: q?.answer }] : answers;
-    onFinish(finalAnswers);
-  }, [answers, q, total, onFinish]);
+    onFinish([...answers, {q:q?.id, chosen:null, correct:q?.answer, passed:false}]);
+  }, [answers, q, onFinish]);
 
-  const timeLeft = useTimer(25 * 60, handleEnd);
+  const timeLeft = useTimer(25*60, handleEnd);
+  const mm = Math.floor(timeLeft/60), ss = timeLeft%60;
+  const timerColor = timeLeft<120?'#ff4b4b':timeLeft<300?'#ffc800':'#777';
 
-  function handleSelect(opt) {
-    if (revealed) return;
-    setSelected(opt);
-  }
-
-  function handleConfirm() {
-    if (!selected || revealed) return;
+  function pickAnswer(opt) { if (!revealed) setChosen(opt); }
+  function confirm() {
+    if (!chosen || revealed) return;
     setRevealed(true);
+    if (chosen === q.answer) {
+      setExamXp(x=>x+15);
+      setXpAnim(true);
+      setTimeout(()=>setXpAnim(false),900);
+    }
   }
-
-  function handleNext() {
-    const newAnswers = [...answers, { q: q.id, chosen: selected, correct: q.answer, passed: selected === q.answer }];
-    if (current + 1 >= total) {
-      onFinish(newAnswers);
-    } else {
-      setAnswers(newAnswers);
-      setCurrent(c => c + 1);
-      setSelected(null);
+  function next() {
+    const rec = { q:q.id, chosen, correct:q.answer, passed: chosen===q.answer };
+    const newAns = [...answers, rec];
+    if (current+1>=total) { onFinish(newAns); }
+    else {
+      setAnswers(newAns);
+      setCurrent(c=>c+1);
+      setChosen(null);
       setRevealed(false);
     }
   }
 
-  const optLabels = ['A', 'B', 'C', 'D'];
-  const mm = Math.floor(timeLeft / 60);
-  const ss = timeLeft % 60;
-  const timerColor = timeLeft < 120 ? '#ef4444' : timeLeft < 300 ? '#f59e0b' : '#10b981';
+  const isCorrect = revealed && chosen===q.answer;
+  const isWrong   = revealed && chosen!==q.answer;
 
   return (
-    <div style={{ maxWidth:640, margin:'0 auto', padding:'20px 16px' }}>
-      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12 }}>
-        <LevelBadge level={level} />
-        <div style={{ fontSize:18, fontWeight:800, color:timerColor, fontVariantNumeric:'tabular-nums' }}>
+    <div style={{ minHeight:'100vh', background:'#fff', display:'flex', flexDirection:'column' }}>
+      {/* Top bar */}
+      <div style={{ display:'flex', alignItems:'center', padding:'14px 20px', gap:16, borderBottom:'2px solid #e5e5e5', position:'sticky', top:0, background:'#fff', zIndex:10 }}>
+        <div style={{ flex:1, background:'#e5e5e5', borderRadius:99, height:10, overflow:'hidden' }}>
+          <div style={{ width:pct+'%', background:'#58cc02', height:'100%', borderRadius:99, transition:'width 0.5s', minWidth: pct>0?8:0 }}/>
+        </div>
+        <div style={{ fontSize:12, fontWeight:800, color:timerColor, fontVariantNumeric:'tabular-nums' }}>
           ⏱ {pad(mm)}:{pad(ss)}
         </div>
+        <div style={{ fontSize:12, fontWeight:800, color:'#ff9600' }}>⚡ {examXp} XP</div>
       </div>
-      <div style={{ marginBottom:12 }}>
-        <div style={{ display:'flex', justifyContent:'space-between', fontSize:12, color:'#64748b', marginBottom:4 }}>
-          <span>Question {current + 1} of {total}</span>
-          <span>{SECTION_LABELS[q.section] || q.section}</span>
+
+      {xpAnim && <div className="xp-float" style={{ position:'fixed', top:70, right:60, fontSize:18, fontWeight:900, color:'#58cc02', zIndex:100 }}>+15 XP</div>}
+
+      {/* Question body */}
+      <div style={{ flex:1, display:'flex', flexDirection:'column', maxWidth:640, margin:'0 auto', width:'100%', padding:'28px 20px 12px' }}>
+        <div style={{ fontSize:12, fontWeight:700, color:'#afafaf', marginBottom:6, textTransform:'uppercase', letterSpacing:1 }}>
+          Question {current+1} of {total}
         </div>
-        <ProgressBar value={current} max={total} color='#7c3aed' />
-      </div>
-      <div style={{ background:'#fff', borderRadius:16, padding:'24px 20px', border:'1px solid #e2e8f0', marginBottom:16, boxShadow:'0 2px 8px rgba(0,0,0,0.06)' }}>
-        <p style={{ fontSize:q.rtl ? 20 : 16, fontWeight:600, color:'#1e293b', direction: q.rtl ? 'rtl' : 'ltr', textAlign: q.rtl ? 'right' : 'left', margin:0, lineHeight:1.7 }}>
+        <div style={{ fontSize:14, fontWeight:700, color:level.color, marginBottom:20 }}>
+          {level.name} ({level.cefr}) • Real Exam
+        </div>
+        <div style={{ fontSize: q.rtl?22:18, fontWeight:700, color:'#1f1f1f', direction:q.rtl?'rtl':'ltr', textAlign:q.rtl?'right':'left', lineHeight:1.7, marginBottom:28, animation:'popIn 0.25s ease' }}>
           {q.question}
-        </p>
-      </div>
-      <div style={{ display:'grid', gap:10, marginBottom:16 }}>
-        {q.options.map((opt, i) => {
-          let bg = '#f8fafc', border = '#e2e8f0', color = '#1e293b';
-          if (selected === opt && !revealed) { bg='#ede9fe'; border='#7c3aed'; }
-          if (revealed) {
-            if (opt === q.answer) { bg='#dcfce7'; border='#16a34a'; color='#15803d'; }
-            else if (opt === selected && opt !== q.answer) { bg='#fee2e2'; border='#dc2626'; color='#b91c1c'; }
-          }
-          return (
-            <button key={i} onClick={() => handleSelect(opt)} style={{
-              background:bg, border:`2px solid ${border}`, borderRadius:12, padding:'12px 16px',
-              fontSize: q.rtl ? 17 : 14, direction: q.rtl ? 'rtl' : 'ltr', textAlign:'left',
-              cursor: revealed ? 'default' : 'pointer', color, fontWeight:500, transition:'all 0.2s',
-              display:'flex', alignItems:'flex-start', gap:10,
-            }}>
-              <span style={{ minWidth:24, height:24, borderRadius:99, background: selected===opt && !revealed ? '#7c3aed' : '#e2e8f0', color: selected===opt && !revealed ? '#fff' : '#64748b', display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, flexShrink:0 }}>
-                {optLabels[i]}
-              </span>
-              <span>{opt}</span>
-            </button>
-          );
-        })}
-      </div>
-      {revealed && q.explanation && (
-        <div style={{ background:'#f0fdf4', border:'1px solid #bbf7d0', borderRadius:10, padding:'10px 14px', fontSize:13, color:'#166534', marginBottom:16 }}>
-          💡 <strong>Explanation:</strong> {q.explanation}
         </div>
-      )}
-      {!revealed ? (
-        <button onClick={handleConfirm} disabled={!selected} style={{
-          width:'100%', background: selected ? 'linear-gradient(135deg,#1d4ed8,#7c3aed)' : '#e2e8f0',
-          color: selected ? '#fff' : '#94a3b8', border:'none', borderRadius:12, padding:'14px 0',
-          fontSize:15, fontWeight:700, cursor: selected ? 'pointer' : 'default',
-        }}>
-          Confirm Answer ✔
-        </button>
-      ) : (
-        <button onClick={handleNext} style={{ width:'100%', background:'linear-gradient(135deg,#059669,#0d9488)', color:'#fff', border:'none', borderRadius:12, padding:'14px 0', fontSize:15, fontWeight:700, cursor:'pointer' }}>
-          {current + 1 >= total ? 'Finish Level 🏁' : 'Next Question →'}
-        </button>
-      )}
-    </div>
-  );
-}
 
-// ── Screen: Level Result ──────────────────────────────────────────────────────
-function LevelResult({ level, score, total, passed, onNext, onRetry, isLast }) {
-  return (
-    <div style={{ textAlign:'center', padding:'48px 20px' }}>
-      <div style={{ fontSize:56, marginBottom:12 }}>{passed ? '🎉' : '💪'}</div>
-      <LevelBadge level={level} />
-      <h2 style={{ fontSize:24, fontWeight:800, color:'#1e293b', margin:'16px 0 8px' }}>
-        {level.name} ({level.cefr}) — {passed ? 'Passed!' : 'Attempt Again'}
-      </h2>
-      <div style={{ fontSize:48, fontWeight:900, color: passed ? '#059669' : '#dc2626', margin:'8px 0' }}>
-        {score}/{total}
-      </div>
-      <p style={{ color:'#64748b', margin:'0 0 24px', fontSize:14 }}>
-        {passed
-          ? (isLast ? 'Outstanding! You have completed all levels.' : 'Excellent! You may proceed to the next level.')
-          : 'You need 70% to advance. Review the vocabulary and grammar for ' + level.name + ' and try again.'}
-      </p>
-      <ProgressBar value={score} max={total} color={passed ? '#059669' : '#dc2626'} />
-      <p style={{ fontSize:12, color:'#94a3b8', margin:'8px 0 28px' }}>{Math.round((score/total)*100)}% — Pass mark: 70%</p>
-      <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap' }}>
-        {!passed && <button onClick={onRetry} style={{ background:'linear-gradient(135deg,#d97706,#b45309)', color:'#fff', border:'none', borderRadius:12, padding:'12px 28px', fontSize:14, fontWeight:700, cursor:'pointer' }}>
-          Retry Level 🔄
-        </button>}
-        <button onClick={onNext} style={{ background:'linear-gradient(135deg,#1d4ed8,#7c3aed)', color:'#fff', border:'none', borderRadius:12, padding:'12px 28px', fontSize:14, fontWeight:700, cursor:'pointer' }}>
-          {passed && !isLast ? 'Next Level →' : 'View Full Report 📋'}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ── Screen: Final Report ──────────────────────────────────────────────────────
-function FinalReport({ studentName, schoolType, levelResults, onRestart }) {
-  const [showCert, setShowCert] = useState(false);
-
-  const passedLevels = levelResults.filter(r => r.passed);
-  const highestPassed = passedLevels.length > 0 ? passedLevels[passedLevels.length - 1] : null;
-  const finalLevelId = highestPassed ? highestPassed.levelId : 'mubtadi';
-  const finalLevel = LEVELS.find(l => l.id === finalLevelId) || LEVELS[0];
-  const school = SCHOOL_TYPES.find(s => s.id === schoolType);
-
-  return (
-    <div style={{ maxWidth:640, margin:'0 auto', padding:'32px 16px' }}>
-      {showCert && (
-        <CertificateView
-          studentName={studentName}
-          schoolType={schoolType}
-          finalLevel={finalLevelId}
-          levelResults={levelResults}
-          onClose={() => setShowCert(false)}
-        />
-      )}
-      <div style={{ textAlign:'center', marginBottom:28 }}>
-        <div style={{ fontSize:52, marginBottom:8 }}>📋</div>
-        <h2 style={{ fontSize:24, fontWeight:800, color:'#1e293b', margin:'0 0 4px' }}>Full Exam Report</h2>
-        {studentName && <p style={{ fontSize:15, color:'#7c3aed', fontWeight:600, margin:'0 0 4px' }}>{studentName}</p>}
-        <p style={{ fontSize:13, color:'#64748b', margin:0 }}>{school?.name} • {new Date().toLocaleDateString('en-GB', {year:'numeric',month:'long',day:'numeric'})}</p>
-      </div>
-      <div style={{ background:'linear-gradient(135deg,#1e293b,#3b4f6b)', borderRadius:16, padding:'24px 28px', marginBottom:24, color:'#fff', textAlign:'center' }}>
-        <p style={{ fontSize:12, color:'#94a3b8', margin:'0 0 4px', letterSpacing:2, textTransform:'uppercase' }}>Certified Proficiency Level</p>
-        <div style={{ background:finalLevel.bg, color:finalLevel.color, display:'inline-block', padding:'6px 20px', borderRadius:20, fontSize:18, fontWeight:800, margin:'0 0 4px' }}>
-          {finalLevel.name}
+        <div style={{ display:'grid', gap:12 }}>
+          {q.options.map((opt,i)=>{
+            let bg='#fff', border='#e5e5e5', color='#1f1f1f', shadow='0 4px 0 #e5e5e5', cls='duo-opt';
+            if (!revealed && opt===chosen) { bg='#ddf4ff'; border='#1cb0f6'; shadow='0 4px 0 #1cb0f6'; }
+            if (revealed) {
+              if (opt===q.answer)                          { bg='#d7ffb8'; border='#58cc02'; color='#2d7a00'; shadow='0 4px 0 #3d9900'; cls+=' correct'; }
+              else if (opt===chosen && opt!==q.answer)     { bg='#ffdfe0'; border='#ff4b4b'; color='#8b0000'; shadow='0 4px 0 #c03030'; cls+=' wrong'; }
+            }
+            return (
+              <button key={i} onClick={()=>pickAnswer(opt)} className={cls} style={{
+                background:bg, border:`2px solid ${border}`, borderRadius:14, padding:'14px 18px',
+                textAlign:q.rtl?'right':'left', fontSize:q.rtl?18:15, direction:q.rtl?'rtl':'ltr',
+                cursor:revealed?'default':'pointer', color, fontWeight:600,
+                display:'flex', alignItems:'center', gap:12,
+                boxShadow:shadow, transform:'translateY(-2px)',
+              }}>
+                <span style={{ minWidth:28, height:28, borderRadius:8, border:`2px solid ${border}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:800, color:border, flexShrink:0 }}>
+                  {['A','B','C','D'][i]}
+                </span>
+                <span>{opt}</span>
+                {revealed && opt===q.answer && <span style={{ marginLeft:'auto', fontSize:16 }}>✅</span>}
+                {revealed && opt===chosen && opt!==q.answer && <span style={{ marginLeft:'auto', fontSize:16 }}>❌</span>}
+              </button>
+            );
+          })}
         </div>
-        <p style={{ fontSize:14, color:'#94a3b8', margin:0 }}>{finalLevel.cefr} — {finalLevel.description}</p>
       </div>
-      <div style={{ display:'grid', gap:12, marginBottom:24 }}>
-        {levelResults.map((r) => {
-          const lv = LEVELS.find(l => l.id === r.levelId);
-          return (
-            <div key={r.levelId} style={{ background:'#fff', border:'1px solid #e2e8f0', borderRadius:12, padding:'16px 20px', display:'flex', alignItems:'center', justifyContent:'space-between', boxShadow:'0 1px 4px rgba(0,0,0,0.04)' }}>
-              <div>
-                <div style={{ fontWeight:700, color:'#1e293b', fontSize:14 }}>{lv?.name} ({lv?.cefr})</div>
-                <div style={{ fontSize:12, color:'#64748b' }}>{r.score}/10 — {Math.round((r.score/10)*100)}%</div>
+
+      {/* Bottom action */}
+      <div style={{ padding:'16px 20px', borderTop:'2px solid #e5e5e5', background: revealed?(isCorrect?'#d7ffb8':'#ffdfe0'):'#fff', transition:'background 0.3s', animation: revealed?'slideUp 0.3s ease':'' }}>
+        {revealed && (
+          <div style={{ maxWidth:640, margin:'0 auto 12px', display:'flex', alignItems:'flex-start', gap:12 }}>
+            <span style={{ fontSize:24 }}>{isCorrect?'🎊':'💪'}</span>
+            <div>
+              <div style={{ fontWeight:800, color:isCorrect?'#2d7a00':'#a00000', fontSize:15 }}>
+                {isCorrect ? 'Correct! ✨' : 'Correct answer:'}
               </div>
-              <span style={{ fontWeight:800, fontSize:13, color: r.passed ? '#059669' : '#dc2626', background: r.passed ? '#dcfce7' : '#fee2e2', padding:'4px 12px', borderRadius:20 }}>
-                {r.passed ? '✓ PASSED' : '✕ STOPPED'}
-              </span>
+              {!isCorrect && <div style={{ fontSize:14, fontWeight:600, color:'#c00000', marginTop:2 }}>{q.answer}</div>}
+              {q.explanation && !isCorrect && <div style={{ fontSize:12, color:'#888', marginTop:4 }}>💡 {q.explanation}</div>}
             </div>
-          );
-        })}
-      </div>
-      <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
-        <button onClick={() => setShowCert(true)} style={{ flex:1, minWidth:160, background:'linear-gradient(135deg,#1d4ed8,#7c3aed)', color:'#fff', border:'none', borderRadius:12, padding:'14px 0', fontSize:14, fontWeight:700, cursor:'pointer' }}>
-          🏅 View Certificate
-        </button>
-        <button onClick={onRestart} style={{ flex:1, minWidth:160, background:'#f1f5f9', color:'#475569', border:'none', borderRadius:12, padding:'14px 0', fontSize:14, fontWeight:700, cursor:'pointer' }}>
-          🔄 Start New Exam
-        </button>
+          </div>
+        )}
+        <div style={{ maxWidth:640, margin:'0 auto' }}>
+          {!revealed ? (
+            <button onClick={confirm} disabled={!chosen} className="duo-btn" style={{
+              width:'100%', background: chosen?'#58cc02':'#e5e5e5', color: chosen?'#fff':'#afafaf',
+              border:'none', borderRadius:14, padding:'16px 0', fontSize:16, fontWeight:800,
+              cursor:chosen?'pointer':'default', boxShadow: chosen?'0 4px 0 #3d9900':'0 4px 0 #ccc',
+            }}>
+              Check Answer
+            </button>
+          ) : (
+            <button onClick={next} className="duo-btn" style={{
+              width:'100%', background:isCorrect?'#58cc02':'#ff4b4b', color:'#fff',
+              border:'none', borderRadius:14, padding:'16px 0', fontSize:16, fontWeight:800, cursor:'pointer',
+              boxShadow:isCorrect?'0 4px 0 #3d9900':'0 4px 0 #c03030',
+            }}>
+              {current+1>=total ? '🏁 Finish Exam' : 'Continue →'}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
 }
 
-// ── Main Component ────────────────────────────────────────────────────────────
-export default function PathwaysExam() {
-  const [screen, setScreen] = useState('welcome');     // welcome | school | levelIntro | exam | levelResult | report
-  const [studentName, setStudentName] = useState('');
-  const [schoolType, setSchoolType] = useState(null);
-  const [levelIndex, setLevelIndex] = useState(0);
-  const [levelResults, setLevelResults] = useState([]);
-  const [currentAnswers, setCurrentAnswers] = useState([]);
-
-  const level = LEVELS[levelIndex];
-  const school = SCHOOL_TYPES.find(s => s.id === schoolType);
-
-  function handleStart(name) {
-    setStudentName(name);
-    setScreen('school');
-  }
-
-  function handleSchoolSelect(sType) {
-    setSchoolType(sType);
-    setLevelIndex(0);
-    setLevelResults([]);
-    setScreen('levelIntro');
-  }
-
-  function handleBeginLevel() {
-    setScreen('exam');
-  }
-
-  function handleLevelFinish(answers) {
-    const score = calcScore(answers);
-    const passed = score >= 7;
-    const result = { levelId: level.id, score, passed, answers };
-    const newResults = [...levelResults, result];
-    setLevelResults(newResults);
-    setCurrentAnswers(answers);
-    setScreen('levelResult');
-    // Auto-save to localStorage on each level completion
-    if (passed && levelIndex + 1 >= LEVELS.length) {
-      // Final level done - save full result
-      const record = {
-        id: Date.now(),
-        studentName,
-        schoolType,
-        finalLevel: level.id,
-        date: new Date().toISOString(),
-        levelResults: newResults,
-      };
-      saveResult(record);
-    }
-  }
-
-  function handleLevelResultNext() {
-    const lastResult = levelResults[levelResults.length - 1];
-    if (!lastResult.passed || levelIndex + 1 >= LEVELS.length) {
-      // Failed or completed all levels — go to report
-      // Save full result to localStorage
-      const record = {
-        id: Date.now(),
-        studentName,
-        schoolType,
-        finalLevel: lastResult.passed ? level.id : (levelIndex > 0 ? LEVELS[levelIndex - 1].id : null),
-        date: new Date().toISOString(),
-        levelResults,
-      };
-      saveResult(record);
-      setScreen('report');
-    } else {
-      setLevelIndex(i => i + 1);
-      setScreen('levelIntro');
-    }
-  }
-
-  function handleLevelRetry() {
-    const newResults = levelResults.slice(0, -1);
-    setLevelResults(newResults);
-    setScreen('exam');
-  }
-
-  function handleRestart() {
-    setScreen('welcome');
-    setStudentName('');
-    setSchoolType(null);
-    setLevelIndex(0);
-    setLevelResults([]);
-    setCurrentAnswers([]);
-  }
-
-  const lastResult = levelResults[levelResults.length - 1];
-  const qs = schoolType && level ? QUESTIONS[schoolType]?.[level.id] || [] : [];
-
+// ─── Level Result (celebration / retry) ──────────────────────────────────────
+function LevelResult({ level, score, total, passed, xp, onNext, onRetry, isLast }) {
+  const pct = Math.round((score/total)*100);
   return (
-    <div style={{ minHeight:'100vh', background:'linear-gradient(160deg,#f8f9ff 0%,#f0f4ff 100%)', paddingBottom:48 }}>
-      <div style={{ maxWidth:720, margin:'0 auto', padding:'0 16px' }}>
-        {screen === 'welcome'     && <WelcomeScreen onStart={handleStart} />}
-        {screen === 'school'      && <SchoolSelector onSelect={handleSchoolSelect} />}
-        {screen === 'levelIntro'  && <LevelIntro level={level} levelIndex={levelIndex} schoolName={school?.name || ''} onBegin={handleBeginLevel} />}
-        {screen === 'exam'        && <ExamScreen questions={qs} level={level} schoolName={school?.name || ''} onFinish={handleLevelFinish} />}
-        {screen === 'levelResult' && lastResult && (
-          <LevelResult
-            level={level}
-            score={lastResult.score}
-            total={10}
-            passed={lastResult.passed}
-            onNext={handleLevelResultNext}
-            onRetry={handleLevelRetry}
-            isLast={!lastResult.passed || levelIndex + 1 >= LEVELS.length}
-          />
+    <div style={{ minHeight:'100vh', background:'#fff', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'32px 20px', textAlign:'center' }}>
+      <div style={{ fontSize:80, marginBottom:12, animation:'popIn 0.5s ease' }}>
+        {passed ? (isLast?'🏆':'🎉') : '💪'}
+      </div>
+      <h2 style={{ fontSize:28, fontWeight:900, color:'#1f1f1f', margin:'0 0 4px', animation:'slideUp 0.4s ease' }}>
+        {passed ? (isLast ? 'All Levels Complete!' : 'Level Passed!') : 'Keep Practising!'}
+      </h2>
+      <p style={{ fontSize:15, color:'#777', margin:'0 0 28px' }}>
+        {passed ? (isLast ? 'You've completed all 4 levels.' : 'You earned the right to advance!') : 'Review this level and try again — you've got this!'}
+      </p>
+
+      {/* Score ring */}
+      <div style={{ position:'relative', width:120, height:120, marginBottom:24 }}>
+        <svg width="120" height="120" style={{ transform:'rotate(-90deg)' }}>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#e5e5e5" strokeWidth="10"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke={passed?'#58cc02':'#ff4b4b'} strokeWidth="10"
+            strokeDasharray={2*Math.PI*50} strokeDashoffset={2*Math.PI*50*(1-pct/100)}
+            style={{ transition:'stroke-dashoffset 1s ease 0.3s' }}/>
+        </svg>
+        <div style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
+          <div style={{ fontSize:28, fontWeight:900, color:passed?'#58cc02':'#ff4b4b' }}>{score}/{total}</div>
+          <div style={{ fontSize:12, color:'#aaa', fontWeight:700 }}>{pct}%</div>
+        </div>
+      </div>
+
+      {/* XP earned */}
+      <div style={{ display:'flex', gap:16, justifyContent:'center', marginBottom:32, flexWrap:'wrap' }}>
+        <div style={{ background:'#fff7e0', borderRadius:14, padding:'12px 20px', border:'2px solid #ffc800', textAlign:'center' }}>
+          <div style={{ fontSize:20, fontWeight:900, color:'#ff9600' }}>{xp} XP</div>
+          <div style={{ fontSize:11, color:'#999', fontWeight:700, textTransform:'uppercase' }}>Total Earned</div>
+        </div>
+        <div style={{ background: passed?'#d7ffb8':'#ffdfe0', borderRadius:14, padding:'12px 20px', border:`2px solid ${passed?'#58cc02':'#ff4b4b'}`, textAlign:'center' }}>
+          <div style={{ fontSize:20, fontWeight:900, color:passed?'#2d7a00':'#c00000' }}>{passed?'PASSED':'TRY AGAIN'}</div>
+          <div style={{ fontSize:11, color:'#999', fontWeight:700, textTransform:'uppercase' }}>Pass mark: 70%</div>
+        </div>
+      </div>
+
+      <div style={{ display:'flex', gap:12, flexDirection:'column', width:'100%', maxWidth:420 }}>
+        {passed && (
+          <button onClick={onNext} className="duo-btn" style={{ background:'#58cc02', color:'#fff', border:'none', borderRadius:14, padding:'16px 0', fontSize:16, fontWeight:800, cursor:'pointer', boxShadow:'0 4px 0 #3d9900' }}>
+            {isLast ? '📋 View Full Report' : 'Next Level →'}
+          </button>
         )}
-        {screen === 'report' && (
-          <FinalReport
-            studentName={studentName}
-            schoolType={schoolType}
-            levelResults={levelResults}
-            onRestart={handleRestart}
-          />
+        {!passed && (
+          <>
+            <button onClick={onRetry} className="duo-btn" style={{ background:'#58cc02', color:'#fff', border:'none', borderRadius:14, padding:'16px 0', fontSize:16, fontWeight:800, cursor:'pointer', boxShadow:'0 4px 0 #3d9900' }}>
+              🔄 Try Again
+            </button>
+            <button onClick={onNext} className="duo-btn" style={{ background:'#fff', color:'#afafaf', border:'2px solid #e5e5e5', borderRadius:14, padding:'14px 0', fontSize:14, fontWeight:700, cursor:'pointer' }}>
+              Skip to Report
+            </button>
+          </>
         )}
       </div>
     </div>
+  );
+}
+
+// ─── Final Report with certificate ───────────────────────────────────────────
+function FinalReport({ studentName, schoolType, levelResults, totalXp, onRestart }) {
+  const [showCert, setShowCert] = useState(false);
+  const passedLevels = levelResults.filter(r=>r.passed);
+  const highest = passedLevels.length>0 ? passedLevels[passedLevels.length-1] : null;
+  const finalLevelId = highest?.levelId || 'mubtadi';
+  const finalLevel = LEVELS.find(l=>l.id===finalLevelId)||LEVELS[0];
+  const school = SCHOOL_TYPES.find(s=>s.id===schoolType);
+
+  function printCert() {
+    const date = new Date().toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'});
+    const w = window.open('','_blank');
+    w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>RAQP Certificate</title>
+<style>body{margin:0;background:#fff;font-family:'Georgia',serif}.cert{width:900px;min-height:640px;margin:20px auto;border:12px solid #1e293b;padding:48px 60px;position:relative;box-sizing:border-box;background:linear-gradient(145deg,#fdfbf7,#f8f4ed)}.cert:before{content:'';position:absolute;inset:8px;border:2px solid #c9a84c;pointer-events:none}.center{text-align:center}.seal{font-size:56px;margin-bottom:8px}.title-ar{font-size:20px;color:#c9a84c;direction:rtl;margin-bottom:4px}.title-en{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#64748b;margin-bottom:24px}.name{font-size:36px;font-weight:700;color:#1e293b;border-bottom:2px solid #c9a84c;display:inline-block;padding:0 40px 6px}.badge{font-size:24px;font-weight:700;background:${finalLevel.bg};color:${finalLevel.color};padding:8px 32px;border-radius:40px;display:inline-block;margin:12px 0}.scores{margin:20px 0}.sr{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e2e8f0;font-size:13px}.pass{color:#059669;font-weight:700}.fail{color:#ef4444;font-weight:700}.footer{display:flex;justify-content:space-between;margin-top:32px}.sig{border-top:1px solid #1e293b;padding-top:6px;font-size:11px;color:#64748b;text-align:center;width:180px}@media print{body{margin:0}.cert{margin:0}}</style></head><body>
+<div class="cert">
+<div class="center"><div class="seal">📖</div>
+<div class="title-ar">شهادة كفاءة اللغة العربية والقرآن الكريم</div>
+<div class="title-en">Pathways Arabic &amp; Quran Proficiency Certificate — RAQP</div>
+<p style="color:#64748b;font-size:14px">This certifies that</p>
+<div class="name">${studentName||'Student'}</div>
+<p style="font-size:13px;color:#64748b;margin:12px 0 4px">has demonstrated proficiency at</p>
+<div class="badge">${finalLevel.name} — ${finalLevel.cefr}</div>
+<p style="font-size:13px;color:#64748b">School Track: ${school?.name||schoolType} &bull; Total XP: ${totalXp}</p></div>
+<div class="scores">${levelResults.map(r=>{const lv=LEVELS.find(l=>l.id===r.levelId);return`<div class="sr"><span>${lv?.name||r.levelId} (${lv?.cefr})</span><span class="${r.passed?'pass':'fail'}">${r.score}/10 &mdash; ${r.passed?'PASSED':'STOPPED'}</span></div>`;}).join('')}</div>
+<div class="footer"><div class="sig">Pathways Education<br/>Authorised Examiner</div><div class="center" style="font-size:11px;color:#aaa">Issued: ${date}</div><div class="sig">RAQP Certification<br/>Official Record</div></div>
+</div><script>window.onload=()=>window.print();</script></body></html>`);
+    w.document.close();
+  }
+
+  return (
+    <div style={{ minHeight:'100vh', background:'#f8fafc', paddingBottom:48 }}>
+      <div style={{ background:'linear-gradient(135deg,#1e293b,#3b4f6b)', padding:'32px 24px', textAlign:'center' }}>
+        <div style={{ fontSize:48, marginBottom:8 }}>🏆</div>
+        <h2 style={{ fontSize:22, fontWeight:900, color:'#fff', margin:'0 0 4px' }}>Exam Complete!</h2>
+        <div style={{ background:finalLevel.bg, color:finalLevel.color, display:'inline-block', padding:'4px 16px', borderRadius:20, fontWeight:800, fontSize:16, margin:'8px 0 4px' }}>
+          {finalLevel.name} — {finalLevel.cefr}
+        </div>
+        {studentName && <p style={{ color:'#94a3b8', margin:'4px 0 0', fontSize:14 }}>{studentName}</p>}
+        <div style={{ color:'#ffc800', fontWeight:800, fontSize:18, marginTop:8 }}>⚡ {totalXp} XP Earned</div>
+      </div>
+      <div style={{ maxWidth:600, margin:'0 auto', padding:'24px 16px' }}>
+        <div style={{ display:'grid', gap:12, marginBottom:20 }}>
+          {levelResults.map(r=>{
+            const lv=LEVELS.find(l=>l.id===r.levelId);
+            return (
+              <div key={r.levelId} style={{ background:'#fff', borderRadius:14, padding:'16px 18px', display:'flex', alignItems:'center', justifyContent:'space-between', border:'1px solid #e2e8f0', boxShadow:'0 2px 8px rgba(0,0,0,0.04)' }}>
+                <div>
+                  <div style={{ fontWeight:700, color:'#1e293b', fontSize:14 }}>{lv?.name} ({lv?.cefr})</div>
+                  <div style={{ fontSize:12, color:'#64748b', marginTop:2 }}>{r.score}/10 — {Math.round((r.score/10)*100)}%</div>
+                </div>
+                <span style={{ fontWeight:800, fontSize:13, color:r.passed?'#059669':'#dc2626', background:r.passed?'#dcfce7':'#fee2e2', padding:'4px 12px', borderRadius:20 }}>
+                  {r.passed?'✓ PASSED':'✕ STOPPED'}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+        <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
+          <button onClick={printCert} className="duo-btn" style={{ flex:1, minWidth:160, background:'#58cc02', color:'#fff', border:'none', borderRadius:14, padding:'14px 0', fontSize:14, fontWeight:800, cursor:'pointer', boxShadow:'0 4px 0 #3d9900' }}>
+            🏅 Print Certificate
+          </button>
+          <button onClick={onRestart} className="duo-btn" style={{ flex:1, minWidth:160, background:'#fff', color:'#1cb0f6', border:'2px solid #1cb0f6', borderRadius:14, padding:'12px 0', fontSize:14, fontWeight:700, cursor:'pointer' }}>
+            🔄 Start New Exam
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Welcome Screen (Duolingo-inspired hero) ──────────────────────────────────
+function WelcomeScreen({ onStart }) {
+  const [name, setName] = useState('');
+  const steps = [
+    { icon:'🔥', color:'#ff9600', title:'Warm-Up', desc:'5 flashcard questions with hearts, XP & streaks' },
+    { icon:'🏁', color:'#1cb0f6', title:'Real Exam', desc:'10 focused questions — no hearts, just focus' },
+    { icon:'🏆', color:'#58cc02', title:'Certificate', desc:'Print your certified CEFR proficiency level' },
+  ];
+  return (
+    <div style={{ minHeight:'100vh', background:'#fff', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'32px 20px' }}>
+      <div style={{ maxWidth:480, width:'100%', textAlign:'center' }}>
+        <div style={{ fontSize:64, marginBottom:12, animation:'popIn 0.5s ease' }}>📖</div>
+        <h1 style={{ fontSize:28, fontWeight:900, color:'#1f1f1f', margin:'0 0 6px', lineHeight:1.2 }}>
+          Arabic & Quran<br/>Proficiency Exam
+        </h1>
+        <p style={{ color:'#afafaf', fontWeight:700, fontSize:13, letterSpacing:1, margin:'0 0 28px', textTransform:'uppercase' }}>
+          RAQP • امتحان الكفاءة العربية
+        </p>
+
+        {/* 3-step flow */}
+        <div style={{ display:'flex', gap:0, marginBottom:28, position:'relative' }}>
+          <div style={{ position:'absolute', top:20, left:'16%', right:'16%', height:3, background:'#e5e5e5', zIndex:0 }}/>
+          {steps.map((s,i)=>(
+            <div key={i} style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', position:'relative', zIndex:1 }}>
+              <div style={{ width:40, height:40, borderRadius:99, background:s.color, display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, marginBottom:8, boxShadow:`0 4px 0 rgba(0,0,0,0.1)` }}>
+                {s.icon}
+              </div>
+              <div style={{ fontSize:12, fontWeight:800, color:'#1f1f1f', marginBottom:2 }}>{s.title}</div>
+              <div style={{ fontSize:10, color:'#afafaf', textAlign:'center', lineHeight:1.4, padding:'0 4px' }}>{s.desc}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Name input */}
+        <div style={{ marginBottom:20 }}>
+          <label style={{ display:'block', fontSize:12, fontWeight:800, color:'#afafaf', textTransform:'uppercase', letterSpacing:1, marginBottom:8, textAlign:'left' }}>
+            Your Name (optional — appears on certificate)
+          </label>
+          <input type="text" value={name} onChange={e=>setName(e.target.value)}
+            placeholder="اكتب اسمك / Enter your name"
+            style={{ width:'100%', border:'2px solid #e5e5e5', borderRadius:14, padding:'14px 16px', fontSize:15, boxSizing:'border-box', outline:'none', fontWeight:600, color:'#1f1f1f' }}
+            onFocus={e=>e.target.style.borderColor='#1cb0f6'}
+            onBlur={e=>e.target.style.borderColor='#e5e5e5'}
+          />
+        </div>
+
+        <button onClick={()=>onStart(name.trim())} className="duo-btn" style={{
+          width:'100%', background:'#58cc02', color:'#fff', border:'none', borderRadius:14,
+          padding:'18px 0', fontSize:17, fontWeight:900, cursor:'pointer', boxShadow:'0 4px 0 #3d9900', letterSpacing:0.5,
+        }}>
+          لنبدأ → START EXAM
+        </button>
+        <p style={{ fontSize:12, color:'#afafaf', marginTop:12 }}>4 levels • A1–C1 CEFR • Age-appropriate questions</p>
+      </div>
+    </div>
+  );
+}
+
+// ─── School Selector ──────────────────────────────────────────────────────────
+function SchoolSelector({ onSelect }) {
+  return (
+    <div style={{ minHeight:'100vh', background:'#fff', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'32px 20px' }}>
+      <div style={{ maxWidth:480, width:'100%' }}>
+        <div style={{ textAlign:'center', marginBottom:28 }}>
+          <div style={{ fontSize:48, marginBottom:8 }}>🏫</div>
+          <h2 style={{ fontSize:22, fontWeight:900, color:'#1f1f1f', margin:'0 0 6px' }}>What's your school level?</h2>
+          <p style={{ color:'#afafaf', fontSize:14, margin:0 }}>Questions will be age-appropriate for you</p>
+        </div>
+        <div style={{ display:'grid', gap:12 }}>
+          {SCHOOL_TYPES.map(s=>(
+            <button key={s.id} onClick={()=>onSelect(s.id)} className="duo-btn" style={{
+              background:'#fff', border:'2px solid #e5e5e5', borderRadius:16, padding:'18px 20px',
+              cursor:'pointer', display:'flex', alignItems:'center', gap:16, boxShadow:'0 4px 0 #e5e5e5', transition:'all 0.2s',
+            }}
+            onMouseOver={e=>{e.currentTarget.style.borderColor='#58cc02';e.currentTarget.style.boxShadow='0 4px 0 #58cc02';}}
+            onMouseOut={e=>{e.currentTarget.style.borderColor='#e5e5e5';e.currentTarget.style.boxShadow='0 4px 0 #e5e5e5';}}>
+              <span style={{ fontSize:32 }}>{s.icon}</span>
+              <div style={{ textAlign:'left' }}>
+                <div style={{ fontWeight:800, color:'#1f1f1f', fontSize:15 }}>{s.name}</div>
+                <div style={{ fontSize:12, color:'#afafaf', marginTop:2 }}>{s.ageRange}</div>
+              </div>
+              <span style={{ marginLeft:'auto', fontSize:18, color:'#e5e5e5' }}>›</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Level Intro (Duolingo "Ready?" screen) ───────────────────────────────────
+function LevelIntro({ level, levelIndex, schoolName, totalXp, onBeginPrep }) {
+  return (
+    <div style={{ minHeight:'100vh', background:'#fff', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'32px 20px', textAlign:'center' }}>
+      <div style={{ maxWidth:440, width:'100%' }}>
+        <div style={{ fontSize:60, marginBottom:12, animation:'popIn 0.5s ease' }}>{level.icon||'📚'}</div>
+        <div style={{ background:level.bg, color:level.color, display:'inline-block', padding:'4px 14px', borderRadius:20, fontWeight:800, fontSize:13, marginBottom:12 }}>
+          Level {levelIndex+1} • {level.cefr}
+        </div>
+        <h2 style={{ fontSize:26, fontWeight:900, color:'#1f1f1f', margin:'0 0 6px' }}>{level.nameAr || level.name}</h2>
+        <p style={{ fontSize:14, color:'#777', margin:'0 0 24px', lineHeight:1.6 }}>{level.description}</p>
+
+        <div style={{ background:'#f8fafc', borderRadius:16, padding:'16px', marginBottom:24, display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+          {[
+            { icon:'🔥', label:'Warm-Up', val:'5 questions + XP', color:'#ff9600' },
+            { icon:'🏁', label:'Real Exam', val:'10 questions', color:'#1cb0f6' },
+            { icon:'⏱', label:'Time Limit', val:'25 min (exam)', color:'#a855f7' },
+            { icon:'✅', label:'Pass Mark', val:'7/10 — 70%', color:'#58cc02' },
+          ].map((s,i)=>(
+            <div key={i} style={{ background:'#fff', borderRadius:12, padding:'10px 12px', border:'2px solid #f1f5f9', textAlign:'center' }}>
+              <div style={{ fontSize:20, marginBottom:4 }}>{s.icon}</div>
+              <div style={{ fontSize:13, fontWeight:800, color:'#1f1f1f', marginBottom:2 }}>{s.val}</div>
+              <div style={{ fontSize:10, color:'#aaa', fontWeight:700, textTransform:'uppercase' }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {totalXp>0 && <p style={{ fontSize:13, color:'#ff9600', fontWeight:800, marginBottom:16 }}>⚡ {totalXp} XP carried forward!</p>}
+
+        <button onClick={onBeginPrep} className="duo-btn" style={{ width:'100%', background:'#58cc02', color:'#fff', border:'none', borderRadius:14, padding:'18px 0', fontSize:17, fontWeight:900, cursor:'pointer', boxShadow:'0 4px 0 #3d9900' }}>
+          Begin Warm-Up 🔥
+        </button>
+        <p style={{ fontSize:12, color:'#afafaf', marginTop:10 }}>{schoolName} track</p>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Component ───────────────────────────────────────────────────────────
+export default function PathwaysExam() {
+  useEffect(() => { injectCSS(); }, []);
+
+  const [screen,      setScreen]      = useState('welcome');
+  const [studentName, setStudentName] = useState('');
+  const [schoolType,  setSchoolType]  = useState(null);
+  const [levelIndex,  setLevelIndex]  = useState(0);
+  const [levelResults,setLevelResults]= useState([]);
+  const [prepResult,  setPrepResult]  = useState(null);  // { xp, hearts }
+  const [totalXp,     setTotalXp]     = useState(0);
+
+  const level  = LEVELS[levelIndex];
+  const school = SCHOOL_TYPES.find(s=>s.id===schoolType);
+  const qs     = schoolType && level ? QUESTIONS[schoolType]?.[level.id]||[] : [];
+
+  function handleStart(name) { setStudentName(name); setScreen('school'); }
+  function handleSchool(sType) { setSchoolType(sType); setLevelIndex(0); setLevelResults([]); setTotalXp(0); setScreen('levelIntro'); }
+  function handleBeginPrep() { setScreen('prep'); }
+
+  function handlePrepDone(result) {
+    setPrepResult(result);
+    setTotalXp(x => x + result.xp);
+    setScreen('prepSummary');
+  }
+
+  function handleStartExam() { setScreen('exam'); }
+  function handleRetryPrep() { setScreen('prep'); }
+
+  function handleExamFinish(answers) {
+    const score = answers.filter(a => a.passed).length;
+    const passed = score >= 7;
+    const newResults = [...levelResults, { levelId: level.id, score, passed, answers }];
+    setLevelResults(newResults);
+    // Save to localStorage
+    if (!passed || levelIndex+1>=LEVELS.length) {
+      saveResult({ id:Date.now(), studentName, schoolType, finalLevel: passed?level.id:(levelIndex>0?LEVELS[levelIndex-1].id:null), date:new Date().toISOString(), levelResults:newResults, totalXp });
+    }
+    setScreen('levelResult');
+  }
+
+  function handleLevelNext() {
+    const last = levelResults[levelResults.length-1];
+    if (!last.passed || levelIndex+1>=LEVELS.length) { setScreen('report'); }
+    else { setLevelIndex(i=>i+1); setPrepResult(null); setScreen('levelIntro'); }
+  }
+
+  function handleLevelRetry() { setScreen('prep'); setPrepResult(null); setLevelResults(r=>r.slice(0,-1)); }
+
+  function handleRestart() { setScreen('welcome'); setStudentName(''); setSchoolType(null); setLevelIndex(0); setLevelResults([]); setPrepResult(null); setTotalXp(0); }
+
+  const lastResult = levelResults[levelResults.length-1];
+
+  return (
+    <>
+      {screen==='welcome'     && <WelcomeScreen onStart={handleStart} />}
+      {screen==='school'      && <SchoolSelector onSelect={handleSchool} />}
+      {screen==='levelIntro'  && <LevelIntro level={level} levelIndex={levelIndex} schoolName={school?.name||''} totalXp={totalXp} onBeginPrep={handleBeginPrep} />}
+      {screen==='prep'        && <PrepScreen questions={qs} level={level} onDone={handlePrepDone} />}
+      {screen==='prepSummary' && prepResult && <PrepSummary level={level} xp={prepResult.xp} hearts={prepResult.hearts} onStartExam={handleStartExam} onRetryPrep={handleRetryPrep} />}
+      {screen==='exam'        && <ExamScreen questions={qs} level={level} schoolName={school?.name||''} prepXp={totalXp} onFinish={handleExamFinish} />}
+      {screen==='levelResult' && lastResult && <LevelResult level={level} score={lastResult.score} total={10} passed={lastResult.passed} xp={totalXp} onNext={handleLevelNext} onRetry={handleLevelRetry} isLast={!lastResult.passed||levelIndex+1>=LEVELS.length} />}
+      {screen==='report'      && <FinalReport studentName={studentName} schoolType={schoolType} levelResults={levelResults} totalXp={totalXp} onRestart={handleRestart} />}
+    </>
   );
 }
