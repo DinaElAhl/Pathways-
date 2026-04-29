@@ -19,6 +19,7 @@ const primaryLinks = [
 const moreLinks = [
   { to: '/lms', label: 'For Schools' },
   { to: '/quran-exams', label: '📖 Quran Exams' },
+  { to: '/exam-dashboard', label: '📊 Exam Dashboard' },
   { to: '/pricing', label: 'Pricing' },
   { to: '/dashboard', label: 'Dashboard' },
   { to: '/ai-studio', label: 'AI Studio' },
