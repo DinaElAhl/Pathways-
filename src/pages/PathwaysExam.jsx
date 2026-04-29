@@ -209,7 +209,7 @@ function PrepSummary({ level, xp, hearts, onStartExam, onRetryPrep }) {
     <div style={{ minHeight:'100vh', background:'#fff', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'32px 20px', textAlign:'center' }}>
       <div style={{ fontSize:72, marginBottom:8, animation:'popIn 0.5s ease' }}>{stars===3?'🌟':stars===2?'💫':stars===1?'💪':'💡'}</div>
       <h2 style={{ fontSize:26, fontWeight:900, color:'#1f1f1f', margin:'0 0 6px' }}>Warm-Up Complete!</h2>
-      <p style={{ fontSize:15, color:'#777', margin:'0 0 24px' }}>You're ready for the real exam</p>
+      <p style={{ fontSize:15, color:'#777', margin:'0 0 24px' }}>You are ready for the real exam</p>
 
       {/* Stars */}
       <div style={{ display:'flex', gap:8, justifyContent:'center', marginBottom:20 }}>
@@ -400,7 +400,7 @@ function LevelResult({ level, score, total, passed, xp, onNext, onRetry, isLast 
         {passed ? (isLast ? 'All Levels Complete!' : 'Level Passed!') : 'Keep Practising!'}
       </h2>
       <p style={{ fontSize:15, color:'#777', margin:'0 0 28px' }}>
-        {passed ? (isLast ? 'You've completed all 4 levels.' : 'You earned the right to advance!') : 'Review this level and try again — you've got this!'}
+        {passed ? (isLast ? "You have completed all 4 levels." : 'You earned the right to advance!') : 'Review this level and try again — you've got this!'}
       </p>
 
       {/* Score ring */}
