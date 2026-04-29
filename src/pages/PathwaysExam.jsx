@@ -664,7 +664,7 @@ export default function PathwaysExam() {
 
   const level  = LEVELS[levelIndex];
   const school = SCHOOL_TYPES.find(s=>s.id===schoolType);
-  const qs     = schoolType && level ? QUESTIONS[schoolType]?.[level.id]||[] : [];
+  const qs     = schoolType && level ? QUESTIONS[level.code]?.[schoolType]||[] : [];
 
   function handleStart(name) { setStudentName(name); setScreen('school'); }
   function handleSchool(sType) { setSchoolType(sType); setLevelIndex(0); setLevelResults([]); setTotalXp(0); setScreen('levelIntro'); }
