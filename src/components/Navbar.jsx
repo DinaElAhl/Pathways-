@@ -10,6 +10,7 @@ const primaryLinks = [
   { to: '/roots', label: 'Roots' },
   { to: '/tools', label: 'Tools' },
   { to: '/accredited-exams', label: 'Exams' },
+  { to: '/pathways-exam', label: '🎯 RAQP Exam' },
   { to: '/resources', label: 'Resources' },
   { to: '/recommend', label: 'AI Match' },
 ];
