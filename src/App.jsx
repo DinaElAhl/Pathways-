@@ -31,6 +31,7 @@ import EduHub from './pages/EduHub'
 import AccreditedExams from './pages/AccreditedExams.jsx'
 import QuranExams from './pages/QuranExams.jsx'
 import PathwaysExam from './pages/PathwaysExam.jsx'
+import ExamDashboard from './pages/ExamDashboard.jsx'
 
 export default function App() {
   return (
