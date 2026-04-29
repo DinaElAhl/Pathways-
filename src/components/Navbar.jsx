@@ -17,6 +17,7 @@ const primaryLinks = [
 // Secondary links grouped under "More"
 const moreLinks = [
   { to: '/lms', label: 'For Schools' },
+  { to: '/quran-exams', label: '📖 Quran Exams' },
   { to: '/pricing', label: 'Pricing' },
   { to: '/dashboard', label: 'Dashboard' },
   { to: '/ai-studio', label: 'AI Studio' },
