@@ -29,6 +29,7 @@ import Tools from './pages/Tools.jsx'
 import E2TeachingTool from './pages/E2TeachingTool.jsx'
 import EduHub from './pages/EduHub'
 import AccreditedExams from './pages/AccreditedExams.jsx'
+import QuranExams from './pages/QuranExams.jsx'
 
 export default function App() {
   return (
@@ -62,6 +63,7 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
                 <Route path="/accredited-exams" element={<AccreditedExams />} />
+        <Route path="/quran-exams" element={<QuranExams />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
