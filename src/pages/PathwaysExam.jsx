@@ -68,7 +68,7 @@ function PrepScreen({ questions, level, onDone }) {
 
   function choose(opt) {
     if (picked) return;
-    const correct = opt === q.answer;
+    const correct = opt === (q.opts?.[q.answer]||"");
     setChosen(opt);
     setPicked(correct ? 'correct' : 'wrong');
     if (correct) {
@@ -143,10 +143,10 @@ function PrepScreen({ questions, level, onDone }) {
           {level.cefr} • Prep Mode
         </div>
         <div style={{ fontSize: q.rtl?22:18, fontWeight:700, color:'#1f1f1f', direction:q.rtl?'rtl':'ltr', textAlign:q.rtl?'right':'left', lineHeight:1.6, marginBottom:28, padding:'0 4px', animation:'popIn 0.3s ease' }}>
-          {q.question}
+          {q.q}
         </div>
         <div style={{ display:'grid', gap:12 }}>
-          {q.options.map((opt,i)=>{
+          {q.opts.map((opt,i)=>{
             let bg='#fff', border='#e5e5e5', color='#1f1f1f', extra='';
             if (picked) {
               if (opt===q.answer) { bg='#d7ffb8'; border='#58cc02'; color='#2d7a00'; extra=' correct'; }
@@ -180,7 +180,7 @@ function PrepScreen({ questions, level, onDone }) {
             <div style={{ fontSize:13, color:picked==='correct'?'#3a8a00':'#c00000' }}>
               {picked==='correct' ? 'Great work! Keep the streak going.' : `Correct answer: ${q.answer}`}
             </div>
-            {q.explanation && picked==='wrong' && <div style={{ fontSize:12, color:'#666', marginTop:6 }}>💡 {q.explanation}</div>}
+            {q.explain && picked==='wrong' && <div style={{ fontSize:12, color:'#666', marginTop:6 }}>💡 {q.explain}</div>}
           </div>
         )}
       </div>
@@ -276,7 +276,7 @@ function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
   function confirm() {
     if (!chosen || revealed) return;
     setRevealed(true);
-    if (chosen === q.answer) {
+    if (chosen === (q.opts?.[q.answer]||"")) {
       setExamXp(x=>x+15);
       setXpAnim(true);
       setTimeout(()=>setXpAnim(false),900);
@@ -321,11 +321,11 @@ function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
           {level.name} ({level.cefr}) • Real Exam
         </div>
         <div style={{ fontSize: q.rtl?22:18, fontWeight:700, color:'#1f1f1f', direction:q.rtl?'rtl':'ltr', textAlign:q.rtl?'right':'left', lineHeight:1.7, marginBottom:28, animation:'popIn 0.25s ease' }}>
-          {q.question}
+          {q.q}
         </div>
 
         <div style={{ display:'grid', gap:12 }}>
-          {q.options.map((opt,i)=>{
+          {q.opts.map((opt,i)=>{
             let bg='#fff', border='#e5e5e5', color='#1f1f1f', shadow='0 4px 0 #e5e5e5', cls='duo-opt';
             if (!revealed && opt===chosen) { bg='#ddf4ff'; border='#1cb0f6'; shadow='0 4px 0 #1cb0f6'; }
             if (revealed) {
@@ -362,7 +362,7 @@ function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
                 {isCorrect ? 'Correct! ✨' : 'Correct answer:'}
               </div>
               {!isCorrect && <div style={{ fontSize:14, fontWeight:600, color:'#c00000', marginTop:2 }}>{q.answer}</div>}
-              {q.explanation && !isCorrect && <div style={{ fontSize:12, color:'#888', marginTop:4 }}>💡 {q.explanation}</div>}
+              {q.explain && !isCorrect && <div style={{ fontSize:12, color:'#888', marginTop:4 }}>💡 {q.explain}</div>}
             </div>
           </div>
         )}
