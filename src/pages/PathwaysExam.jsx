@@ -400,7 +400,7 @@ function LevelResult({ level, score, total, passed, xp, onNext, onRetry, isLast 
         {passed ? (isLast ? 'All Levels Complete!' : 'Level Passed!') : 'Keep Practising!'}
       </h2>
       <p style={{ fontSize:15, color:'#777', margin:'0 0 28px' }}>
-        {passed ? (isLast ? "You have completed all 4 levels." : 'You earned the right to advance!') : 'Review this level and try again — you've got this!'}
+        {passed ? (isLast ? "All levels done. Outstanding work." : "Good job! Advance to the next level.") : "Review this level and try again. Keep going!"}
       </p>
 
       {/* Score ring */}
