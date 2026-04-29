@@ -178,7 +178,7 @@ function PrepScreen({ questions, level, onDone }) {
               {picked==='correct' ? '🎊 Excellent! ✨' : '💪 Almost there!'}
             </div>
             <div style={{ fontSize:13, color:picked==='correct'?'#3a8a00':'#c00000' }}>
-              {picked==='correct' ? 'Great work! Keep the streak going.' : `Correct answer: ${q.answer}`}
+              {picked==='correct' ? 'Great work! Keep the streak going.' : `Correct answer: ${q.opts?.[q.answer]||q.answer}`}
             </div>
             {q.explain && picked==='wrong' && <div style={{ fontSize:12, color:'#666', marginTop:6 }}>💡 {q.explain}</div>}
           </div>
@@ -361,7 +361,7 @@ function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
               <div style={{ fontWeight:800, color:isCorrect?'#2d7a00':'#a00000', fontSize:15 }}>
                 {isCorrect ? 'Correct! ✨' : 'Correct answer:'}
               </div>
-              {!isCorrect && <div style={{ fontSize:14, fontWeight:600, color:'#c00000', marginTop:2 }}>{q.answer}</div>}
+              {!isCorrect && <div style={{ fontSize:14, fontWeight:600, color:'#c00000', marginTop:2 }}>{q.opts?.[q.answer]||q.answer}</div>}
               {q.explain && !isCorrect && <div style={{ fontSize:12, color:'#888', marginTop:4 }}>💡 {q.explain}</div>}
             </div>
           </div>
