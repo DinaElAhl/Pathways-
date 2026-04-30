@@ -43,3 +43,16 @@ src/
 
 Add or edit pathways by editing `src/data/pathways.js` — every listing, detail
 page, and featured section is driven from there.
+
+
+## Contributing
+
+We use a **branch + pull request** workflow for all changes. Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before submitting changes.
+
+Key steps:
+1. Create a branch from `main`
+2. 2. Make your changes and commit
+   3. 3. Open a Pull Request targeting `main`
+      4. 4. Get a review, then merge
+        
+         5. Direct pushes to `main` are discouraged.
