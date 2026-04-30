@@ -17,7 +17,7 @@ export const SCHOOL_TYPES = [
   { id: "adult",      label: "Adult / University", ages: "18+",   icon: "🏛️", desc: "University-level discourse, research and philosophy" },
 ];
 
-export const LEVELS = [
+export const LEVELS = [h
   { id: 1, code: "L1", arabic: "مُبتَدِئ",  name: "Mubtadi",    cefr: "A1", color: "#16a34a", bg: "#dcfce7", label: "Elementary",   passMark: 70, surahs: "Al-Fatiha, Al-Ikhlas, Al-Kawthar" },
   { id: 2, code: "L2", arabic: "أَسَاسِي",   name: "Asasi",      cefr: "B1", color: "#d97706", bg: "#fef3c7", label: "Foundational", passMark: 70, surahs: "Short Juz Amma surahs" },
   { id: 3, code: "L3", arabic: "مُتَوَسِّط", name: "Mutawassit", cefr: "B2", color: "#dc2626", bg: "#fee2e2", label: "Intermediate",  passMark: 70, surahs: "Full Juz Amma + Al-Mulk excerpt" },
@@ -110,7 +110,7 @@ export const QUESTIONS = {
     {
         "id": "p1_7",
         "section": "reading",
-        "q": "(أنا اسمي علي. أنا طالب في المدرسة.) — ما مهنة علي؟",
+        "q": "(أنا اسمي علي. أنا طالب في المدرسة.) — ما صفة علي في النص؟؟",
         "opts": [
             "مدرّس",
             "طبيب",
@@ -164,7 +164,7 @@ export const QUESTIONS = {
     {
         "id": "m1_1",
         "section": "vocabulary",
-        "q": "ما المقابل الصحيح لكلمة (سريع) في العربية الفصحى؟",
+        "q": "اختر مرادف (سريع) في العربية الفصحى:",
         "opts": [
             "بطيء",
             "عاجل",
@@ -172,7 +172,7 @@ export const QUESTIONS = {
             "مسرع"
         ],
         "answer": 3,
-        "explain": "مُسرِع هي المقابل الاشتقاقي للسريع في الحركة."
+        "explain": "مُسرِع مرادف سريع في العربية الفصحى ويُستخدم خاصّةً للدلالة على سرعة الحركة."
     },
     {
         "id": "m1_2",
@@ -376,13 +376,13 @@ export const QUESTIONS = {
         "section": "reading",
         "q": "(إنّ اللغةَ العربيةَ ليست مجرّد وسيلة تواصل، بل هي هويّة حضارة وإرث أمّة.) — ما وظيفة (ليست) في النصّ؟",
         "opts": [
-            "نفي وحصر",
+            "نفي وإثبات",
             "توكيد فقط",
             "شرط",
             "استفهام"
         ],
         "answer": 0,
-        "explain": "ليست... بل تُفيد النفي والإثبات والحصر."
+        "explain": "ليست... بل تُفيد النفي والإثبات."
     },
     {
         "id": "h1_8",
@@ -601,7 +601,7 @@ export const QUESTIONS = {
     {
         "id": "p2_4",
         "section": "grammar",
-        "q": "حوّل (أنا أكتب) إلى المثنى:",
+        "q": "حوّل (أنا أكتب) إلى مثنى المخاطَب:",
         "opts": [
             "نحن نكتب",
             "هم يكتبون",
@@ -609,7 +609,7 @@ export const QUESTIONS = {
             "أنتما تكتبان"
         ],
         "answer": 3,
-        "explain": "المثنى المخاطب: أنتما تكتبان."
+        "explain": "مثنى المخاطَب: أنتما تكتبان — فعل المخاطب المثنى."
     },
     {
         "id": "p2_5",
@@ -987,12 +987,12 @@ export const QUESTIONS = {
         "q": "أيّ المفاهيم ينتمي إلى النقد البنيوي؟",
         "opts": [
             "التخييل",
-            "البنية السطحية والعميقة",
+            "البنية السطحية والعميقة (لجومسكي)",
             "الانزياح",
             "الإيهام"
         ],
         "answer": 1,
-        "explain": "البنية السطحية والعميقة مفهوم بنيوي تشومسكي."
+        "explain": "البنية السطحية والعميقة (لجومسكي) مفهوم بنيوي تشومسكي."
     },
     {
         "id": "a2_4",
