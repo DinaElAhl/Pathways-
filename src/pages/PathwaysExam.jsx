@@ -600,8 +600,8 @@ function SchoolSelector({ onSelect }) {
             onMouseOut={e=>{e.currentTarget.style.borderColor='#e5e5e5';e.currentTarget.style.boxShadow='0 4px 0 #e5e5e5';}}>
               <span style={{ fontSize:32 }}>{s.icon}</span>
               <div style={{ textAlign:'left' }}>
-                <div style={{ fontWeight:800, color:'#1f1f1f', fontSize:15 }}>{s.name}</div>
-                <div style={{ fontSize:12, color:'#afafaf', marginTop:2 }}>{s.ageRange}</div>
+                <div style={{ fontWeight:800, color:'#1f1f1f', fontSize:15 }}>{s.label}</div>
+                <div style={{ fontSize:12, color:'#afafaf', marginTop:2 }}>{s.ages}</div>
               </div>
               <span style={{ marginLeft:'auto', fontSize:18, color:'#e5e5e5' }}>›</span>
             </button>
