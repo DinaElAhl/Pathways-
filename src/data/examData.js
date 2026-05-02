@@ -17,7 +17,7 @@ export const SCHOOL_TYPES = [
   { id: "adult",      label: "Adult / University", ages: "18+",   icon: "🏛️", desc: "University-level discourse, research and philosophy" },
 ];
 
-export const LEVELS = [h
+export const LEVELS = [
   { id: 1, code: "L1", arabic: "مُبتَدِئ",  name: "Mubtadi",    cefr: "A1", color: "#16a34a", bg: "#dcfce7", label: "Elementary",   passMark: 70, surahs: "Al-Fatiha, Al-Ikhlas, Al-Kawthar" },
   { id: 2, code: "L2", arabic: "أَسَاسِي",   name: "Asasi",      cefr: "B1", color: "#d97706", bg: "#fef3c7", label: "Foundational", passMark: 70, surahs: "Short Juz Amma surahs" },
   { id: 3, code: "L3", arabic: "مُتَوَسِّط", name: "Mutawassit", cefr: "B2", color: "#dc2626", bg: "#fee2e2", label: "Intermediate",  passMark: 70, surahs: "Full Juz Amma + Al-Mulk excerpt" },
