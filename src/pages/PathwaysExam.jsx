@@ -149,7 +149,7 @@ function PrepScreen({ questions, level, onDone }) {
           {q.opts.map((opt,i)=>{
             let bg='#fff', border='#e5e5e5', color='#1f1f1f', extra='';
             if (picked) {
-              if (opt===q.answer) { bg='#d7ffb8'; border='#58cc02'; color='#2d7a00'; extra=' correct'; }
+              if (opt===q.opts[q.answer]) { bg='#d7ffb8'; border='#58cc02'; color='#2d7a00'; extra=' correct'; }
               else if (opt===chosenOpt && opt!==q.answer) { bg='#ffdfe0'; border='#ff4b4b'; color='#8b0000'; extra=' wrong'; }
             } else if (opt===chosenOpt) { bg='#ddf4ff'; border='#1cb0f6'; }
             return (
@@ -157,14 +157,14 @@ function PrepScreen({ questions, level, onDone }) {
                 background:bg, border:`2px solid ${border}`, borderRadius:14, padding:'14px 18px',
                 textAlign: q.rtl?'right':'left', fontSize:q.rtl?18:15, direction:q.rtl?'rtl':'ltr',
                 cursor:picked?'default':'pointer', color, fontWeight:600, display:'flex', alignItems:'center', gap:12,
-                boxShadow: opt===q.answer && picked ? '0 4px 0 #58cc02' : opt===chosenOpt && picked && opt!==q.answer ? '0 4px 0 #ff4b4b' : '0 4px 0 #e5e5e5',
+                boxShadow: opt===q.opts[q.answer] && picked ? '0 4px 0 #58cc02' : opt===chosenOpt && picked && opt!==q.answer ? '0 4px 0 #ff4b4b' : '0 4px 0 #e5e5e5',
                 transform:'translateY(-2px)',
               }}>
                 <span style={{ minWidth:28, height:28, borderRadius:8, border:`2px solid ${border}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:800, color:border, background:'transparent', flexShrink:0 }}>
                   {['A','B','C','D'][i]}
                 </span>
                 {opt}
-                {picked && opt===q.answer && <span style={{ marginLeft:'auto', fontSize:18 }}>✅</span>}
+                {picked && opt===q.opts[q.answer] && <span style={{ marginLeft:'auto', fontSize:18 }}>✅</span>}
                 {picked && opt===chosenOpt && opt!==q.answer && <span style={{ marginLeft:'auto', fontSize:18 }}>❌</span>}
               </button>
             );
@@ -283,7 +283,7 @@ function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
     }
   }
   function next() {
-    const rec = { q:q.id, chosen, correct:q.answer, passed: chosen===q.answer };
+    const rec = { q:q.id, chosen, correct:q.answer, passed: chosen===q.opts[q.answer] };
     const newAns = [...answers, rec];
     if (current+1>=total) { onFinish(newAns); }
     else {
@@ -294,8 +294,8 @@ function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
     }
   }
 
-  const isCorrect = revealed && chosen===q.answer;
-  const isWrong   = revealed && chosen!==q.answer;
+  const isCorrect = revealed && chosen===q.opts[q.answer];
+  const isWrong   = revealed && chosen!==q.opts[q.answer];
 
   return (
     <div style={{ minHeight:'100vh', background:'#fff', display:'flex', flexDirection:'column' }}>
@@ -329,8 +329,8 @@ function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
             let bg='#fff', border='#e5e5e5', color='#1f1f1f', shadow='0 4px 0 #e5e5e5', cls='duo-opt';
             if (!revealed && opt===chosen) { bg='#ddf4ff'; border='#1cb0f6'; shadow='0 4px 0 #1cb0f6'; }
             if (revealed) {
-              if (opt===q.answer)                          { bg='#d7ffb8'; border='#58cc02'; color='#2d7a00'; shadow='0 4px 0 #3d9900'; cls+=' correct'; }
-              else if (opt===chosen && opt!==q.answer)     { bg='#ffdfe0'; border='#ff4b4b'; color='#8b0000'; shadow='0 4px 0 #c03030'; cls+=' wrong'; }
+              if (opt===q.opts[q.answer])                          { bg='#d7ffb8'; border='#58cc02'; color='#2d7a00'; shadow='0 4px 0 #3d9900'; cls+=' correct'; }
+                          else if (opt===chosen && opt!==q.opts[q.answer])   { bg='#ffdfe0'; border='#ff4b4b'; color='#8b0000'; shadow='0 4px 0 #c03030'; cls+=' wrong'; }
             }
             return (
               <button key={i} onClick={()=>pickAnswer(opt)} className={cls} style={{
@@ -344,8 +344,8 @@ function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
                   {['A','B','C','D'][i]}
                 </span>
                 <span>{opt}</span>
-                {revealed && opt===q.answer && <span style={{ marginLeft:'auto', fontSize:16 }}>✅</span>}
-                {revealed && opt===chosen && opt!==q.answer && <span style={{ marginLeft:'auto', fontSize:16 }}>❌</span>}
+                {revealed && opt===q.opts[q.answer] && <span style={{ marginLeft:'auto', fontSize:16 }}>✅</span>}
+                            {revealed && opt===chosen && opt!==q.opts[q.answer] && <span style={{ marginLeft:'auto', fontSize:16 }}>❌</span>}
               </button>
             );
           })}
@@ -474,7 +474,7 @@ function FinalReport({ studentName, schoolType, levelResults, totalXp, onRestart
 <div class="name">${studentName||'Student'}</div>
 <p style="font-size:13px;color:#64748b;margin:12px 0 4px">has demonstrated proficiency at</p>
 <div class="badge">${finalLevel.name} — ${finalLevel.cefr}</div>
-<p style="font-size:13px;color:#64748b">School Track: ${school?.name||schoolType} &bull; Total XP: ${totalXp}</p></div>
+<p style="font-size:13px;color:#64748b">School Track: ${school?.label||schoolType} &bull; Total XP: ${totalXp}</p></div>
 <div class="scores">${levelResults.map(r=>{const lv=LEVELS.find(l=>l.id===r.levelId);return`<div class="sr"><span>${lv?.name||r.levelId} (${lv?.cefr})</span><span class="${r.passed?'pass':'fail'}">${r.score}/10 &mdash; ${r.passed?'PASSED':'STOPPED'}</span></div>`;}).join('')}</div>
 <div class="footer"><div class="sig">Pathways Education<br/>Authorised Examiner</div><div class="center" style="font-size:11px;color:#aaa">Issued: ${date}</div><div class="sig">RAQP Certification<br/>Official Record</div></div>
 </div><script>window.onload=()=>window.print();</script></body></html>`);
@@ -617,12 +617,12 @@ function LevelIntro({ level, levelIndex, schoolName, totalXp, onBeginPrep }) {
   return (
     <div style={{ minHeight:'100vh', background:'#fff', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'32px 20px', textAlign:'center' }}>
       <div style={{ maxWidth:440, width:'100%' }}>
-        <div style={{ fontSize:60, marginBottom:12, animation:'popIn 0.5s ease' }}>{level.icon||'📚'}</div>
+        <div style={{ fontSize:60, marginBottom:12, animation:'popIn 0.5s ease' }}>{['🌱','🌿','📖','🎓'][levelIndex]||'📚'}</div>
         <div style={{ background:level.bg, color:level.color, display:'inline-block', padding:'4px 14px', borderRadius:20, fontWeight:800, fontSize:13, marginBottom:12 }}>
           Level {levelIndex+1} • {level.cefr}
         </div>
-        <h2 style={{ fontSize:26, fontWeight:900, color:'#1f1f1f', margin:'0 0 6px' }}>{level.nameAr || level.name}</h2>
-        <p style={{ fontSize:14, color:'#777', margin:'0 0 24px', lineHeight:1.6 }}>{level.description}</p>
+        <h2 style={{ fontSize:26, fontWeight:900, color:'#1f1f1f', margin:'0 0 6px' }}>{level.arabic || level.name}</h2>
+        <p style={{ fontSize:14, color:'#777', margin:'0 0 24px', lineHeight:1.6 }}>{level.label}</p>
 
         <div style={{ background:'#f8fafc', borderRadius:16, padding:'16px', marginBottom:24, display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
           {[
@@ -644,7 +644,7 @@ function LevelIntro({ level, levelIndex, schoolName, totalXp, onBeginPrep }) {
         <button onClick={onBeginPrep} className="duo-btn" style={{ width:'100%', background:'#58cc02', color:'#fff', border:'none', borderRadius:14, padding:'18px 0', fontSize:17, fontWeight:900, cursor:'pointer', boxShadow:'0 4px 0 #3d9900' }}>
           Begin Warm-Up 🔥
         </button>
-        <p style={{ fontSize:12, color:'#afafaf', marginTop:10 }}>{schoolName} track</p>
+        <p style={{ fontSize:12, color:'#afafaf', marginTop:10 }}>{schoolName}</p>
       </div>
     </div>
   );
@@ -707,10 +707,10 @@ export default function PathwaysExam() {
     <>
       {screen==='welcome'     && <WelcomeScreen onStart={handleStart} />}
       {screen==='school'      && <SchoolSelector onSelect={handleSchool} />}
-      {screen==='levelIntro'  && <LevelIntro level={level} levelIndex={levelIndex} schoolName={school?.name||''} totalXp={totalXp} onBeginPrep={handleBeginPrep} />}
+      {screen==='levelIntro'  && <LevelIntro level={level} levelIndex={levelIndex} schoolName={school?.label||''} totalXp={totalXp} onBeginPrep={handleBeginPrep} />}
       {screen==='prep'        && <PrepScreen questions={qs} level={level} onDone={handlePrepDone} />}
       {screen==='prepSummary' && prepResult && <PrepSummary level={level} xp={prepResult.xp} hearts={prepResult.hearts} onStartExam={handleStartExam} onRetryPrep={handleRetryPrep} />}
-      {screen==='exam'        && <ExamScreen questions={qs} level={level} schoolName={school?.name||''} prepXp={totalXp} onFinish={handleExamFinish} />}
+      {screen==='exam'        && <ExamScreen questions={qs} level={level} schoolName={school?.label||''} prepXp={totalXp} onFinish={handleExamFinish} />}
       {screen==='levelResult' && lastResult && <LevelResult level={level} score={lastResult.score} total={10} passed={lastResult.passed} xp={totalXp} onNext={handleLevelNext} onRetry={handleLevelRetry} isLast={!lastResult.passed||levelIndex+1>=LEVELS.length} />}
       {screen==='report'      && <FinalReport studentName={studentName} schoolType={schoolType} levelResults={levelResults} totalXp={totalXp} onRestart={handleRestart} />}
     </>
