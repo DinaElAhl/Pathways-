@@ -151,7 +151,7 @@ function PrepScreen({ questions, level, onDone }) {
             let bg='#fff', border='#e5e5e5', color='#1f1f1f', extra='';
             if (picked) {
               if (opt===q.opts[q.answer]) { bg='#d7ffb8'; border='#58cc02'; color='#2d7a00'; extra=' correct'; }
-              else if (opt===chosenOpt && opt!==q.opts[q.answer]••) { bg='#ffdfe0'; border='#ff4b4b'; color='#8b0000'; extra=' wrong'; }
+              else if (opt===chosenOpt && opt!==q.opts[q.answer]) { bg='#ffdfe0'; border='#ff4b4b'; color='#8b0000'; extra=' wrong'; }
             } else if (opt===chosenOpt) { bg='#ddf4ff'; border='#1cb0f6'; }
             return (
               <button key={i} onClick={()=>choose(opt)} className={'duo-opt'+extra} style={{
@@ -166,7 +166,7 @@ function PrepScreen({ questions, level, onDone }) {
                 </span>
                 {opt}
                 {picked && opt===q.opts[q.answer] && <span style={{ marginLeft:'auto', fontSize:18 }}>✅</span>}
-                {picked && opt===chosenOpt && opt!==q.opts[q.answer]•• && <span style={{ marginLeft:'auto', fontSize:18 }}>❌</span>}
+                {picked && opt===chosenOpt && opt!==q.opts[q.answer] && <span style={{ marginLeft:'auto', fontSize:18 }}>❌</span>}
               </button>
             );
           })}
@@ -284,7 +284,7 @@ function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
     }
   }
   function next() {
-    const rec = { q:q.id, chosen, correct:q.opts[q.answer],•• passed: chosen===q.opts[q.answer] };
+    const rec = { q:q.id, chosen, correct:q.opts[q.answer], passed: chosen===q.opts[q.answer] };
     const newAns = [...answers, rec];
     if (current+1>=total) { onFinish(newAns); }
     else {
