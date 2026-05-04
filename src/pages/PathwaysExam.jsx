@@ -137,7 +137,7 @@ function PrepScreen({ questions, level, onDone }) {
       {/* Question */}
       <div style={{ flex:1, display:'flex', flexDirection:'column', maxWidth:620, margin:'0 auto', width:'100%', padding:'32px 20px' }}>
         <div style={{ marginBottom:8, fontSize:13, fontWeight:700, color:'#afafaf', letterSpacing:1, textTransform:'uppercase' }}>
-          Warm-up {idx+1} of {prepQs.length} • {level.name} ({level.cefr})
+          Warm-up {idx+1} of {prepQs.length} • {level.arabic} ({level.cefr})
         </div>
         <div style={{ fontSize:12, fontWeight:700, color:level.color, background:level.bg, display:'inline-block', padding:'3px 10px', borderRadius:20, marginBottom:20, alignSelf:'flex-start' }}>
           {level.cefr} • Prep Mode
@@ -145,12 +145,13 @@ function PrepScreen({ questions, level, onDone }) {
         <div style={{ fontSize: q.rtl?22:18, fontWeight:700, color:'#1f1f1f', direction:q.rtl?'rtl':'ltr', textAlign:q.rtl?'right':'left', lineHeight:1.6, marginBottom:28, padding:'0 4px', animation:'popIn 0.3s ease' }}>
           {q.q}
         </div>
+                {q.visual && <div style={{ fontSize:80, textAlign:'center', margin:'0 0 12px', lineHeight:1.2, animation:'popIn 0.4s ease' }}>{q.visual}</div>}
         <div style={{ display:'grid', gap:12 }}>
           {q.opts.map((opt,i)=>{
             let bg='#fff', border='#e5e5e5', color='#1f1f1f', extra='';
             if (picked) {
               if (opt===q.opts[q.answer]) { bg='#d7ffb8'; border='#58cc02'; color='#2d7a00'; extra=' correct'; }
-              else if (opt===chosenOpt && opt!==q.answer) { bg='#ffdfe0'; border='#ff4b4b'; color='#8b0000'; extra=' wrong'; }
+              else if (opt===chosenOpt && opt!==q.opts[q.answer]••) { bg='#ffdfe0'; border='#ff4b4b'; color='#8b0000'; extra=' wrong'; }
             } else if (opt===chosenOpt) { bg='#ddf4ff'; border='#1cb0f6'; }
             return (
               <button key={i} onClick={()=>choose(opt)} className={'duo-opt'+extra} style={{
@@ -165,7 +166,7 @@ function PrepScreen({ questions, level, onDone }) {
                 </span>
                 {opt}
                 {picked && opt===q.opts[q.answer] && <span style={{ marginLeft:'auto', fontSize:18 }}>✅</span>}
-                {picked && opt===chosenOpt && opt!==q.answer && <span style={{ marginLeft:'auto', fontSize:18 }}>❌</span>}
+                {picked && opt===chosenOpt && opt!==q.opts[q.answer]•• && <span style={{ marginLeft:'auto', fontSize:18 }}>❌</span>}
               </button>
             );
           })}
@@ -283,7 +284,7 @@ function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
     }
   }
   function next() {
-    const rec = { q:q.id, chosen, correct:q.answer, passed: chosen===q.opts[q.answer] };
+    const rec = { q:q.id, chosen, correct:q.opts[q.answer],•• passed: chosen===q.opts[q.answer] };
     const newAns = [...answers, rec];
     if (current+1>=total) { onFinish(newAns); }
     else {
@@ -318,11 +319,12 @@ function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
           Question {current+1} of {total}
         </div>
         <div style={{ fontSize:14, fontWeight:700, color:level.color, marginBottom:20 }}>
-          {level.name} ({level.cefr}) • Real Exam
+          {level.arabic} ({level.cefr}) • Real Exam
         </div>
         <div style={{ fontSize: q.rtl?22:18, fontWeight:700, color:'#1f1f1f', direction:q.rtl?'rtl':'ltr', textAlign:q.rtl?'right':'left', lineHeight:1.7, marginBottom:28, animation:'popIn 0.25s ease' }}>
           {q.q}
         </div>
+                {q.visual && <div style={{ fontSize:80, textAlign:'center', margin:'0 0 16px', lineHeight:1.2, animation:'popIn 0.4s ease' }}>{q.visual}</div>}
 
         <div style={{ display:'grid', gap:12 }}>
           {q.opts.map((opt,i)=>{
