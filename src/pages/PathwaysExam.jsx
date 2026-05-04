@@ -53,7 +53,7 @@ function PrepScreen({ questions, level, onDone }) {
   const [chosenOpt, setChosen] = useState(null);
   const [xpAnim,  setXpAnim]  = useState(false);
   const [timeKey, setTimeKey] = useState(0);
-  const prepQs = questions.slice(0, 5);
+  const prepQs = questions.slice(0, 5); // uses dedicated WARMUP questions passed from parent
   const q = prepQs[idx];
   if (!q) { onDone({ xp, hearts }); return null; }
 
@@ -64,7 +64,7 @@ function PrepScreen({ questions, level, onDone }) {
     setStreak(0);
   }, [picked]);
 
-  const timeLeft = useTimer(8, handleTimeout);
+  const timeLeft = useTimer(15, handleTimeout);
 
   function choose(opt) {
     if (picked) return;
@@ -266,7 +266,7 @@ function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
   if (!q) { return null; }
 
   const handleEnd = useCallback(() => {
-    onFinish([...answers, {q:q?.id, chosen:null, correct:q?.answer, passed:false}]);
+    onFinish([...answers, {q:q?.id, chosen:null, correct:q?.opts?.[q?.answer]||'', passed:false}]);
   }, [answers, q, onFinish]);
 
   const timeLeft = useTimer(25*60, handleEnd);
@@ -667,6 +667,7 @@ export default function PathwaysExam() {
   const level  = LEVELS[levelIndex];
   const school = SCHOOL_TYPES.find(s=>s.id===schoolType);
   const qs     = schoolType && level ? QUESTIONS[level.code]?.[schoolType]||[] : [];
+    const warmupQs  = schoolType && level ? (WARMUP[level.code]?.[schoolType]||[]) : [];
 
   function handleStart(name) { setStudentName(name); setScreen('school'); }
   function handleSchool(sType) { setSchoolType(sType); setLevelIndex(0); setLevelResults([]); setTotalXp(0); setScreen('levelIntro'); }
@@ -686,9 +687,11 @@ export default function PathwaysExam() {
     const passed = score >= 7;
     const newResults = [...levelResults, { levelId: level.id, score, passed, answers }];
     setLevelResults(newResults);
-    // Save to localStorage
+    // Save to localStorage and Google Sheets
     if (!passed || levelIndex+1>=LEVELS.length) {
-      saveResult({ id:Date.now(), studentName, schoolType, finalLevel: passed?level.id:(levelIndex>0?LEVELS[levelIndex-1].id:null), date:new Date().toISOString(), levelResults:newResults, totalXp });
+      const rd = { id:Date.now(), studentName, schoolType, finalLevel: passed?level.id:(levelIndex>0?LEVELS[levelIndex-1].id:null), date:new Date().toISOString(), levelResults:newResults, totalXp, passed };
+        saveResult(rd);
+        saveToSheets(rd);
     }
     setScreen('levelResult');
   }
@@ -710,7 +713,7 @@ export default function PathwaysExam() {
       {screen==='welcome'     && <WelcomeScreen onStart={handleStart} />}
       {screen==='school'      && <SchoolSelector onSelect={handleSchool} />}
       {screen==='levelIntro'  && <LevelIntro level={level} levelIndex={levelIndex} schoolName={school?.label||''} totalXp={totalXp} onBeginPrep={handleBeginPrep} />}
-      {screen==='prep'        && <PrepScreen questions={qs} level={level} onDone={handlePrepDone} />}
+      {screen==='prep'        && <PrepScreen questions={warmupQs.length>0?warmupQs:qs} level={level} onDone={handlePrepDone} />}
       {screen==='prepSummary' && prepResult && <PrepSummary level={level} xp={prepResult.xp} hearts={prepResult.hearts} onStartExam={handleStartExam} onRetryPrep={handleRetryPrep} />}
       {screen==='exam'        && <ExamScreen questions={qs} level={level} schoolName={school?.label||''} prepXp={totalXp} onFinish={handleExamFinish} />}
       {screen==='levelResult' && lastResult && <LevelResult level={level} score={lastResult.score} total={10} passed={lastResult.passed} xp={totalXp} onNext={handleLevelNext} onRetry={handleLevelRetry} isLast={!lastResult.passed||levelIndex+1>=LEVELS.length} />}
