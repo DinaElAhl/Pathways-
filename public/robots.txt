@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pathways-learn-gamma.vercel.app/sitemap.xml
