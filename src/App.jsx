@@ -1,37 +1,42 @@
+import { lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
 import Home from './pages/Home.jsx'
-import Pathways from './pages/Pathways.jsx'
-import PathwayDetail from './pages/PathwayDetail.jsx'
-import AudiencePage from './pages/AudiencePage.jsx'
-import Resources from './pages/Resources.jsx'
-import ResourceDetail from './pages/ResourceDetail.jsx'
-import Events from './pages/Events.jsx'
-import EventDetail from './pages/EventDetail.jsx'
-import ApplyEducator from './pages/ApplyEducator.jsx'
-import ApplyPartner from './pages/ApplyPartner.jsx'
-import FAQ from './pages/FAQ.jsx'
-import About from './pages/About.jsx'
-import Contact from './pages/Contact.jsx'
-import NotFound from './pages/NotFound.jsx'
-import AIRecommender from './pages/AIRecommender.jsx'
-import LMS from './pages/LMS.jsx'
-import Pricing from './pages/Pricing.jsx'
-import LMSAudience from './pages/LMSAudience.jsx'
-import Dashboard from './pages/Dashboard.jsx'
-import AIStudio from './pages/AIStudio.jsx'
-import Join from './pages/Join.jsx'
-import PartnerPicks from './pages/PartnerPicks.jsx'
-import RootsOfKnowledge from './pages/RootsOfKnowledge.jsx'
-import RootsNames from './pages/RootsNames.jsx'
-import RootDiscipline from './pages/RootDiscipline.jsx'
-import Tools from './pages/Tools.jsx'
-import E2TeachingTool from './pages/E2TeachingTool.jsx'
-import EduHub from './pages/EduHub'
-import AccreditedExams from './pages/AccreditedExams.jsx'
-import QuranExams from './pages/QuranExams.jsx'
-import PathwaysExam from './pages/PathwaysExam.jsx'
-import ExamDashboard from './pages/ExamDashboard.jsx'
+
+// Lazy-load every route except the landing page so visitors download
+// only the chunk for the page they actually open. The Suspense boundary
+// lives around <Outlet /> in Layout.jsx.
+const Pathways = lazy(() => import('./pages/Pathways.jsx'))
+const PathwayDetail = lazy(() => import('./pages/PathwayDetail.jsx'))
+const AudiencePage = lazy(() => import('./pages/AudiencePage.jsx'))
+const Resources = lazy(() => import('./pages/Resources.jsx'))
+const ResourceDetail = lazy(() => import('./pages/ResourceDetail.jsx'))
+const Events = lazy(() => import('./pages/Events.jsx'))
+const EventDetail = lazy(() => import('./pages/EventDetail.jsx'))
+const ApplyEducator = lazy(() => import('./pages/ApplyEducator.jsx'))
+const ApplyPartner = lazy(() => import('./pages/ApplyPartner.jsx'))
+const FAQ = lazy(() => import('./pages/FAQ.jsx'))
+const About = lazy(() => import('./pages/About.jsx'))
+const Contact = lazy(() => import('./pages/Contact.jsx'))
+const NotFound = lazy(() => import('./pages/NotFound.jsx'))
+const AIRecommender = lazy(() => import('./pages/AIRecommender.jsx'))
+const LMS = lazy(() => import('./pages/LMS.jsx'))
+const Pricing = lazy(() => import('./pages/Pricing.jsx'))
+const LMSAudience = lazy(() => import('./pages/LMSAudience.jsx'))
+const Dashboard = lazy(() => import('./pages/Dashboard.jsx'))
+const AIStudio = lazy(() => import('./pages/AIStudio.jsx'))
+const Join = lazy(() => import('./pages/Join.jsx'))
+const PartnerPicks = lazy(() => import('./pages/PartnerPicks.jsx'))
+const RootsOfKnowledge = lazy(() => import('./pages/RootsOfKnowledge.jsx'))
+const RootsNames = lazy(() => import('./pages/RootsNames.jsx'))
+const RootDiscipline = lazy(() => import('./pages/RootDiscipline.jsx'))
+const Tools = lazy(() => import('./pages/Tools.jsx'))
+const E2TeachingTool = lazy(() => import('./pages/E2TeachingTool.jsx'))
+const EduHub = lazy(() => import('./pages/EduHub'))
+const AccreditedExams = lazy(() => import('./pages/AccreditedExams.jsx'))
+const QuranExams = lazy(() => import('./pages/QuranExams.jsx'))
+const PathwaysExam = lazy(() => import('./pages/PathwaysExam.jsx'))
+const ExamDashboard = lazy(() => import('./pages/ExamDashboard.jsx'))
 
 export default function App() {
   return (
@@ -53,7 +58,7 @@ export default function App() {
         <Route path="/roots/:slug" element={<RootDiscipline />} />
         <Route path="/tools" element={<Tools />} />
         <Route path="/tools/e2-teaching" element={<E2TeachingTool />} />
-      <Route path="/edu-hub" element={<EduHub />} />
+        <Route path="/edu-hub" element={<EduHub />} />
         <Route path="/for/:slug" element={<AudiencePage />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/resources/:slug" element={<ResourceDetail />} />
@@ -64,10 +69,10 @@ export default function App() {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-                <Route path="/accredited-exams" element={<AccreditedExams />} />
+        <Route path="/accredited-exams" element={<AccreditedExams />} />
         <Route path="/quran-exams" element={<QuranExams />} />
         <Route path="/pathways-exam" element={<PathwaysExam />} />
-          <Route path="/exam-dashboard" element={<ExamDashboard />} />
+        <Route path="/exam-dashboard" element={<ExamDashboard />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
