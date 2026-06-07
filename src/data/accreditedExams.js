@@ -460,8 +460,8 @@ export const accreditedExams = [
     ],
     prepResources: [
       { name: 'Take the Exam (Free)', url: 'https://claude.ai/public/artifacts/130ad91f-9ec4-42a3-8f5d-479aef8a5b59' },
-      { name: 'Pathways Arabic Pathway', url: 'https://pathwayslearn.com/pathways/arabic-language' },
-      { name: 'Quran Study Resources', url: 'https://pathwayslearn.com/resources' }
+      { name: 'Pathways Arabic Pathway', url: 'https://www.pathwayslearn.com/pathways/arabic-language' },
+      { name: 'Quran Study Resources', url: 'https://www.pathwayslearn.com/resources' }
     ]
   }
 ];

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pathwayslearn.com/sitemap.xml
+Sitemap: https://www.pathwayslearn.com/sitemap.xml
