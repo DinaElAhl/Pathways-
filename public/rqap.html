@@ -1,0 +1,2930 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RQAP Level 2 Asasi — Roots Quranic Arabic Proficiency Examination</title>
+<meta name="description" content="The Roots Quranic Arabic Proficiency Certificate — Level 2 Asasi assessment, both tracks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================
+     ROOTS BRAND DESIGN SYSTEM
+     ============================================ */
+  :root {
+    --teal-deep: #0d3b3e;
+    --teal-mid: #1a5559;
+    --teal-light: #2d7478;
+    --gold: #b8914a;
+    --gold-light: #c9a961;
+    --gold-pale: #e8dab5;
+    --cream: #f8f3e7;
+    --cream-deep: #f0e8d2;
+    --ink: #1a1612;
+    --ink-soft: #3d352c;
+    --ink-faint: #6b6254;
+    --rule: #c9b894;
+    --shadow: rgba(13, 59, 62, 0.1);
+    --shadow-deep: rgba(13, 59, 62, 0.18);
+    --error: #a8443a;
+    --success: #4a7c59;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: 'Lora', Georgia, serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 16px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background atmosphere */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse at top right, rgba(184, 145, 74, 0.08), transparent 50%),
+      radial-gradient(ellipse at bottom left, rgba(13, 59, 62, 0.04), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  h1, h2, h3, h4 {
+    font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+    color: var(--teal-deep);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  h1 { font-size: clamp(2.2rem, 4.5vw, 3.4rem); font-weight: 600; }
+  h2 { font-size: clamp(1.7rem, 3vw, 2.2rem); }
+  h3 { font-size: clamp(1.2rem, 2.2vw, 1.5rem); font-weight: 600; }
+
+  p { color: var(--ink-soft); margin-bottom: 1rem; }
+
+  .arabic {
+    font-family: 'Amiri', 'Traditional Arabic', serif;
+    direction: rtl;
+    unicode-bidi: embed;
+  }
+
+  .arabic-display {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    color: var(--teal-deep);
+    text-align: center;
+    line-height: 2;
+    font-size: 1.5rem;
+  }
+
+  /* ============================================
+     ORNAMENTS
+     ============================================ */
+  .ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    color: var(--gold);
+  }
+
+  .ornament-line {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold) 50%, transparent);
+    flex: 1;
+    max-width: 140px;
+  }
+
+  .ornament-symbol {
+    font-family: 'Amiri', serif;
+    font-size: 1.4rem;
+  }
+
+  /* ============================================
+     APP SHELL
+     ============================================ */
+  .app-shell {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ============================================
+     TOP BAR (during exam)
+     ============================================ */
+  .topbar {
+    background: var(--teal-deep);
+    color: var(--cream);
+    padding: 0.9rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--gold);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px var(--shadow-deep);
+  }
+
+  .topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .topbar-brand .logo-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Amiri', serif;
+    font-size: 1.3rem;
+    color: var(--teal-deep);
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .topbar-brand .name {
+    font-size: 1.15rem;
+    color: var(--cream);
+    font-weight: 500;
+  }
+
+  .topbar-brand .subname {
+    font-family: 'Lora', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-pale);
+    margin-top: 0.1rem;
+  }
+
+  .topbar-progress {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--gold-pale);
+  }
+
+  .topbar-progress .label {
+    font-family: 'Lora', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .progress-bar {
+    width: 160px;
+    height: 6px;
+    background: rgba(232, 218, 181, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--gold-light), var(--gold));
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0%;
+  }
+
+  .topbar-timer {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--gold-light);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    min-width: 80px;
+    text-align: right;
+  }
+
+  .topbar-timer.warning { color: #e8a85a; }
+  .topbar-timer.danger { color: #e87a5a; animation: pulse-warn 1s infinite; }
+
+  @keyframes pulse-warn {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  /* ============================================
+     SCREEN BASE
+     ============================================ */
+  .screen {
+    flex: 1;
+    padding: 3rem 1.5rem;
+    display: none;
+    animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .screen.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .screen-inner {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  /* ============================================
+     WELCOME SCREEN
+     ============================================ */
+  #welcome-screen {
+    background: linear-gradient(135deg, var(--teal-deep) 0%, var(--teal-mid) 100%);
+    color: var(--cream);
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #welcome-screen.active { display: flex; }
+
+  #welcome-screen::before {
+    content: "";
+    position: absolute;
+    top: -250px;
+    right: -250px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, var(--gold-light) 0%, transparent 70%);
+    opacity: 0.15;
+    border-radius: 50%;
+  }
+
+  #welcome-screen::after {
+    content: "";
+    position: absolute;
+    bottom: -300px;
+    left: -300px;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+    opacity: 0.1;
+    border-radius: 50%;
+  }
+
+  .welcome-content {
+    max-width: 700px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    padding: 2rem 0;
+  }
+
+  .welcome-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--gold-pale);
+    font-family: 'Lora', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: slideDown 0.7s 0.2s forwards;
+  }
+
+  .welcome-eyebrow .line {
+    width: 40px;
+    height: 1px;
+    background: var(--gold-light);
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  #welcome-screen h1 {
+    color: var(--cream);
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.05;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: slideDown 0.7s 0.4s forwards;
+  }
+
+  #welcome-screen h1 .accent { color: var(--gold-light); font-style: italic; }
+
+  .welcome-arabic {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    color: var(--gold-pale);
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    margin-bottom: 2.5rem;
+    line-height: 1.4;
+    opacity: 0;
+    animation: slideDown 0.7s 0.6s forwards;
+  }
+
+  .welcome-tagline {
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.3vw, 1.35rem);
+    font-style: italic;
+    opacity: 0.9;
+    max-width: 560px;
+    margin: 0 auto 3rem;
+    opacity: 0;
+    animation: slideDown 0.7s 0.8s forwards;
+  }
+
+  .welcome-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(232, 218, 181, 0.25);
+    opacity: 0;
+    animation: slideDown 0.7s 1.0s forwards;
+  }
+
+  .welcome-meta-item .label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 0.4rem;
+    opacity: 0.85;
+  }
+
+  .welcome-meta-item .value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--cream);
+    font-weight: 500;
+  }
+
+  /* ============================================
+     BUTTONS
+     ============================================ */
+  .btn {
+    display: inline-block;
+    padding: 0.95rem 2rem;
+    border-radius: 2px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid;
+    background: transparent;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--teal-deep);
+    border-color: var(--gold);
+    box-shadow: 0 4px 14px rgba(184, 145, 74, 0.3);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(184, 145, 74, 0.4);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--gold-light);
+    border-color: var(--gold-light);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background: rgba(201, 169, 97, 0.1);
+  }
+
+  .btn-light {
+    background: white;
+    color: var(--teal-deep);
+    border-color: var(--rule);
+  }
+
+  .btn-light:hover:not(:disabled) {
+    background: var(--cream-deep);
+    border-color: var(--gold);
+  }
+
+  .btn-large {
+    padding: 1.1rem 2.8rem;
+    font-size: 1.2rem;
+  }
+
+  .welcome-cta {
+    opacity: 0;
+    animation: slideDown 0.7s 1.2s forwards;
+  }
+
+  /* ============================================
+     CARDS / PANELS
+     ============================================ */
+  .panel {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 2rem 2.2rem;
+    box-shadow: 0 2px 12px var(--shadow);
+    margin-bottom: 1.5rem;
+  }
+
+  .panel-cream {
+    background: var(--cream-deep);
+    border: 1px solid var(--rule);
+    padding: 1.6rem 1.8rem;
+    border-radius: 2px;
+    border-left: 4px solid var(--gold);
+  }
+
+  .panel-info {
+    background: rgba(13, 59, 62, 0.04);
+    border-left: 3px solid var(--teal-light);
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 2px;
+  }
+
+  /* ============================================
+     SECTION LABELS
+     ============================================ */
+  .section-label {
+    font-family: 'Lora', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+  }
+
+  .section-title-ar {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    color: var(--teal-light);
+    font-size: 1.4rem;
+    margin-bottom: 0.6rem;
+    font-weight: 400;
+  }
+
+  /* ============================================
+     CANDIDATE FORM
+     ============================================ */
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-family: 'Lora', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  .form-group input, .form-group select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--rule);
+    background: white;
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    color: var(--ink);
+    border-radius: 2px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(184, 145, 74, 0.15);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
+  /* ============================================
+     SECTION INTRO SCREENS
+     ============================================ */
+  .section-hero {
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+
+  .section-hero .number {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--gold);
+    font-size: 1.2rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-hero h2 {
+    font-size: clamp(2rem, 4vw, 2.6rem);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-hero .arabic-name {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    color: var(--teal-light);
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin: 2.5rem auto;
+    max-width: 600px;
+  }
+
+  .section-stat {
+    background: var(--cream-deep);
+    padding: 1.2rem;
+    border-top: 3px solid var(--gold);
+    border-radius: 2px;
+  }
+
+  .section-stat .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--teal-deep);
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 0.2rem;
+  }
+
+  .section-stat .lbl {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.03em;
+  }
+
+  /* ============================================
+     ITEM (QUESTION) DISPLAY
+     ============================================ */
+  .item-container {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 2rem 2.2rem;
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+
+  .item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .item-position {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--teal-deep);
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .item-position .total {
+    color: var(--ink-faint);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .item-tag {
+    font-family: 'Lora', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: var(--cream-deep);
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    border: 1px solid var(--gold-pale);
+    font-weight: 600;
+  }
+
+  .item-stem {
+    font-size: 1.05rem;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+    line-height: 1.7;
+  }
+
+  .item-verse {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    font-size: 1.6rem;
+    color: var(--teal-deep);
+    text-align: center;
+    padding: 1.4rem 1.5rem;
+    background: linear-gradient(135deg, var(--cream-deep) 0%, rgba(232, 218, 181, 0.4) 100%);
+    border-radius: 3px;
+    margin: 1rem 0;
+    line-height: 2.2;
+    border: 1px solid var(--gold-pale);
+  }
+
+  .item-passage {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    font-size: 1.4rem;
+    color: var(--teal-deep);
+    text-align: justify;
+    padding: 1.5rem;
+    background: var(--cream-deep);
+    border-radius: 3px;
+    margin: 1rem 0;
+    line-height: 2.4;
+    border: 1px solid var(--gold-pale);
+  }
+
+  /* ============================================
+     OPTIONS (MCQ)
+     ============================================ */
+  .item-options {
+    list-style: none;
+    margin: 1.5rem 0;
+  }
+
+  .item-options li {
+    margin-bottom: 0.8rem;
+  }
+
+  .item-option {
+    display: block;
+    padding: 1rem 1.2rem 1rem 3.5rem;
+    border: 1.5px solid var(--rule);
+    border-radius: 3px;
+    background: var(--cream);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--ink);
+    font-size: 0.98rem;
+    line-height: 1.5;
+  }
+
+  .item-option:hover {
+    border-color: var(--gold);
+    background: white;
+    transform: translateX(2px);
+  }
+
+  .item-option .letter {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.8rem;
+    height: 1.8rem;
+    border: 1.5px solid var(--rule);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    color: var(--teal-mid);
+    font-size: 0.95rem;
+    background: white;
+    transition: all 0.2s;
+  }
+
+  .item-option.selected {
+    border-color: var(--gold);
+    background: var(--cream-deep);
+    box-shadow: 0 2px 10px rgba(184, 145, 74, 0.2);
+  }
+
+  .item-option.selected .letter {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: white;
+  }
+
+  .item-option input { display: none; }
+
+  /* arabic option support */
+  .item-option .opt-arabic {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    unicode-bidi: embed;
+    font-size: 1.15em;
+  }
+
+  /* ============================================
+     TEXT INPUT (constructed response)
+     ============================================ */
+  .response-textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 1rem 1.2rem;
+    border: 1.5px solid var(--rule);
+    background: var(--cream);
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    color: var(--ink);
+    border-radius: 3px;
+    resize: vertical;
+    line-height: 1.6;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .response-textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(184, 145, 74, 0.15);
+  }
+
+  .response-textarea.arabic {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    font-size: 1.2rem;
+    line-height: 1.9;
+  }
+
+  .word-count {
+    text-align: right;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+    font-style: italic;
+  }
+
+  /* ============================================
+     AUDIO RECORDING
+     ============================================ */
+  .audio-recorder {
+    background: var(--cream-deep);
+    border: 1px solid var(--gold-pale);
+    border-radius: 3px;
+    padding: 1.8rem;
+    margin: 1.5rem 0;
+    text-align: center;
+  }
+
+  .audio-recorder h4 {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--teal-deep);
+    font-size: 1.25rem;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+  }
+
+  .recording-status {
+    font-family: 'Lora', serif;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    margin-bottom: 1.2rem;
+    min-height: 1.5em;
+  }
+
+  .recording-status.recording {
+    color: var(--error);
+    font-weight: 600;
+  }
+
+  .recording-status.recorded {
+    color: var(--success);
+    font-weight: 600;
+  }
+
+  .record-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--teal-deep);
+    color: white;
+    border: 4px solid var(--gold);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 16px var(--shadow-deep);
+    margin-bottom: 1rem;
+  }
+
+  .record-button:hover { transform: scale(1.05); }
+  .record-button:active { transform: scale(0.95); }
+
+  .record-button.recording {
+    background: var(--error);
+    border-color: var(--error);
+    animation: pulse-record 1.5s infinite;
+  }
+
+  @keyframes pulse-record {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(168, 68, 58, 0.5); }
+    50% { box-shadow: 0 0 0 16px rgba(168, 68, 58, 0); }
+  }
+
+  .record-icon {
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .record-button.recording .record-icon {
+    border-radius: 4px;
+    width: 22px;
+    height: 22px;
+  }
+
+  .recording-timer {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    color: var(--teal-deep);
+    font-variant-numeric: tabular-nums;
+    margin-top: 0.5rem;
+    font-weight: 600;
+  }
+
+  .audio-playback {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--rule);
+  }
+
+  .audio-playback audio {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  /* ============================================
+     NAVIGATION (between items)
+     ============================================ */
+  .item-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 1rem;
+  }
+
+  .item-nav-info {
+    color: var(--ink-faint);
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+
+  /* ============================================
+     RESULTS / SCORE REPORT
+     ============================================ */
+  .score-hero {
+    text-align: center;
+    padding: 2rem 1rem 3rem;
+  }
+
+  .verdict-badge {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 3rem;
+    background: linear-gradient(135deg, var(--teal-deep) 0%, var(--teal-mid) 100%);
+    color: var(--cream);
+    border-radius: 4px;
+    margin: 1rem 0 2rem;
+    border: 2px solid var(--gold);
+    box-shadow: 0 8px 32px var(--shadow-deep);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .verdict-badge::before {
+    content: "";
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, var(--gold-light) 0%, transparent 70%);
+    opacity: 0.18;
+    border-radius: 50%;
+  }
+
+  .verdict-badge .verdict-label {
+    font-family: 'Lora', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 0.6rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .verdict-badge .verdict-result {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    color: var(--cream);
+    font-weight: 600;
+    position: relative;
+    z-index: 2;
+  }
+
+  .verdict-badge .verdict-arabic {
+    font-family: 'Amiri', serif;
+    color: var(--gold-pale);
+    font-size: 1.3rem;
+    margin-top: 0.6rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .score-breakdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  @media (max-width: 600px) { .score-breakdown { grid-template-columns: 1fr; } }
+
+  .score-card {
+    background: white;
+    border: 1px solid var(--rule);
+    border-top: 4px solid var(--gold);
+    padding: 1.8rem;
+    border-radius: 3px;
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+
+  .score-card h3 {
+    color: var(--teal-deep);
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .score-card .arabic-sub {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    color: var(--teal-light);
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+  }
+
+  .score-display {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--teal-deep);
+    line-height: 1;
+    margin: 0.8rem 0;
+  }
+
+  .score-display .max {
+    color: var(--ink-faint);
+    font-size: 1.4rem;
+    font-style: italic;
+  }
+
+  .score-meter {
+    height: 8px;
+    background: var(--cream-deep);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+  }
+
+  .score-meter-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
+    border-radius: 4px;
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .score-status {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    font-family: 'Lora', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 0.6rem;
+  }
+
+  .score-status.pass {
+    background: rgba(74, 124, 89, 0.15);
+    color: #2d5a3d;
+    border: 1px solid #4a7c59;
+  }
+
+  .score-status.fail {
+    background: rgba(168, 68, 58, 0.12);
+    color: #722f25;
+    border: 1px solid #a8443a;
+  }
+
+  .score-status.distinction {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    color: var(--teal-deep);
+    border: 1px solid var(--gold);
+    font-weight: 700;
+  }
+
+  /* Diagnostic breakdown */
+  .diagnostic {
+    background: var(--cream-deep);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .diagnostic h4 {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--teal-deep);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .diag-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed var(--rule);
+    font-size: 0.93rem;
+  }
+
+  .diag-item:last-child { border-bottom: none; }
+  .diag-item .lbl { color: var(--ink-soft); }
+  .diag-item .score-val {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--teal-deep);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ============================================
+     CERTIFICATE
+     ============================================ */
+  .certificate {
+    background: var(--cream);
+    border: 8px double var(--gold);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+    margin: 2rem 0;
+    box-shadow: 0 12px 40px var(--shadow-deep);
+  }
+
+  .certificate::before {
+    content: "";
+    position: absolute;
+    inset: 14px;
+    border: 1px solid var(--gold);
+    pointer-events: none;
+  }
+
+  .certificate-eyebrow {
+    color: var(--gold);
+    font-family: 'Lora', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  .certificate-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    color: var(--teal-deep);
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+
+  .certificate-arabic-title {
+    font-family: 'Amiri', serif;
+    color: var(--teal-light);
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .certificate-recipient-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .certificate-recipient {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+    color: var(--teal-deep);
+    font-weight: 600;
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    min-width: 60%;
+  }
+
+  .certificate-statement {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--ink);
+    margin: 1rem auto;
+    max-width: 480px;
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  .certificate-level {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    color: var(--teal-deep);
+    font-weight: 600;
+    margin: 1rem 0;
+  }
+
+  .certificate-level .ar {
+    font-family: 'Amiri', serif;
+    color: var(--gold);
+    margin: 0 0.3rem;
+  }
+
+  .certificate-meta {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--rule);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 600px) { .certificate-meta { grid-template-columns: 1fr; gap: 0.5rem; } }
+
+  .certificate-meta-item .lbl {
+    font-family: 'Lora', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+  }
+
+  .certificate-meta-item .val {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--teal-deep);
+    font-weight: 600;
+  }
+
+  .certificate-seal {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Amiri', serif;
+    font-size: 2rem;
+    color: var(--teal-deep);
+    font-weight: 700;
+    transform: rotate(-12deg);
+    border: 3px solid var(--cream);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  /* ============================================
+     TRACK SELECTOR
+     ============================================ */
+  .track-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  @media (max-width: 600px) { .track-grid { grid-template-columns: 1fr; } }
+
+  .track-card-select {
+    background: white;
+    border: 2px solid var(--rule);
+    border-radius: 4px;
+    padding: 2rem 1.8rem;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+    position: relative;
+  }
+
+  .track-card-select:hover {
+    border-color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--shadow);
+  }
+
+  .track-card-select.selected {
+    border-color: var(--gold);
+    background: var(--cream-deep);
+  }
+
+  .track-card-select.selected::after {
+    content: "✓";
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 28px;
+    height: 28px;
+    background: var(--gold);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .track-card-select h3 {
+    color: var(--teal-deep);
+    margin-bottom: 0.3rem;
+    font-size: 1.4rem;
+  }
+
+  .track-card-select .arabic-sub {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    color: var(--teal-light);
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+  }
+
+  .track-card-select ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .track-card-select li {
+    padding: 0.3rem 0 0.3rem 1.3rem;
+    position: relative;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+
+  .track-card-select li::before {
+    content: "◆";
+    position: absolute;
+    left: 0;
+    top: 0.45rem;
+    font-size: 0.65rem;
+    color: var(--gold);
+  }
+
+  /* ============================================
+     UTILITY
+     ============================================ */
+  .center { text-align: center; }
+  .mt-2 { margin-top: 2rem; }
+  .mb-2 { margin-bottom: 2rem; }
+  .text-faint { color: var(--ink-faint); }
+  .small { font-size: 0.88rem; }
+
+  .lead {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ============================================
+     PRINT (for certificate)
+     ============================================ */
+  @media print {
+    body::before, .topbar, .item-nav, button, .action-row { display: none !important; }
+    .screen { padding: 0; }
+    .certificate { page-break-after: always; box-shadow: none; }
+  }
+
+  /* ============================================
+     SMALL SCREENS
+     ============================================ */
+  @media (max-width: 700px) {
+    .topbar { padding: 0.7rem 1rem; flex-wrap: wrap; gap: 0.5rem; }
+    .topbar-brand .name { font-size: 1rem; }
+    .topbar-brand .subname { display: none; }
+    .progress-bar { width: 100px; }
+    .topbar-progress .label { display: none; }
+    .panel { padding: 1.5rem 1.2rem; }
+    .item-container { padding: 1.5rem 1.2rem; }
+    .item-verse { font-size: 1.3rem; padding: 1rem; }
+    .item-passage { font-size: 1.2rem; padding: 1rem; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ============================================
+       SCREEN 0: WELCOME
+       ============================================ -->
+  <section id="welcome-screen" class="screen active">
+    <div class="welcome-content">
+      <div class="welcome-eyebrow">
+        <span class="line"></span>
+        <span>Roots · جذور · Level 2 Asasi</span>
+        <span class="line"></span>
+      </div>
+
+      <h1>The Roots<br><span class="accent">Quranic Arabic</span><br>Proficiency Examination</h1>
+
+      <div class="welcome-arabic">شهادة جذور لإتقان العربية القرآنية</div>
+
+      <p class="welcome-tagline">A standardized assessment of foundational proficiency in Quranic Arabic and Tajweed, anchored in Juz 'Amma. Two tracks, certified independently.</p>
+
+      <div class="welcome-meta">
+        <div class="welcome-meta-item">
+          <span class="label">Level</span>
+          <span class="value">2 — Asasi (B1)</span>
+        </div>
+        <div class="welcome-meta-item">
+          <span class="label">Duration</span>
+          <span class="value">~30 minutes (demo)</span>
+        </div>
+        <div class="welcome-meta-item">
+          <span class="label">Tracks</span>
+          <span class="value">Language &amp; Tajweed</span>
+        </div>
+      </div>
+
+      <div class="welcome-cta">
+        <button class="btn btn-primary btn-large" onclick="App.start()">Begin Examination →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       MAIN APP (after welcome)
+       ============================================ -->
+  <div id="app-main" style="display: none;">
+
+    <!-- TOP BAR -->
+    <header class="topbar" id="topbar" style="display: none;">
+      <div class="topbar-brand">
+        <div class="logo-mark">ج</div>
+        <div>
+          <div class="name">Roots RQAP</div>
+          <div class="subname">Level 2 Asasi</div>
+        </div>
+      </div>
+      <div class="topbar-progress">
+        <span class="label" id="progress-label">Section</span>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+      <div class="topbar-timer" id="timer">--:--</div>
+    </header>
+
+    <!-- ============================================
+         SCREEN 1: CANDIDATE INFO
+         ============================================ -->
+    <section id="candidate-screen" class="screen">
+      <div class="screen-inner">
+        <div class="section-label">Step 1 of 4</div>
+        <h2>Candidate Information</h2>
+        <div class="section-title-ar">معلومات المتقدّم</div>
+
+        <p class="lead">Before beginning the examination, we ask for some basic information. This appears on your certificate.</p>
+
+        <div class="panel">
+          <div class="form-group">
+            <label for="cand-name">Full Name (as it should appear on certificate)</label>
+            <input type="text" id="cand-name" placeholder="e.g. Maryam Abdullah" autocomplete="name" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cand-email">Email Address</label>
+              <input type="email" id="cand-email" placeholder="you@example.com" autocomplete="email" required>
+            </div>
+            <div class="form-group">
+              <label for="cand-country">Country</label>
+              <input type="text" id="cand-country" placeholder="e.g. Egypt" autocomplete="country">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cand-age">Age</label>
+              <select id="cand-age">
+                <option value="">Select age range</option>
+                <option value="under-13">Under 13</option>
+                <option value="13-17">13–17</option>
+                <option value="18-25">18–25</option>
+                <option value="26-40">26–40</option>
+                <option value="41-60">41–60</option>
+                <option value="60+">60+</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="cand-bg">Years studying Arabic</label>
+              <select id="cand-bg">
+                <option value="">Select range</option>
+                <option value="under-1">Less than 1 year</option>
+                <option value="1-2">1–2 years</option>
+                <option value="3-5">3–5 years</option>
+                <option value="6-10">6–10 years</option>
+                <option value="10+">More than 10 years</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-info">
+          <p class="small" style="margin-bottom: 0;"><strong>Privacy note:</strong> This is a demonstration application. Your data is stored only in your browser for the duration of this session. No data is sent to any server.</p>
+        </div>
+
+        <div class="item-nav">
+          <span></span>
+          <button class="btn btn-primary" onclick="App.submitCandidate()">Continue →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SCREEN 2: TRACK SELECTION
+         ============================================ -->
+    <section id="track-select-screen" class="screen">
+      <div class="screen-inner">
+        <div class="section-label">Step 2 of 4</div>
+        <h2>Choose Your Tracks</h2>
+        <div class="section-title-ar">اختر مساراتك</div>
+
+        <p class="lead">RQAP certifies two independent constructs. You may take one track, the other, or both. Both tracks are recommended for the full Level 2 credential.</p>
+
+        <div class="track-grid">
+          <div class="track-card-select selected" data-track="language" onclick="App.toggleTrack('language')">
+            <h3>Track 1 — Language</h3>
+            <div class="arabic-sub">مسار اللغة القرآنية</div>
+            <ul>
+              <li>Vocabulary &amp; trilateral roots</li>
+              <li>Classical grammar &amp; morphology</li>
+              <li>Verse comprehension</li>
+              <li>Constructed Arabic response</li>
+            </ul>
+          </div>
+
+          <div class="track-card-select selected" data-track="tajweed" onclick="App.toggleTrack('tajweed')">
+            <h3>Track 2 — Tajweed</h3>
+            <div class="arabic-sub">مسار التجويد والتلاوة</div>
+            <ul>
+              <li>Theory: makharij &amp; sifaat</li>
+              <li>Rules of noon, meem, madd</li>
+              <li>Applied identification</li>
+              <li>Practical recitation (audio)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel-info">
+          <p class="small" style="margin-bottom: 0;"><strong>Note for the demo:</strong> This sample administration includes a reduced item set from each section so you can experience the full instrument in approximately 30 minutes.</p>
+        </div>
+
+        <div class="item-nav">
+          <button class="btn btn-light" onclick="App.goTo('candidate-screen')">← Back</button>
+          <button class="btn btn-primary" id="track-continue-btn" onclick="App.confirmTracks()">Continue →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SCREEN 3: SECTION INTRO
+         ============================================ -->
+    <section id="section-intro-screen" class="screen">
+      <div class="screen-inner">
+        <div class="section-hero">
+          <div class="number" id="intro-section-number">Section</div>
+          <h2 id="intro-section-title">Section Title</h2>
+          <div class="arabic-name" id="intro-section-arabic">العنوان</div>
+          <p class="lead" id="intro-section-desc">Description of this section.</p>
+
+          <div class="ornament">
+            <span class="ornament-line"></span>
+            <span class="ornament-symbol">❦</span>
+            <span class="ornament-line"></span>
+          </div>
+
+          <div class="section-stats">
+            <div class="section-stat">
+              <div class="num" id="intro-section-items">--</div>
+              <div class="lbl">Questions</div>
+            </div>
+            <div class="section-stat">
+              <div class="num" id="intro-section-time">--</div>
+              <div class="lbl">Minutes</div>
+            </div>
+            <div class="section-stat">
+              <div class="num" id="intro-section-weight">--</div>
+              <div class="lbl">Track Weight</div>
+            </div>
+          </div>
+
+          <div class="panel-cream" id="intro-section-instructions">
+            <p style="margin-bottom: 0;"></p>
+          </div>
+
+          <button class="btn btn-primary btn-large mt-2" onclick="App.startSection()">Begin Section →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SCREEN 4: ITEM (DYNAMIC)
+         ============================================ -->
+    <section id="item-screen" class="screen">
+      <div class="screen-inner">
+        <div id="item-host"></div>
+
+        <div class="item-nav">
+          <button class="btn btn-light" id="prev-btn" onclick="App.prevItem()">← Previous</button>
+          <span class="item-nav-info" id="item-nav-info">Choose an answer to continue</span>
+          <button class="btn btn-primary" id="next-btn" onclick="App.nextItem()">Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SCREEN 5: SECTION COMPLETE
+         ============================================ -->
+    <section id="section-done-screen" class="screen">
+      <div class="screen-inner">
+        <div class="section-hero">
+          <div class="ornament">
+            <span class="ornament-line"></span>
+            <span class="ornament-symbol">✦</span>
+            <span class="ornament-line"></span>
+          </div>
+          <div class="number">Section Complete</div>
+          <h2 id="done-section-title">Title</h2>
+          <p class="lead" id="done-message">You've completed this section.</p>
+
+          <button class="btn btn-primary btn-large mt-2" id="done-continue-btn" onclick="App.afterSection()">Continue →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SCREEN 6: SUBMITTING
+         ============================================ -->
+    <section id="submitting-screen" class="screen">
+      <div class="screen-inner center">
+        <div class="ornament">
+          <span class="ornament-line"></span>
+          <span class="ornament-symbol">❦</span>
+          <span class="ornament-line"></span>
+        </div>
+        <h2>Scoring Your Examination</h2>
+        <div class="section-title-ar">جارٍ تصحيح الاختبار</div>
+        <p class="lead">Calculating section scores, applying rubrics, and generating your diagnostic report...</p>
+
+        <div style="margin: 3rem 0;">
+          <div style="width: 80px; height: 80px; border: 4px solid var(--cream-deep); border-top-color: var(--gold); border-radius: 50%; margin: 0 auto; animation: spin 0.9s linear infinite;"></div>
+        </div>
+
+        <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SCREEN 7: RESULTS
+         ============================================ -->
+    <section id="results-screen" class="screen">
+      <div class="screen-inner">
+        <div class="score-hero">
+          <div class="section-label">Examination Result</div>
+          <div class="verdict-badge" id="verdict-badge">
+            <div class="verdict-label">Outcome</div>
+            <div class="verdict-result" id="verdict-result">—</div>
+            <div class="verdict-arabic" id="verdict-arabic">—</div>
+          </div>
+        </div>
+
+        <div class="score-breakdown" id="score-breakdown"></div>
+
+        <div class="panel">
+          <h3 style="margin-bottom: 1rem;">Diagnostic Report</h3>
+          <p class="small text-faint" style="margin-bottom: 1.5rem;">Section-level performance, prepared per RQAP scoring policy.</p>
+          <div id="diagnostic-content"></div>
+        </div>
+
+        <div class="panel-info">
+          <p class="small" style="margin-bottom: 0;"><strong>Important note about this demo:</strong> Constructed-response and audio-recorded items are graded by certified human raters in the live RQAP examination. In this demo, those items are auto-scored using simplified heuristics (length and engagement) and marked accordingly in your diagnostic. Your actual score in a live administration would reflect rater judgement against the full rubric.</p>
+        </div>
+
+        <div id="submission-status" class="panel-info" style="margin-top: 1rem;"></div>
+
+        <div class="item-nav mt-2">
+          <button class="btn btn-light" onclick="App.viewCertificate()">View Certificate →</button>
+          <button class="btn btn-primary" onclick="App.downloadReport()">Download Report</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SCREEN 8: CERTIFICATE
+         ============================================ -->
+    <section id="certificate-screen" class="screen">
+      <div class="screen-inner">
+        <div class="section-label center">Your Credential</div>
+
+        <div class="certificate" id="certificate">
+          <div class="certificate-eyebrow">Roots · جذور</div>
+          <div class="certificate-title">Quranic Arabic Proficiency Certificate</div>
+          <div class="certificate-arabic-title">شهادة جذور لإتقان العربية القرآنية</div>
+
+          <div class="ornament">
+            <span class="ornament-line"></span>
+            <span class="ornament-symbol">❦</span>
+            <span class="ornament-line"></span>
+          </div>
+
+          <div class="certificate-recipient-label">This certifies that</div>
+          <div class="certificate-recipient" id="cert-name">Candidate Name</div>
+
+          <p class="certificate-statement">has demonstrated proficiency in Quranic Arabic at the level set forth below, through assessment anchored on Juz 'Amma:</p>
+
+          <div class="certificate-level" id="cert-level">Level 2 — <span class="ar">أساسي</span> — Asasi</div>
+
+          <p class="certificate-statement small" id="cert-tracks">Track 1 — Language · Track 2 — Tajweed</p>
+
+          <div class="certificate-meta">
+            <div class="certificate-meta-item">
+              <div class="lbl">Credential ID</div>
+              <div class="val" id="cert-id">RQAP-XXXXX</div>
+            </div>
+            <div class="certificate-meta-item">
+              <div class="lbl">Date Issued</div>
+              <div class="val" id="cert-date">—</div>
+            </div>
+            <div class="certificate-meta-item">
+              <div class="lbl">Valid Until</div>
+              <div class="val" id="cert-valid">—</div>
+            </div>
+          </div>
+
+          <div class="certificate-seal">جذور</div>
+        </div>
+
+        <div class="panel-info">
+          <p class="small" style="margin-bottom: 0;"><strong>Demo certificate.</strong> Credentials issued through a live RQAP administration include a unique QR code linking to a verifiable online record, and (once Al-Azhar partnership is finalized) a co-endorsing seal.</p>
+        </div>
+
+        <div class="item-nav mt-2">
+          <button class="btn btn-light" onclick="App.goTo('results-screen')">← Back to Results</button>
+          <button class="btn btn-primary" onclick="window.print()">Print / Save PDF</button>
+        </div>
+      </div>
+    </section>
+
+  </div> <!-- /app-main -->
+</div> <!-- /app-shell -->
+
+<script>
+// ============================================
+// EXAM CONTENT — ITEM BANK
+// ============================================
+const EXAM = {
+  meta: {
+    level: "2",
+    levelArabic: "أساسي",
+    levelLatin: "Asasi",
+    cefrEquivalent: "B1"
+  },
+
+  sections: {
+    "1A": {
+      track: "language",
+      title: "Section 1A — Vocabulary & Roots",
+      titleArabic: "المفردات والجذور",
+      description: "Tests recognition of common Quranic vocabulary, ability to extract trilateral roots, and word families. All multiple-choice.",
+      instructions: "Choose the single best answer for each item. There is no penalty for guessing. Each item is worth equal marks.",
+      items: 20,
+      time: 25,
+      weight: "20% of Track 1",
+      itemsList: [
+        {
+          id: "L2-1A-001",
+          tag: "Vocabulary · Theological Term",
+          stem: "In Surah al-Ikhlas, the name <span class='arabic-inline'>الصَّمَد</span> describes Allah. Its closest meaning is:",
+          options: [
+            "The One who depends on none, upon whom all depend",
+            "Both (A) and (D) — the Eternal Refuge who is self-sufficient",
+            "The Compassionate and Merciful",
+            "The One who is eternally sought after, the Refuge"
+          ],
+          correct: 1
+        },
+        {
+          id: "L2-1A-002",
+          tag: "Root Extraction",
+          stem: "The trilateral root (الجذر) of the word <span class='arabic-inline'>الكَوْثَر</span> in Surah al-Kawthar is:",
+          options: ["ك – و – ر", "ك – ث – ل", "ك – ث – ر", "ك – ي – ر"],
+          correct: 2,
+          arabicOptions: true
+        },
+        {
+          id: "L2-1A-003",
+          tag: "Word Family",
+          stem: "Which of the following words shares the root of <span class='arabic-inline'>مَلِك</span> as it appears in Surah al-Nas (<span class='arabic-inline'>مَلِكِ النَّاس</span>)?",
+          options: [
+            "مالك (as in مالك يوم الدين)",
+            "ملاك (angel)",
+            "سلك (to traverse)",
+            "هلك (to perish)"
+          ],
+          correct: 0,
+          arabicOptions: true
+        },
+        {
+          id: "L2-1A-004",
+          tag: "Contextual Meaning",
+          stem: "In Surah al-Zalzalah, the word <span class='arabic-inline'>زِلْزَال</span> (in <span class='arabic-inline'>إِذَا زُلْزِلَتِ الْأَرْضُ زِلْزَالَهَا</span>) is best understood as:",
+          options: [
+            "A small tremor",
+            "A great and thorough shaking, specific to the earth's ultimate quake",
+            "The sound of the earthquake",
+            "The aftermath of the shaking"
+          ],
+          correct: 1
+        },
+        {
+          id: "L2-1A-005",
+          tag: "Morphology · Pattern",
+          stem: "The word <span class='arabic-inline'>مُسْتَقَرّ</span> (as in <span class='arabic-inline'>لِكُلِّ نَبَإٍ مُسْتَقَرّ</span>) is derived from which root, and what is its grammatical type?",
+          options: [
+            "Root: ق-ر-ر; اسم مفعول (passive participle) — 'that which is made stable'",
+            "Root: ق-ر-ر; اسم مكان/زمان (noun of place/time) — 'a place or time of settlement'",
+            "Root: س-ق-ر; اسم فاعل (active participle)",
+            "Root: ق-ر-ر; مصدر (verbal noun)"
+          ],
+          correct: 1
+        }
+      ]
+    },
+
+    "1B": {
+      track: "language",
+      title: "Section 1B — Grammar & Morphology",
+      titleArabic: "النحو والصرف",
+      description: "Tests recognition of classical Arabic grammatical categories: verb tense and person, noun case, and particle function.",
+      instructions: "Each item presents a grammatical analysis question based on a Juz 'Amma verse. Select the most accurate analysis.",
+      items: 15,
+      time: 20,
+      weight: "20% of Track 1",
+      itemsList: [
+        {
+          id: "L2-1B-001",
+          tag: "Verb Analysis",
+          stem: "In the opening of Surah al-Masad, the verb <span class='arabic-inline'>تَبَّتْ</span> is:",
+          verse: "تَبَّتْ يَدَا أَبِي لَهَبٍ وَتَبَّ",
+          options: [
+            "Present tense, third person masculine singular",
+            "Past tense, third person feminine singular",
+            "Command form",
+            "Past tense, third person masculine singular"
+          ],
+          correct: 1
+        },
+        {
+          id: "L2-1B-002",
+          tag: "Particle Function",
+          stem: "In Surah al-Quraysh, the particle <span class='arabic-inline'>لـِ</span> at the beginning of <span class='arabic-inline'>لِإِيلَاف</span> is:",
+          verse: "لِإِيلَافِ قُرَيْشٍ",
+          options: [
+            "A حرف جر (preposition) expressing cause or purpose",
+            "A حرف نصب (particle of accusative)",
+            "A حرف جزم (jussive particle)",
+            "A conjunction (حرف عطف)"
+          ],
+          correct: 0
+        },
+        {
+          id: "L2-1B-003",
+          tag: "Simplified I'rab",
+          stem: "In <span class='arabic-inline'>إِنَّا أَعْطَيْنَاكَ الْكَوْثَر</span>, identify the فاعل (subject) and مفعول به (direct object) of the verb <span class='arabic-inline'>أَعْطَيْنَا</span>.",
+          options: [
+            "Subject: explicit noun; Object: الكَوْثَر only",
+            "Subject: implicit 'we' in نا; Objects: first object = ك (you), second object = الكَوْثَر",
+            "Subject: الكَوْثَر; Object: ك",
+            "No object; it is an intransitive verb"
+          ],
+          correct: 1
+        },
+        {
+          id: "L2-1B-004",
+          tag: "Noun Case",
+          stem: "The grammatical case (الإعراب) of <span class='arabic-inline'>نَارٌ</span> in <span class='arabic-inline'>نَارٌ حَامِيَةٌ</span> (Surah al-Qari'ah) is:",
+          options: [
+            "مرفوع (nominative) — as خبر for an implied مبتدأ",
+            "منصوب (accusative)",
+            "مجرور (genitive)",
+            "مبني (indeclinable)"
+          ],
+          correct: 0
+        }
+      ]
+    },
+
+    "1C": {
+      track: "language",
+      title: "Section 1C — Verse Comprehension",
+      titleArabic: "فهم الآيات",
+      description: "Tests reading comprehension across complete short surahs of Juz 'Amma — narrative, theological, and inferential understanding.",
+      instructions: "Read each passage carefully before answering. Some questions test direct comprehension; others test thematic synthesis.",
+      items: 20,
+      time: 40,
+      weight: "30% of Track 1",
+      itemsList: [
+        {
+          id: "L2-1C-001",
+          tag: "Passage Comprehension",
+          stem: "<strong>Passage:</strong> Surah al-Feel (complete, 5 verses).<br><br><strong>Question:</strong> Who are <span class='arabic-inline'>أصحاب الفيل</span> and what is the central message of the surah?",
+          passage: "أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَابِ الْفِيلِ ۝ أَلَمْ يَجْعَلْ كَيْدَهُمْ فِي تَضْلِيلٍ ۝ وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِيلَ ۝ تَرْمِيهِم بِحِجَارَةٍ مِّن سِجِّيلٍ ۝ فَجَعَلَهُمْ كَعَصْفٍ مَّأْكُولٍ",
+          options: [
+            "The early Muslims; the message is patience",
+            "Abraha's army that attempted to destroy the Ka'ba; the message is that Allah defends His sacred house and repels the arrogant",
+            "The ancient prophets; the message is obedience",
+            "The Quraysh leaders; the message is tribal pride"
+          ],
+          correct: 1
+        },
+        {
+          id: "L2-1C-002",
+          tag: "Inferential Comprehension",
+          stem: "What does Surah al-Ma'un teach about the relationship between belief in the Day of Judgment and social ethics?",
+          passage: "أَرَأَيْتَ الَّذِي يُكَذِّبُ بِالدِّينِ ۝ فَذَٰلِكَ الَّذِي يَدُعُّ الْيَتِيمَ ۝ وَلَا يَحُضُّ عَلَىٰ طَعَامِ الْمِسْكِينِ",
+          options: [
+            "Disbelief in the Day of Judgment manifests in cruelty to orphans and indifference to the poor; true belief produces responsibility for the vulnerable",
+            "Belief is purely a matter of the heart and does not affect conduct",
+            "Ritual prayer is more important than care for the poor",
+            "Only open disbelief is condemned; private cruelty is acceptable"
+          ],
+          correct: 0
+        }
+      ]
+    },
+
+    "1D": {
+      track: "language",
+      title: "Section 1D — Constructed Response",
+      titleArabic: "الإنتاج المكتوب",
+      description: "Two productive tasks. The first asks for an Arabic paraphrase; the second asks for a thematic explanation in your native language or English.",
+      instructions: "Take your time. Each task is graded on Content, Linguistic Control, and Organisation. In live RQAP administrations, two trained raters grade each response.",
+      items: 2,
+      time: 35,
+      weight: "30% of Track 1",
+      itemsList: [
+        {
+          id: "L2-1D-001",
+          tag: "Arabic Paraphrase · 60–80 words",
+          stem: "<strong>Task:</strong> Read Surah al-Zalzalah carefully. Then, <strong>in Arabic</strong>, write a paraphrase of approximately 60–80 words in your own words, preserving the meaning but not the exact wording of the Qur'anic text.",
+          passage: "إِذَا زُلْزِلَتِ الْأَرْضُ زِلْزَالَهَا ۝ وَأَخْرَجَتِ الْأَرْضُ أَثْقَالَهَا ۝ وَقَالَ الْإِنسَانُ مَا لَهَا ۝ يَوْمَئِذٍ تُحَدِّثُ أَخْبَارَهَا ۝ بِأَنَّ رَبَّكَ أَوْحَىٰ لَهَا ۝ يَوْمَئِذٍ يَصْدُرُ النَّاسُ أَشْتَاتًا لِّيُرَوْا أَعْمَالَهُمْ ۝ فَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًا يَرَهُ ۝ وَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ شَرًّا يَرَهُ",
+          type: "essay-arabic",
+          minWords: 50
+        },
+        {
+          id: "L2-1D-002",
+          tag: "Thematic Explanation · 150–200 words",
+          stem: "<strong>Task:</strong> In your native language (or English), write 150–200 words explaining how Surah al-'Asr presents a complete philosophy of human success and loss. What are the four conditions it names? Why is time invoked as witness?",
+          passage: "وَالْعَصْرِ ۝ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ ۝ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ",
+          type: "essay-target",
+          minWords: 100
+        }
+      ]
+    },
+
+    "2A": {
+      track: "tajweed",
+      title: "Section 2A — Tajweed Theory",
+      titleArabic: "نظرية التجويد",
+      description: "Tests theoretical knowledge of makharij, sifaat, rules of noon and meem sakinah, types of madd, qalqala, and waqf categories.",
+      instructions: "All items are multiple-choice. Each item is worth equal marks; there is no penalty for guessing.",
+      items: 25,
+      time: 25,
+      weight: "40% of Track 2",
+      itemsList: [
+        {
+          id: "L2-2A-001",
+          tag: "Makharij",
+          stem: "The articulation point (مخرج) of the letter <span class='arabic-inline'>ض</span> is:",
+          options: [
+            "The tip of the tongue against the upper front teeth",
+            "One edge of the tongue against the upper molars (the ض الضَّادِيَّة of the side of the tongue)",
+            "The middle of the tongue against the palate",
+            "The throat"
+          ],
+          correct: 1
+        },
+        {
+          id: "L2-2A-002",
+          tag: "Noon Sakinah Rule",
+          stem: "When a <span class='arabic-inline'>نون ساكنة</span> (or tanwin) is followed by the letter <span class='arabic-inline'>ب</span>, the rule that applies is:",
+          options: [
+            "الإظهار (clear pronunciation)",
+            "الإدغام (merging)",
+            "الإقلاب (conversion of the noon into a hidden meem sound with ghunna)",
+            "الإخفاء (concealment)"
+          ],
+          correct: 2
+        },
+        {
+          id: "L2-2A-003",
+          tag: "Madd Classification",
+          stem: "In Surah al-Kafiroon the word <span class='arabic-inline'>الكافِرون</span> contains which type of madd?",
+          options: [
+            "مد لازم (obligatory madd, 6 counts)",
+            "مد منفصل (separated madd, 4–5 counts)",
+            "مد متصل (connected madd, 4–5 counts)",
+            "مد طبيعي (natural madd, 2 counts)"
+          ],
+          correct: 3
+        },
+        {
+          id: "L2-2A-004",
+          tag: "Qalqala",
+          stem: "Which of the following letters is from the <span class='arabic-inline'>حروف القلقلة</span> (letters of qalqala)?",
+          options: [
+            "ت",
+            "س",
+            "ج (and also ق، ط، ب، د — mnemonic: قطب جد)",
+            "ف"
+          ],
+          correct: 2,
+          arabicOptions: true
+        },
+        {
+          id: "L2-2A-005",
+          tag: "Waqf Technique",
+          stem: "When reciting and stopping at a word ending in a kasra-nunation (e.g. <span class='arabic-inline'>حَكِيمٍ</span>), the correct waqf practice is:",
+          options: [
+            "Retain the tanwin exactly as in continuous reading",
+            "Drop the tanwin and stop on the bare sukun (read: ḥakīm)",
+            "Replace the tanwin with an alif",
+            "Extend the kasra into a yaa madd"
+          ],
+          correct: 1
+        }
+      ]
+    },
+
+    "2B": {
+      track: "tajweed",
+      title: "Section 2B — Applied Tajweed",
+      titleArabic: "تطبيق التجويد",
+      description: "Tests the ability to apply tajweed rules in context — identifying which rule operates in a given verse and classifying waqf points.",
+      instructions: "Select the most accurate identification or classification for each scenario.",
+      items: 10,
+      time: 20,
+      weight: "25% of Track 2",
+      itemsList: [
+        {
+          id: "L2-2B-001",
+          tag: "Rule Identification",
+          stem: "In the phrase <span class='arabic-inline'>مِنْ بَعْدِ</span>, which tajweed rule applies?",
+          options: [
+            "Izhar (clear pronunciation)",
+            "Iqlab (conversion of noon to hidden meem)",
+            "Idgham (merging)",
+            "Ikhfa' (concealment)"
+          ],
+          correct: 1
+        },
+        {
+          id: "L2-2B-002",
+          tag: "Waqf Classification",
+          stem: "Stopping at the word <span class='arabic-inline'>الرَّحِيم</span> at the end of Surah al-Fatiha verse 3 is classified as:",
+          options: [
+            "Waqf Lazim (obligatory stop)",
+            "Waqf Kafi or Hasan (permitted, meaningful)",
+            "Waqf Qabih (forbidden stop)",
+            "Not a valid stopping point at all"
+          ],
+          correct: 1
+        }
+      ]
+    },
+
+    "2C": {
+      track: "tajweed",
+      title: "Section 2C — Practical Recitation",
+      titleArabic: "التلاوة التطبيقية",
+      description: "Audio-recorded recitation of an unseen passage from Juz 'Amma, graded by certified raters on articulation, rule application, fluency, and waqf.",
+      instructions: "You will be presented with one passage in this demo (three in live administrations). Use the record button below the verse to record your recitation. You may listen to your recording before submitting.",
+      items: 1,
+      time: 5,
+      weight: "35% of Track 2",
+      itemsList: [
+        {
+          id: "L2-2C-001",
+          tag: "Recitation Prompt · ~40 sec",
+          stem: "<strong>Task:</strong> Recite Surah al-Nas in its entirety. Observe makharij, apply rules of noon sakinah, and stop correctly at each verse-end. Use the recorder below.",
+          passage: "قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَٰهِ النَّاسِ ۝ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ",
+          type: "audio"
+        }
+      ]
+    }
+  }
+};
+</script>
+
+<script>
+// ============================================
+// CONFIGURATION
+// ============================================
+// Paste your Google Apps Script Web App URL here once deployed.
+// In Apps Script: Deploy → New deployment → Type: Web app
+//   → Execute as: Me, Who has access: Anyone.
+// Leave blank to disable submission to Sheet (results still display locally).
+const CONFIG = {
+  SHEETS_WEBHOOK_URL: '',
+  SHARED_SECRET: ''   // optional; must match SHARED_SECRET in the Apps Script
+};
+
+// ============================================
+// APPLICATION STATE & LOGIC
+// ============================================
+const App = (function() {
+
+  // === STATE ===
+  let state = {
+    candidate: { name: '', email: '', country: '', age: '', background: '' },
+    selectedTracks: { language: true, tajweed: true },
+    sectionOrder: [],          // populated based on track selection
+    currentSectionIndex: 0,    // index into sectionOrder
+    currentItemIndex: 0,       // index within current section
+    responses: {},             // keyed by item.id => { value, correct, ... }
+    sectionStartTime: null,
+    examStartTime: null,
+    audioBlobs: {},
+    audioRecordings: {},       // keyed by item.id => { blob, url, durationSec }
+    recordingState: { active: false, mediaRecorder: null, chunks: [], stream: null, startTime: null, timerInterval: null, currentItemId: null }
+  };
+
+  // === SCREEN MANAGEMENT ===
+  function goTo(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(screenId);
+    if (target) target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function start() {
+    document.getElementById('app-main').style.display = 'block';
+    goTo('candidate-screen');
+    state.examStartTime = Date.now();
+  }
+
+  // === CANDIDATE INFO ===
+  function submitCandidate() {
+    const name = document.getElementById('cand-name').value.trim();
+    const email = document.getElementById('cand-email').value.trim();
+    if (!name) {
+      alert('Please enter your full name to continue.');
+      document.getElementById('cand-name').focus();
+      return;
+    }
+    if (!email || !email.includes('@')) {
+      alert('Please enter a valid email address.');
+      document.getElementById('cand-email').focus();
+      return;
+    }
+    state.candidate = {
+      name: name,
+      email: email,
+      country: document.getElementById('cand-country').value.trim(),
+      age: document.getElementById('cand-age').value,
+      background: document.getElementById('cand-bg').value
+    };
+    goTo('track-select-screen');
+  }
+
+  // === TRACK SELECTION ===
+  function toggleTrack(track) {
+    state.selectedTracks[track] = !state.selectedTracks[track];
+    const card = document.querySelector(`[data-track="${track}"]`);
+    if (state.selectedTracks[track]) card.classList.add('selected');
+    else card.classList.remove('selected');
+
+    const anySelected = state.selectedTracks.language || state.selectedTracks.tajweed;
+    document.getElementById('track-continue-btn').disabled = !anySelected;
+  }
+
+  function confirmTracks() {
+    if (!state.selectedTracks.language && !state.selectedTracks.tajweed) {
+      alert('Please select at least one track.');
+      return;
+    }
+
+    // Build section order based on selected tracks
+    const order = [];
+    if (state.selectedTracks.language) order.push('1A', '1B', '1C', '1D');
+    if (state.selectedTracks.tajweed) order.push('2A', '2B', '2C');
+    state.sectionOrder = order;
+    state.currentSectionIndex = 0;
+
+    document.getElementById('topbar').style.display = 'flex';
+    showSectionIntro();
+  }
+
+  // === SECTION INTRO ===
+  function showSectionIntro() {
+    const sectionKey = state.sectionOrder[state.currentSectionIndex];
+    const section = EXAM.sections[sectionKey];
+
+    document.getElementById('intro-section-number').textContent = `Section ${sectionKey} · Track ${section.track === 'language' ? '1' : '2'}`;
+    document.getElementById('intro-section-title').textContent = section.title.replace(/^Section \d[A-Z] — /, '');
+    document.getElementById('intro-section-arabic').textContent = section.titleArabic;
+    document.getElementById('intro-section-desc').textContent = section.description;
+    document.getElementById('intro-section-items').textContent = section.itemsList.length;
+    document.getElementById('intro-section-time').textContent = section.time;
+    document.getElementById('intro-section-weight').textContent = section.weight;
+
+    document.querySelector('#intro-section-instructions p').textContent = section.instructions;
+
+    updateProgressBar();
+    goTo('section-intro-screen');
+  }
+
+  function startSection() {
+    state.currentItemIndex = 0;
+    state.sectionStartTime = Date.now();
+    showItem();
+    goTo('item-screen');
+    startTimer();
+  }
+
+  // === ITEM DISPLAY ===
+  function showItem() {
+    const sectionKey = state.sectionOrder[state.currentSectionIndex];
+    const section = EXAM.sections[sectionKey];
+    const item = section.itemsList[state.currentItemIndex];
+    const host = document.getElementById('item-host');
+
+    let html = `<div class="item-container">
+      <div class="item-header">
+        <span class="item-position">Question ${state.currentItemIndex + 1}<span class="total"> of ${section.itemsList.length}</span></span>
+        <span class="item-tag">${item.tag}</span>
+      </div>
+      <div class="item-stem">${item.stem}</div>`;
+
+    if (item.passage && item.type === 'audio') {
+      html += `<div class="item-verse">${item.passage}</div>`;
+    } else if (item.passage) {
+      html += `<div class="item-passage">${item.passage}</div>`;
+    } else if (item.verse) {
+      html += `<div class="item-verse">${item.verse}</div>`;
+    }
+
+    if (item.options) {
+      html += `<ul class="item-options">`;
+      item.options.forEach((opt, i) => {
+        const letter = String.fromCharCode(65 + i);
+        const selected = state.responses[item.id]?.value === i ? 'selected' : '';
+        const arClass = item.arabicOptions ? 'opt-arabic' : '';
+        html += `<li>
+          <label class="item-option ${selected}" onclick="App.selectOption('${item.id}', ${i}, this)">
+            <span class="letter">${letter}</span>
+            <span class="${arClass}">${opt}</span>
+          </label>
+        </li>`;
+      });
+      html += `</ul>`;
+    } else if (item.type === 'essay-arabic' || item.type === 'essay-target') {
+      const isArabic = item.type === 'essay-arabic';
+      const placeholder = isArabic ? 'اكتب إجابتك هنا بالعربية...' : 'Write your response here in your native language or English...';
+      const currentValue = state.responses[item.id]?.value || '';
+      html += `<textarea
+        class="response-textarea ${isArabic ? 'arabic' : ''}"
+        id="essay-${item.id}"
+        placeholder="${placeholder}"
+        oninput="App.handleEssayInput('${item.id}', this)"
+      >${currentValue}</textarea>
+      <div class="word-count">Words: <span id="wc-${item.id}">0</span> ${item.minWords ? `· Minimum ${item.minWords}` : ''}</div>`;
+    } else if (item.type === 'audio') {
+      const recorded = state.audioRecordings[item.id];
+      html += `<div class="audio-recorder">
+        <h4>Record Your Recitation</h4>
+        <div class="recording-status" id="rec-status-${item.id}">${recorded ? 'Recording saved · ' + Math.round(recorded.durationSec) + ' seconds' : 'Click the button to begin recording'}</div>
+        <button class="record-button" id="rec-btn-${item.id}" onclick="App.toggleRecording('${item.id}')">
+          <span class="record-icon"></span>
+        </button>
+        <div class="recording-timer" id="rec-timer-${item.id}">${recorded ? formatDuration(recorded.durationSec) : '00:00'}</div>
+        <div class="audio-playback" id="rec-playback-${item.id}" style="${recorded ? '' : 'display: none;'}">
+          <audio controls id="rec-audio-${item.id}" ${recorded ? `src="${recorded.url}"` : ''}></audio>
+        </div>
+      </div>
+      <div class="panel-info">
+        <p class="small" style="margin-bottom: 0;"><strong>Microphone access:</strong> Your browser will ask for permission to use the microphone. Audio is recorded locally only — nothing is sent to any server. The recording is held in browser memory for the duration of this session.</p>
+      </div>`;
+    }
+
+    html += `</div>`;
+    host.innerHTML = html;
+
+    // Update word count if essay
+    if (item.type === 'essay-arabic' || item.type === 'essay-target') {
+      const ta = document.getElementById(`essay-${item.id}`);
+      if (ta) handleEssayInput(item.id, ta);
+    }
+
+    updateProgressBar();
+    updateNavButtons();
+    document.getElementById('progress-label').textContent = `${section.title.replace(/^Section /, 'S')} · ${state.currentItemIndex + 1}/${section.itemsList.length}`;
+  }
+
+  function selectOption(itemId, optionIndex, element) {
+    // Find item to determine correctness
+    const item = findItem(itemId);
+    state.responses[itemId] = {
+      value: optionIndex,
+      correct: optionIndex === item.correct
+    };
+    // Update UI
+    document.querySelectorAll('.item-option').forEach(o => o.classList.remove('selected'));
+    element.classList.add('selected');
+    updateNavButtons();
+  }
+
+  function handleEssayInput(itemId, textarea) {
+    const wordCount = textarea.value.trim() ? textarea.value.trim().split(/\s+/).length : 0;
+    document.getElementById(`wc-${itemId}`).textContent = wordCount;
+    state.responses[itemId] = { value: textarea.value, wordCount: wordCount };
+    updateNavButtons();
+  }
+
+  function findItem(itemId) {
+    for (const key in EXAM.sections) {
+      const found = EXAM.sections[key].itemsList.find(it => it.id === itemId);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  // === AUDIO RECORDING ===
+  async function toggleRecording(itemId) {
+    const rec = state.recordingState;
+
+    if (rec.active && rec.currentItemId === itemId) {
+      stopRecording();
+      return;
+    }
+
+    if (rec.active) {
+      stopRecording();
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      rec.stream = stream;
+      rec.chunks = [];
+      rec.currentItemId = itemId;
+
+      const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : '';
+      rec.mediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : {});
+
+      rec.mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) rec.chunks.push(e.data);
+      };
+
+      rec.mediaRecorder.onstop = () => {
+        const blob = new Blob(rec.chunks, { type: mimeType || 'audio/webm' });
+        const url = URL.createObjectURL(blob);
+        const durationSec = (Date.now() - rec.startTime) / 1000;
+
+        state.audioRecordings[itemId] = { blob, url, durationSec };
+
+        const audioEl = document.getElementById(`rec-audio-${itemId}`);
+        if (audioEl) audioEl.src = url;
+        const playback = document.getElementById(`rec-playback-${itemId}`);
+        if (playback) playback.style.display = 'block';
+        const status = document.getElementById(`rec-status-${itemId}`);
+        if (status) {
+          status.textContent = `Recording saved · ${Math.round(durationSec)} seconds`;
+          status.className = 'recording-status recorded';
+        }
+        const timerEl = document.getElementById(`rec-timer-${itemId}`);
+        if (timerEl) timerEl.textContent = formatDuration(durationSec);
+
+        // Mark response as completed
+        state.responses[itemId] = { value: 'recorded', durationSec };
+
+        // Stop tracks
+        stream.getTracks().forEach(t => t.stop());
+        rec.stream = null;
+
+        updateNavButtons();
+      };
+
+      rec.mediaRecorder.start();
+      rec.active = true;
+      rec.startTime = Date.now();
+
+      const btn = document.getElementById(`rec-btn-${itemId}`);
+      if (btn) btn.classList.add('recording');
+      const status = document.getElementById(`rec-status-${itemId}`);
+      if (status) {
+        status.textContent = 'Recording... click to stop';
+        status.className = 'recording-status recording';
+      }
+
+      rec.timerInterval = setInterval(() => {
+        const elapsed = (Date.now() - rec.startTime) / 1000;
+        const timerEl = document.getElementById(`rec-timer-${itemId}`);
+        if (timerEl) timerEl.textContent = formatDuration(elapsed);
+        // Auto-stop at 3 minutes (max prompt duration)
+        if (elapsed >= 180) stopRecording();
+      }, 100);
+
+    } catch (err) {
+      const status = document.getElementById(`rec-status-${itemId}`);
+      if (status) {
+        status.textContent = 'Could not access microphone: ' + (err.message || 'permission denied');
+        status.style.color = 'var(--error)';
+      }
+    }
+  }
+
+  function stopRecording() {
+    const rec = state.recordingState;
+    if (!rec.active) return;
+
+    if (rec.mediaRecorder && rec.mediaRecorder.state !== 'inactive') {
+      rec.mediaRecorder.stop();
+    }
+    if (rec.timerInterval) {
+      clearInterval(rec.timerInterval);
+      rec.timerInterval = null;
+    }
+
+    const btn = document.getElementById(`rec-btn-${rec.currentItemId}`);
+    if (btn) btn.classList.remove('recording');
+
+    rec.active = false;
+  }
+
+  function formatDuration(secs) {
+    const m = Math.floor(secs / 60);
+    const s = Math.floor(secs % 60);
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+
+  // === NAVIGATION ===
+  function nextItem() {
+    const sectionKey = state.sectionOrder[state.currentSectionIndex];
+    const section = EXAM.sections[sectionKey];
+    const item = section.itemsList[state.currentItemIndex];
+
+    if (!isItemAnswered(item)) return; // shouldn't happen due to disabled button
+
+    if (state.currentItemIndex < section.itemsList.length - 1) {
+      state.currentItemIndex++;
+      showItem();
+    } else {
+      // section complete
+      finishSection();
+    }
+  }
+
+  function prevItem() {
+    if (state.currentItemIndex > 0) {
+      state.currentItemIndex--;
+      showItem();
+    }
+  }
+
+  function isItemAnswered(item) {
+    const r = state.responses[item.id];
+    if (!r) return false;
+    if (item.type === 'audio') return !!state.audioRecordings[item.id];
+    if (item.type === 'essay-arabic' || item.type === 'essay-target') {
+      return r.wordCount && r.wordCount >= (item.minWords || 10);
+    }
+    return r.value !== undefined;
+  }
+
+  function updateNavButtons() {
+    const sectionKey = state.sectionOrder[state.currentSectionIndex];
+    const section = EXAM.sections[sectionKey];
+    const item = section.itemsList[state.currentItemIndex];
+
+    document.getElementById('prev-btn').disabled = state.currentItemIndex === 0;
+
+    const isLast = state.currentItemIndex === section.itemsList.length - 1;
+    document.getElementById('next-btn').textContent = isLast ? 'Finish Section →' : 'Next →';
+
+    const answered = isItemAnswered(item);
+    document.getElementById('next-btn').disabled = !answered;
+
+    const navInfo = document.getElementById('item-nav-info');
+    if (item.type === 'audio') {
+      navInfo.textContent = answered ? '✓ Recording saved' : 'Record your recitation to continue';
+    } else if (item.type === 'essay-arabic' || item.type === 'essay-target') {
+      const r = state.responses[item.id];
+      const wc = r?.wordCount || 0;
+      const min = item.minWords || 10;
+      navInfo.textContent = wc >= min ? '✓ Response complete' : `Minimum ${min} words (currently ${wc})`;
+    } else {
+      navInfo.textContent = answered ? '✓ Answer selected' : 'Choose an answer to continue';
+    }
+  }
+
+  function finishSection() {
+    stopTimer();
+    const sectionKey = state.sectionOrder[state.currentSectionIndex];
+    const section = EXAM.sections[sectionKey];
+
+    document.getElementById('done-section-title').textContent = section.title.replace(/^Section \d[A-Z] — /, '');
+
+    const isLast = state.currentSectionIndex === state.sectionOrder.length - 1;
+    if (isLast) {
+      document.getElementById('done-message').textContent = 'You have completed all sections of the examination. The next step is scoring.';
+      document.getElementById('done-continue-btn').textContent = 'View Results →';
+    } else {
+      const next = EXAM.sections[state.sectionOrder[state.currentSectionIndex + 1]];
+      document.getElementById('done-message').textContent = `You've completed this section. Up next: ${next.title.replace(/^Section \d[A-Z] — /, '')}.`;
+      document.getElementById('done-continue-btn').textContent = 'Continue to Next Section →';
+    }
+    goTo('section-done-screen');
+  }
+
+  function afterSection() {
+    if (state.currentSectionIndex >= state.sectionOrder.length - 1) {
+      submitExam();
+    } else {
+      state.currentSectionIndex++;
+      showSectionIntro();
+    }
+  }
+
+  // === PROGRESS BAR ===
+  function updateProgressBar() {
+    if (state.sectionOrder.length === 0) return;
+    let totalItems = 0;
+    let completedItems = 0;
+    state.sectionOrder.forEach((key, idx) => {
+      const sec = EXAM.sections[key];
+      totalItems += sec.itemsList.length;
+      if (idx < state.currentSectionIndex) completedItems += sec.itemsList.length;
+      else if (idx === state.currentSectionIndex) completedItems += state.currentItemIndex;
+    });
+    const pct = (completedItems / totalItems) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+  }
+
+  // === TIMER ===
+  let timerInterval = null;
+  function startTimer() {
+    stopTimer();
+    const sectionKey = state.sectionOrder[state.currentSectionIndex];
+    const section = EXAM.sections[sectionKey];
+    const totalSeconds = section.time * 60;
+
+    timerInterval = setInterval(() => {
+      const elapsedSec = Math.floor((Date.now() - state.sectionStartTime) / 1000);
+      const remaining = totalSeconds - elapsedSec;
+      const timerEl = document.getElementById('timer');
+      if (remaining <= 0) {
+        timerEl.textContent = '00:00';
+        timerEl.classList.add('danger');
+        // Don't auto-submit; we let user finish for the demo
+        return;
+      }
+      const m = Math.floor(remaining / 60);
+      const s = remaining % 60;
+      timerEl.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      timerEl.classList.remove('warning', 'danger');
+      if (remaining < 60) timerEl.classList.add('danger');
+      else if (remaining < 300) timerEl.classList.add('warning');
+    }, 500);
+  }
+  function stopTimer() {
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+  }
+
+  // === SUBMIT & SCORING ===
+  function submitExam() {
+    goTo('submitting-screen');
+    const results = scoreExam();
+    state.results = results;
+    submitToSheet(results)
+      .then(status => { state.submissionStatus = status; })
+      .catch(err => { state.submissionStatus = { ok: false, error: String(err) }; });
+    setTimeout(() => {
+      renderResults(results);
+      renderSubmissionStatus();
+      goTo('results-screen');
+    }, 2200);
+  }
+
+  // === GOOGLE SHEETS DELIVERY (via Apps Script Web App) ===
+  function buildSubmissionPayload(results) {
+    const responses = {};
+    Object.keys(state.responses).forEach(k => {
+      const r = state.responses[k];
+      responses[k] = {
+        value: r.value,
+        correct: r.correct === true ? 1 : (r.correct === false ? 0 : null),
+        wordCount: r.wordCount || null
+      };
+    });
+    const sectionRows = state.sectionOrder.map(k => {
+      const sec = results.sectionScores[k];
+      return {
+        section: k,
+        title: EXAM.sections[k].title,
+        earned: sec.earned,
+        max: sec.max,
+        pct: sec.pct,
+        weight: EXAM.sections[k].weight
+      };
+    });
+    return {
+      secret: CONFIG.SHARED_SECRET || '',
+      submittedAt: new Date().toISOString(),
+      certId: state.certId || ('RQAP-2-' + Date.now().toString(36).toUpperCase()),
+      level: 'Level 2 Asasi',
+      candidate: state.candidate,
+      tracks: {
+        language: !!state.selectedTracks.language,
+        tajweed: !!state.selectedTracks.tajweed
+      },
+      trackScores: results.trackScores,
+      verdict: results.verdict,
+      verdictArabic: results.verdictArabic,
+      verdictTier: results.verdictTier,
+      sections: sectionRows,
+      responses: responses,
+      durationSec: state.examStartTime ? Math.round((Date.now() - state.examStartTime) / 1000) : null,
+      userAgent: navigator.userAgent
+    };
+  }
+
+  function submitToSheet(results) {
+    if (!CONFIG.SHEETS_WEBHOOK_URL) {
+      return Promise.resolve({ ok: false, skipped: true, reason: 'No webhook URL configured' });
+    }
+    const payload = buildSubmissionPayload(results);
+    // text/plain avoids a CORS preflight; Apps Script reads e.postData.contents.
+    return fetch(CONFIG.SHEETS_WEBHOOK_URL, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+      redirect: 'follow'
+    })
+    .then(r => r.ok ? r.text().then(t => ({ ok: true, body: t })) : Promise.reject(new Error('HTTP ' + r.status)))
+    .catch(err => {
+      // Fallback: try no-cors so the row still lands even if CORS headers are missing.
+      return fetch(CONFIG.SHEETS_WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      }).then(() => ({ ok: true, opaque: true }))
+        .catch(e => ({ ok: false, error: String(e) }));
+    });
+  }
+
+  function renderSubmissionStatus() {
+    const host = document.getElementById('submission-status');
+    if (!host) return;
+    const s = state.submissionStatus;
+    if (!s) {
+      host.innerHTML = '<p class="small text-faint">Sending your results to the registrar…</p>';
+      // Re-check shortly in case the request is still in flight.
+      setTimeout(renderSubmissionStatus, 1500);
+      return;
+    }
+    if (s.skipped) {
+      host.innerHTML = '<p class="small text-faint"><strong>Note:</strong> Sheet delivery is not configured. Results displayed locally only.</p>';
+    } else if (s.ok) {
+      host.innerHTML = '<p class="small" style="color: var(--success);"><strong>✓ Results recorded.</strong> Your submission has been delivered to the RQAP registrar.</p>';
+    } else {
+      host.innerHTML = '<p class="small" style="color: var(--error);"><strong>Could not deliver results to the registrar.</strong> Please download your report and email it to the team. (' + (s.error || 'unknown error') + ')</p>';
+    }
+  }
+
+  function scoreExam() {
+    const sectionScores = {};
+
+    state.sectionOrder.forEach(key => {
+      const section = EXAM.sections[key];
+      let earned = 0;
+      let max = 0;
+
+      section.itemsList.forEach(item => {
+        const r = state.responses[item.id];
+        if (item.options) {
+          // MCQ — straight scoring
+          max += 1;
+          if (r && r.correct) earned += 1;
+        } else if (item.type === 'essay-arabic' || item.type === 'essay-target') {
+          // Heuristic auto-grading for demo: scale based on word count vs. minimum
+          max += 5;
+          if (r && r.wordCount) {
+            const min = item.minWords || 50;
+            const hit = Math.min(1, r.wordCount / min);
+            // Cap simulated score at 4/5 — full marks require human rater
+            earned += Math.round(hit * 4 * 10) / 10;
+          }
+        } else if (item.type === 'audio') {
+          // Heuristic: based on duration of recording
+          max += 5;
+          if (state.audioRecordings[item.id]) {
+            const dur = state.audioRecordings[item.id].durationSec;
+            // Reasonable range 15-90 seconds for Surah al-Nas
+            if (dur >= 20 && dur <= 90) earned += 4;
+            else if (dur >= 10) earned += 3;
+            else earned += 2;
+          }
+        }
+      });
+
+      const pct = max > 0 ? (earned / max) * 100 : 0;
+      sectionScores[key] = { earned, max, pct: Math.round(pct * 10) / 10, items: section.itemsList.length };
+    });
+
+    // Track scores
+    const trackScores = { language: null, tajweed: null };
+
+    if (state.selectedTracks.language) {
+      // Track 1: 1A=20%, 1B=20%, 1C=30%, 1D=30%
+      const w = { '1A': 0.20, '1B': 0.20, '1C': 0.30, '1D': 0.30 };
+      let weighted = 0;
+      let weightSum = 0;
+      ['1A', '1B', '1C', '1D'].forEach(k => {
+        if (sectionScores[k]) {
+          weighted += sectionScores[k].pct * w[k];
+          weightSum += w[k];
+        }
+      });
+      trackScores.language = weightSum > 0 ? Math.round((weighted / weightSum) * 10) / 10 : 0;
+    }
+
+    if (state.selectedTracks.tajweed) {
+      // Track 2: 2A=40%, 2B=25%, 2C=35%
+      const w = { '2A': 0.40, '2B': 0.25, '2C': 0.35 };
+      let weighted = 0;
+      let weightSum = 0;
+      ['2A', '2B', '2C'].forEach(k => {
+        if (sectionScores[k]) {
+          weighted += sectionScores[k].pct * w[k];
+          weightSum += w[k];
+        }
+      });
+      trackScores.tajweed = weightSum > 0 ? Math.round((weighted / weightSum) * 10) / 10 : 0;
+    }
+
+    // Verdict per RQAP scoring policy
+    const langPass = trackScores.language !== null && trackScores.language >= 65;
+    const langDist = trackScores.language !== null && trackScores.language >= 80;
+    const tajPass = trackScores.tajweed !== null && trackScores.tajweed >= 70;
+    const tajDist = trackScores.tajweed !== null && trackScores.tajweed >= 85;
+
+    let verdict, verdictArabic, verdictTier;
+    if (state.selectedTracks.language && state.selectedTracks.tajweed) {
+      if (langDist && tajDist) { verdict = 'Level 2 with Distinction'; verdictArabic = 'أساسي مع الامتياز'; verdictTier = 'distinction'; }
+      else if (langPass && tajPass) { verdict = 'Level 2 (Asasi) — Pass'; verdictArabic = 'أساسي — ناجح'; verdictTier = 'pass'; }
+      else if (langPass || tajPass) { verdict = 'Single-Track Pass'; verdictArabic = 'نجاح في مسار واحد'; verdictTier = 'pass-partial'; }
+      else { verdict = 'Below Threshold'; verdictArabic = 'دون الحدّ المطلوب'; verdictTier = 'fail'; }
+    } else if (state.selectedTracks.language) {
+      verdict = langDist ? 'Language Track — Distinction' : (langPass ? 'Language Track — Pass' : 'Language Track — Below Threshold');
+      verdictArabic = langDist ? 'مسار اللغة — امتياز' : (langPass ? 'مسار اللغة — ناجح' : 'مسار اللغة — دون الحدّ');
+      verdictTier = langDist ? 'distinction' : (langPass ? 'pass' : 'fail');
+    } else {
+      verdict = tajDist ? 'Tajweed Track — Distinction' : (tajPass ? 'Tajweed Track — Pass' : 'Tajweed Track — Below Threshold');
+      verdictArabic = tajDist ? 'مسار التجويد — امتياز' : (tajPass ? 'مسار التجويد — ناجح' : 'مسار التجويد — دون الحدّ');
+      verdictTier = tajDist ? 'distinction' : (tajPass ? 'pass' : 'fail');
+    }
+
+    return { sectionScores, trackScores, verdict, verdictArabic, verdictTier };
+  }
+
+  // === RESULTS RENDERING ===
+  function renderResults(results) {
+    document.getElementById('verdict-result').textContent = results.verdict;
+    document.getElementById('verdict-arabic').textContent = results.verdictArabic;
+
+    // Track score cards
+    const breakdown = document.getElementById('score-breakdown');
+    breakdown.innerHTML = '';
+
+    if (state.selectedTracks.language) {
+      const score = results.trackScores.language;
+      const status = score >= 80 ? 'distinction' : (score >= 65 ? 'pass' : 'fail');
+      const statusLabel = score >= 80 ? 'Distinction' : (score >= 65 ? 'Pass' : 'Below Threshold');
+      breakdown.innerHTML += `
+        <div class="score-card">
+          <h3>Track 1 — Language</h3>
+          <div class="arabic-sub">مسار اللغة القرآنية</div>
+          <div class="score-display">${score.toFixed(1)}<span class="max"> / 100</span></div>
+          <div class="score-meter"><div class="score-meter-fill" style="width: ${Math.min(100,score)}%"></div></div>
+          <span class="score-status ${status}">${statusLabel}</span>
+        </div>`;
+    }
+
+    if (state.selectedTracks.tajweed) {
+      const score = results.trackScores.tajweed;
+      const status = score >= 85 ? 'distinction' : (score >= 70 ? 'pass' : 'fail');
+      const statusLabel = score >= 85 ? 'Distinction' : (score >= 70 ? 'Pass' : 'Below Threshold');
+      breakdown.innerHTML += `
+        <div class="score-card">
+          <h3>Track 2 — Tajweed</h3>
+          <div class="arabic-sub">مسار التجويد والتلاوة</div>
+          <div class="score-display">${score.toFixed(1)}<span class="max"> / 100</span></div>
+          <div class="score-meter"><div class="score-meter-fill" style="width: ${Math.min(100,score)}%"></div></div>
+          <span class="score-status ${status}">${statusLabel}</span>
+        </div>`;
+    }
+
+    // Animate fill bars after render
+    setTimeout(() => {
+      document.querySelectorAll('.score-meter-fill').forEach(el => {
+        const w = el.style.width;
+        el.style.width = '0%';
+        setTimeout(() => { el.style.width = w; }, 100);
+      });
+    }, 100);
+
+    // Diagnostic
+    const diag = document.getElementById('diagnostic-content');
+    diag.innerHTML = '';
+    state.sectionOrder.forEach(key => {
+      const section = EXAM.sections[key];
+      const sec = results.sectionScores[key];
+      diag.innerHTML += `<div class="diagnostic">
+        <h4>${section.title}</h4>
+        <div class="diag-item">
+          <span class="lbl">Items attempted</span>
+          <span class="score-val">${sec.items}</span>
+        </div>
+        <div class="diag-item">
+          <span class="lbl">Score</span>
+          <span class="score-val">${sec.earned} / ${sec.max} (${sec.pct.toFixed(1)}%)</span>
+        </div>
+        <div class="diag-item">
+          <span class="lbl">Weight in track</span>
+          <span class="score-val">${section.weight}</span>
+        </div>
+      </div>`;
+    });
+
+    // Persist for certificate / report
+    state.results = results;
+
+    // Build certificate
+    document.getElementById('cert-name').textContent = state.candidate.name || 'Anonymous Candidate';
+    let trackText = '';
+    if (state.selectedTracks.language && state.selectedTracks.tajweed) trackText = 'Track 1 — Language · Track 2 — Tajweed';
+    else if (state.selectedTracks.language) trackText = 'Track 1 — Language';
+    else trackText = 'Track 2 — Tajweed';
+
+    if (results.verdictTier === 'distinction') trackText += ' · with Distinction';
+    document.getElementById('cert-tracks').textContent = trackText;
+
+    const certId = 'RQAP-2-' + Date.now().toString(36).toUpperCase();
+    document.getElementById('cert-id').textContent = certId;
+    state.certId = certId;
+
+    const today = new Date();
+    const dateStr = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    document.getElementById('cert-date').textContent = dateStr;
+
+    const validUntil = new Date(today);
+    validUntil.setFullYear(validUntil.getFullYear() + 2);
+    document.getElementById('cert-valid').textContent = validUntil.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function viewCertificate() {
+    if (!state.results) {
+      alert('Complete the exam first.');
+      return;
+    }
+    if (state.results.verdictTier === 'fail') {
+      alert('Your demo score did not meet the threshold for certification. You may review your diagnostic to identify areas for improvement.');
+      return;
+    }
+    goTo('certificate-screen');
+  }
+
+  function downloadReport() {
+    const r = state.results;
+    if (!r) return;
+    let txt = `RQAP LEVEL 2 ASASI — DIAGNOSTIC REPORT\n`;
+    txt += `========================================\n\n`;
+    txt += `Candidate: ${state.candidate.name}\n`;
+    txt += `Email: ${state.candidate.email}\n`;
+    txt += `Date: ${new Date().toLocaleDateString()}\n`;
+    txt += `Credential ID: ${state.certId || 'N/A'}\n\n`;
+    txt += `OUTCOME\n-------\n${r.verdict} (${r.verdictArabic})\n\n`;
+    txt += `TRACK SCORES\n------------\n`;
+    if (r.trackScores.language !== null) txt += `Track 1 — Language: ${r.trackScores.language.toFixed(1)} / 100\n`;
+    if (r.trackScores.tajweed !== null) txt += `Track 2 — Tajweed: ${r.trackScores.tajweed.toFixed(1)} / 100\n`;
+    txt += `\nSECTION DIAGNOSTIC\n------------------\n`;
+    state.sectionOrder.forEach(k => {
+      const s = r.sectionScores[k];
+      txt += `${EXAM.sections[k].title}\n  ${s.earned}/${s.max} = ${s.pct.toFixed(1)}%  (${EXAM.sections[k].weight})\n\n`;
+    });
+    txt += `\n--\nThis report was generated by the RQAP demonstration application.\nIn live administrations, constructed responses and audio recordings are graded by certified human raters.\n\nRoots · جذور — العربية القرآنية في متناول كلّ باحث عنها\n`;
+
+    const blob = new Blob([txt], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `RQAP-Report-${state.certId || 'demo'}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // === PUBLIC API ===
+  return {
+    start, submitCandidate,
+    toggleTrack, confirmTracks,
+    startSection, afterSection,
+    selectOption, handleEssayInput,
+    toggleRecording,
+    nextItem, prevItem,
+    viewCertificate, downloadReport,
+    goTo
+  };
+})();
+
+// Welcome screen reveal
+window.addEventListener('DOMContentLoaded', () => {
+  // Welcome already visible by default.
+});
+</script>
+
+</body>
+</html>

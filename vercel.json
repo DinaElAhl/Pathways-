@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/((?!builder\\.html$|assets/|favicon\\.ico|robots\\.txt|_vercel/).*)", "destination": "/index.html" }
+    { "source": "/rqap", "destination": "/rqap.html" },
+    { "source": "/((?!builder\\.html$|rqap\\.html$|assets/|favicon\\.ico|robots\\.txt|_vercel/).*)", "destination": "/index.html" }
   ],
   "cleanUrls": false,
   "trailingSlash": false
