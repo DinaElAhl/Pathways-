@@ -1,5 +1,5 @@
 // Roots Tajweed Reading Series — a 5-lesson curriculum by Dina Mohamed Sayed El-Ahl
-// Sold on Payhip. Bundle URL: https://payhip.com/b/CeFMp
+// Sold on both Payhip and Gumroad; buyers pick whichever platform they prefer.
 
 export const shopBundle = {
   id: 'roots-tajweed-bundle',
@@ -17,7 +17,8 @@ export const shopBundle = {
     'Quran-anchored throughout Juz ‘Amma',
     'Designed for tutors, homeschoolers, and weekend-madrasah teachers',
   ],
-  buyUrl: 'https://payhip.com/b/CeFMp',
+  payhipUrl: 'https://payhip.com/b/CeFMp',
+  gumroadUrl: 'https://bududiva.gumroad.com/l/dlxop',
 };
 
 export const shopLessons = [
@@ -29,7 +30,8 @@ export const shopLessons = [
     description:
       'Recognize, name, and form every letter of the Arabic alphabet with guided practice.',
     price: 4,
-    buyUrl: 'https://payhip.com/b/CeFMp',
+    payhipUrl: 'https://payhip.com/b/CeFMp',
+    gumroadUrl: 'https://bududiva.gumroad.com/l/jrfsb',
   },
   {
     id: 'lesson-2',
@@ -39,7 +41,8 @@ export const shopLessons = [
     description:
       'Where each letter is actually made in the mouth, with a careful walk-through of the hamza.',
     price: 4,
-    buyUrl: 'https://payhip.com/b/CeFMp',
+    payhipUrl: 'https://payhip.com/b/CeFMp',
+    gumroadUrl: 'https://bududiva.gumroad.com/l/ytutgq',
   },
   {
     id: 'lesson-3',
@@ -49,7 +52,8 @@ export const shopLessons = [
     description:
       'The natural groupings of letters that share sounds, shapes, and articulation points — the groundwork for tajweed later on.',
     price: 4,
-    buyUrl: 'https://payhip.com/b/CeFMp',
+    payhipUrl: 'https://payhip.com/b/CeFMp',
+    gumroadUrl: 'https://bududiva.gumroad.com/l/kgekji',
   },
   {
     id: 'lesson-4',
@@ -59,7 +63,8 @@ export const shopLessons = [
     description:
       'How each letter takes an initial, medial, and final form when it joins others — the moment Arabic starts to feel readable.',
     price: 4,
-    buyUrl: 'https://payhip.com/b/CeFMp',
+    payhipUrl: 'https://payhip.com/b/CeFMp',
+    gumroadUrl: 'https://bududiva.gumroad.com/l/wtwpoe',
   },
   {
     id: 'lesson-5',
@@ -69,12 +74,31 @@ export const shopLessons = [
     description:
       'Fatha, kasra, damma, and the tanwin endings — the last step from letter-recognition to genuine reading of Quranic Arabic.',
     price: 4,
-    buyUrl: 'https://payhip.com/b/CeFMp',
+    payhipUrl: 'https://payhip.com/b/CeFMp',
+    gumroadUrl: 'https://bududiva.gumroad.com/l/htpzwd',
+  },
+];
+
+// Original Arabic writing by Dina — a separate product from the Tajweed series.
+export const shopBooks = [
+  {
+    id: 'min-dilin-wahid',
+    arabicTitle: 'من ضلعٍ واحدٍ لا أربعة',
+    romanization: 'Min Dilʿin Wāḥidin Lā Arbaʿa',
+    englishTitle: 'From One Rib, Not Four',
+    eyebrow: 'Arabic essay · Original writing',
+    priceLabel: '$10+',
+    minPrice: 10,
+    description:
+      'A short Arabic-language book, pay-what-you-want above $10. An intimate literary essay from Dina — for readers who enjoy Arabic prose and want to support her writing directly.',
+    // Gumroad only — this title is not on Payhip.
+    gumroadUrl: 'https://bududiva.gumroad.com/l/rhcjno',
   },
 ];
 
 export const shopAuthor = {
   name: 'Dina Mohamed Sayed El-Ahl',
   bio: 'An Arabic and Quranic Studies educator with 7+ years teaching online in a US-based Islamic school, a master’s degree in Arabic natural language processing, and a career built on making the Quran readable for anyone who wants to learn.',
-  storeUrl: 'https://payhip.com/b/CeFMp',
+  payhipStore: 'https://payhip.com/b/CeFMp',
+  gumroadStore: 'https://bududiva.gumroad.com/',
 };
