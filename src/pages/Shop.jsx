@@ -1,4 +1,4 @@
-import { shopBundle, shopLessons, shopBooks, shopAuthor } from '../data/shopProducts.js';
+import { shopBundle, shopLessons, shopKits, shopBooks, shopAuthor } from '../data/shopProducts.js';
 
 // Small icons for the marketplace buttons. Kept inline so the page stays
 // self-contained and does not pull in a new dependency for two logos.
@@ -214,6 +214,67 @@ export default function Shop() {
                 <BuyButtons payhipUrl={shopBundle.payhipUrl} gumroadUrl={shopBundle.gumroadUrl} />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Full Elementary Kits (curriculum-in-a-box) */}
+      <section id="kits" className="px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="max-w-5xl mx-auto">
+          <div className="mb-8">
+            <span className="inline-block text-xs uppercase tracking-[0.14em] font-bold text-accent-400 mb-2">
+              Curriculum in a box
+            </span>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mb-2">
+              Roots Elementary Kits
+            </h2>
+            <p className="text-slate-400 max-w-2xl">
+              For homeschoolers and microschools who want everything for a track (or across all three).
+              Each kit is a curated bundle of the Roots resource packs.
+            </p>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {shopKits.map((kit) => (
+              <div
+                key={kit.id}
+                className={`relative flex flex-col rounded-xl p-5 transition-all ${
+                  kit.badge
+                    ? 'bg-gradient-to-br from-brand-800 to-brand-950 border border-accent-400/60 hover:shadow-soft'
+                    : 'bg-slate-900/60 border border-slate-800 hover:border-accent-400/60 hover:shadow-soft'
+                }`}
+              >
+                {kit.badge && (
+                  <span className="absolute -top-2 right-3 bg-accent-500 text-slate-950 text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+                    {kit.badge}
+                  </span>
+                )}
+                <span className="text-xs font-bold text-accent-400 uppercase tracking-[0.1em] mb-2">
+                  {kit.track}
+                </span>
+                <h3 className="font-display text-lg font-semibold text-white mb-1">{kit.name}</h3>
+                <div className="text-sm text-slate-400 italic mb-2">{kit.tagline}</div>
+                <p className="text-sm text-slate-300 flex-1 mb-4">{kit.description}</p>
+                <div className="pt-4 border-t border-slate-700/60">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-2xl font-bold text-white">${kit.price}</span>
+                    <span className="text-xs text-slate-500 uppercase tracking-wider">One-time</span>
+                  </div>
+                  <a
+                    href={
+                      `mailto:${kit.buyEmail}?subject=` +
+                      encodeURIComponent(`${kit.name} — purchase enquiry`)
+                    }
+                    className="block text-center px-4 py-2 rounded-md bg-accent-500 hover:bg-accent-400 text-slate-950 font-semibold text-sm transition-colors"
+                  >
+                    Buy — email Dina
+                  </a>
+                  <div className="text-[10px] text-slate-500 mt-2 text-center uppercase tracking-wider">
+                    Launching soon on Payhip &amp; Gumroad
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

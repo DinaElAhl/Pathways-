@@ -79,6 +79,56 @@ export const shopLessons = [
   },
 ];
 
+// Full Elementary Kits — bundle-of-bundles for homeschoolers and single teachers
+// who want everything for a track (or everything across all three).
+// NOTE: These four kits are not yet listed on Payhip or Gumroad. Until Dina
+// creates the products there, the "Buy" button opens a purchase-enquiry email.
+// Swap `buyEmail` for `payhipUrl` / `gumroadUrl` in each entry once the products
+// go live on the marketplaces.
+export const shopKits = [
+  {
+    id: 'kit-beginner',
+    track: 'ES-C',
+    name: 'Roots — Full Beginner Kit',
+    tagline: 'Everything a beginner (ES-C) student needs',
+    description:
+      'Every beginner resource pack in one bundle: phonics cards, word-shape toolkit, multi-letter sets, short-vowel guides, and target-surah manuals for the beginner track.',
+    price: 79,
+    buyEmail: 'dinabudu@gmail.com',
+  },
+  {
+    id: 'kit-intermediate',
+    track: 'ES-B',
+    name: 'Roots — Full Intermediate Kit',
+    tagline: 'Everything for the intermediate (ES-B) track',
+    description:
+      'All intermediate resource packs plus the tajweed foundations kit — ready to run a full year of the ES-B curriculum from home.',
+    price: 99,
+    buyEmail: 'dinabudu@gmail.com',
+  },
+  {
+    id: 'kit-advanced',
+    track: 'ES-A',
+    name: 'Roots — Full Advanced Kit',
+    tagline: 'Everything for the advanced (ES-A) track',
+    description:
+      'All advanced resource packs plus adaab, capstone portfolios, and evaluation portfolio templates for graduating students.',
+    price: 129,
+    buyEmail: 'dinabudu@gmail.com',
+  },
+  {
+    id: 'kit-everything-elementary',
+    track: 'All 3 tracks',
+    name: 'Roots — Everything Elementary',
+    tagline: 'All three kits together',
+    description:
+      'The full elementary bundle: Beginner + Intermediate + Advanced kits. Everything a homeschool or microschool needs to run the entire Roots elementary curriculum.',
+    price: 249,
+    badge: 'Save $58',
+    buyEmail: 'dinabudu@gmail.com',
+  },
+];
+
 // Original Arabic writing by Dina — a separate product from the Tajweed series.
 export const shopBooks = [
   {

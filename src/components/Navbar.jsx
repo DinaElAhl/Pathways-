@@ -11,6 +11,7 @@ const primaryLinks = [
   { to: '/tools', label: 'Tools' },
   { to: '/accredited-exams', label: 'Exams' },
   { to: '/pathways-exam', label: '🎯 RAQP Exam' },
+  { to: '/for-schools', label: '🏫 For Schools' },
   { to: '/shop', label: '🛒 Shop' },
   { to: '/resources', label: 'Resources' },
   { to: '/recommend', label: 'AI Match' },
