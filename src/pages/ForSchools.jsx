@@ -9,8 +9,6 @@ import {
   ctaEmail,
 } from '../data/schoolPricing.js';
 
-// Roots brand palette (matches the RQAP exam page).
-// Deep teal + gold + cream on a dark background.
 const bookCall =
   `mailto:${ctaEmail}?subject=` +
   encodeURIComponent('Roots for [School Name] — Discovery Call') +
@@ -19,83 +17,65 @@ const bookCall =
     'Assalamu alaikum Dina,\n\nWe are interested in the Roots curriculum for our school. Could we book a discovery call?\n\nSchool name:\nCity / Country:\nGrade band(s):\nApprox. student count:\nCurrent Qur’an/Arabic curriculum (if any):\nBest times to talk:\n\nThank you,\n'
   );
 
-// Small ornament used between sections for visual rhythm.
-function Ornament() {
-  return (
-    <div className="flex items-center justify-center gap-3 my-8 text-[#c9a961]/60">
-      <span className="h-px w-16 bg-[#c9a961]/30" aria-hidden="true"></span>
-      <span className="text-lg" aria-hidden="true">✦</span>
-      <span className="h-px w-16 bg-[#c9a961]/30" aria-hidden="true"></span>
-    </div>
-  );
-}
-
 export default function ForSchools() {
   return (
-    <div
-      className="min-h-screen text-[#f0e8d2]"
-      style={{
-        background:
-          'radial-gradient(ellipse at top, rgba(45,116,120,0.35), transparent 60%), radial-gradient(ellipse at bottom right, rgba(184,145,74,0.12), transparent 55%), #0d3b3e',
-      }}
-    >
+    <div className="bg-white">
       {/* ============================================================
           Hero
           ============================================================ */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <span className="inline-block text-xs uppercase tracking-[0.22em] font-semibold text-[#c9a961] mb-5">
-            Curriculum licensing for schools
+      <section className="container-page pt-16 pb-16 sm:pt-24 sm:pb-20 text-center">
+        <span className="chip">Curriculum licensing for schools</span>
+        <h1 className="mt-5 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
+          Roots{' '}
+          <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-accent-500 bg-clip-text text-transparent">
+            جذور
           </span>
-          <h1
-            className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-[#f8f3e7] mb-6"
-            style={{ fontFamily: '"Cormorant Garamond", "Times New Roman", serif' }}
-          >
-            Roots <span className="text-[#c9a961]">·</span>{' '}
-            <span style={{ fontFamily: 'Amiri, "Traditional Arabic", serif' }}>جذور</span>
-          </h1>
-          <p className="text-xl sm:text-2xl text-[#e8dab5] mb-4 font-light" style={{ fontFamily: '"Cormorant Garamond", serif' }}>
-            Bilingual Qur’an &amp; Arabic curriculum for schools.
-          </p>
-          <p className="text-lg text-[#f0e8d2]/80 max-w-2xl mx-auto">
-            A ready-to-teach, three-track curriculum system your teachers can pick up on Monday morning.
-          </p>
-          <div className="mt-10">
-            <a
-              href={bookCall}
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-[#c9a961] hover:bg-[#e8dab5] text-[#0d3b3e] font-semibold text-base transition-colors shadow-lg"
-            >
-              Book a discovery call →
-            </a>
-          </div>
+        </h1>
+        <p
+          className="mx-auto mt-4 max-w-2xl text-xl text-slate-700 font-display"
+        >
+          Bilingual Qur’an &amp; Arabic curriculum for schools.
+        </p>
+        <p className="mx-auto mt-3 max-w-2xl text-lg text-slate-600">
+          A ready-to-teach, three-track curriculum system your teachers can pick up on
+          Monday morning.
+        </p>
+        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <a href={bookCall} className="btn-primary px-6 py-3 text-base">
+            Book a discovery call →
+          </a>
+          <a href="#pricing" className="btn-secondary px-6 py-3 text-base">
+            See pricing
+          </a>
         </div>
       </section>
 
       {/* ============================================================
           Section 1 — The Roots system
           ============================================================ */}
-      <Ornament />
-      <section className="px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2
-            className="text-3xl sm:text-4xl font-semibold text-[#f8f3e7] mb-4"
-            style={{ fontFamily: '"Cormorant Garamond", serif' }}
-          >
-            The Roots system
-          </h2>
-          <p className="text-lg text-[#f0e8d2]/85 leading-relaxed mb-8">{rootsSystem.summary}</p>
-          <div className="grid gap-4 sm:grid-cols-3 max-w-3xl mx-auto text-left">
+      <section className="bg-slate-50 py-16 sm:py-20">
+        <div className="container-page">
+          <div className="max-w-3xl mx-auto text-center">
+            <span className="chip">The Roots system</span>
+            <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight">
+              Three tracks. Bilingual. 37 weeks each.
+            </h2>
+            <p className="mt-4 text-lg text-slate-600">{rootsSystem.summary}</p>
+          </div>
+
+          <div className="mt-10 grid gap-4 sm:grid-cols-3 max-w-3xl mx-auto">
             {rootsSystem.tracks.map((t) => (
               <div
                 key={t}
-                className="bg-[#1a5559]/60 border border-[#c9a961]/20 rounded-lg p-5 text-center"
+                className="rounded-2xl bg-white p-5 ring-1 ring-slate-200 text-center"
               >
-                <div className="text-xs uppercase tracking-[0.14em] text-[#c9a961] mb-2">Track</div>
-                <div className="text-lg font-medium text-[#f8f3e7]">{t}</div>
+                <div className="text-xs uppercase tracking-wide text-slate-500 mb-2">Track</div>
+                <div className="font-display text-lg font-semibold text-slate-900">{t}</div>
               </div>
             ))}
           </div>
-          <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-[#e8dab5]/80">
+
+          <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-slate-600">
             <span>📚 {rootsSystem.weeks} weeks of scope &amp; sequence</span>
             <span>🌍 {rootsSystem.languages}</span>
           </div>
@@ -105,88 +85,72 @@ export default function ForSchools() {
       {/* ============================================================
           Section 2 — What you get with a license
           ============================================================ */}
-      <Ornament />
-      <section className="px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-4xl mx-auto">
-          <h2
-            className="text-3xl sm:text-4xl font-semibold text-[#f8f3e7] mb-8 text-center"
-            style={{ fontFamily: '"Cormorant Garamond", serif' }}
-          >
+      <section className="container-page py-16 sm:py-20">
+        <div className="max-w-3xl mx-auto text-center">
+          <span className="chip">Every license includes</span>
+          <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight">
             What you get with a license
           </h2>
-          <ul className="grid gap-4 sm:grid-cols-2 max-w-3xl mx-auto">
-            {licenseIncludes.map((item) => (
-              <li key={item} className="flex items-start gap-3 text-[#f0e8d2]/90">
-                <span className="text-[#c9a961] text-xl leading-none mt-0.5" aria-hidden="true">
-                  ✦
-                </span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
         </div>
+        <ul className="mt-10 grid gap-4 sm:grid-cols-2 max-w-3xl mx-auto">
+          {licenseIncludes.map((item) => (
+            <li key={item} className="flex items-start gap-3 text-slate-700">
+              <span
+                className="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-700 text-xs font-bold"
+                aria-hidden="true"
+              >
+                ✓
+              </span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* ============================================================
           Section 3a — License a single level (or the whole track)
           ============================================================ */}
-      <Ornament />
-      <section className="px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-4">
-            <h2
-              className="text-3xl sm:text-4xl font-semibold text-[#f8f3e7] mb-3"
-              style={{ fontFamily: '"Cormorant Garamond", serif' }}
-            >
+      <section id="pricing" className="bg-slate-50 py-16 sm:py-20">
+        <div className="container-page">
+          <div className="max-w-3xl mx-auto text-center">
+            <span className="chip">Pricing</span>
+            <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight">
               License a single level (or the whole track)
             </h2>
-            <p className="text-[#e8dab5]/80 max-w-2xl mx-auto">
+            <p className="mt-4 text-slate-600">
               License at the school level — pick the tracks that fit your students. Every license
               covers unlimited classrooms and students within your school for one academic year.
             </p>
           </div>
 
-          <div className="grid gap-6 mt-10 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {perLevelLicenses.map((lic) => {
               const isBundle = lic.id === 'bundle';
               return (
                 <div
                   key={lic.id}
-                  className={`relative flex flex-col rounded-2xl border p-6 transition-all ${
+                  className={`relative flex flex-col rounded-2xl bg-white p-6 transition ${
                     isBundle
-                      ? 'border-[#c9a961] bg-[#1a5559] shadow-2xl shadow-[#c9a961]/10 lg:scale-105'
-                      : 'border-[#c9a961]/20 bg-[#1a5559]/50 hover:border-[#c9a961]/60'
+                      ? 'ring-2 ring-brand-600 shadow-soft lg:scale-105'
+                      : 'ring-1 ring-slate-200 hover:ring-brand-200 hover:shadow-soft'
                   }`}
                 >
-                  <div className="text-xs uppercase tracking-[0.14em] text-[#c9a961] mb-2">
+                  <div className="text-xs uppercase tracking-wide text-brand-700 font-semibold mb-2">
                     {lic.level}
                   </div>
-                  <h3
-                    className="text-xl font-semibold text-[#f8f3e7] mb-3 leading-tight"
-                    style={{ fontFamily: '"Cormorant Garamond", serif' }}
-                  >
+                  <h3 className="font-display text-lg font-semibold text-slate-900 leading-tight mb-3">
                     {lic.name}
                   </h3>
                   <div className="flex items-baseline gap-1 mb-4">
-                    <span className="text-3xl font-bold text-[#c9a961]">{lic.price}</span>
-                    <span className="text-sm text-[#e8dab5]/60">{lic.period}</span>
+                    <span className="text-3xl font-bold text-slate-900">{lic.price}</span>
+                    <span className="text-sm text-slate-500">{lic.period}</span>
                   </div>
-                  <p className="text-sm text-[#f0e8d2]/85 flex-1 mb-5">{lic.description}</p>
+                  <p className="text-sm text-slate-600 flex-1 mb-5">{lic.description}</p>
                   <div className="flex flex-col gap-2">
-                    <a
-                      href={lic.buyUrl}
-                      className={`text-center px-4 py-2.5 rounded-lg font-semibold text-sm transition-colors ${
-                        isBundle
-                          ? 'bg-[#c9a961] hover:bg-[#e8dab5] text-[#0d3b3e]'
-                          : 'bg-[#c9a961] hover:bg-[#e8dab5] text-[#0d3b3e]'
-                      }`}
-                    >
+                    <a href={lic.buyUrl} className="btn-primary w-full">
                       Buy license →
                     </a>
-                    <a
-                      href={lic.customizeUrl}
-                      className="text-center px-4 py-2.5 rounded-lg border border-[#c9a961]/50 hover:border-[#c9a961] hover:bg-[#c9a961]/10 text-[#f0e8d2] font-semibold text-sm transition-colors"
-                    >
+                    <a href={lic.customizeUrl} className="btn-secondary w-full">
                       Email for customization
                     </a>
                   </div>
@@ -200,116 +164,95 @@ export default function ForSchools() {
       {/* ============================================================
           Section 3b — For larger deployments
           ============================================================ */}
-      <Ornament />
-      <section className="px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-10">
-            <h2
-              className="text-3xl sm:text-4xl font-semibold text-[#f8f3e7] mb-3"
-              style={{ fontFamily: '"Cormorant Garamond", serif' }}
-            >
-              For larger deployments
-            </h2>
-            <p className="text-[#e8dab5]/75">
-              Multi-classroom, multi-campus, and network-wide licenses — annual, in USD.
-            </p>
-          </div>
+      <section className="container-page py-16 sm:py-20">
+        <div className="max-w-3xl mx-auto text-center">
+          <span className="chip">Enterprise</span>
+          <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight">
+            For larger deployments
+          </h2>
+          <p className="mt-4 text-slate-600">
+            Multi-classroom, multi-campus, and network-wide licenses — annual, in USD.
+          </p>
+        </div>
 
-          <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
-            {schoolTiers.map((tier) => (
-              <div
-                key={tier.id}
-                className={`relative flex flex-col rounded-2xl border p-6 transition-all ${
-                  tier.highlight
-                    ? 'border-[#c9a961] bg-[#1a5559] shadow-2xl shadow-[#c9a961]/10 lg:scale-105'
-                    : 'border-[#c9a961]/20 bg-[#1a5559]/50 hover:border-[#c9a961]/60'
-                }`}
-              >
-                {tier.highlight && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#c9a961] text-[#0d3b3e] text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
-                    Most popular
-                  </span>
-                )}
-                <h3
-                  className="text-xl font-semibold text-[#f8f3e7] mb-1"
-                  style={{ fontFamily: '"Cormorant Garamond", serif' }}
-                >
-                  {tier.name}
-                </h3>
-                <div className="text-sm text-[#e8dab5]/70 mb-4">{tier.tagline}</div>
-                <div className="flex items-baseline gap-1 mb-4">
-                  <span className="text-3xl font-bold text-[#c9a961]">{tier.price}</span>
-                  <span className="text-sm text-[#e8dab5]/60">{tier.period}</span>
-                </div>
-                <p className="text-sm text-[#f0e8d2]/80 mb-4">{tier.forWhom}</p>
-                <ul className="space-y-2 mb-6 flex-1">
-                  {tier.includes.map((line) => (
-                    <li key={line} className="flex items-start gap-2 text-sm text-[#f0e8d2]/85">
-                      <span className="text-[#c9a961] mt-0.5" aria-hidden="true">
-                        ✓
-                      </span>
-                      <span>{line}</span>
-                    </li>
-                  ))}
-                </ul>
-                <a
-                  href={
-                    `mailto:${ctaEmail}?subject=` +
-                    encodeURIComponent(`Roots ${tier.name} License — enquiry`)
-                  }
-                  className={`text-center px-4 py-2.5 rounded-lg font-semibold text-sm transition-colors ${
-                    tier.highlight
-                      ? 'bg-[#c9a961] hover:bg-[#e8dab5] text-[#0d3b3e]'
-                      : 'border border-[#c9a961]/50 hover:border-[#c9a961] hover:bg-[#c9a961]/10 text-[#f0e8d2]'
-                  }`}
-                >
-                  Talk to Dina
-                </a>
+        <div className="mt-10 grid gap-5 md:grid-cols-2 max-w-4xl mx-auto">
+          {schoolTiers.map((tier) => (
+            <div
+              key={tier.id}
+              className={`relative flex flex-col rounded-2xl bg-white p-6 transition ${
+                tier.highlight
+                  ? 'ring-2 ring-brand-600 shadow-soft'
+                  : 'ring-1 ring-slate-200 hover:ring-brand-200 hover:shadow-soft'
+              }`}
+            >
+              {tier.highlight && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap bg-accent-500 text-slate-900 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                  Most popular
+                </span>
+              )}
+              <h3 className="font-display text-xl font-semibold text-slate-900 mb-1">{tier.name}</h3>
+              <div className="text-sm text-slate-500 mb-4">{tier.tagline}</div>
+              <div className="flex items-baseline gap-1 mb-4">
+                <span className="text-3xl font-bold text-slate-900">{tier.price}</span>
+                <span className="text-sm text-slate-500">{tier.period}</span>
               </div>
-            ))}
-          </div>
+              <p className="text-sm text-slate-600 mb-4">{tier.forWhom}</p>
+              <ul className="space-y-2 mb-6 flex-1">
+                {tier.includes.map((line) => (
+                  <li key={line} className="flex items-start gap-2 text-sm text-slate-700">
+                    <span
+                      className="mt-1 grid h-4 w-4 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-700 text-[10px] font-bold"
+                      aria-hidden="true"
+                    >
+                      ✓
+                    </span>
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={
+                  `mailto:${ctaEmail}?subject=` +
+                  encodeURIComponent(`Roots ${tier.name} License — enquiry`)
+                }
+                className="btn-primary w-full"
+              >
+                Talk to Dina
+              </a>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* ============================================================
           Section 4 — Consulting & custom
           ============================================================ */}
-      <Ornament />
-      <section className="px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <h2
-              className="text-3xl sm:text-4xl font-semibold text-[#f8f3e7] mb-3"
-              style={{ fontFamily: '"Cormorant Garamond", serif' }}
-            >
+      <section className="bg-slate-50 py-16 sm:py-20">
+        <div className="container-page">
+          <div className="max-w-3xl mx-auto text-center">
+            <span className="chip">Consulting</span>
+            <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight">
               Consulting &amp; custom work
             </h2>
-            <p className="text-[#e8dab5]/75">
+            <p className="mt-4 text-slate-600">
               For schools that need something the licenses don’t cover — audits, custom frameworks,
               teacher training, and net-new curriculum.
             </p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {consultingServices.map((s) => (
               <div
                 key={s.id}
-                className="flex flex-col bg-[#1a5559]/40 border border-[#c9a961]/15 rounded-xl p-5 hover:border-[#c9a961]/50 transition-colors"
+                className="card flex flex-col"
               >
                 <div className="flex items-baseline justify-between gap-3 mb-2">
-                  <h3
-                    className="text-lg font-semibold text-[#f8f3e7]"
-                    style={{ fontFamily: '"Cormorant Garamond", serif' }}
-                  >
-                    {s.name}
-                  </h3>
+                  <h3 className="font-display text-lg font-semibold text-slate-900">{s.name}</h3>
                   <div className="whitespace-nowrap">
-                    <span className="text-[#c9a961] font-bold">{s.price}</span>
-                    {s.period && (
-                      <span className="text-xs text-[#e8dab5]/60"> {s.period}</span>
-                    )}
+                    <span className="text-brand-700 font-bold">{s.price}</span>
+                    {s.period && <span className="text-xs text-slate-500"> {s.period}</span>}
                   </div>
                 </div>
-                <p className="text-sm text-[#f0e8d2]/80">{s.description}</p>
+                <p className="text-sm text-slate-600">{s.description}</p>
               </div>
             ))}
           </div>
@@ -319,77 +262,56 @@ export default function ForSchools() {
       {/* ============================================================
           Section 5 — How it works
           ============================================================ */}
-      <Ornament />
-      <section className="px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <h2
-              className="text-3xl sm:text-4xl font-semibold text-[#f8f3e7] mb-3"
-              style={{ fontFamily: '"Cormorant Garamond", serif' }}
-            >
-              How it works
-            </h2>
-            <p className="text-[#e8dab5]/75">Four steps from your first call to a running Roots classroom.</p>
-          </div>
-          <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {howItWorks.map((step) => (
-              <li
-                key={step.n}
-                className="bg-[#1a5559]/40 border border-[#c9a961]/15 rounded-xl p-5"
-              >
-                <div className="text-xs font-bold tracking-[0.14em] text-[#c9a961] mb-2">
-                  STEP {step.n}
-                </div>
-                <h3
-                  className="text-lg font-semibold text-[#f8f3e7] mb-2"
-                  style={{ fontFamily: '"Cormorant Garamond", serif' }}
-                >
-                  {step.title}
-                </h3>
-                <p className="text-sm text-[#f0e8d2]/80">{step.body}</p>
-              </li>
-            ))}
-          </ol>
+      <section className="container-page py-16 sm:py-20">
+        <div className="max-w-3xl mx-auto text-center">
+          <span className="chip">How it works</span>
+          <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight">
+            From first call to running classroom
+          </h2>
+          <p className="mt-4 text-slate-600">Four steps from your first call to a running Roots classroom.</p>
         </div>
+        <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {howItWorks.map((step) => (
+            <li key={step.n} className="card">
+              <div className="text-xs font-semibold text-brand-700 mb-2">STEP {step.n}</div>
+              <h3 className="font-display text-lg font-semibold text-slate-900 mb-2">{step.title}</h3>
+              <p className="text-sm text-slate-600">{step.body}</p>
+            </li>
+          ))}
+        </ol>
       </section>
 
       {/* ============================================================
           Section 6 — Meet Dina
           ============================================================ */}
-      <Ornament />
-      <section className="px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-4xl mx-auto bg-[#1a5559]/50 border border-[#c9a961]/20 rounded-2xl p-6 sm:p-10">
-          <div className="text-center mb-6">
-            <div
-              className="mx-auto w-24 h-24 rounded-full flex items-center justify-center text-4xl mb-4 border-2 border-[#c9a961]/40"
-              style={{
-                background:
-                  'linear-gradient(135deg, #0d3b3e 0%, #2d7478 100%)',
-                fontFamily: 'Amiri, serif',
-                color: '#e8dab5',
-              }}
-              aria-hidden="true"
-            >
-              د
-            </div>
-            <h2
-              className="text-2xl sm:text-3xl font-semibold text-[#f8f3e7] mb-1"
-              style={{ fontFamily: '"Cormorant Garamond", serif' }}
-            >
-              Meet {meetDina.name}
-            </h2>
-            <div className="text-sm text-[#c9a961]">{meetDina.role}</div>
-          </div>
-          <p className="text-[#f0e8d2]/90 leading-relaxed mb-6 text-center">{meetDina.bio}</p>
-          <div className="flex flex-wrap gap-2 justify-center">
-            {meetDina.credentials.map((c) => (
-              <span
-                key={c}
-                className="text-xs px-3 py-1.5 rounded-full bg-[#0d3b3e]/70 border border-[#c9a961]/25 text-[#e8dab5]"
+      <section className="bg-slate-50 py-16 sm:py-20">
+        <div className="container-page">
+          <div className="max-w-3xl mx-auto rounded-2xl bg-white p-6 sm:p-10 ring-1 ring-slate-200">
+            <div className="text-center">
+              <div
+                className="mx-auto grid h-24 w-24 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-white mb-4 shadow-soft"
+                style={{ fontFamily: 'Amiri, serif', fontSize: '2.5rem' }}
+                aria-hidden="true"
               >
-                {c}
-              </span>
-            ))}
+                د
+              </div>
+              <span className="chip">About Dina</span>
+              <h2 className="mt-3 text-2xl sm:text-3xl font-bold tracking-tight">
+                Meet {meetDina.name}
+              </h2>
+              <div className="mt-2 text-sm text-brand-700 font-medium">{meetDina.role}</div>
+            </div>
+            <p className="mt-6 text-slate-700 leading-relaxed text-center">{meetDina.bio}</p>
+            <div className="mt-6 flex flex-wrap gap-2 justify-center">
+              {meetDina.credentials.map((c) => (
+                <span
+                  key={c}
+                  className="text-xs px-3 py-1.5 rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-100"
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -397,30 +319,26 @@ export default function ForSchools() {
       {/* ============================================================
           Section 7 — CTA
           ============================================================ */}
-      <Ornament />
-      <section className="px-4 sm:px-6 lg:px-8 py-16">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2
-            className="text-3xl sm:text-4xl font-semibold text-[#f8f3e7] mb-4"
-            style={{ fontFamily: '"Cormorant Garamond", serif' }}
-          >
+      <section className="container-page py-16 sm:py-20">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
             Ready to bring Roots to your school?
           </h2>
-          <p className="text-lg text-[#f0e8d2]/80 mb-8">
-            Book a short discovery call. We’ll talk through your students, your teachers, and the shape of a
-            pilot — no obligation, no pricing pressure.
+          <p className="mt-4 text-lg text-slate-600">
+            Book a short discovery call. We’ll talk through your students, your teachers, and the
+            shape of a pilot — no obligation, no pricing pressure.
           </p>
           <a
             href={bookCall}
-            className="inline-flex items-center gap-2 px-10 py-4 rounded-lg bg-[#c9a961] hover:bg-[#e8dab5] text-[#0d3b3e] font-bold text-lg transition-colors shadow-xl"
+            className="btn-primary mt-8 px-8 py-3.5 text-base"
           >
             Book a discovery call →
           </a>
           {/* When she has a Calendly, swap the mailto above for the Calendly link.
               e.g. href="https://calendly.com/dinabudu/roots-discovery" */}
-          <div className="text-sm text-[#e8dab5]/70 mt-4">
+          <div className="mt-4 text-sm text-slate-500">
             Or write directly:{' '}
-            <a href={`mailto:${ctaEmail}`} className="text-[#c9a961] hover:text-[#e8dab5] underline">
+            <a href={`mailto:${ctaEmail}`} className="link">
               {ctaEmail}
             </a>
           </div>
@@ -430,24 +348,19 @@ export default function ForSchools() {
       {/* ============================================================
           Section 8 — Freemium hook
           ============================================================ */}
-      <section className="px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="max-w-2xl mx-auto bg-gradient-to-br from-[#0d3b3e] to-[#1a5559] border border-[#c9a961]/30 rounded-xl p-6 sm:p-8 text-center">
-          <div className="text-xs uppercase tracking-[0.16em] font-bold text-[#c9a961] mb-3">
+      <section className="container-page pb-20">
+        <div className="max-w-2xl mx-auto rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 p-6 sm:p-8 text-center text-white shadow-soft">
+          <div className="text-xs uppercase tracking-wide font-semibold text-brand-100 mb-3">
             Free sample
           </div>
-          <h3
-            className="text-xl sm:text-2xl font-semibold text-[#f8f3e7] mb-3"
-            style={{ fontFamily: '"Cormorant Garamond", serif' }}
-          >
-            Try Week 1 free
-          </h3>
-          <p className="text-[#f0e8d2]/85 mb-5">
-            The Roots Tajweed Reading Series bundle on the Shop page is the fastest way to see how Dina writes
-            a lesson. Grab it, then bring the full curriculum to your school.
+          <h3 className="font-display text-xl sm:text-2xl font-bold mb-3">Try Week 1 free</h3>
+          <p className="text-brand-100 mb-5">
+            The Roots Tajweed Reading Series bundle on the Shop page is the fastest way to see how
+            Dina writes a lesson. Grab it, then bring the full curriculum to your school.
           </p>
           <a
             href="/shop"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg border border-[#c9a961]/50 hover:border-[#c9a961] hover:bg-[#c9a961]/10 text-[#f0e8d2] font-semibold text-sm transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-brand-700 font-semibold text-sm hover:bg-brand-50 transition-colors"
           >
             Visit the Shop →
           </a>
