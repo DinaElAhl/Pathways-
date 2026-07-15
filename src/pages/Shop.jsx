@@ -1,4 +1,4 @@
-import { shopBundle, shopLessons, shopKits, shopAuthor } from '../data/shopProducts.js';
+import { shopBundle, shopLessons, shopAuthor } from '../data/shopProducts.js';
 
 // Small logos for the marketplace buttons. Inline so the page stays
 // self-contained and does not pull in a new dependency for two marks.
@@ -214,111 +214,9 @@ export default function Shop() {
         </div>
       </section>
 
-      {/* Full Elementary Kits — curriculum in a box */}
-      <section id="kits" className="container-page py-16">
-        <div className="max-w-3xl">
-          <span className="chip">Curriculum in a box</span>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-            Roots Elementary Kits
-          </h2>
-          <p className="mt-2 text-slate-600 max-w-2xl">
-            For homeschoolers and microschools who want everything for a track (or across all
-            three). Each kit is a curated bundle of the Roots resource packs.
-          </p>
-        </div>
-
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {shopKits.map((kit) => {
-            const isBundle = !!kit.badge;
-            return (
-              <div
-                key={kit.id}
-                className={`relative flex flex-col rounded-2xl p-6 transition ${
-                  isBundle
-                    ? 'bg-gradient-to-br from-brand-600 to-brand-800 text-white shadow-soft'
-                    : 'bg-white ring-1 ring-slate-200 hover:ring-brand-200 hover:shadow-soft'
-                }`}
-              >
-                {kit.badge && (
-                  <span className="absolute -top-2 right-3 bg-accent-500 text-slate-900 text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
-                    {kit.badge}
-                  </span>
-                )}
-                <span
-                  className={`text-xs font-semibold uppercase tracking-wide mb-1 ${
-                    isBundle ? 'text-brand-100' : 'text-brand-700'
-                  }`}
-                >
-                  {kit.track}
-                </span>
-                <h3
-                  className={`font-display text-lg font-semibold mb-1 ${
-                    isBundle ? 'text-white' : 'text-slate-900'
-                  }`}
-                >
-                  {kit.name}
-                </h3>
-                <div
-                  className={`text-sm italic mb-2 ${
-                    isBundle ? 'text-brand-100' : 'text-slate-500'
-                  }`}
-                >
-                  {kit.tagline}
-                </div>
-                <p
-                  className={`text-sm flex-1 mb-4 ${
-                    isBundle ? 'text-brand-100' : 'text-slate-600'
-                  }`}
-                >
-                  {kit.description}
-                </p>
-                <div
-                  className={`pt-4 border-t ${
-                    isBundle ? 'border-white/20' : 'border-slate-200'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <span
-                      className={`text-2xl font-bold ${
-                        isBundle ? 'text-white' : 'text-slate-900'
-                      }`}
-                    >
-                      ${kit.price}
-                    </span>
-                    <span
-                      className={`text-xs uppercase tracking-wide ${
-                        isBundle ? 'text-brand-100' : 'text-slate-500'
-                      }`}
-                    >
-                      One-time
-                    </span>
-                  </div>
-                  <a
-                    href={
-                      `mailto:${kit.buyEmail}?subject=` +
-                      encodeURIComponent(`${kit.name} — purchase enquiry`)
-                    }
-                    className={`block text-center px-4 py-2 rounded-full font-semibold text-sm transition-colors ${
-                      isBundle
-                        ? 'bg-white text-brand-700 hover:bg-brand-50'
-                        : 'bg-brand-600 text-white hover:bg-brand-700'
-                    }`}
-                  >
-                    Buy — email Dina
-                  </a>
-                  <div
-                    className={`text-[10px] mt-2 text-center uppercase tracking-wide ${
-                      isBundle ? 'text-brand-100' : 'text-slate-500'
-                    }`}
-                  >
-                    Launching soon on Payhip &amp; Gumroad
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+      {/* Full Elementary Kits section removed 2026-07-15 — kit prices
+          ($79–$249) undercut the $10k/level school license on /for-schools.
+          See docs/archive/shop-es-kits.md for the original content. */}
 
       {/* About the author */}
       <section className="bg-slate-50 py-16">

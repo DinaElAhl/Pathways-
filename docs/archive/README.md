@@ -43,6 +43,7 @@ truly lost.
 | [`partners-old-affiliate-config.md`](./partners-old-affiliate-config.md) | `src/data/partners.js` + `src/pages/PartnerPicks.jsx` | 5 `?ref=pathways` outbound params, 6 `commission: 'Referral'/'Affiliate'` fields, amber "may earn commission" disclosure, commission badges on partner cards |
 | [`pathways-exam-old-certificate-wording.md`](./pathways-exam-old-certificate-wording.md) | `src/pages/PathwaysExam.jsx` | Printed certificate footer said "Authorised Examiner"; step-card said "certified CEFR proficiency level" |
 | [`edu-hub-ai-studio-tile.md`](./edu-hub-ai-studio-tile.md) | `src/pages/EduHub.jsx` | The "AI Studio" tile that linked to the deleted `/ai-studio` route |
+| [`shop-es-kits.md`](./shop-es-kits.md) | `src/pages/Shop.jsx` (`#kits`) + `src/data/shopProducts.js` (`shopKits`) | Four Roots Elementary Kit retail bundles ($79 / $99 / $129 / $249) — removed because their prices undercut the $10k/level school license on `/for-schools` |
 
 ## How to restore any of this
 
