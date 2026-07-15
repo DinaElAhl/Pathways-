@@ -32,6 +32,7 @@ const ExamDashboard = lazy(() => import('./pages/ExamDashboard.jsx'))
 const Shop = lazy(() => import('./pages/Shop.jsx'))
 const ForSchools = lazy(() => import('./pages/ForSchools.jsx'))
 const FreeSample = lazy(() => import('./pages/FreeSample.jsx'))
+const Verify = lazy(() => import('./pages/Verify.jsx'))
 
 export default function App() {
   return (
@@ -63,6 +64,7 @@ export default function App() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/for-schools" element={<ForSchools />} />
         <Route path="/free-sample" element={<FreeSample />} />
+        <Route path="/verify/:certId" element={<Verify />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
