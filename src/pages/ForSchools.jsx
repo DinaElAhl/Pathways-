@@ -1,48 +1,89 @@
 import {
   rootsSystem,
   licenseIncludes,
-  perLevelLicenses,
+  elementaryLicenses,
+  middleSchoolLicenses,
+  highSchoolLicenses,
+  fullK12License,
   schoolTiers,
-  consultingServices,
+  customisedCurriculum,
   howItWorks,
   meetDina,
   ctaEmail,
 } from '../data/schoolPricing.js';
 
-const bookCall =
+const emailUs =
   `mailto:${ctaEmail}?subject=` +
-  encodeURIComponent('Roots for [School Name] — Discovery Call') +
+  encodeURIComponent('Roots for [School Name] — Inquiry') +
   '&body=' +
   encodeURIComponent(
-    'Assalamu alaikum Dina,\n\nWe are interested in the Roots curriculum for our school. Could we book a discovery call?\n\nSchool name:\nCity / Country:\nGrade band(s):\nApprox. student count:\nCurrent Qur’an/Arabic curriculum (if any):\nBest times to talk:\n\nThank you,\n'
+    'Assalamu alaikum Dina,\n\nWe are interested in the Roots curriculum for our school.\n\nSchool name:\nCity / Country:\nGrade band(s) — Elementary / Middle / High:\nApprox. student count:\nTarget academic year:\nCurrent Qur’an/Arabic curriculum (if any):\n\nThank you,\n'
   );
+
+// Card renderer for per-level licenses. `future` badge shown when the level
+// isn't shipping yet (MS + HS).
+function LicenseCard({ lic }) {
+  const isBundle = !!lic.highlight;
+  const isFuture = lic.available !== true;
+  return (
+    <div
+      className={`relative flex flex-col rounded-2xl bg-white p-6 transition ${
+        isBundle
+          ? 'ring-2 ring-brand-600 shadow-soft lg:scale-[1.02]'
+          : 'ring-1 ring-slate-200 hover:ring-brand-200 hover:shadow-soft'
+      }`}
+    >
+      {isFuture && (
+        <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap bg-accent-500 text-slate-900 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+          {typeof lic.available === 'string' ? `Available ${lic.available}` : 'Coming soon'}
+        </span>
+      )}
+      <div className="text-xs uppercase tracking-wide text-brand-700 font-semibold mb-2">
+        {lic.level}
+      </div>
+      <h3 className="font-display text-lg font-semibold text-slate-900 leading-tight mb-3">
+        {lic.name}
+      </h3>
+      <div className="flex items-baseline gap-1 mb-4">
+        <span className="text-3xl font-bold text-slate-900">{lic.price}</span>
+        <span className="text-sm text-slate-500">{lic.period}</span>
+      </div>
+      <p className="text-sm text-slate-600 flex-1 mb-5">{lic.description}</p>
+      <div className="flex flex-col gap-2">
+        <a href={lic.buyUrl} className="btn-primary w-full">
+          Buy license
+        </a>
+        <a href={lic.customizeUrl} className="btn-secondary w-full">
+          Email for questions
+        </a>
+      </div>
+    </div>
+  );
+}
 
 export default function ForSchools() {
   return (
     <div className="bg-white">
-      {/* ============================================================
-          Hero
-          ============================================================ */}
+      {/* Hero */}
       <section className="container-page pt-16 pb-16 sm:pt-24 sm:pb-20 text-center">
-        <span className="chip">Curriculum licensing for schools</span>
+        <span className="chip">Curriculum licensing for K–12 Islamic schools</span>
         <h1 className="mt-5 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
           Roots{' '}
           <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-accent-500 bg-clip-text text-transparent">
             جذور
           </span>
         </h1>
-        <p
-          className="mx-auto mt-4 max-w-2xl text-xl text-slate-700 font-display"
-        >
-          Bilingual Qur’an &amp; Arabic curriculum for schools.
+        <p className="mx-auto mt-4 max-w-2xl text-xl text-slate-700 font-display">
+          Bilingual Qur’an &amp; Arabic curriculum for K–12 Islamic schools.
         </p>
         <p className="mx-auto mt-3 max-w-2xl text-lg text-slate-600">
-          A ready-to-teach, three-track curriculum system your teachers can pick up on
-          Monday morning.
+          Elementary, middle school, and high school — nine tracks total, one integrated system.
+          Every interaction is async: email, document, and pre-recorded walkthrough. No scheduled calls
+          required.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a href={bookCall} className="btn-primary px-6 py-3 text-base">
-            Book a discovery call →
+          <a href={emailUs} className="btn-primary px-6 py-3 text-base">
+            Email us
           </a>
           <a href="#pricing" className="btn-secondary px-6 py-3 text-base">
             See pricing
@@ -50,41 +91,37 @@ export default function ForSchools() {
         </div>
       </section>
 
-      {/* ============================================================
-          Section 1 — The Roots system
-          ============================================================ */}
+      {/* Section 1 — The Roots system */}
       <section className="bg-slate-50 py-16 sm:py-20">
         <div className="container-page">
           <div className="max-w-3xl mx-auto text-center">
             <span className="chip">The Roots system</span>
             <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight">
-              Three tracks. Bilingual. 37 weeks each.
+              Three grade bands. Three levels each. 37 weeks per track.
             </h2>
             <p className="mt-4 text-lg text-slate-600">{rootsSystem.summary}</p>
           </div>
 
           <div className="mt-10 grid gap-4 sm:grid-cols-3 max-w-3xl mx-auto">
-            {rootsSystem.tracks.map((t) => (
+            {rootsSystem.gradeBands.map((band) => (
               <div
-                key={t}
+                key={band}
                 className="rounded-2xl bg-white p-5 ring-1 ring-slate-200 text-center"
               >
-                <div className="text-xs uppercase tracking-wide text-slate-500 mb-2">Track</div>
-                <div className="font-display text-lg font-semibold text-slate-900">{t}</div>
+                <div className="text-xs uppercase tracking-wide text-slate-500 mb-2">Grade band</div>
+                <div className="font-display text-lg font-semibold text-slate-900">{band}</div>
               </div>
             ))}
           </div>
 
           <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-slate-600">
-            <span>📚 {rootsSystem.weeks} weeks of scope &amp; sequence</span>
+            <span>📚 {rootsSystem.weeksPerTrack} weeks per track (9 tracks total)</span>
             <span>🌍 {rootsSystem.languages}</span>
           </div>
         </div>
       </section>
 
-      {/* ============================================================
-          Section 2 — What you get with a license
-          ============================================================ */}
+      {/* Section 2 — What you get with a license */}
       <section className="container-page py-16 sm:py-20">
         <div className="max-w-3xl mx-auto text-center">
           <span className="chip">Every license includes</span>
@@ -107,63 +144,103 @@ export default function ForSchools() {
         </ul>
       </section>
 
-      {/* ============================================================
-          Section 3a — License a single level (or the whole track)
-          ============================================================ */}
+      {/* Section 3 — Standard licenses (Bucket A) */}
       <section id="pricing" className="bg-slate-50 py-16 sm:py-20">
         <div className="container-page">
           <div className="max-w-3xl mx-auto text-center">
-            <span className="chip">Pricing</span>
+            <span className="chip">Standard licenses</span>
             <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight">
-              License a single level (or the whole track)
+              License at the school level
             </h2>
             <p className="mt-4 text-slate-600">
-              License at the school level — pick the tracks that fit your students. Every license
-              covers unlimited classrooms and students within your school for one academic year.
+              Pick the grade band and track that fit your students. Every license covers unlimited
+              classrooms and students within your school for one academic year. Purchase is
+              self-serve by email — no calls required.
             </p>
           </div>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {perLevelLicenses.map((lic) => {
-              const isBundle = lic.id === 'bundle';
-              return (
-                <div
-                  key={lic.id}
-                  className={`relative flex flex-col rounded-2xl bg-white p-6 transition ${
-                    isBundle
-                      ? 'ring-2 ring-brand-600 shadow-soft lg:scale-105'
-                      : 'ring-1 ring-slate-200 hover:ring-brand-200 hover:shadow-soft'
-                  }`}
+          {/* Full K–12 bundle — top card, highlighted */}
+          <div className="mt-12 mb-10 max-w-4xl mx-auto">
+            <div className="relative rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 text-white p-8 shadow-soft">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap bg-accent-500 text-slate-900 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                Most complete
+              </span>
+              <div className="text-xs uppercase tracking-wide text-brand-100 font-semibold mb-2">
+                {fullK12License.level}
+              </div>
+              <h3 className="font-display text-2xl sm:text-3xl font-bold mb-3">
+                {fullK12License.name}
+              </h3>
+              <div className="flex items-baseline gap-1 mb-4">
+                <span className="text-4xl font-bold">{fullK12License.price}</span>
+                <span className="text-sm text-brand-100">{fullK12License.period}</span>
+              </div>
+              <p className="text-brand-100 mb-6 max-w-2xl">{fullK12License.description}</p>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href={fullK12License.buyUrl}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-brand-700 font-semibold text-sm hover:bg-brand-50 transition-colors"
                 >
-                  <div className="text-xs uppercase tracking-wide text-brand-700 font-semibold mb-2">
-                    {lic.level}
-                  </div>
-                  <h3 className="font-display text-lg font-semibold text-slate-900 leading-tight mb-3">
-                    {lic.name}
-                  </h3>
-                  <div className="flex items-baseline gap-1 mb-4">
-                    <span className="text-3xl font-bold text-slate-900">{lic.price}</span>
-                    <span className="text-sm text-slate-500">{lic.period}</span>
-                  </div>
-                  <p className="text-sm text-slate-600 flex-1 mb-5">{lic.description}</p>
-                  <div className="flex flex-col gap-2">
-                    <a href={lic.buyUrl} className="btn-primary w-full">
-                      Buy license →
-                    </a>
-                    <a href={lic.customizeUrl} className="btn-secondary w-full">
-                      Email for customization
-                    </a>
-                  </div>
-                </div>
-              );
-            })}
+                  Buy K–12 license
+                </a>
+                <a
+                  href={fullK12License.customizeUrl}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/40 text-white font-semibold text-sm hover:bg-white/10 transition-colors"
+                >
+                  Email for questions
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Elementary — available now */}
+          <div className="mt-12">
+            <div className="flex items-baseline justify-between flex-wrap gap-2 mb-6">
+              <h3 className="font-display text-2xl font-bold text-slate-900">
+                Roots Elementary (K–5)
+              </h3>
+              <span className="text-sm text-brand-700 font-semibold">Available now</span>
+            </div>
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {elementaryLicenses.map((lic) => (
+                <LicenseCard key={lic.id} lic={lic} />
+              ))}
+            </div>
+          </div>
+
+          {/* Middle School — coming */}
+          <div className="mt-14">
+            <div className="flex items-baseline justify-between flex-wrap gap-2 mb-6">
+              <h3 className="font-display text-2xl font-bold text-slate-900">
+                Roots Middle School (6–8)
+              </h3>
+              <span className="text-sm text-accent-600 font-semibold">Available Fall 2026</span>
+            </div>
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {middleSchoolLicenses.map((lic) => (
+                <LicenseCard key={lic.id} lic={lic} />
+              ))}
+            </div>
+          </div>
+
+          {/* High School — coming */}
+          <div className="mt-14">
+            <div className="flex items-baseline justify-between flex-wrap gap-2 mb-6">
+              <h3 className="font-display text-2xl font-bold text-slate-900">
+                Roots High School (9–12)
+              </h3>
+              <span className="text-sm text-accent-600 font-semibold">Available Fall 2026</span>
+            </div>
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {highSchoolLicenses.map((lic) => (
+                <LicenseCard key={lic.id} lic={lic} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ============================================================
-          Section 3b — For larger deployments
-          ============================================================ */}
+      {/* Section 4 — Larger deployments (Bucket B) */}
       <section className="container-page py-16 sm:py-20">
         <div className="max-w-3xl mx-auto text-center">
           <span className="chip">Enterprise</span>
@@ -171,7 +248,8 @@ export default function ForSchools() {
             For larger deployments
           </h2>
           <p className="mt-4 text-slate-600">
-            Multi-classroom, multi-campus, and network-wide licenses — annual, in USD.
+            Multi-classroom, multi-campus, and network-wide licenses — annual, in USD. All inquiries
+            handled by email.
           </p>
         </div>
 
@@ -179,17 +257,8 @@ export default function ForSchools() {
           {schoolTiers.map((tier) => (
             <div
               key={tier.id}
-              className={`relative flex flex-col rounded-2xl bg-white p-6 transition ${
-                tier.highlight
-                  ? 'ring-2 ring-brand-600 shadow-soft'
-                  : 'ring-1 ring-slate-200 hover:ring-brand-200 hover:shadow-soft'
-              }`}
+              className="relative flex flex-col rounded-2xl bg-white p-6 ring-1 ring-slate-200 hover:ring-brand-200 hover:shadow-soft transition"
             >
-              {tier.highlight && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap bg-accent-500 text-slate-900 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
-                  Most popular
-                </span>
-              )}
               <h3 className="font-display text-xl font-semibold text-slate-900 mb-1">{tier.name}</h3>
               <div className="text-sm text-slate-500 mb-4">{tier.tagline}</div>
               <div className="flex items-baseline gap-1 mb-4">
@@ -210,41 +279,30 @@ export default function ForSchools() {
                   </li>
                 ))}
               </ul>
-              <a
-                href={
-                  `mailto:${ctaEmail}?subject=` +
-                  encodeURIComponent(`Roots ${tier.name} License — enquiry`)
-                }
-                className="btn-primary w-full"
-              >
-                Talk to Dina
+              <a href={tier.inquireUrl} className="btn-primary w-full">
+                Email to inquire
               </a>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ============================================================
-          Section 4 — Consulting & custom
-          ============================================================ */}
+      {/* Section 5 — Customised Curriculum (Bucket C) */}
       <section className="bg-slate-50 py-16 sm:py-20">
         <div className="container-page">
           <div className="max-w-3xl mx-auto text-center">
-            <span className="chip">Consulting</span>
+            <span className="chip">Customised Curriculum</span>
             <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight">
-              Consulting &amp; custom work
+              Beyond the standard licenses
             </h2>
             <p className="mt-4 text-slate-600">
-              For schools that need something the licenses don’t cover — audits, custom frameworks,
-              teacher training, and net-new curriculum.
+              Bespoke frameworks, teacher enablement, and end-to-end curriculum development — all
+              delivered async by email, document, and video walkthrough. No scheduled calls required.
             </p>
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {consultingServices.map((s) => (
-              <div
-                key={s.id}
-                className="card flex flex-col"
-              >
+            {customisedCurriculum.map((s) => (
+              <div key={s.id} className="card flex flex-col">
                 <div className="flex items-baseline justify-between gap-3 mb-2">
                   <h3 className="font-display text-lg font-semibold text-slate-900">{s.name}</h3>
                   <div className="whitespace-nowrap">
@@ -252,23 +310,26 @@ export default function ForSchools() {
                     {s.period && <span className="text-xs text-slate-500"> {s.period}</span>}
                   </div>
                 </div>
-                <p className="text-sm text-slate-600">{s.description}</p>
+                <p className="text-sm text-slate-600 flex-1 mb-4">{s.description}</p>
+                <a href={s.inquireUrl} className="btn-primary w-full">
+                  Email to start
+                </a>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ============================================================
-          Section 5 — How it works
-          ============================================================ */}
+      {/* Section 6 — How it works (async) */}
       <section className="container-page py-16 sm:py-20">
         <div className="max-w-3xl mx-auto text-center">
           <span className="chip">How it works</span>
           <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight">
-            From first call to running classroom
+            Four async steps, start to running classroom
           </h2>
-          <p className="mt-4 text-slate-600">Four steps from your first call to a running Roots classroom.</p>
+          <p className="mt-4 text-slate-600">
+            Every step is email, document, or pre-recorded video. No scheduled calls at any point.
+          </p>
         </div>
         <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {howItWorks.map((step) => (
@@ -281,9 +342,7 @@ export default function ForSchools() {
         </ol>
       </section>
 
-      {/* ============================================================
-          Section 6 — Meet Dina
-          ============================================================ */}
+      {/* Section 7 — Meet Dina */}
       <section className="bg-slate-50 py-16 sm:py-20">
         <div className="container-page">
           <div className="max-w-3xl mx-auto rounded-2xl bg-white p-6 sm:p-10 ring-1 ring-slate-200">
@@ -316,39 +375,8 @@ export default function ForSchools() {
         </div>
       </section>
 
-      {/* ============================================================
-          Section 7 — CTA
-          ============================================================ */}
-      <section className="container-page py-16 sm:py-20">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-            Ready to bring Roots to your school?
-          </h2>
-          <p className="mt-4 text-lg text-slate-600">
-            Book a short discovery call. We’ll talk through your students, your teachers, and the
-            shape of a pilot — no obligation, no pricing pressure.
-          </p>
-          <a
-            href={bookCall}
-            className="btn-primary mt-8 px-8 py-3.5 text-base"
-          >
-            Book a discovery call →
-          </a>
-          {/* When she has a Calendly, swap the mailto above for the Calendly link.
-              e.g. href="https://calendly.com/dinabudu/roots-discovery" */}
-          <div className="mt-4 text-sm text-slate-500">
-            Or write directly:{' '}
-            <a href={`mailto:${ctaEmail}`} className="link">
-              {ctaEmail}
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================
-          Section 8 — Freemium hook
-          ============================================================ */}
-      <section className="container-page pb-20">
+      {/* Section 8 — Freemium hook */}
+      <section className="container-page pb-20 pt-8">
         <div className="max-w-2xl mx-auto rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 p-6 sm:p-8 text-center text-white shadow-soft">
           <div className="text-xs uppercase tracking-wide font-semibold text-brand-100 mb-3">
             Free sample

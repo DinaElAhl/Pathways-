@@ -1,12 +1,14 @@
-// Roots — B2B pricing menu (v1, approved 2026-07-15).
-// Prices in USD. School licenses are per-year. Consulting is per-project.
+// Roots — B2B pricing (K–12, async-only). Prices in USD.
+// Every URL is a pre-encoded mailto — no scheduled calls, no calendar,
+// no phone. Delivery + support are async (email + document + video walkthrough).
 
 export const rootsSystem = {
-  tracks: ['Beginner (ES-C)', 'Intermediate (ES-B)', 'Advanced (ES-A)'],
-  weeks: 37,
+  gradeBands: ['Elementary (K–5)', 'Middle School (6–8)', 'High School (9–12)'],
+  tracksPerBand: ['Beginner', 'Intermediate', 'Advanced'],
+  weeksPerTrack: 37,
   languages: 'English + Arabic (bilingual delivery)',
   summary:
-    'Roots is a three-track, bilingual Qur’an and Arabic curriculum system built for K–5 classrooms. Each track carries 37 weeks of lessons with teacher guides, formative and summative assessments, and a placement audit — so a teacher can pick it up on Monday morning and know exactly what to teach and how to measure it.',
+    'Roots is a full K–12, three-band, three-track bilingual Qur’an and Arabic curriculum system. Each of the nine tracks (Elementary / Middle School / High School × Beginner / Intermediate / Advanced) carries 37 weeks of lessons with teacher guides, formative and summative assessments, and a placement audit — so a teacher can pick it up on Monday morning and know exactly what to teach and how to measure it.',
 };
 
 export const licenseIncludes = [
@@ -17,91 +19,222 @@ export const licenseIncludes = [
   'Resource packs — phonics cards, word-shape toolkit, target surah manuals',
   'Placement audit tools to sort new students into the right track',
   'Evaluation portfolio + certificate templates for graduating students',
-  'Implementation support onboarding for the licensing teachers',
+  'Async onboarding: getting-started document + pre-recorded walkthroughs',
 ];
 
-// Per-level licenses — buy a single track (ES-C / ES-B / ES-A) or the full
-// three-track bundle. Sits ABOVE the multi-classroom tiers on /for-schools.
-// Every mailto URL is pre-encoded per Dina's spec so subject/body render
-// exactly as she wrote them.
-export const perLevelLicenses = [
+// ---------------------------------------------------------------------
+// Per-level licenses, grouped by grade band.
+// Every mailto is pre-encoded per Dina's spec so subject/body render exactly.
+// Elementary is fully available. Middle School and High School are being
+// extended from Bayaan Academy source material — available Fall 2026.
+// ---------------------------------------------------------------------
+
+const encodedDash = '%20%E2%80%94%20';
+const encodedDollar = '%24';
+const mailto = 'mailto:dinabudu@gmail.com?subject=';
+
+function buyUrl(name, price) {
+  return `${mailto}${encodeURIComponent(`Roots ${name} License Purchase — $${price}`)}&body=${encodeURIComponent(
+    `Assalamu alaikum, I'd like to purchase the Roots ${name} license.`
+  )}`;
+}
+function customizeUrl(name) {
+  return `${mailto}${encodeURIComponent(`Roots ${name} — Customization Request`)}`;
+}
+function askUrl(name) {
+  return `${mailto}${encodeURIComponent(`Roots ${name} — Question`)}`;
+}
+
+// -------- Elementary (ES) — available now --------
+export const elementaryLicenses = [
   {
     id: 'es-c',
-    name: 'Roots ES-C — Beginner License',
-    level: 'ES-C · Beginner',
+    name: 'ES-C Beginner',
+    level: 'Elementary · Beginner',
     price: '$10,000',
     period: '/ year',
     description:
       'The full ES-C track: 37 weeks of lessons, teacher guide, assessments, resource packs, placement audit.',
-    buyUrl:
-      'mailto:dinabudu@gmail.com?subject=Roots%20ES-C%20Beginner%20License%20Purchase%20%E2%80%94%20%2410%2C000&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20Roots%20ES-C%20Beginner%20license.',
-    customizeUrl:
-      'mailto:dinabudu@gmail.com?subject=Roots%20ES-C%20%E2%80%94%20Customization%20Request',
+    buyUrl: buyUrl('ES-C Beginner', '10,000'),
+    customizeUrl: customizeUrl('ES-C'),
+    available: true,
   },
   {
     id: 'es-b',
-    name: 'Roots ES-B — Intermediate License',
-    level: 'ES-B · Intermediate',
+    name: 'ES-B Intermediate',
+    level: 'Elementary · Intermediate',
     price: '$10,000',
     period: '/ year',
     description:
       'The full ES-B track: 37 weeks of Tajweed foundations, teacher guide, assessments, resource packs.',
-    buyUrl:
-      'mailto:dinabudu@gmail.com?subject=Roots%20ES-B%20Intermediate%20License%20Purchase%20%E2%80%94%20%2410%2C000&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20Roots%20ES-B%20Intermediate%20license.',
-    customizeUrl:
-      'mailto:dinabudu@gmail.com?subject=Roots%20ES-B%20%E2%80%94%20Customization%20Request',
+    buyUrl: buyUrl('ES-B Intermediate', '10,000'),
+    customizeUrl: customizeUrl('ES-B'),
+    available: true,
   },
   {
     id: 'es-a',
-    name: 'Roots ES-A — Advanced License',
-    level: 'ES-A · Advanced',
+    name: 'ES-A Advanced',
+    level: 'Elementary · Advanced',
     price: '$10,000',
     period: '/ year',
     description:
       'The full ES-A track: 37 weeks of advanced tajweed + adaab + capstone portfolios, teacher guide, assessments, resource packs.',
-    buyUrl:
-      'mailto:dinabudu@gmail.com?subject=Roots%20ES-A%20Advanced%20License%20Purchase%20%E2%80%94%20%2410%2C000&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20Roots%20ES-A%20Advanced%20license.',
-    customizeUrl:
-      'mailto:dinabudu@gmail.com?subject=Roots%20ES-A%20%E2%80%94%20Customization%20Request',
+    buyUrl: buyUrl('ES-A Advanced', '10,000'),
+    customizeUrl: customizeUrl('ES-A'),
+    available: true,
   },
   {
-    // Straight 3 × $10k — no bundle discount. The card keeps a visual
-    // highlight (via id === 'bundle') so it still reads as the "all-in"
-    // option, but no misleading "Save $X" badge is shown.
-    id: 'bundle',
-    name: 'All Three Levels — Full Elementary Bundle',
-    level: 'All 3 tracks · ES-C + ES-B + ES-A',
+    id: 'es-bundle',
+    name: 'ES — All 3 Tracks',
+    level: 'Elementary · All 3 tracks',
     price: '$30,000',
     period: '/ year',
     description:
-      'License all three tracks for the same school year — the complete Roots Elementary system.',
-    buyUrl:
-      'mailto:dinabudu@gmail.com?subject=Roots%20Full%20Elementary%20Bundle%20Purchase%20%E2%80%94%20%2430%2C000&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20full%20Roots%20Elementary%20bundle%20%28all%20three%20levels%29.',
-    customizeUrl:
-      'mailto:dinabudu@gmail.com?subject=Roots%20Full%20Elementary%20Bundle%20%E2%80%94%20Customization%20Request',
+      'License all three Elementary tracks for the same school year — the complete K–5 Roots system.',
+    buyUrl: buyUrl('Elementary Bundle', '30,000'),
+    customizeUrl: customizeUrl('ES Bundle'),
+    available: true,
+    highlight: true,
   },
 ];
 
-// Multi-campus / network tiers only. Per-level $10k licenses above are the
-// school-level pricing; the former School ($6,500) and School Plus ($9,500)
-// tiers were removed because they now sit below a single per-level license
-// and no longer make sense as separate products.
+// -------- Middle School (MS) — available Fall 2026 --------
+export const middleSchoolLicenses = [
+  {
+    id: 'ms-c',
+    name: 'MS-C Beginner',
+    level: 'Middle School · Beginner',
+    price: '$10,000',
+    period: '/ year',
+    description:
+      'Full MS-C track: 37 weeks bridging elementary reading into intermediate Qur’an comprehension and Arabic grammar for grades 6–8. Being extended from Bayaan Academy source material.',
+    buyUrl: buyUrl('MS-C Beginner', '10,000'),
+    customizeUrl: customizeUrl('MS-C'),
+    available: 'Fall 2026',
+  },
+  {
+    id: 'ms-b',
+    name: 'MS-B Intermediate',
+    level: 'Middle School · Intermediate',
+    price: '$10,000',
+    period: '/ year',
+    description:
+      'Full MS-B track: 37 weeks of Qur’an comprehension, tajweed refinement, and expressive Arabic writing for grades 6–8. Being extended from Bayaan Academy source material.',
+    buyUrl: buyUrl('MS-B Intermediate', '10,000'),
+    customizeUrl: customizeUrl('MS-B'),
+    available: 'Fall 2026',
+  },
+  {
+    id: 'ms-a',
+    name: 'MS-A Advanced',
+    level: 'Middle School · Advanced',
+    price: '$10,000',
+    period: '/ year',
+    description:
+      'Full MS-A track: 37 weeks of thematic Qur’an study, classical Arabic morphology, and structured composition. Being extended from Bayaan Academy source material.',
+    buyUrl: buyUrl('MS-A Advanced', '10,000'),
+    customizeUrl: customizeUrl('MS-A'),
+    available: 'Fall 2026',
+  },
+  {
+    id: 'ms-bundle',
+    name: 'MS — All 3 Tracks',
+    level: 'Middle School · All 3 tracks',
+    price: '$30,000',
+    period: '/ year',
+    description:
+      'License all three Middle School tracks — the full 6–8 Roots system. Being extended from Bayaan Academy source material.',
+    buyUrl: buyUrl('Middle School Bundle', '30,000'),
+    customizeUrl: customizeUrl('MS Bundle'),
+    available: 'Fall 2026',
+    highlight: true,
+  },
+];
+
+// -------- High School (HS) — available Fall 2026 --------
+export const highSchoolLicenses = [
+  {
+    id: 'hs-c',
+    name: 'HS-C Beginner',
+    level: 'High School · Beginner',
+    price: '$10,000',
+    period: '/ year',
+    description:
+      'Full HS-C track: 37 weeks introducing older students to Qur’an-anchored Arabic reading, tajweed foundations, and thematic surah study. Being extended from Bayaan Academy source material.',
+    buyUrl: buyUrl('HS-C Beginner', '10,000'),
+    customizeUrl: customizeUrl('HS-C'),
+    available: 'Fall 2026',
+  },
+  {
+    id: 'hs-b',
+    name: 'HS-B Intermediate',
+    level: 'High School · Intermediate',
+    price: '$10,000',
+    period: '/ year',
+    description:
+      'Full HS-B track: 37 weeks of classical Arabic grammar, exegetical basics, and structured writing across surahs. Being extended from Bayaan Academy source material.',
+    buyUrl: buyUrl('HS-B Intermediate', '10,000'),
+    customizeUrl: customizeUrl('HS-B'),
+    available: 'Fall 2026',
+  },
+  {
+    id: 'hs-a',
+    name: 'HS-A Advanced',
+    level: 'High School · Advanced',
+    price: '$10,000',
+    period: '/ year',
+    description:
+      'Full HS-A track: 37 weeks of rhetorical Arabic, comparative tafsir, and capstone portfolios. Directly extended from the HS Advanced track Dina led at Bayaan Academy.',
+    buyUrl: buyUrl('HS-A Advanced', '10,000'),
+    customizeUrl: customizeUrl('HS-A'),
+    available: 'Fall 2026',
+  },
+  {
+    id: 'hs-bundle',
+    name: 'HS — All 3 Tracks',
+    level: 'High School · All 3 tracks',
+    price: '$30,000',
+    period: '/ year',
+    description:
+      'License all three High School tracks — the full 9–12 Roots system. Being extended from Bayaan Academy source material.',
+    buyUrl: buyUrl('High School Bundle', '30,000'),
+    customizeUrl: customizeUrl('HS Bundle'),
+    available: 'Fall 2026',
+    highlight: true,
+  },
+];
+
+// -------- Full K–12 bundle — the most complete license --------
+export const fullK12License = {
+  id: 'k12-full',
+  name: 'Roots K–12 — All 9 Tracks',
+  level: 'Full K–12 · Elementary + Middle School + High School',
+  price: '$90,000',
+  period: '/ year',
+  description:
+    'License every Roots track — all three grade bands, all three levels — for the same school year. The complete K–12 Roots system: 9 curricula, 333 weeks of scope-and-sequence, one price. Elementary is live now; Middle School and High School available Fall 2026.',
+  buyUrl: buyUrl('K–12 Full License', '90,000'),
+  customizeUrl: customizeUrl('K–12 Full License'),
+  available: 'Elementary now · MS/HS Fall 2026',
+};
+
+// -------- Larger deployments (unchanged) — email inquiry only --------
 export const schoolTiers = [
   {
     id: 'institution',
     name: 'Institution / Multi-Campus',
-    tagline: 'Unlimited classrooms',
+    tagline: 'Unlimited classrooms across a single institution',
     price: '$45k–$65k',
     period: '/ year',
-    highlight: false,
-    forWhom: 'Larger schools and small networks who want Dina embedded in the rollout.',
+    forWhom: 'Larger K–12 schools and small networks running Roots across multiple grade bands.',
     includes: [
-      'Unlimited classroom access',
-      'On-site or virtual PD (4 hours)',
-      'Weekly Slack access to Dina',
-      'Customization support + branded materials',
-      'Priority support',
+      'Unlimited classroom access across grade bands',
+      'Async PD — pre-recorded video walkthroughs',
+      'Customization support delivered by email + shared docs',
+      'Branded materials for your school',
+      'Priority email support',
     ],
+    inquireUrl: askUrl('Institution / Multi-Campus License'),
   },
   {
     id: 'network',
@@ -109,86 +242,102 @@ export const schoolTiers = [
     tagline: 'Networks & multi-campus systems',
     price: '$75k–$150k',
     period: '/ year',
-    highlight: false,
-    forWhom: 'School networks, homeschool co-ops, and multi-campus systems that need train-the-trainer capacity.',
+    forWhom: 'School networks, homeschool co-ops, and multi-campus systems.',
     includes: [
       'Everything in Institution',
-      'Train-the-trainer program',
-      'Monthly curriculum-coordinator retainer',
+      'Async train-the-trainer video series',
+      'Monthly async curriculum-coordinator retainer',
       'LMS integration (Canvas, Google Classroom, others)',
     ],
+    inquireUrl: askUrl('Network License'),
   },
 ];
 
-export const consultingServices = [
+// -------- Customised Curriculum (was: Consulting) --------
+// All async: email + document + pre-recorded video walkthrough. No scheduled
+// calls. Each card has one CTA: "Email to start".
+export const customisedCurriculum = [
   {
     id: 'audit',
     name: 'Curriculum Audit',
     price: '$1,500',
-    description: 'A written report on your current Qur’an/Arabic scope + a 1-hour walkthrough call.',
+    description:
+      'A written report on your current Qur’an/Arabic scope, delivered as a PDF by email. Includes findings, gaps, and recommended next steps.',
+    inquireUrl: `${mailto}${encodeURIComponent('Roots Customised Curriculum — Curriculum Audit Inquiry')}`,
   },
   {
     id: 'bespoke-framework',
-    name: 'Bespoke Framework',
-    price: '$5k–$15k',
-    description: 'A custom curriculum framework built for your school — scope, sequence, and assessments per project.',
+    name: 'Bespoke Curriculum Framework',
+    price: '$5,000–$15,000',
+    description:
+      'A custom curriculum framework built for your school — scope, sequence, and assessments. Delivered as documents; iteratively refined by email exchange.',
+    inquireUrl: `${mailto}${encodeURIComponent('Roots Customised Curriculum — Bespoke Curriculum Framework Inquiry')}`,
   },
   {
-    id: 'training-virtual',
-    name: 'Teacher Training — Virtual',
+    id: 'teacher-enablement-pack',
+    name: 'Teacher Enablement Pack',
     price: '$500',
-    description: 'A single 2-hour virtual training session for your teaching team.',
+    description:
+      'A single grade-band pack: pre-recorded video walkthrough + written facilitation guide. Everything a teacher needs to run the track — delivered digitally.',
+    inquireUrl: `${mailto}${encodeURIComponent('Roots Customised Curriculum — Teacher Enablement Pack Inquiry')}`,
   },
   {
-    id: 'training-full-day',
-    name: 'Teacher Training — Full Day',
+    id: 'teacher-enablement-suite',
+    name: 'Full Teacher Enablement Suite',
     price: '$2,000',
-    description: 'A full-day in-person or virtual training, tailored to your track and grade band.',
+    description:
+      'Comprehensive pre-recorded video series + written guides for a full year, plus Q&A email support throughout the academic year.',
+    inquireUrl: `${mailto}${encodeURIComponent('Roots Customised Curriculum — Full Teacher Enablement Suite Inquiry')}`,
   },
   {
-    id: 'coaching',
-    name: 'Implementation Coaching',
+    id: 'implementation-retainer',
+    name: 'Implementation Support (async retainer)',
     price: '$1,000',
     period: '/ month',
-    description: 'Monthly retainer supporting one school through their Roots rollout.',
+    description:
+      'Monthly review of your teachers’ implementation via shared documents, plus email responses to their questions. No calls; everything in writing.',
+    inquireUrl: `${mailto}${encodeURIComponent('Roots Customised Curriculum — Implementation Support Retainer Inquiry')}`,
   },
   {
-    id: 'bespoke-curriculum',
+    id: 'bespoke-development',
     name: 'Bespoke Curriculum Development',
-    price: '$15k–$40k',
-    description: 'Net-new grade band or subject built from scratch, per project.',
+    price: '$15,000–$40,000',
+    description:
+      'Net-new grade band or subject built from scratch. Full package: scope, decks, guides, assessments, resource packs — delivered as a complete package.',
+    inquireUrl: `${mailto}${encodeURIComponent('Roots Customised Curriculum — Bespoke Curriculum Development Inquiry')}`,
   },
 ];
 
 export const howItWorks = [
   {
     n: '01',
-    title: 'Discovery call',
-    body: 'A short call to understand your students, teachers, hours per week, and current curriculum — before we quote anything.',
+    title: 'Email us',
+    body: 'Send your school info — grade band, student count, target academic year. We reply within 2 business days.',
   },
   {
     n: '02',
     title: 'Placement audit',
-    body: 'Every student gets sorted into a Roots track (Beginner, Intermediate, Advanced) with a diagnostic — so nobody starts in the wrong place.',
+    body: 'We send a self-serve placement pack. Your teachers administer it in class, upload results back to us. No calls needed.',
   },
   {
     n: '03',
-    title: 'Implementation + teacher onboarding',
-    body: 'Your teachers receive their scope, decks, guides, and assessments — plus a live onboarding session so they know how to run Week 1.',
+    title: 'Implementation',
+    body: 'You receive your full license pack — scope, decks, guides, assessments, resource packs — with a getting-started document and pre-recorded walkthroughs. Async onboarding.',
   },
   {
     n: '04',
-    title: 'Ongoing support + refinement',
-    body: 'Monthly Q&A, mid-year check-ins, and end-of-year evaluation portfolios. We refine the fit as your students grow.',
+    title: 'Ongoing async support',
+    body: 'Monthly email check-in, plus refinement based on the assessment results you send back. Every interaction is email or document.',
   },
 ];
 
 export const meetDina = {
   name: 'Dina Mohamed Sayed El-Ahl',
   role: 'Curriculum Designer · Arabic & Qur’anic Studies Educator',
-  bio: 'Dina taught Arabic and Qur’anic Studies at Bayaan Academy, a US-based online Islamic school, where she led the elementary and high-school Advanced tracks and built the scope-and-sequence framework used across grade bands. Her master’s thesis was in Arabic natural language processing (text summarization). She is a Wayground / Quizizz Game Changer certified trainer and the author of the Roots Tajweed Reading Series.',
+  bio: 'Dina taught Arabic and Qur’anic Studies at Bayaan Academy, a US-based online Islamic school, where she led both the Elementary Advanced and High School Advanced tracks and built the scope-and-sequence framework used across grade bands. Her master’s thesis was in Arabic natural language processing (text summarization). She is a Wayground / Quizizz Game Changer certified trainer and the author of the Roots Tajweed Reading Series.',
   credentials: [
     'Arabic & Qur’an educator (US online Islamic school)',
+    'Led ES-Advanced and HS-Advanced tracks at Bayaan Academy',
     'MA in Arabic NLP (text summarization)',
     'Wayground / Quizizz Game Changer certified trainer',
     'Author of the Roots Tajweed Reading Series',
