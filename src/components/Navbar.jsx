@@ -13,6 +13,7 @@ const primaryLinks = [
   { to: '/pathways-exam', label: '🎯 RAQP Exam' },
   { to: '/for-schools', label: '🏫 For Schools' },
   { to: '/shop', label: '🛒 Shop' },
+  { to: '/free-sample', label: '🎁 Free Sample' },
   { to: '/resources', label: 'Resources' },
   { to: '/recommend', label: 'AI Match' },
 ];

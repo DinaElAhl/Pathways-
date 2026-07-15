@@ -31,6 +31,7 @@ const PathwaysExam = lazy(() => import('./pages/PathwaysExam.jsx'))
 const ExamDashboard = lazy(() => import('./pages/ExamDashboard.jsx'))
 const Shop = lazy(() => import('./pages/Shop.jsx'))
 const ForSchools = lazy(() => import('./pages/ForSchools.jsx'))
+const FreeSample = lazy(() => import('./pages/FreeSample.jsx'))
 
 export default function App() {
   return (
@@ -61,6 +62,7 @@ export default function App() {
         <Route path="/exam-dashboard" element={<ExamDashboard />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/for-schools" element={<ForSchools />} />
+        <Route path="/free-sample" element={<FreeSample />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
