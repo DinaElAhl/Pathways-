@@ -60,8 +60,7 @@ export default function Shop() {
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
           A five-lesson curriculum that takes learners from the Arabic alphabet to reading with
-          short vowels and tanwin — built by a working Arabic and Qur’anic Studies educator of seven
-          years.
+          short vowels and tanwin — built by a working Arabic and Qur’anic Studies educator.
         </p>
       </section>
 

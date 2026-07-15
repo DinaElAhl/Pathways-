@@ -186,9 +186,9 @@ export const howItWorks = [
 export const meetDina = {
   name: 'Dina Mohamed Sayed El-Ahl',
   role: 'Curriculum Designer · Arabic & Qur’anic Studies Educator',
-  bio: 'Dina spent seven years teaching Arabic and Qur’anic Studies at Bayaan Academy, a US-based online Islamic school, where she led the elementary and high-school Advanced tracks and built the scope-and-sequence framework used across grade bands. Her master’s thesis was in Arabic natural language processing (text summarization). She is a Wayground / Quizizz Game Changer certified trainer and the author of the Roots Tajweed Reading Series.',
+  bio: 'Dina taught Arabic and Qur’anic Studies at Bayaan Academy, a US-based online Islamic school, where she led the elementary and high-school Advanced tracks and built the scope-and-sequence framework used across grade bands. Her master’s thesis was in Arabic natural language processing (text summarization). She is a Wayground / Quizizz Game Changer certified trainer and the author of the Roots Tajweed Reading Series.',
   credentials: [
-    '7+ years teaching Arabic & Qur’an online (US Islamic school)',
+    'Arabic & Qur’an educator (US online Islamic school)',
     'MA in Arabic NLP (text summarization)',
     'Wayground / Quizizz Game Changer certified trainer',
     'Author of the Roots Tajweed Reading Series',
