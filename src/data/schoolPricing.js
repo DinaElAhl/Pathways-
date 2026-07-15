@@ -29,12 +29,12 @@ export const perLevelLicenses = [
     id: 'es-c',
     name: 'Roots ES-C — Beginner License',
     level: 'ES-C · Beginner',
-    price: '$3,500',
+    price: '$10,000',
     period: '/ year',
     description:
       'The full ES-C track: 37 weeks of lessons, teacher guide, assessments, resource packs, placement audit.',
     buyUrl:
-      'mailto:dinabudu@gmail.com?subject=Roots%20ES-C%20Beginner%20License%20Purchase%20%E2%80%94%20%243%2C500&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20Roots%20ES-C%20Beginner%20license.',
+      'mailto:dinabudu@gmail.com?subject=Roots%20ES-C%20Beginner%20License%20Purchase%20%E2%80%94%20%2410%2C000&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20Roots%20ES-C%20Beginner%20license.',
     customizeUrl:
       'mailto:dinabudu@gmail.com?subject=Roots%20ES-C%20%E2%80%94%20Customization%20Request',
   },
@@ -42,12 +42,12 @@ export const perLevelLicenses = [
     id: 'es-b',
     name: 'Roots ES-B — Intermediate License',
     level: 'ES-B · Intermediate',
-    price: '$3,500',
+    price: '$10,000',
     period: '/ year',
     description:
       'The full ES-B track: 37 weeks of Tajweed foundations, teacher guide, assessments, resource packs.',
     buyUrl:
-      'mailto:dinabudu@gmail.com?subject=Roots%20ES-B%20Intermediate%20License%20Purchase%20%E2%80%94%20%243%2C500&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20Roots%20ES-B%20Intermediate%20license.',
+      'mailto:dinabudu@gmail.com?subject=Roots%20ES-B%20Intermediate%20License%20Purchase%20%E2%80%94%20%2410%2C000&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20Roots%20ES-B%20Intermediate%20license.',
     customizeUrl:
       'mailto:dinabudu@gmail.com?subject=Roots%20ES-B%20%E2%80%94%20Customization%20Request',
   },
@@ -55,72 +55,43 @@ export const perLevelLicenses = [
     id: 'es-a',
     name: 'Roots ES-A — Advanced License',
     level: 'ES-A · Advanced',
-    price: '$3,500',
+    price: '$10,000',
     period: '/ year',
     description:
       'The full ES-A track: 37 weeks of advanced tajweed + adaab + capstone portfolios, teacher guide, assessments, resource packs.',
     buyUrl:
-      'mailto:dinabudu@gmail.com?subject=Roots%20ES-A%20Advanced%20License%20Purchase%20%E2%80%94%20%243%2C500&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20Roots%20ES-A%20Advanced%20license.',
+      'mailto:dinabudu@gmail.com?subject=Roots%20ES-A%20Advanced%20License%20Purchase%20%E2%80%94%20%2410%2C000&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20Roots%20ES-A%20Advanced%20license.',
     customizeUrl:
       'mailto:dinabudu@gmail.com?subject=Roots%20ES-A%20%E2%80%94%20Customization%20Request',
   },
   {
+    // Straight 3 × $10k — no bundle discount. The card keeps a visual
+    // highlight (via id === 'bundle') so it still reads as the "all-in"
+    // option, but no misleading "Save $X" badge is shown.
     id: 'bundle',
     name: 'All Three Levels — Full Elementary Bundle',
     level: 'All 3 tracks · ES-C + ES-B + ES-A',
-    price: '$9,500',
+    price: '$30,000',
     period: '/ year',
-    badge: 'BEST VALUE — Save $1,000',
     description:
       'License all three tracks for the same school year — the complete Roots Elementary system.',
     buyUrl:
-      'mailto:dinabudu@gmail.com?subject=Roots%20Full%20Elementary%20Bundle%20Purchase%20%E2%80%94%20%249%2C500&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20full%20Roots%20Elementary%20bundle%20%28all%20three%20levels%29.',
+      'mailto:dinabudu@gmail.com?subject=Roots%20Full%20Elementary%20Bundle%20Purchase%20%E2%80%94%20%2430%2C000&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20full%20Roots%20Elementary%20bundle%20%28all%20three%20levels%29.',
     customizeUrl:
       'mailto:dinabudu@gmail.com?subject=Roots%20Full%20Elementary%20Bundle%20%E2%80%94%20Customization%20Request',
   },
 ];
 
-// Ordered from lightest to heaviest license — SchoolPlus is flagged "popular".
-// The former "Classroom $1,800" tier is now replaced by the per-level licenses
-// above; a single teacher who wants one track buys the corresponding per-level
-// license ($3,500) instead.
+// Multi-campus / network tiers only. Per-level $10k licenses above are the
+// school-level pricing; the former School ($6,500) and School Plus ($9,500)
+// tiers were removed because they now sit below a single per-level license
+// and no longer make sense as separate products.
 export const schoolTiers = [
-  {
-    id: 'school',
-    name: 'School',
-    tagline: 'Up to 5 classrooms · ~150 students',
-    price: '$6,500',
-    period: '/ year',
-    highlight: false,
-    forWhom: 'Full-day Islamic schools rolling Roots out across their elementary grades.',
-    includes: [
-      'Everything in Classroom, for up to 5 teachers',
-      'Implementation guide for the school lead',
-      'Monthly Q&A with Dina',
-      '2-hour teacher training session',
-      'Certification for graduating students',
-    ],
-  },
-  {
-    id: 'school-plus',
-    name: 'School Plus',
-    tagline: 'Most schools land here',
-    price: '$9,500',
-    period: '/ year',
-    highlight: true,
-    forWhom: 'Schools that want Roots to feel like their curriculum, not a licensed one — with alumni continuity and branding.',
-    includes: [
-      'Everything in School',
-      'Roots Alumni Network access for graduating students',
-      'Branded certificates in your school’s identity',
-      'Light customization — school logo, holiday calendar alignment',
-    ],
-  },
   {
     id: 'institution',
     name: 'Institution / Multi-Campus',
     tagline: 'Unlimited classrooms',
-    price: '$18k–$25k',
+    price: '$45k–$65k',
     period: '/ year',
     highlight: false,
     forWhom: 'Larger schools and small networks who want Dina embedded in the rollout.',
@@ -136,7 +107,7 @@ export const schoolTiers = [
     id: 'network',
     name: 'Network License',
     tagline: 'Networks & multi-campus systems',
-    price: '$30k–$50k',
+    price: '$75k–$150k',
     period: '/ year',
     highlight: false,
     forWhom: 'School networks, homeschool co-ops, and multi-campus systems that need train-the-trainer capacity.',

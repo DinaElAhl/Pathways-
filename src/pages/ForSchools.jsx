@@ -140,15 +140,15 @@ export default function ForSchools() {
             >
               License a single level (or the whole track)
             </h2>
-            <p className="text-[#e8dab5]/75 max-w-2xl mx-auto">
-              Every license comes with everything in <em>What you get with a license</em>, above.
-              Pick just the level(s) you need, or bundle the whole track.
+            <p className="text-[#e8dab5]/80 max-w-2xl mx-auto">
+              License at the school level — pick the tracks that fit your students. Every license
+              covers unlimited classrooms and students within your school for one academic year.
             </p>
           </div>
 
           <div className="grid gap-6 mt-10 md:grid-cols-2 lg:grid-cols-4">
             {perLevelLicenses.map((lic) => {
-              const isBundle = !!lic.badge;
+              const isBundle = lic.id === 'bundle';
               return (
                 <div
                   key={lic.id}
@@ -158,11 +158,6 @@ export default function ForSchools() {
                       : 'border-[#c9a961]/20 bg-[#1a5559]/50 hover:border-[#c9a961]/60'
                   }`}
                 >
-                  {isBundle && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#c9a961] text-[#0d3b3e] text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
-                      {lic.badge}
-                    </span>
-                  )}
                   <div className="text-xs uppercase tracking-[0.14em] text-[#c9a961] mb-2">
                     {lic.level}
                   </div>
@@ -220,7 +215,7 @@ export default function ForSchools() {
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
             {schoolTiers.map((tier) => (
               <div
                 key={tier.id}
