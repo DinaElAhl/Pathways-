@@ -6,13 +6,6 @@ import PathwayCard from '../components/PathwayCard.jsx'
 import ResourceCard from '../components/ResourceCard.jsx'
 import Icon from '../components/Icon.jsx'
 
-const stats = [
-  { value: '50+', label: 'Guided pathways' },
-  { value: '500+', label: 'Resources' },
-  { value: '12k', label: 'Active members' },
-  { value: '4.9★', label: 'Average rating' },
-]
-
 const steps = [
   {
     n: '01',
@@ -70,16 +63,8 @@ export default function Home() {
               Browse pathways
             </Link>
           </div>
-
-          {/* Stats */}
-          <dl className="mx-auto mt-14 grid max-w-3xl grid-cols-2 gap-6 sm:grid-cols-4">
-            {stats.map((s) => (
-              <div key={s.label} className="rounded-2xl bg-white/60 p-4 ring-1 ring-slate-200 backdrop-blur">
-                <dt className="text-xs uppercase tracking-wide text-slate-500">{s.label}</dt>
-                <dd className="mt-1 font-display text-2xl font-semibold text-slate-900">{s.value}</dd>
-              </div>
-            ))}
-          </dl>
+          {/* Stats block removed — real numbers (30 pathways / 12 resources /
+              0 members / no rating yet) don't tell an honest, motivating story. */}
         </div>
       </section>
 
@@ -199,23 +184,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonial */}
-      <section className="container-page py-16">
-        <figure className="rounded-3xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 px-6 py-12 text-white sm:px-12 sm:py-16 shadow-soft">
-          <svg aria-hidden="true" className="h-8 w-8 text-brand-300" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V18h6.83v-6.83H5.17A2 2 0 0 1 7.17 9zM18.83 6A5.17 5.17 0 0 0 13.66 11.17V18h6.83v-6.83h-3.66a2 2 0 0 1 2-2z" />
-          </svg>
-          <blockquote className="mt-4 font-display text-2xl leading-snug sm:text-3xl">
-            "Pathways is the first place that doesn't make me pick a lane. I plan
-            lessons, swap tools with other teachers, and grow my own practice — all
-            under one roof."
-          </blockquote>
-          <figcaption className="mt-6 text-sm text-brand-100">
-            <strong className="font-semibold text-white">Ms. Chen</strong> &middot;
-            6th grade ELA teacher
-          </figcaption>
-        </figure>
-      </section>
+      {/* Testimonial section removed — was attributed to a fictional "Ms. Chen".
+          Once real testimonials are collected, drop them back in here. */}
 
       {/* Build Your Own Pathway — CTA */}
       <section className="bg-gradient-to-br from-brand-600 to-accent-600 py-16 sm:py-20">

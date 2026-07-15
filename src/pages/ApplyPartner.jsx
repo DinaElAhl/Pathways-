@@ -63,14 +63,8 @@ export default function ApplyPartner() {
               ))}
             </ul>
           </div>
-          <div className="rounded-2xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 p-6 text-white">
-            <p className="font-display text-lg leading-snug">
-              &ldquo;Pathways gave our district a shared language for PD across 14 schools. Engagement tripled.&rdquo;
-            </p>
-            <p className="mt-3 text-xs text-brand-100">
-              <strong className="font-semibold text-white">Dr. Rivera</strong> &middot; Director of Teaching & Learning
-            </p>
-          </div>
+          {/* Testimonial card removed — was a fabricated "Dr. Rivera" quote.
+              Replace with a real partner quote once one is on record. */}
         </aside>
       </section>
     </>

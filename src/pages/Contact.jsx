@@ -1,16 +1,22 @@
 import { useState } from 'react'
 import Icon from '../components/Icon.jsx'
 
+// Contact form composes a mailto so the visitor's message opens in their own
+// email client, addressed to Dina, with subject and body prefilled. Nothing
+// is submitted server-side; the previous "form vanishes into the void"
+// behavior has been removed.
+
 const topics = [
   'General question',
-  'Pick a pathway for me',
+  'Roots curriculum for my school',
   'Partner with us',
   'Mentor with us',
   'Press / media',
 ]
 
+const DINA_EMAIL = 'dinabudu@gmail.com'
+
 export default function Contact() {
-  const [submitted, setSubmitted] = useState(false)
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -27,7 +33,7 @@ export default function Contact() {
     if (!form.name.trim()) next.name = 'Please tell us your name.'
     if (!form.email.trim()) next.email = 'We need an email to reply.'
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-      next.email = 'Hmm, that email doesn\u2019t look right.'
+      next.email = 'Hmm, that email doesn’t look right.'
     if (!form.message.trim() || form.message.trim().length < 10)
       next.message = 'A little more context helps (10+ chars).'
     setErrors(next)
@@ -37,8 +43,11 @@ export default function Contact() {
   const onSubmit = (e) => {
     e.preventDefault()
     if (!validate()) return
-    setSubmitted(true)
-    setForm({ name: '', email: '', topic: topics[0], message: '' })
+    const subject = `Pathways — ${form.topic}`
+    const body =
+      `Hi Dina,\n\n${form.message.trim()}\n\n— ${form.name.trim()}\nReply to: ${form.email.trim()}`
+    const href = `mailto:${DINA_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    window.location.href = href
   }
 
   return (
@@ -48,11 +57,11 @@ export default function Contact() {
         <div className="container-page pt-14 pb-10 sm:pt-20">
           <span className="chip">Contact</span>
           <h1 className="mt-4 text-4xl sm:text-5xl font-bold tracking-tight">
-            Let's find your pathway together.
+            Say hello.
           </h1>
           <p className="mt-3 max-w-2xl text-lg text-slate-600">
-            Questions about a pathway, partnerships, or mentorship? Drop us a note —
-            a human replies within two business days.
+            Questions about the Roots curriculum, licensing for your school, or the RQAP exam?
+            Every note reaches Dina directly.
           </p>
         </div>
       </section>
@@ -63,122 +72,99 @@ export default function Contact() {
           <ContactInfo
             icon="mail"
             label="Email"
-            value="hello@pathways.test"
-            href="mailto:hello@pathways.test"
-          />
-          <ContactInfo
-            icon="phone"
-            label="Phone"
-            value="+1 (555) 010-0134"
-            href="tel:+15550100134"
+            value={DINA_EMAIL}
+            href={`mailto:${DINA_EMAIL}`}
           />
           <ContactInfo
             icon="pin"
-            label="Studio"
-            value="Remote-first · HQ in Lisbon, PT"
+            label="Based in"
+            value="Remote-first — replies from Cairo hours"
           />
 
           <div className="card">
-            <h3 className="text-base font-semibold">Office hours</h3>
-            <dl className="mt-3 space-y-1.5 text-sm text-slate-600">
-              <div className="flex justify-between"><dt>Mon – Thu</dt><dd>9:00 – 18:00</dd></div>
-              <div className="flex justify-between"><dt>Friday</dt><dd>9:00 – 14:00</dd></div>
-              <div className="flex justify-between"><dt>Weekends</dt><dd>Closed</dd></div>
-            </dl>
+            <h3 className="text-base font-semibold">Reply time</h3>
+            <p className="mt-3 text-sm text-slate-600">
+              Most messages get a reply within 1–2 business days. If you’re a school on a tight
+              timeline, say so in the subject and we’ll prioritize.
+            </p>
           </div>
         </div>
 
         {/* Form column */}
         <div className="lg:col-span-2">
-          {submitted ? (
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-8 text-center">
-              <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-emerald-600 text-white">
-                <Icon name="check" className="h-6 w-6" strokeWidth={3} />
-              </span>
-              <h2 className="mt-4 text-xl font-semibold text-emerald-900">
-                Thanks — your message is on its way.
-              </h2>
-              <p className="mt-2 text-sm text-emerald-800">
-                A human from the team will reply within two business days.
-              </p>
-              <button
-                type="button"
-                onClick={() => setSubmitted(false)}
-                className="btn-secondary mt-6"
+          <form onSubmit={onSubmit} noValidate className="card space-y-5">
+            <p className="text-sm text-slate-500">
+              This form opens your email client with your message ready to send — nothing goes to
+              a server here.
+            </p>
+            <div className="grid gap-5 sm:grid-cols-2">
+              <Field
+                id="name"
+                label="Your name"
+                value={form.name}
+                onChange={update('name')}
+                error={errors.name}
+                autoComplete="name"
+              />
+              <Field
+                id="email"
+                label="Your email"
+                type="email"
+                value={form.email}
+                onChange={update('email')}
+                error={errors.email}
+                autoComplete="email"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="topic" className="block text-sm font-medium text-slate-800">
+                What's this about?
+              </label>
+              <select
+                id="topic"
+                value={form.topic}
+                onChange={update('topic')}
+                className="mt-1.5 w-full rounded-xl border-0 bg-white px-4 py-2.5 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-brand-500"
               >
-                Send another message
+                {topics.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-slate-800">
+                Your message
+              </label>
+              <textarea
+                id="message"
+                rows={5}
+                value={form.message}
+                onChange={update('message')}
+                placeholder="Tell Dina what you're working on or wondering about..."
+                className={`mt-1.5 w-full rounded-xl border-0 bg-white px-4 py-3 text-sm text-slate-900 ring-1 ring-inset placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500 ${
+                  errors.message ? 'ring-rose-300' : 'ring-slate-200'
+                }`}
+              />
+              {errors.message && (
+                <p className="mt-1.5 text-xs text-rose-600">{errors.message}</p>
+              )}
+            </div>
+
+            <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-xs text-slate-500">
+                Prefer to write directly?{' '}
+                <a href={`mailto:${DINA_EMAIL}`} className="link">{DINA_EMAIL}</a>
+              </p>
+              <button type="submit" className="btn-primary px-6 py-3">
+                Compose email
+                <Icon name="arrowRight" className="ml-2 h-4 w-4" strokeWidth={2} />
               </button>
             </div>
-          ) : (
-            <form onSubmit={onSubmit} noValidate className="card space-y-5">
-              <div className="grid gap-5 sm:grid-cols-2">
-                <Field
-                  id="name"
-                  label="Your name"
-                  value={form.name}
-                  onChange={update('name')}
-                  error={errors.name}
-                  autoComplete="name"
-                />
-                <Field
-                  id="email"
-                  label="Email"
-                  type="email"
-                  value={form.email}
-                  onChange={update('email')}
-                  error={errors.email}
-                  autoComplete="email"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="topic" className="block text-sm font-medium text-slate-800">
-                  What's this about?
-                </label>
-                <select
-                  id="topic"
-                  value={form.topic}
-                  onChange={update('topic')}
-                  className="mt-1.5 w-full rounded-xl border-0 bg-white px-4 py-2.5 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-brand-500"
-                >
-                  {topics.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-slate-800">
-                  Your message
-                </label>
-                <textarea
-                  id="message"
-                  rows={5}
-                  value={form.message}
-                  onChange={update('message')}
-                  placeholder="Tell us what you're working on or wondering about..."
-                  className={`mt-1.5 w-full rounded-xl border-0 bg-white px-4 py-3 text-sm text-slate-900 ring-1 ring-inset placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500 ${
-                    errors.message ? 'ring-rose-300' : 'ring-slate-200'
-                  }`}
-                />
-                {errors.message && (
-                  <p className="mt-1.5 text-xs text-rose-600">{errors.message}</p>
-                )}
-              </div>
-
-              <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-xs text-slate-500">
-                  By sending, you agree we can reply to you by email.
-                </p>
-                <button type="submit" className="btn-primary px-6 py-3">
-                  Send message
-                  <Icon name="arrowRight" className="ml-2 h-4 w-4" strokeWidth={2} />
-                </button>
-              </div>
-            </form>
-          )}
+          </form>
         </div>
       </section>
     </>

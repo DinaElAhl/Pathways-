@@ -1,20 +1,14 @@
 // Trusted partner picks — curated lesser-known-but-trusted resources.
 //
-// Some of these links are affiliate / referral links. If a learner signs up or
-// buys through them, Pathways may earn a small commission at no extra cost to
-// the learner. We only include resources that our team has personally vetted
-// or that come highly recommended by the educator community.
-//
-// To add a new partner: duplicate an entry below, fill in the fields, and
-// (optionally) put your affiliate id in the `ref` field. The outbound URL
-// used by the site is `baseUrl` with `?ref=<ref>` appended when a `ref`
-// is present. If a resource is fully free, set `commission` to `null`.
+// These are recommendations, not commercial partnerships. No affiliate program
+// is currently in place; every outbound link goes straight to the resource
+// with no ref/utm params attached, and no commission is earned on any
+// signup or purchase. Keep `ref: null` and `commission: null` on every entry
+// until a real affiliate relationship is signed and the disclosure below is
+// updated to match.
 
-export const affiliateDisclosure = [
-  'Some links on this page are referral links.',
-  'If you sign up or buy through them, Pathways may earn a small commission — at no extra cost to you.',
-  'We never recommend a resource just because it pays. Every pick here is vetted by our team or trusted educators.',
-].join(' ')
+export const affiliateDisclosure =
+  'These are honest recommendations — no affiliate program, no commissions, no tracked signups. Every link goes straight to the resource.'
 
 export const partnerCategories = [
   'Languages',
@@ -60,9 +54,9 @@ export const partners = [
       'Great fit after a Pathways language path',
     ],
     baseUrl: 'https://www.italki.com/',
-    ref: 'pathways',
+    ref: null,
     price: 'From \$8 / hr',
-    commission: 'Referral',
+    commission: null,
     vetted: true,
   },
   {
@@ -100,7 +94,7 @@ export const partners = [
     baseUrl: 'https://readlang.com/',
     ref: null,
     price: 'Freemium — from \$5 / mo',
-    commission: 'Referral',
+    commission: null,
     vetted: true,
   },
   {
@@ -155,9 +149,9 @@ export const partners = [
       'Good fit after The Odin Project',
     ],
     baseUrl: 'https://frontendmasters.com/',
-    ref: 'pathways',
+    ref: null,
     price: '\$39 / mo',
-    commission: 'Affiliate',
+    commission: null,
     vetted: true,
   },
   {
@@ -193,9 +187,9 @@ export const partners = [
       'Strong alumni network',
     ],
     baseUrl: 'https://www.schoolofmotion.com/',
-    ref: 'pathways',
+    ref: null,
     price: 'From \$599 / course',
-    commission: 'Affiliate',
+    commission: null,
     vetted: true,
   },
   {
@@ -269,9 +263,9 @@ export const partners = [
       'Online + print options',
     ],
     baseUrl: 'https://beastacademy.com/',
-    ref: 'pathways',
+    ref: null,
     price: 'From \$15 / mo',
-    commission: 'Affiliate',
+    commission: null,
     vetted: true,
   },
   {
@@ -288,9 +282,9 @@ export const partners = [
       'Huge variety of subjects',
     ],
     baseUrl: 'https://outschool.com/',
-    ref: 'pathways',
+    ref: null,
     price: 'From \$10 / class',
-    commission: 'Referral',
+    commission: null,
     vetted: true,
   },
   {

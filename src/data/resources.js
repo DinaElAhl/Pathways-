@@ -30,7 +30,7 @@ export const resources = [
     subjects: ['Math'],
     levels: ['Grades 3–5', 'Grades 6–8'],
     format: '4-week unit · slides + handouts',
-    author: 'Ms. Aguilar',
+    author: 'Pathways',
     duration: '4 weeks',
     price: 'Free',
     summary:
@@ -86,7 +86,7 @@ export const resources = [
     subjects: ['Coaching'],
     levels: ['All levels'],
     format: 'Notion template + Figma board',
-    author: 'Léa B.',
+    author: 'Pathways',
     duration: 'Self-paced',
     price: '$12',
     summary:
@@ -114,7 +114,7 @@ export const resources = [
     subjects: ['Science'],
     levels: ['Grades 6–8'],
     format: 'Lab pack · PDF + printables',
-    author: 'Ms. Park',
+    author: 'Pathways',
     duration: 'Drop-in',
     price: '$9',
     summary:

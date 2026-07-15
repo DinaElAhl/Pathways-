@@ -27,14 +27,13 @@ export default function PartnerPicks() {
           Trusted resources, handpicked.
         </h1>
         <p className="mt-4 max-w-2xl text-slate-600">
-          Lesser-known but genuinely excellent tools, tutors, and textbooks our
-          team has vetted — across languages, coding, design, data, and more.
-          Many are free. Some are paid — and where we have a referral link, we
-          say so clearly below.
+          Lesser-known but genuinely excellent tools, tutors, and textbooks
+          Dina has vetted — across languages, coding, design, data, and more.
+          Many are free. Some are paid.
         </p>
 
-        <div className="mt-6 rounded-2xl bg-amber-50 p-4 text-sm text-amber-900 ring-1 ring-inset ring-amber-200">
-          <strong>Affiliate disclosure · </strong>
+        <div className="mt-6 rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-900 ring-1 ring-inset ring-emerald-200">
+          <strong>No affiliate program · </strong>
           {affiliateDisclosure}
         </div>
       </section>
@@ -77,15 +76,9 @@ export default function PartnerPicks() {
             >
               <div className="flex items-center justify-between">
                 <span className="chip">{p.category}</span>
-                {p.commission ? (
-                  <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-medium text-amber-800">
-                    {p.commission} link
-                  </span>
-                ) : (
-                  <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-medium text-emerald-800">
-                    Free · no commission
-                  </span>
-                )}
+                {/* Commission badges intentionally removed — no affiliate
+                    program is currently in place. When Dina signs one, restore
+                    the p.commission conditional badge here. */}
               </div>
 
               <h3 className="mt-4 text-xl font-semibold tracking-tight text-slate-900">

@@ -105,23 +105,26 @@ export default function AudiencePage() {
         </section>
       )}
 
-      {/* Testimonial */}
-      <section className="container-page py-14">
-        <figure className="rounded-3xl border border-slate-200 bg-white p-8 sm:p-12">
-          <svg aria-hidden="true" className="h-8 w-8 text-brand-300" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V18h6.83v-6.83H5.17A2 2 0 0 1 7.17 9zM18.83 6A5.17 5.17 0 0 0 13.66 11.17V18h6.83v-6.83h-3.66a2 2 0 0 1 2-2z" />
-          </svg>
-          <blockquote className="mt-4 font-display text-2xl leading-snug text-slate-900">
-            &ldquo;{audience.testimonial.quote}&rdquo;
-          </blockquote>
-          <figcaption className="mt-6 text-sm text-slate-600">
-            <strong className="font-semibold text-slate-900">
-              {audience.testimonial.name}
-            </strong>{' '}
-            &middot; {audience.testimonial.role}
-          </figcaption>
-        </figure>
-      </section>
+      {/* Testimonial block hides itself when no testimonial is set — real
+          quotes only. Fake attributions previously here were removed. */}
+      {audience.testimonial && (
+        <section className="container-page py-14">
+          <figure className="rounded-3xl border border-slate-200 bg-white p-8 sm:p-12">
+            <svg aria-hidden="true" className="h-8 w-8 text-brand-300" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V18h6.83v-6.83H5.17A2 2 0 0 1 7.17 9zM18.83 6A5.17 5.17 0 0 0 13.66 11.17V18h6.83v-6.83h-3.66a2 2 0 0 1 2-2z" />
+            </svg>
+            <blockquote className="mt-4 font-display text-2xl leading-snug text-slate-900">
+              &ldquo;{audience.testimonial.quote}&rdquo;
+            </blockquote>
+            <figcaption className="mt-6 text-sm text-slate-600">
+              <strong className="font-semibold text-slate-900">
+                {audience.testimonial.name}
+              </strong>{' '}
+              &middot; {audience.testimonial.role}
+            </figcaption>
+          </figure>
+        </section>
+      )}
 
       {/* Other audiences */}
       <section className="container-page pb-20">

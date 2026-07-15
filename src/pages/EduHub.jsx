@@ -38,15 +38,6 @@ const ARTIFACTS = [
     rootsNote: 'Each E² cycle ends by asking which of Allāh’s Names is manifest in what you studied and what akhlāq it asks of you.'
   },
   {
-    title: 'AI Studio',
-    tagline: 'Curated AI tools for learners and teachers',
-    description: 'A workspace of AI helpers for lesson design, summarization and study — used with a tawḥīd-centred lens.',
-    href: '/ai-studio',
-    cta: 'Open AI Studio',
-    color: 'rose',
-    rootsNote: 'AI is a means; the Bestower of knowledge is Allāh. Use AI to free time for tafakkur, not to replace it.'
-  },
-  {
     title: 'Roots of Knowledge',
     tagline: 'Allāh’s Names manifest in every discipline',
     description: '58 Names mentioned in the Qurʼan, mapped to disciplines (math, physics, biology, history, …) with tafakkur prompts and akhlāq for real success.',

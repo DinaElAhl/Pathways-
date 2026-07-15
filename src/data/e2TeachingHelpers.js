@@ -1,4 +1,4 @@
-undefined// Suggestion phrases for the E² Teaching Framework slots.
+// Suggestion phrases for the E² Teaching Framework slots.
 // Click a phrase to copy it; paste into the matching slot in the embedded tool.
 
 export const e2ToolMeta = {

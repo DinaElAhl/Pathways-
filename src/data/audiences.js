@@ -18,12 +18,6 @@ export const audiences = [
       { label: 'Browse pathways', to: '/pathways', primary: true },
       { label: 'See learner resources', to: '/resources?audience=learners' },
     ],
-    testimonial: {
-      quote:
-        'I finally finished something. The pathway gave me structure and the community kept me going.',
-      name: 'Priya S.',
-      role: 'Career-changer, Data Science pathway',
-    },
   },
   {
     slug: 'teachers',
@@ -43,12 +37,6 @@ export const audiences = [
       { label: 'Browse teacher resources', to: '/resources?audience=teachers', primary: true },
       { label: 'Join the teacher community', to: '/contact' },
     ],
-    testimonial: {
-      quote:
-        'I cut my planning time in half and still walked into class more prepared than ever.',
-      name: 'Mr. Olawale',
-      role: '8th grade Science teacher',
-    },
   },
   {
     slug: 'schools',
@@ -68,12 +56,6 @@ export const audiences = [
       { label: 'Talk to partnerships', to: '/apply/partner', primary: true },
       { label: 'See institution resources', to: '/resources?audience=schools' },
     ],
-    testimonial: {
-      quote:
-        'Pathways gave our district a shared language for PD across 14 schools. Engagement tripled.',
-      name: 'Dr. Rivera',
-      role: 'Director of Teaching & Learning',
-    },
   },
   {
     slug: 'parents',
@@ -93,12 +75,6 @@ export const audiences = [
       { label: 'Browse family resources', to: '/resources?audience=parents', primary: true },
       { label: 'Ask an educator', to: '/contact' },
     ],
-    testimonial: {
-      quote:
-        'The weekly family activities replaced screen time with the best conversations we\u2019ve ever had.',
-      name: 'Amina & Tariq',
-      role: 'Parents of a curious 9-year-old',
-    },
   },
   {
     slug: 'educators',
@@ -118,12 +94,6 @@ export const audiences = [
       { label: 'Become a Pathways educator', to: '/apply/educator', primary: true },
       { label: 'Browse educator resources', to: '/resources?audience=educators' },
     ],
-    testimonial: {
-      quote:
-        'I turned my Saturday coaching sessions into a pathway and reached learners in 12 countries.',
-      name: 'Léa B.',
-      role: 'Independent UX coach',
-    },
   },
 ]
 

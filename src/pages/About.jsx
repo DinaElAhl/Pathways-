@@ -1,65 +1,51 @@
 import { Link } from 'react-router-dom'
 import Icon from '../components/Icon.jsx'
 
-const values = [
+// Pathways is a solo project by Dina Mohamed Sayed El-Ahl. Everything on this
+// page is a real credential — no fictional team, no fabricated milestones.
+
+const credentials = [
   {
     icon: 'target',
-    title: 'Outcomes over hours',
-    body: 'We measure success by what learners can build and ship, not by how long they sat through a video.',
-  },
-  {
-    icon: 'users',
-    title: 'Learning in community',
-    body: 'Every pathway is a cohort. Peers, mentors, and review loops make the work stick.',
-  },
-  {
-    icon: 'heart',
-    title: 'Craft and care',
-    body: 'We write, illustrate, and rework every lesson until it feels clear, human, and honest.',
+    title: 'Arabic & Qur’an educator',
+    body: 'Taught Arabic and Qur’anic Studies at Bayaan Academy, a US-based online Islamic school, leading the elementary and high-school Advanced tracks and building the scope-and-sequence framework used across grade bands.',
   },
   {
     icon: 'bolt',
-    title: 'Momentum first',
-    body: 'Short modules, weekly wins, and gentle deadlines keep you moving without burning out.',
+    title: 'Master’s thesis in Arabic NLP',
+    body: 'MA research in Arabic natural language processing (text summarization) — background that shapes how Roots teaches Arabic reading, phonology, and structure.',
+  },
+  {
+    icon: 'heart',
+    title: 'Wayground / Quizizz Game Changer',
+    body: 'Certified Game Changer trainer for Wayground / Quizizz — one of a small international group recognized for using formative assessment technology in the classroom.',
+  },
+  {
+    icon: 'users',
+    title: 'Author, Roots Tajweed Reading Series',
+    body: 'A five-lesson published curriculum that walks learners from the Arabic alphabet to reading with short vowels and tanwin. Sold on Payhip and Gumroad.',
   },
 ]
 
-const team = [
+const audienceMap = [
   {
-    name: 'Noor A.',
-    role: 'Founder & Curriculum Lead',
-    bio: 'Ex-engineer and teacher. Obsessed with how people actually learn.',
-    initials: 'NA',
-    tint: 'from-brand-500 to-brand-700',
+    who: 'Islamic schools & homeschools',
+    what: 'The full Roots curriculum — a three-track (Beginner / Intermediate / Advanced), bilingual Qur’an and Arabic system your teachers can pick up on Monday morning.',
+    to: '/for-schools',
+    cta: 'Licensing for schools →',
   },
   {
-    name: 'Jamal R.',
-    role: 'Head of Design',
-    bio: 'Designer for a decade. Believes good UX starts with good questions.',
-    initials: 'JR',
-    tint: 'from-accent-500 to-accent-600',
+    who: 'Individual teachers, tutors, homeschoolers',
+    what: 'The Roots Tajweed Reading Series and Roots Elementary Kits — self-serve materials that make Qur’anic Arabic teachable without a curriculum degree.',
+    to: '/shop',
+    cta: 'Visit the shop →',
   },
   {
-    name: 'Sara M.',
-    role: 'Community & Mentors',
-    bio: 'Builds warm, high-trust learning communities people actually show up to.',
-    initials: 'SM',
-    tint: 'from-emerald-500 to-emerald-700',
+    who: 'Students preparing for a proficiency exam',
+    what: 'The Roots Quranic Arabic Proficiency Examination (RQAP) — a formal exam with a placement audit, section-level diagnostic, and certificate on completion.',
+    to: '/rqap.html',
+    cta: 'Try the exam →',
   },
-  {
-    name: 'Dev P.',
-    role: 'Engineering',
-    bio: 'Keeps the platform fast, accessible, and boringly reliable.',
-    initials: 'DP',
-    tint: 'from-purple-500 to-purple-700',
-  },
-]
-
-const milestones = [
-  { year: '2022', title: 'Pathways begins', body: 'A small pilot cohort of 24 learners, one curriculum, and a lot of feedback forms.' },
-  { year: '2023', title: 'Mentor network', body: 'We added live mentor office hours and a peer review system across every pathway.' },
-  { year: '2024', title: 'Open to everyone', body: 'Scaled to 6 core pathways and 12,000+ learners — still graded by real humans.' },
-  { year: '2025', title: 'Into the future', body: 'New pathways in AI, DevOps, and research skills — built with working practitioners.' },
 ]
 
 export default function About() {
@@ -68,46 +54,56 @@ export default function About() {
       {/* Hero */}
       <section className="container-page pt-14 pb-10 sm:pt-20">
         <div className="max-w-3xl">
-          <span className="chip">About Pathways</span>
+          <span className="chip">About</span>
           <h1 className="mt-4 text-4xl sm:text-5xl font-bold tracking-tight">
-            A hub for everyone who learns and teaches.
+            Pathways is a solo project by{' '}
+            <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-accent-500 bg-clip-text text-transparent">
+              Dina Mohamed Sayed El-Ahl
+            </span>
+            .
           </h1>
           <p className="mt-4 text-lg text-slate-600">
-            Pathways brings learners, teachers, parents, schools, and educators into
-            one place — so the person with the question, the person with the lesson
-            plan, and the person who can mentor them can actually find each other.
+            An Arabic and Qur’anic Studies educator building the curriculum, tools, and exam she
+            wished her own students and teaching colleagues had. Everything on Pathways is written,
+            designed, and maintained by Dina — no fictional team, no borrowed credentials.
           </p>
         </div>
       </section>
 
-      {/* Mission */}
+      {/* Bio card */}
       <section className="container-page pb-16">
         <div className="rounded-3xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 p-8 text-white sm:p-12">
           <span className="inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur">
-            Our mission
+            About Dina
           </span>
           <h2 className="mt-4 font-display text-3xl sm:text-4xl font-bold tracking-tight">
-            Make ambitious learning feel possible, human, and actually finishable — for everyone in the ecosystem.
+            An educator making Qur’anic Arabic readable — for anyone who wants to learn.
           </h2>
           <p className="mt-4 max-w-2xl text-brand-100">
-            We're a small team of builders, teachers, and designers. We craft
-            pathways, resources, and tools we'd want to use ourselves — with real
-            projects, real educators, and zero fluff. If you care about growing, or
-            helping someone else grow, we want to walk the path with you.
+            Dina taught Arabic and Qur’anic Studies at Bayaan Academy, a US-based online Islamic
+            school, where she led the elementary and high-school Advanced tracks and built the
+            scope-and-sequence framework used across grade bands. Her master’s thesis was in Arabic
+            natural language processing (text summarization). She is a Wayground / Quizizz Game
+            Changer certified trainer and the author of the Roots Tajweed Reading Series.
+          </p>
+          <p className="mt-4 max-w-2xl text-brand-100">
+            Pathways is where that work lives publicly — the curriculum for schools, the
+            self-serve materials for individual teachers, and the proficiency exam for students who
+            want their learning measured against a real bar.
           </p>
         </div>
       </section>
 
-      {/* Values */}
+      {/* Credentials */}
       <section className="container-page pb-16">
         <div className="max-w-2xl">
-          <span className="chip">What we value</span>
+          <span className="chip">Credentials</span>
           <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-            Four principles that shape everything we make.
+            The background behind Roots.
           </h2>
         </div>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {values.map((v) => (
+        <div className="mt-10 grid gap-6 sm:grid-cols-2">
+          {credentials.map((v) => (
             <div key={v.title} className="card">
               <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand-50 text-brand-700">
                 <Icon name={v.icon} className="h-5 w-5" strokeWidth={2} />
@@ -119,72 +115,54 @@ export default function About() {
         </div>
       </section>
 
-      {/* Team */}
+      {/* Who I help / What I make */}
       <section className="bg-slate-50">
         <div className="container-page py-16 sm:py-20">
           <div className="max-w-2xl">
-            <span className="chip">Meet the team</span>
+            <span className="chip">Who I help · what I make</span>
             <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-              Small team, big obsession with your learning.
+              Three ways to work with what I’ve built.
             </h2>
+            <p className="mt-2 text-slate-600">
+              Roots is designed to meet you where you are — whether you’re a school licensing a
+              full curriculum, a teacher who needs a lesson tomorrow, or a student who wants their
+              proficiency measured.
+            </p>
           </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {team.map((m) => (
-              <div key={m.name} className="card text-center">
-                <div
-                  className={`mx-auto grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br ${m.tint} font-display text-xl font-bold text-white shadow-soft`}
-                  aria-hidden="true"
-                >
-                  {m.initials}
-                </div>
-                <h3 className="mt-4 font-semibold text-slate-900">{m.name}</h3>
-                <p className="text-sm text-brand-700">{m.role}</p>
-                <p className="mt-2 text-sm text-slate-600">{m.bio}</p>
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {audienceMap.map((a) => (
+              <div key={a.who} className="card flex flex-col">
+                <h3 className="font-display text-lg font-semibold text-slate-900">{a.who}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600 flex-1">{a.what}</p>
+                {a.to.startsWith('/') && !a.to.endsWith('.html') ? (
+                  <Link to={a.to} className="link mt-5 inline-flex items-center gap-1">
+                    {a.cta}
+                  </Link>
+                ) : (
+                  <a href={a.to} className="link mt-5 inline-flex items-center gap-1">
+                    {a.cta}
+                  </a>
+                )}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="container-page py-16 sm:py-20">
-        <div className="max-w-2xl">
-          <span className="chip">Our story</span>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-            A short history so far.
-          </h2>
-        </div>
-        <ol className="mt-10 relative border-l-2 border-brand-100 pl-6 space-y-8">
-          {milestones.map((m) => (
-            <li key={m.year} className="relative">
-              <span className="absolute -left-[33px] grid h-6 w-6 place-items-center rounded-full bg-brand-600 text-white text-xs font-bold">
-                •
-              </span>
-              <p className="text-xs font-semibold uppercase tracking-wide text-brand-700">
-                {m.year}
-              </p>
-              <h3 className="mt-1 text-lg font-semibold">{m.title}</h3>
-              <p className="mt-1 text-sm text-slate-600">{m.body}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
       {/* CTA */}
-      <section className="container-page pb-20">
+      <section className="container-page py-20">
         <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center sm:p-12">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Want to learn with us?
-          </h2>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Say hello.</h2>
           <p className="mx-auto mt-3 max-w-xl text-slate-600">
-            Join a pathway, join a cohort, or just say hi. We'd love to meet you.
+            Interested in bringing Roots to your school, or curious about the curriculum? Every
+            note reaches Dina directly.
           </p>
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link to="/pathways" className="btn-primary px-6 py-3">
-              Explore pathways
+            <Link to="/for-schools" className="btn-primary px-6 py-3">
+              Book a discovery call
             </Link>
             <Link to="/contact" className="btn-ghost px-6 py-3">
-              Say hello
+              Send a message
             </Link>
           </div>
         </div>

@@ -3,11 +3,6 @@
   <url><loc>https://www.pathwayslearn.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://www.pathwayslearn.com/pathways</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/recommend</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.pathwayslearn.com/lms</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.pathwayslearn.com/pricing</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.pathwayslearn.com/dashboard</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.pathwayslearn.com/ai-studio</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.pathwayslearn.com/join</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/partners</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/roots</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/roots/names</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -15,7 +10,6 @@
   <url><loc>https://www.pathwayslearn.com/tools/e2-teaching</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/edu-hub</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/resources</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.pathwayslearn.com/events</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/apply/educator</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/apply/partner</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/faq</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -69,12 +63,6 @@
   <url><loc>https://www.pathwayslearn.com/resources/ai-for-builders-pathway</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/resources/rubric-builder</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/resources/ux-for-teachers</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.pathwayslearn.com/events/ai-in-the-classroom-panel</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.pathwayslearn.com/events/lesson-planning-clinic</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.pathwayslearn.com/events/family-reading-night</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.pathwayslearn.com/events/district-partnership-office-hours</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.pathwayslearn.com/events/mentor-storytime</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.pathwayslearn.com/events/teacher-founders-meetup</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/for/learners</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/for/teachers</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/for/schools</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>

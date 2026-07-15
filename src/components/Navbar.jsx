@@ -24,14 +24,9 @@ const externalLinks = [
 
 // Secondary links grouped under "More"
 const moreLinks = [
-  { to: '/lms', label: 'For Schools' },
   { to: '/quran-exams', label: '📖 Quran Exams' },
   { to: '/exam-dashboard', label: '📊 Exam Dashboard' },
-  { to: '/pricing', label: 'Pricing' },
-  { to: '/dashboard', label: 'Dashboard' },
-  { to: '/ai-studio', label: 'AI Studio' },
   { to: '/edu-hub', label: 'EduHub & Tools' },
-  { to: '/events', label: 'Events' },
   { to: '/partners', label: 'Partners' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
@@ -188,10 +183,10 @@ export default function Navbar() {
               Browse
             </Link>
             <Link
-              to="/join"
+              to="/for-schools"
               className="px-4 py-2 rounded-lg text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors"
             >
-              Get started
+              For schools
             </Link>
           </div>
 
@@ -239,8 +234,8 @@ export default function Navbar() {
             </a>
           ))}
           <div className="pt-2 border-t border-slate-100 space-y-1">
-            <Link to="/join" className="block px-3 py-2 rounded-lg text-sm font-semibold bg-brand-600 text-white text-center">
-              Get started
+            <Link to="/for-schools" className="block px-3 py-2 rounded-lg text-sm font-semibold bg-brand-600 text-white text-center">
+              For schools
             </Link>
           </div>
         </div>

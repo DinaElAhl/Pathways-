@@ -478,7 +478,7 @@ function FinalReport({ studentName, schoolType, levelResults, totalXp, onRestart
 <div class="badge">${finalLevel.name} — ${finalLevel.cefr}</div>
 <p style="font-size:13px;color:#64748b">School Track: ${school?.label||schoolType} &bull; Total XP: ${totalXp}</p></div>
 <div class="scores">${levelResults.map(r=>{const lv=LEVELS.find(l=>l.id===r.levelId);return`<div class="sr"><span>${lv?.name||r.levelId} (${lv?.cefr})</span><span class="${r.passed?'pass':'fail'}">${r.score}/10 &mdash; ${r.passed?'PASSED':'STOPPED'}</span></div>`;}).join('')}</div>
-<div class="footer"><div class="sig">Pathways Education<br/>Authorised Examiner</div><div class="center" style="font-size:11px;color:#aaa">Issued: ${date}</div><div class="sig">RAQP Certification<br/>Official Record</div></div>
+<div class="footer"><div class="sig">Pathways Education<br/>Accreditation in progress</div><div class="center" style="font-size:11px;color:#aaa">Issued: ${date}</div><div class="sig">RAQP Certificate of Completion</div></div>
 </div><script>window.onload=()=>window.print();</script></body></html>`);
     w.document.close();
   }
@@ -530,7 +530,7 @@ function WelcomeScreen({ onStart }) {
   const steps = [
     { icon:'🔥', color:'#ff9600', title:'Warm-Up', desc:'5 flashcard questions with hearts, XP & streaks' },
     { icon:'🏁', color:'#1cb0f6', title:'Real Exam', desc:'10 focused questions — no hearts, just focus' },
-    { icon:'🏆', color:'#58cc02', title:'Certificate', desc:'Print your certified CEFR proficiency level' },
+    { icon:'🏆', color:'#58cc02', title:'Certificate', desc:'Print your CEFR proficiency level (accreditation in progress)' },
   ];
   return (
     <div style={{ minHeight:'100vh', background:'#fff', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'32px 20px' }}>
