@@ -20,23 +20,71 @@ export const licenseIncludes = [
   'Implementation support onboarding for the licensing teachers',
 ];
 
-// Ordered from lightest to heaviest license — SchoolPlus is flagged "popular".
-export const schoolTiers = [
+// Per-level licenses — buy a single track (ES-C / ES-B / ES-A) or the full
+// three-track bundle. Sits ABOVE the multi-classroom tiers on /for-schools.
+// Every mailto URL is pre-encoded per Dina's spec so subject/body render
+// exactly as she wrote them.
+export const perLevelLicenses = [
   {
-    id: 'classroom',
-    name: 'Classroom',
-    tagline: '1 teacher · ~30 students',
-    price: '$1,800',
+    id: 'es-c',
+    name: 'Roots ES-C — Beginner License',
+    level: 'ES-C · Beginner',
+    price: '$3,500',
     period: '/ year',
-    highlight: false,
-    forWhom: 'Individual teachers, tutors, and small microschools running the full three-track elementary curriculum.',
-    includes: [
-      'Everything in "What you get with a license"',
-      'Single-classroom access for one teacher',
-      'Optional add-on: 1-hour onboarding call ($150)',
-      'Optional add-on: quarterly office hour with Dina ($400/yr)',
-    ],
+    description:
+      'The full ES-C track: 37 weeks of lessons, teacher guide, assessments, resource packs, placement audit.',
+    buyUrl:
+      'mailto:dinabudu@gmail.com?subject=Roots%20ES-C%20Beginner%20License%20Purchase%20%E2%80%94%20%243%2C500&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20Roots%20ES-C%20Beginner%20license.',
+    customizeUrl:
+      'mailto:dinabudu@gmail.com?subject=Roots%20ES-C%20%E2%80%94%20Customization%20Request',
   },
+  {
+    id: 'es-b',
+    name: 'Roots ES-B — Intermediate License',
+    level: 'ES-B · Intermediate',
+    price: '$3,500',
+    period: '/ year',
+    description:
+      'The full ES-B track: 37 weeks of Tajweed foundations, teacher guide, assessments, resource packs.',
+    buyUrl:
+      'mailto:dinabudu@gmail.com?subject=Roots%20ES-B%20Intermediate%20License%20Purchase%20%E2%80%94%20%243%2C500&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20Roots%20ES-B%20Intermediate%20license.',
+    customizeUrl:
+      'mailto:dinabudu@gmail.com?subject=Roots%20ES-B%20%E2%80%94%20Customization%20Request',
+  },
+  {
+    id: 'es-a',
+    name: 'Roots ES-A — Advanced License',
+    level: 'ES-A · Advanced',
+    price: '$3,500',
+    period: '/ year',
+    description:
+      'The full ES-A track: 37 weeks of advanced tajweed + adaab + capstone portfolios, teacher guide, assessments, resource packs.',
+    buyUrl:
+      'mailto:dinabudu@gmail.com?subject=Roots%20ES-A%20Advanced%20License%20Purchase%20%E2%80%94%20%243%2C500&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20Roots%20ES-A%20Advanced%20license.',
+    customizeUrl:
+      'mailto:dinabudu@gmail.com?subject=Roots%20ES-A%20%E2%80%94%20Customization%20Request',
+  },
+  {
+    id: 'bundle',
+    name: 'All Three Levels — Full Elementary Bundle',
+    level: 'All 3 tracks · ES-C + ES-B + ES-A',
+    price: '$9,500',
+    period: '/ year',
+    badge: 'BEST VALUE — Save $1,000',
+    description:
+      'License all three tracks for the same school year — the complete Roots Elementary system.',
+    buyUrl:
+      'mailto:dinabudu@gmail.com?subject=Roots%20Full%20Elementary%20Bundle%20Purchase%20%E2%80%94%20%249%2C500&body=Assalamu%20alaikum%2C%20I%27d%20like%20to%20purchase%20the%20full%20Roots%20Elementary%20bundle%20%28all%20three%20levels%29.',
+    customizeUrl:
+      'mailto:dinabudu@gmail.com?subject=Roots%20Full%20Elementary%20Bundle%20%E2%80%94%20Customization%20Request',
+  },
+];
+
+// Ordered from lightest to heaviest license — SchoolPlus is flagged "popular".
+// The former "Classroom $1,800" tier is now replaced by the per-level licenses
+// above; a single teacher who wants one track buys the corresponding per-level
+// license ($3,500) instead.
+export const schoolTiers = [
   {
     id: 'school',
     name: 'School',

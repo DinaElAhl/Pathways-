@@ -1,4 +1,4 @@
-import { shopBundle, shopLessons, shopKits, shopBooks, shopAuthor } from '../data/shopProducts.js';
+import { shopBundle, shopLessons, shopKits, shopAuthor } from '../data/shopProducts.js';
 
 // Small icons for the marketplace buttons. Kept inline so the page stays
 // self-contained and does not pull in a new dependency for two logos.
@@ -272,50 +272,6 @@ export default function Shop() {
                   <div className="text-[10px] text-slate-500 mt-2 text-center uppercase tracking-wider">
                     Launching soon on Payhip &amp; Gumroad
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Books / Arabic reading */}
-      <section id="books" className="px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="max-w-5xl mx-auto">
-          <div className="mb-8">
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mb-2">
-              Arabic reading
-            </h2>
-            <p className="text-slate-400">
-              Original Arabic writing by Dina — for readers who enjoy the language itself.
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-            {shopBooks.map((book) => (
-              <div
-                key={book.id}
-                className="flex flex-col bg-slate-900/60 border border-slate-800 rounded-xl p-6 hover:border-accent-400/60 hover:shadow-soft transition-all md:col-span-1"
-              >
-                <span className="text-xs font-bold text-accent-400 uppercase tracking-[0.1em] mb-3">
-                  {book.eyebrow}
-                </span>
-                <h3
-                  className="text-3xl mb-2 text-white"
-                  style={{ fontFamily: 'Amiri, "Traditional Arabic", serif', direction: 'rtl' }}
-                >
-                  {book.arabicTitle}
-                </h3>
-                <div className="text-sm text-slate-400 italic mb-3">
-                  {book.romanization} · <span className="text-slate-500">“{book.englishTitle}”</span>
-                </div>
-                <p className="text-sm text-slate-300 flex-1 mb-4">{book.description}</p>
-                <div className="pt-4 border-t border-slate-800">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-lg font-bold text-white">{book.priceLabel}</span>
-                    <span className="text-xs text-slate-500 uppercase tracking-wider">Pay what you want</span>
-                  </div>
-                  <BuyButtons gumroadUrl={book.gumroadUrl} />
                 </div>
               </div>
             ))}

@@ -129,23 +129,6 @@ export const shopKits = [
   },
 ];
 
-// Original Arabic writing by Dina — a separate product from the Tajweed series.
-export const shopBooks = [
-  {
-    id: 'min-dilin-wahid',
-    arabicTitle: 'من ضلعٍ واحدٍ لا أربعة',
-    romanization: 'Min Dilʿin Wāḥidin Lā Arbaʿa',
-    englishTitle: 'From One Rib, Not Four',
-    eyebrow: 'Arabic essay · Original writing',
-    priceLabel: '$10+',
-    minPrice: 10,
-    description:
-      'A short Arabic-language book, pay-what-you-want above $10. An intimate literary essay from Dina — for readers who enjoy Arabic prose and want to support her writing directly.',
-    // Gumroad only — this title is not on Payhip.
-    gumroadUrl: 'https://bududiva.gumroad.com/l/rhcjno',
-  },
-];
-
 export const shopAuthor = {
   name: 'Dina Mohamed Sayed El-Ahl',
   bio: 'An Arabic and Quranic Studies educator with 7+ years teaching online in a US-based Islamic school, a master’s degree in Arabic natural language processing, and a career built on making the Quran readable for anyone who wants to learn.',

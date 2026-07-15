@@ -1,6 +1,7 @@
 import {
   rootsSystem,
   licenseIncludes,
+  perLevelLicenses,
   schoolTiers,
   consultingServices,
   howItWorks,
@@ -127,7 +128,82 @@ export default function ForSchools() {
       </section>
 
       {/* ============================================================
-          Section 3 — Pricing tiers
+          Section 3a — License a single level (or the whole track)
+          ============================================================ */}
+      <Ornament />
+      <section className="px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-4">
+            <h2
+              className="text-3xl sm:text-4xl font-semibold text-[#f8f3e7] mb-3"
+              style={{ fontFamily: '"Cormorant Garamond", serif' }}
+            >
+              License a single level (or the whole track)
+            </h2>
+            <p className="text-[#e8dab5]/75 max-w-2xl mx-auto">
+              Every license comes with everything in <em>What you get with a license</em>, above.
+              Pick just the level(s) you need, or bundle the whole track.
+            </p>
+          </div>
+
+          <div className="grid gap-6 mt-10 md:grid-cols-2 lg:grid-cols-4">
+            {perLevelLicenses.map((lic) => {
+              const isBundle = !!lic.badge;
+              return (
+                <div
+                  key={lic.id}
+                  className={`relative flex flex-col rounded-2xl border p-6 transition-all ${
+                    isBundle
+                      ? 'border-[#c9a961] bg-[#1a5559] shadow-2xl shadow-[#c9a961]/10 lg:scale-105'
+                      : 'border-[#c9a961]/20 bg-[#1a5559]/50 hover:border-[#c9a961]/60'
+                  }`}
+                >
+                  {isBundle && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#c9a961] text-[#0d3b3e] text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                      {lic.badge}
+                    </span>
+                  )}
+                  <div className="text-xs uppercase tracking-[0.14em] text-[#c9a961] mb-2">
+                    {lic.level}
+                  </div>
+                  <h3
+                    className="text-xl font-semibold text-[#f8f3e7] mb-3 leading-tight"
+                    style={{ fontFamily: '"Cormorant Garamond", serif' }}
+                  >
+                    {lic.name}
+                  </h3>
+                  <div className="flex items-baseline gap-1 mb-4">
+                    <span className="text-3xl font-bold text-[#c9a961]">{lic.price}</span>
+                    <span className="text-sm text-[#e8dab5]/60">{lic.period}</span>
+                  </div>
+                  <p className="text-sm text-[#f0e8d2]/85 flex-1 mb-5">{lic.description}</p>
+                  <div className="flex flex-col gap-2">
+                    <a
+                      href={lic.buyUrl}
+                      className={`text-center px-4 py-2.5 rounded-lg font-semibold text-sm transition-colors ${
+                        isBundle
+                          ? 'bg-[#c9a961] hover:bg-[#e8dab5] text-[#0d3b3e]'
+                          : 'bg-[#c9a961] hover:bg-[#e8dab5] text-[#0d3b3e]'
+                      }`}
+                    >
+                      Buy license →
+                    </a>
+                    <a
+                      href={lic.customizeUrl}
+                      className="text-center px-4 py-2.5 rounded-lg border border-[#c9a961]/50 hover:border-[#c9a961] hover:bg-[#c9a961]/10 text-[#f0e8d2] font-semibold text-sm transition-colors"
+                    >
+                      Email for customization
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          Section 3b — For larger deployments
           ============================================================ */}
       <Ornament />
       <section className="px-4 sm:px-6 lg:px-8 py-12">
@@ -137,14 +213,14 @@ export default function ForSchools() {
               className="text-3xl sm:text-4xl font-semibold text-[#f8f3e7] mb-3"
               style={{ fontFamily: '"Cormorant Garamond", serif' }}
             >
-              Pricing tiers
+              For larger deployments
             </h2>
             <p className="text-[#e8dab5]/75">
-              All licenses are annual, in USD. Pick the tier that matches your student count.
+              Multi-classroom, multi-campus, and network-wide licenses — annual, in USD.
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {schoolTiers.map((tier) => (
               <div
                 key={tier.id}
