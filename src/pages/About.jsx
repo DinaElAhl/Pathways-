@@ -36,7 +36,7 @@ const audienceMap = [
   },
   {
     who: 'Individual teachers, tutors, homeschoolers',
-    what: 'The Roots Tajweed Reading Series and Roots Elementary Kits — self-serve materials that make Qur’anic Arabic teachable without a curriculum degree.',
+    what: 'The Roots Tajweed Reading Series — self-serve materials that make Qur’anic Arabic teachable without a curriculum degree.',
     to: '/shop',
     cta: 'Visit the shop →',
   },
@@ -159,7 +159,7 @@ export default function About() {
           </p>
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link to="/for-schools" className="btn-primary px-6 py-3">
-              Book a discovery call
+              See licensing for schools
             </Link>
             <Link to="/contact" className="btn-ghost px-6 py-3">
               Send a message

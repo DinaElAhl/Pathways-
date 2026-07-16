@@ -57,18 +57,25 @@ export default function Footer() {
         <div>
           <h4 className="text-sm font-semibold text-slate-900">Stay in the loop</h4>
           <p className="mt-3 text-sm text-slate-600">
-            Monthly roundups of new resources and pathways. No spam, ever.
+            Want to hear when new curriculum, lessons, or exam updates drop? Send Dina a note and
+            she'll add you to the update list.
           </p>
+          {/* Newsletter form intentionally goes through mailto until a real newsletter tool
+              (ConvertKit / MailerLite / Beehiiv) is picked. Composing an email is honest —
+              collecting the address into a fake "you're on the list" was not. */}
           <form
             className="mt-3 flex flex-wrap gap-2"
             onSubmit={(e) => {
               e.preventDefault()
               const form = e.currentTarget
               const input = form.querySelector('input[type="email"]')
-              if (input?.value) {
-                form.reset()
-                form.querySelector('[data-feedback]')?.classList.remove('hidden')
-              }
+              const value = (input?.value || '').trim()
+              if (!value) return
+              const subject = encodeURIComponent('Please add me to Pathways updates')
+              const body = encodeURIComponent(
+                `Hi Dina,\n\nPlease add ${value} to your update list — I'd like to hear when new curriculum, lessons, or exam updates ship.\n\nThank you.`
+              )
+              window.location.href = `mailto:dinabudu@gmail.com?subject=${subject}&body=${body}`
             }}
           >
             <label htmlFor="newsletter-email" className="sr-only">Email</label>
@@ -80,14 +87,11 @@ export default function Footer() {
               className="min-w-0 flex-1 rounded-full border-0 bg-white px-4 py-2 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500"
             />
             <button type="submit" className="btn-primary px-4">
-              Join
+              Ask Dina
             </button>
-            <span
-              data-feedback
-              className="hidden w-full text-xs text-emerald-600"
-            >
-              Thanks — you're on the list!
-            </span>
+            <p className="w-full text-xs text-slate-500 mt-1">
+              Opens your email app with a note pre-filled — Dina replies personally.
+            </p>
           </form>
         </div>
       </div>

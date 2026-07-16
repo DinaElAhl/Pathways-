@@ -76,9 +76,8 @@ export default function Navbar() {
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-14 gap-4">
 
-          {/* Logo */}
+          {/* Logo — wordmark only; no image asset yet */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <img src="/logo.png" alt="Pathways" className="h-8 w-8 object-contain" onError={e => { e.target.style.display='none'; }} />
             <span className="font-bold text-lg text-brand-700 tracking-tight">Pathways</span>
             <span className="text-xs text-slate-400 leading-tight hidden sm:block">EduHub<br />& Tools</span>
           </Link>
@@ -179,12 +178,6 @@ export default function Navbar() {
               className="px-3 py-1.5 rounded-md text-sm font-medium text-pink-600 hover:bg-pink-50 transition-colors"
             >
               🚀 Builder
-            </Link>
-            <Link
-              to="/browse"
-              className="px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors"
-            >
-              Browse
             </Link>
             <Link
               to="/for-schools"
