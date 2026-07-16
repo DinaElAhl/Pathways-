@@ -33,6 +33,9 @@ const Shop = lazy(() => import('./pages/Shop.jsx'))
 const ForSchools = lazy(() => import('./pages/ForSchools.jsx'))
 const FreeSample = lazy(() => import('./pages/FreeSample.jsx'))
 const Verify = lazy(() => import('./pages/Verify.jsx'))
+const ExamMethodology = lazy(() => import('./pages/ExamMethodology.jsx'))
+const CurriculumSources = lazy(() => import('./pages/CurriculumSources.jsx'))
+const CefrAlignment = lazy(() => import('./pages/CefrAlignment.jsx'))
 
 export default function App() {
   return (
@@ -65,6 +68,9 @@ export default function App() {
         <Route path="/for-schools" element={<ForSchools />} />
         <Route path="/free-sample" element={<FreeSample />} />
         <Route path="/verify/:certId" element={<Verify />} />
+        <Route path="/exam/methodology" element={<ExamMethodology />} />
+        <Route path="/exam/cefr-alignment" element={<CefrAlignment />} />
+        <Route path="/curriculum/sources" element={<CurriculumSources />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

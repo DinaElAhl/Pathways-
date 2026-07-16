@@ -27,6 +27,9 @@ const externalLinks = [
 const moreLinks = [
   { to: '/quran-exams', label: '📖 Quran Exams' },
   { to: '/exam-dashboard', label: '📊 Exam Dashboard' },
+  { to: '/exam/methodology', label: '📋 Exam Methodology' },
+  { to: '/exam/cefr-alignment', label: '🎓 CEFR Alignment' },
+  { to: '/curriculum/sources', label: '📚 Curriculum Sources' },
   { to: '/edu-hub', label: 'EduHub & Tools' },
   { to: '/partners', label: 'Partners' },
   { to: '/about', label: 'About' },

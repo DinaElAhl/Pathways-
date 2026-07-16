@@ -22,6 +22,9 @@
   <url><loc>https://www.pathwayslearn.com/for-schools</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://www.pathwayslearn.com/free-sample</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <!-- /verify/:certId is a public verification endpoint; not sitemapped since URLs are per-holder -->
+  <url><loc>https://www.pathwayslearn.com/exam/methodology</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.pathwayslearn.com/exam/cefr-alignment</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.pathwayslearn.com/curriculum/sources</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <url><loc>https://www.pathwayslearn.com/rqap.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.pathwayslearn.com/pathways/web-development</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
