@@ -75,7 +75,7 @@ export default function Footer() {
               const body = encodeURIComponent(
                 `Hi Dina,\n\nPlease add ${value} to your update list — I'd like to hear when new curriculum, lessons, or exam updates ship.\n\nThank you.`
               )
-              window.location.href = `mailto:hello@pathwayslearn.com?subject=${subject}&body=${body}`
+              window.location.href = `mailto:roots@pathwayslearn.com?subject=${subject}&body=${body}`
             }}
           >
             <label htmlFor="newsletter-email" className="sr-only">Email</label>

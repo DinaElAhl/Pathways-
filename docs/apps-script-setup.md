@@ -75,7 +75,7 @@ In the Apps Script editor: click the ⚙️ gear icon (Project Settings), then s
 |---|---|
 | `RAQP_TEMPLATE_ID` | (the doc ID from step 3, item 1) |
 | `RQAP_TEMPLATE_ID` | (the doc ID from step 3, item 2) |
-| `CC_EMAIL` | `hello@pathwayslearn.com` (optional — defaults to this if unset) |
+| `CC_EMAIL` | `roots@pathwayslearn.com` (optional — defaults to this if unset) |
 | `SHARED_SECRET` | optional random string (leave blank for now) |
 
 Save.
@@ -88,7 +88,7 @@ Save.
 2. Click the ⚙️ gear next to "Select type" → **Web app**.
 3. Fill in:
    - **Description:** `Roots exam pipeline v1`
-   - **Execute as:** `Me (hello@pathwayslearn.com)`
+   - **Execute as:** `Me (roots@pathwayslearn.com)`
    - **Who has access:** `Anyone`
 4. Click **Deploy**. Google will prompt you to authorise. Grant permission (you'll see a
    scary-looking screen — click "Advanced" → "Go to project (unsafe)" → Allow). This is normal

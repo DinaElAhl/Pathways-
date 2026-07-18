@@ -99,7 +99,7 @@ export default function Verify() {
             </div>
             <p className="text-sm text-rose-800">
               No certificate matches this ID. If you believe this is an error, please contact{' '}
-              <a href="mailto:hello@pathwayslearn.com" className="link">hello@pathwayslearn.com</a>.
+              <a href="mailto:roots@pathwayslearn.com" className="link">roots@pathwayslearn.com</a>.
             </p>
           </div>
         )}
@@ -109,7 +109,7 @@ export default function Verify() {
             <div className="text-lg font-semibold text-amber-900 mb-2">Verification temporarily unavailable</div>
             <p className="text-sm text-amber-800">
               We couldn’t reach the verification service. Try again in a moment, or contact{' '}
-              <a href="mailto:hello@pathwayslearn.com" className="link">hello@pathwayslearn.com</a>.
+              <a href="mailto:roots@pathwayslearn.com" className="link">roots@pathwayslearn.com</a>.
             </p>
             <p className="mt-4 text-xs text-amber-700 font-mono break-all">{state.error}</p>
           </div>
@@ -122,7 +122,7 @@ export default function Verify() {
             </div>
             <p className="text-sm text-slate-600">
               The public verification service is being set up. For now, please contact{' '}
-              <a href="mailto:hello@pathwayslearn.com" className="link">hello@pathwayslearn.com</a> with
+              <a href="mailto:roots@pathwayslearn.com" className="link">roots@pathwayslearn.com</a> with
               the certificate ID and Dina will confirm authenticity by email.
             </p>
           </div>

@@ -31,7 +31,7 @@ export const licenseIncludes = [
 
 const encodedDash = '%20%E2%80%94%20';
 const encodedDollar = '%24';
-const mailto = 'mailto:hello@pathwayslearn.com?subject=';
+const mailto = 'mailto:roots@pathwayslearn.com?subject=';
 
 function buyUrl(name, price) {
   return `${mailto}${encodeURIComponent(`Roots ${name} License Purchase — $${price}`)}&body=${encodeURIComponent(
@@ -344,4 +344,4 @@ export const meetDina = {
   ],
 };
 
-export const ctaEmail = 'hello@pathwayslearn.com';
+export const ctaEmail = 'roots@pathwayslearn.com';

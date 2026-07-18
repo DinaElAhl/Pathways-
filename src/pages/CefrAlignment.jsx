@@ -294,7 +294,7 @@ export default function CefrAlignment() {
           </ul>
           <p className="mt-4 text-slate-700 leading-relaxed">
             <strong>To challenge a specific CEFR tagging on an RAQP item:</strong> email{' '}
-            <a href="mailto:hello@pathwayslearn.com" className="link">hello@pathwayslearn.com</a> with the
+            <a href="mailto:roots@pathwayslearn.com" className="link">roots@pathwayslearn.com</a> with the
             item ID (visible in the exam interface) and your reasoning. All challenges are reviewed
             and either accepted (item retagged, next bank version published) or answered with a
             public rationale.
