@@ -124,7 +124,7 @@ export default function ExamMethodology() {
           <ul className="space-y-2 text-slate-700 list-disc pl-6">
             <li>
               <strong>Challenge an item:</strong> if you believe a question was scored incorrectly,
-              email <a href="mailto:dinabudu@gmail.com" className="link">dinabudu@gmail.com</a> with
+              email <a href="mailto:hello@pathwayslearn.com" className="link">hello@pathwayslearn.com</a> with
               your Cert ID and the item number within 30 days of your exam. We’ll review and reissue
               your certificate if the challenge succeeds.
             </li>
@@ -148,7 +148,7 @@ export default function ExamMethodology() {
 
         <footer className="mt-14 pt-8 border-t border-slate-200 text-sm text-slate-600 italic">
           Questions about methodology? Email{' '}
-          <a href="mailto:dinabudu@gmail.com" className="link">dinabudu@gmail.com</a>.
+          <a href="mailto:hello@pathwayslearn.com" className="link">hello@pathwayslearn.com</a>.
         </footer>
       </article>
     </div>

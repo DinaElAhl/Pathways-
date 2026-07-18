@@ -14,7 +14,7 @@ const topics = [
   'Press / media',
 ]
 
-const DINA_EMAIL = 'dinabudu@gmail.com'
+const DINA_EMAIL = 'hello@pathwayslearn.com'
 
 export default function Contact() {
   const [form, setForm] = useState({

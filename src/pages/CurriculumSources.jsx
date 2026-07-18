@@ -91,7 +91,7 @@ export default function CurriculumSources() {
 
         <footer className="mt-14 pt-8 border-t border-slate-200 text-sm text-slate-600 italic">
           If you believe we’ve missed a source or misattributed one, email{' '}
-          <a href="mailto:dinabudu@gmail.com" className="link">dinabudu@gmail.com</a>.
+          <a href="mailto:hello@pathwayslearn.com" className="link">hello@pathwayslearn.com</a>.
           We’ll correct and republish within 7 days.
         </footer>
       </article>

@@ -6,7 +6,7 @@ import Icon from '../components/Icon.jsx'
 // Email capture is a mailto placeholder until Dina picks a newsletter tool
 // (ConvertKit / MailerLite / Beehiiv etc.). When she wires a real capture,
 // replace the <form> action with the tool's embed and drop the mailto.
-const DINA_EMAIL = 'dinabudu@gmail.com'
+const DINA_EMAIL = 'hello@pathwayslearn.com'
 const MAILTO_SUBJECT = 'Free Roots Week 1 Sample Request'
 
 export default function FreeSample() {
