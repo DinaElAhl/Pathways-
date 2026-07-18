@@ -1,36 +1,73 @@
 import { Link } from 'react-router-dom'
-import { pathways } from '../data/pathways.js'
-import { audiences } from '../data/audiences.js'
-import { resources } from '../data/resources.js'
-import PathwayCard from '../components/PathwayCard.jsx'
-import ResourceCard from '../components/ResourceCard.jsx'
-import Icon from '../components/Icon.jsx'
 
-const steps = [
+// Homepage — humanization pass. First-person voice from Dina; warmer
+// per-audience copy; a small "recent from Roots" strip near the bottom.
+// The generic Featured Pathways / Featured Resources / "One hub, three
+// steps" / Netlify builder CTA blocks were removed because they clashed
+// with the new first-person tone (they were holdover SaaS chrome).
+
+// Audience cards use warmer, second-person copy hand-written for each
+// segment. Links still point at the existing /for/:slug pages so the
+// deeper audience content the site already has stays reachable.
+const AUDIENCES = [
   {
-    n: '01',
-    title: 'Tell us who you are',
-    body: 'Learner, teacher, parent, school, educator — we meet you where you are.',
+    slug: 'learners',
+    name: 'Learners',
+    body: "If you're studying Arabic or Qur'an on your own — welcome. Roots starts at the alphabet and takes you to reading Qur'anic verses with tajweed.",
   },
   {
-    n: '02',
-    title: 'Find what you need',
-    body: 'Browse pathways, lesson plans, courses, tools, mentors, and communities — all in one place.',
+    slug: 'teachers',
+    name: 'Teachers',
+    body: 'If you teach Arabic or Islamic Studies — the weekly lesson decks, teacher guides, and assessment banks I built for my classroom are here. Take what serves you.',
   },
   {
-    n: '03',
-    title: 'Make it happen',
-    body: 'Use it, share it, build on it. Pathways grows with you, week after week.',
+    slug: 'schools',
+    name: 'Schools',
+    body: "If your school is looking for a bilingual Qur'an and Arabic curriculum that adapts to your students — Roots licenses per grade band, and I tailor it to fit your program.",
+  },
+  {
+    slug: 'parents',
+    name: 'Parents',
+    body: "If you're homeschooling and Arabic isn't your first language — Roots is written so you can teach it to your child without knowing Arabic yourself.",
+  },
+  {
+    slug: 'educators',
+    name: 'Educators',
+    body: 'If you tutor Arabic or run a small program — the Roots resource packs, exams, and workbooks are yours to license or bundle.',
+  },
+]
+
+const RECENT = [
+  {
+    href: '/shop',
+    external: false,
+    eyebrow: 'On Payhip & Gumroad',
+    title: 'Roots Tajweed Reading Series',
+    body: 'Five lessons — from the alphabet to reading with tajweed. $15 for the bundle, $4 for a single lesson.',
+    cta: 'Browse the Shop',
+  },
+  {
+    href: '/pathways-exam',
+    external: false,
+    eyebrow: 'Free to take',
+    title: 'Roots Arabic & Qur’an Proficiency Exam (RAQP)',
+    body: "CEFR-aligned (A1–B2), 15 questions, 5 minutes. Take it, get a level determination, get a certificate you can verify publicly.",
+    cta: 'Take the RAQP',
+  },
+  {
+    href: '/for-schools',
+    external: false,
+    eyebrow: 'Licensed per grade band',
+    title: 'Roots for Schools',
+    body: 'Bilingual K–12 Qur’an & Arabic curriculum tailored per school. Elementary is live; Middle and High School available Fall 2026.',
+    cta: 'See licensing',
   },
 ]
 
 export default function Home() {
-  const featuredPathways = pathways.slice(0, 3)
-  const featuredResources = resources.slice(0, 3)
-
   return (
     <>
-      {/* Hero */}
+      {/* Hero — first-person, warm */}
       <section className="relative overflow-hidden">
         <div
           aria-hidden="true"
@@ -40,213 +77,153 @@ export default function Home() {
           aria-hidden="true"
           className="absolute -top-40 left-1/2 -z-10 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-brand-200/40 blur-3xl"
         />
-        <div className="container-page pt-16 pb-16 sm:pt-24 sm:pb-20 text-center">
-          <span className="chip">For everyone who learns and teaches</span>
-          <h1 className="mt-5 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-            One place to find{' '}
-            <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-accent-500 bg-clip-text text-transparent">
-              whatever you need
-            </span>
-            <br className="hidden sm:block" /> to learn, teach, and grow.
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
-            Pathways brings together learners, teachers, parents, schools, and
-            educators. Find curated journeys, lesson plans, courses, tools, mentors,
-            and community — all in one hub.
+        <div className="container-page pt-16 pb-14 sm:pt-24 sm:pb-16 text-center">
+          <p className="font-display text-lg font-semibold text-brand-700">
+            Assalamu alaikum.
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link to="/resources" className="btn-primary px-6 py-3 text-base">
-              Explore resources
-              <Icon name="arrowRight" className="ml-2 h-4 w-4" strokeWidth={2} />
+          <h1 className="mt-3 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
+            I&rsquo;m{' '}
+            <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-accent-500 bg-clip-text text-transparent">
+              Dina
+            </span>
+            .
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-700 leading-relaxed text-left sm:text-center">
+            I built Pathways because I couldn&rsquo;t find the curriculum I wanted for my own
+            students &mdash; one that treats Arabic as sacred, teaches the Qur&rsquo;an as a
+            companion, and doesn&rsquo;t leave a parent behind because they don&rsquo;t speak
+            Arabic. Pathways is a small home for the curriculum I built to fix that, and for the
+            tools, exams, and resources I keep building around it.
+          </p>
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link to="/roots" className="btn-primary px-7 py-3.5 text-base">
+              Meet Roots
             </Link>
-            <Link to="/pathways" className="btn-secondary px-6 py-3 text-base">
-              Browse pathways
+            <Link to="/shop" className="btn-secondary px-7 py-3.5 text-base">
+              Browse the Shop
             </Link>
           </div>
-          {/* Stats block removed — real numbers (30 pathways / 12 resources /
-              0 members / no rating yet) don't tell an honest, motivating story. */}
         </div>
       </section>
 
-      {/* Audiences */}
+      {/* Founder note */}
+      <section className="container-page pb-16 sm:pb-20">
+        <figure className="mx-auto max-w-3xl rounded-3xl bg-slate-50 ring-1 ring-slate-200 p-6 sm:p-10">
+          <div className="flex items-start gap-5 flex-col sm:flex-row">
+            <div className="flex-none">
+              <div className="h-20 w-20 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 grid place-items-center overflow-hidden ring-2 ring-white shadow-soft">
+                {/* Real photo can be dropped into /public/dina-headshot.jpg
+                    later. Until then, onError hides the img and the
+                    gradient placeholder shows through. */}
+                <img
+                  src="/dina-headshot.jpg"
+                  alt="Dina"
+                  className="h-20 w-20 rounded-full object-cover"
+                  onError={(e) => { e.currentTarget.style.display = 'none' }}
+                />
+              </div>
+            </div>
+            <div>
+              <blockquote className="font-display text-lg sm:text-xl text-slate-800 italic leading-relaxed">
+                &ldquo;Roots started as one lesson. The one I wish I&rsquo;d had when I first
+                walked into a classroom of Muslim children who wanted to read the Qur&rsquo;an but
+                had never been shown how. Everything on this site grew from that first lesson.&rdquo;
+              </blockquote>
+              <figcaption className="mt-4 text-sm text-slate-600">
+                &mdash; Dina Mohamed Sayed El-Ahl &middot; founder
+              </figcaption>
+            </div>
+          </div>
+        </figure>
+      </section>
+
+      {/* Who it's for */}
+      <section className="bg-slate-50">
+        <div className="container-page py-16 sm:py-20">
+          <div className="max-w-2xl">
+            <span className="chip">Who Roots is for</span>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+              Whoever you are, come in.
+            </h2>
+            <p className="mt-3 text-slate-600">
+              Roots is one curriculum I&rsquo;ve shaped for very different people. Here&rsquo;s
+              what I&rsquo;d say to each of you.
+            </p>
+          </div>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {AUDIENCES.map((a) => (
+              <Link
+                key={a.slug}
+                to={`/for/${a.slug}`}
+                className="card group flex flex-col hover:shadow-soft transition"
+              >
+                <h3 className="font-display text-lg font-semibold text-slate-900 group-hover:text-brand-700">
+                  {a.name}
+                </h3>
+                <p className="mt-3 text-sm text-slate-700 leading-relaxed flex-1">
+                  {a.body}
+                </p>
+                <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 transition group-hover:gap-2">
+                  Open &rarr;
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Recent from Roots */}
       <section className="container-page py-16 sm:py-20">
         <div className="max-w-2xl">
-          <span className="chip">Who it's for</span>
+          <span className="chip">Recent from Roots</span>
           <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-            Pick your way in.
+            What&rsquo;s live right now.
           </h2>
-          <p className="mt-2 text-slate-600">
-            We've curated everything around the people who actually show up for
-            learning — every day.
+          <p className="mt-3 text-slate-600">
+            Three things you can use today &mdash; a starter series, a proficiency exam,
+            and full curriculum licensing for schools.
           </p>
         </div>
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {audiences.map((a) => (
+          {RECENT.map((r) => (
             <Link
-              key={a.slug}
-              to={`/for/${a.slug}`}
-              className="card group flex flex-col"
+              key={r.href}
+              to={r.href}
+              className="card group flex flex-col hover:shadow-soft transition"
             >
-              <div className="flex items-center gap-3">
-                <span
-                  className={`grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${a.color} text-white shadow-soft`}
-                >
-                  <Icon name={a.icon} className="h-5 w-5" strokeWidth={2} />
-                </span>
-                <div>
-                  <h3 className="font-semibold text-slate-900 group-hover:text-brand-700">
-                    {a.name}
-                  </h3>
-                  <p className="text-xs text-slate-500">{a.sub}</p>
-                </div>
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-slate-600 line-clamp-3">
-                {a.headline}
+              <span className="text-xs font-semibold uppercase tracking-wide text-brand-700">
+                {r.eyebrow}
+              </span>
+              <h3 className="mt-2 font-display text-lg font-semibold text-slate-900 group-hover:text-brand-700">
+                {r.title}
+              </h3>
+              <p className="mt-2 text-sm text-slate-600 leading-relaxed flex-1">
+                {r.body}
               </p>
               <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 transition group-hover:gap-2">
-                Open hub <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2} />
+                {r.cta} &rarr;
               </span>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* Featured resources */}
-      <section className="bg-slate-50">
-        <div className="container-page py-16 sm:py-20">
-          <div className="flex items-end justify-between gap-4 flex-wrap">
-            <div>
-              <span className="chip">From the library</span>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-                A few handpicked resources.
-              </h2>
-              <p className="mt-2 max-w-xl text-slate-600">
-                Lesson plans, guides, tools and more — reviewed by working educators
-                and ready to use.
-              </p>
-            </div>
-            <Link to="/resources" className="link inline-flex items-center gap-1">
-              Browse all <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2} />
-            </Link>
-          </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredResources.map((r) => (
-              <ResourceCard key={r.slug} resource={r} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured pathways */}
-      <section className="container-page py-16 sm:py-20">
-        <div className="flex items-end justify-between gap-4 flex-wrap">
-          <div>
-            <span className="chip">Featured pathways</span>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-              Go deep with a structured journey.
-            </h2>
-            <p className="mt-2 max-w-xl text-slate-600">
-              Full pathways — not single courses. Mentor-guided, project-based, and
-              designed to be finished.
-            </p>
-          </div>
-          <Link to="/pathways" className="link inline-flex items-center gap-1">
-            View all <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2} />
-          </Link>
-        </div>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featuredPathways.map((p) => (
-            <PathwayCard key={p.slug} pathway={p} />
-          ))}
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="bg-slate-50">
-        <div className="container-page py-16 sm:py-20">
-          <div className="max-w-2xl">
-            <span className="chip">How it works</span>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-              One hub, three steps.
-            </h2>
-          </div>
-          <ol className="mt-10 grid gap-6 md:grid-cols-3">
-            {steps.map((s) => (
-              <li key={s.n} className="relative rounded-2xl border border-slate-200 bg-white p-6">
-                <span className="font-display text-5xl font-bold text-brand-100">
-                  {s.n}
-                </span>
-                <h3 className="mt-3 text-lg font-semibold">{s.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{s.body}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* Testimonial section removed — was attributed to a fictional "Ms. Chen".
-          Once real testimonials are collected, drop them back in here. */}
-
-      {/* Build Your Own Pathway — CTA */}
-      <section className="bg-gradient-to-br from-brand-600 to-accent-600 py-16 sm:py-20">
-        <div className="container-page text-center text-white">
-          <span className="inline-block rounded-full bg-white/20 px-4 py-1 text-sm font-semibold tracking-wide mb-4">
-            ✨ Free Visual Builder
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-            Build your own learning path
-          </h2>
-          <p className="mx-auto max-w-xl text-brand-100 text-lg mb-8">
-            Use our drag-and-drop builder to design, organize, and share
-            structured learning journeys — for any subject, any level.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <a
-              href="https://pathways-builder.netlify.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary bg-white text-brand-700 hover:bg-brand-50 px-8 py-3 text-base font-semibold shadow-lg"
-            >
-              🚀 Open Pathway Builder
-            </a>
-            <Link to="/pathways" className="btn-ghost border-white/40 text-white hover:bg-white/10 px-8 py-3 text-base">
-              Browse Existing Pathways
-            </Link>
-          </div>
-          <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto text-center">
-            {[
-              { icon: '🎯', text: '5 step types' },
-              { icon: '📦', text: '4 templates' },
-              { icon: '🔗', text: 'Shareable links' },
-              { icon: '💾', text: 'Export as JSON' },
-            ].map((f) => (
-              <div key={f.text} className="rounded-xl bg-white/10 p-3">
-                <div className="text-2xl mb-1">{f.icon}</div>
-                <div className="text-sm text-brand-100">{f.text}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
+      {/* Closing / signature */}
       <section className="container-page pb-20">
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center sm:p-12">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Whatever you need to grow — it's here.
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-slate-600">
-            Browse the library, pick a pathway, or talk to our team about partnering
-            with your school or community.
+        <div className="mx-auto max-w-3xl rounded-3xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 p-8 sm:p-12 text-center text-white shadow-soft">
+          <p className="font-display text-2xl sm:text-3xl font-semibold">
+            Assalamu alaikum from Egypt.
           </p>
-          <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link to="/resources" className="btn-primary px-6 py-3">
-              Start exploring
-            </Link>
-            <Link to="/contact" className="btn-ghost px-6 py-3">
-              Talk to us
-            </Link>
-          </div>
+          <p className="mx-auto mt-4 max-w-xl text-brand-100">
+            If you want to reach me directly, email{' '}
+            <a
+              href="mailto:roots@pathwayslearn.com"
+              className="underline hover:text-white"
+            >
+              roots@pathwayslearn.com
+            </a>{' '}
+            &mdash; I read every message.
+          </p>
         </div>
       </section>
     </>
