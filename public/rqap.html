@@ -556,6 +556,20 @@
     padding: 3rem 1rem;
   }
 
+  .section-glyph {
+    font-family: 'Segoe UI Symbol', 'Apple Symbols', 'Amiri', 'Cormorant Garamond', serif;
+    color: var(--gold);
+    font-size: 3.4rem;
+    line-height: 1;
+    margin: 0 auto 1.4rem;
+    display: inline-block;
+    padding: 0.6rem 1.1rem;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    user-select: none;
+  }
+
   .section-hero .number {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
@@ -1564,6 +1578,7 @@
     <section id="section-intro-screen" class="screen">
       <div class="screen-inner">
         <div class="section-hero">
+          <div class="section-glyph" id="intro-section-glyph" aria-hidden="true">❦</div>
           <div class="number" id="intro-section-number">Section</div>
           <h2 id="intro-section-title">Section Title</h2>
           <div class="arabic-name" id="intro-section-arabic">العنوان</div>
@@ -1765,6 +1780,7 @@ const EXAM = {
   sections: {
     "1A": {
       track: "language",
+      icon: "⚘",
       title: "Section 1A — Vocabulary & Roots",
       titleArabic: "المفردات والجذور",
       description: "Tests recognition of common Quranic vocabulary, ability to extract trilateral roots, and word families. All multiple-choice.",
@@ -1778,12 +1794,12 @@ const EXAM = {
           tag: "Vocabulary · Theological Term",
           stem: "In Surah al-Ikhlas, the name <span class='arabic-inline'>الصَّمَد</span> describes Allah. Its closest meaning is:",
           options: [
-            "The One who depends on none, upon whom all depend",
-            "Both (A) and (D) — the Eternal Refuge who is self-sufficient",
-            "The Compassionate and Merciful",
-            "The One who is eternally sought after, the Refuge"
+            "The Eternal Refuge, upon whom all depend and who depends on none",
+            "The Most Merciful, whose mercy extends to all creation",
+            "The Creator, who brought the heavens and the earth into being",
+            "The Owner of the Day of Judgment, before whom all will stand"
           ],
-          correct: 1
+          correct: 0
         },
         {
           id: "L2-1A-002",
@@ -1796,12 +1812,12 @@ const EXAM = {
         {
           id: "L2-1A-003",
           tag: "Word Family",
-          stem: "Which of the following words shares the root of <span class='arabic-inline'>مَلِك</span> as it appears in Surah al-Nas (<span class='arabic-inline'>مَلِكِ النَّاس</span>)?",
+          stem: "Which of the following words shares the trilateral root of <span class='arabic-inline'>الكِتَاب</span> as it appears in the Qur'an (<span class='arabic-inline'>ذَٰلِكَ الْكِتَابُ</span>)?",
           options: [
-            "مالك (as in مالك يوم الدين)",
-            "ملاك (angel)",
-            "سلك (to traverse)",
-            "هلك (to perish)"
+            "كَاتِب (a writer, a scribe)",
+            "كَبِير (great, large)",
+            "كَذَّاب (a habitual liar)",
+            "كَرِيم (noble, generous)"
           ],
           correct: 0,
           arabicOptions: true
@@ -1820,21 +1836,18 @@ const EXAM = {
         },
         {
           id: "L2-1A-005",
-          tag: "Morphology · Pattern",
-          stem: "The word <span class='arabic-inline'>مُسْتَقَرّ</span> (as in <span class='arabic-inline'>لِكُلِّ نَبَإٍ مُسْتَقَرّ</span>) is derived from which root, and what is its grammatical type?",
-          options: [
-            "Root: ق-ر-ر; اسم مفعول (passive participle) — 'that which is made stable'",
-            "Root: ق-ر-ر; اسم مكان/زمان (noun of place/time) — 'a place or time of settlement'",
-            "Root: س-ق-ر; اسم فاعل (active participle)",
-            "Root: ق-ر-ر; مصدر (verbal noun)"
-          ],
-          correct: 1
+          tag: "Root Extraction",
+          stem: "The trilateral root (الجذر) of the word <span class='arabic-inline'>المَغْضُوب</span> in Surah al-Fatiha (<span class='arabic-inline'>غَيْرِ المَغْضُوبِ عَلَيْهِمْ</span>) is:",
+          options: ["غ – ض – ب", "غ – ي – ب", "غ – ذ – ب", "غ – ص – ب"],
+          correct: 0,
+          arabicOptions: true
         }
       ]
     },
 
     "1B": {
       track: "language",
+      icon: "⁕",
       title: "Section 1B — Grammar & Morphology",
       titleArabic: "النحو والصرف",
       description: "Tests recognition of classical Arabic grammatical categories: verb tense and person, noun case, and particle function.",
@@ -1898,6 +1911,7 @@ const EXAM = {
 
     "1C": {
       track: "language",
+      icon: "❁",
       title: "Section 1C — Verse Comprehension",
       titleArabic: "فهم الآيات",
       description: "Tests reading comprehension across complete short surahs of Juz 'Amma — narrative, theological, and inferential understanding.",
@@ -1937,6 +1951,7 @@ const EXAM = {
 
     "1D": {
       track: "language",
+      icon: "❉",
       title: "Section 1D — Constructed Response",
       titleArabic: "الإنتاج المكتوب",
       description: "Two productive tasks. The first asks for an Arabic paraphrase; the second asks for a thematic explanation in your native language or English.",
@@ -1966,6 +1981,7 @@ const EXAM = {
 
     "2A": {
       track: "tajweed",
+      icon: "✵",
       title: "Section 2A — Tajweed Theory",
       titleArabic: "نظرية التجويد",
       description: "Tests theoretical knowledge of makharij, sifaat, rules of noon and meem sakinah, types of madd, qalqala, and waqf categories.",
@@ -1980,9 +1996,9 @@ const EXAM = {
           stem: "The articulation point (مخرج) of the letter <span class='arabic-inline'>ض</span> is:",
           options: [
             "The tip of the tongue against the upper front teeth",
-            "One edge of the tongue against the upper molars (the ض الضَّادِيَّة of the side of the tongue)",
-            "The middle of the tongue against the palate",
-            "The throat"
+            "One edge of the tongue against the upper molars",
+            "The middle of the tongue against the roof of the mouth",
+            "The furthest part of the throat"
           ],
           correct: 1
         },
@@ -2013,14 +2029,9 @@ const EXAM = {
         {
           id: "L2-2A-004",
           tag: "Qalqala",
-          stem: "Which of the following letters is from the <span class='arabic-inline'>حروف القلقلة</span> (letters of qalqala)?",
-          options: [
-            "ت",
-            "س",
-            "ج (and also ق، ط، ب، د — mnemonic: قطب جد)",
-            "ف"
-          ],
-          correct: 2,
+          stem: "Which of the following letters is one of the <span class='arabic-inline'>حروف القلقلة</span> (letters of qalqala)?",
+          options: ["ت", "ج", "س", "ف"],
+          correct: 1,
           arabicOptions: true
         },
         {
@@ -2040,6 +2051,7 @@ const EXAM = {
 
     "2B": {
       track: "tajweed",
+      icon: "✤",
       title: "Section 2B — Applied Tajweed",
       titleArabic: "تطبيق التجويد",
       description: "Tests the ability to apply tajweed rules in context — identifying which rule operates in a given verse and classifying waqf points.",
@@ -2063,20 +2075,21 @@ const EXAM = {
         {
           id: "L2-2B-002",
           tag: "Waqf Classification",
-          stem: "Stopping at the word <span class='arabic-inline'>الرَّحِيم</span> at the end of Surah al-Fatiha verse 3 is classified as:",
+          stem: "In Surah al-Fatiha, stopping at <span class='arabic-inline'>وَلَا الضَّالِّينَ</span> (the end of the surah) is classified as:",
           options: [
-            "Waqf Lazim (obligatory stop)",
-            "Waqf Kafi or Hasan (permitted, meaningful)",
-            "Waqf Qabih (forbidden stop)",
-            "Not a valid stopping point at all"
+            "Waqf Tam (complete stop — the syntax and meaning are fully resolved)",
+            "Waqf Kafi (sufficient stop, but the meaning continues syntactically)",
+            "Waqf Hasan (permitted, but starting from the next word alone is discouraged)",
+            "Waqf Qabih (forbidden stop — the meaning is broken)"
           ],
-          correct: 1
+          correct: 0
         }
       ]
     },
 
     "2C": {
       track: "tajweed",
+      icon: "✧",
       title: "Section 2C — Practical Recitation",
       titleArabic: "التلاوة التطبيقية",
       description: "Audio-recorded recitation of an unseen passage from Juz 'Amma, graded by certified raters on articulation, rule application, fluency, and waqf.",
@@ -2202,6 +2215,7 @@ const App = (function() {
     const sectionKey = state.sectionOrder[state.currentSectionIndex];
     const section = EXAM.sections[sectionKey];
 
+    document.getElementById('intro-section-glyph').textContent = section.icon || '❦';
     document.getElementById('intro-section-number').textContent = `Section ${sectionKey} · Track ${section.track === 'language' ? '1' : '2'}`;
     document.getElementById('intro-section-title').textContent = section.title.replace(/^Section \d[A-Z] — /, '');
     document.getElementById('intro-section-arabic').textContent = section.titleArabic;
