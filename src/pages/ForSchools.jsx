@@ -8,16 +8,36 @@ import {
   schoolTiers,
   customisedCurriculum,
   howItWorks,
-  meetDina,
   ctaEmail,
 } from '../data/schoolPricing.js';
 
-const emailUs =
+const SCHOOL_INFO_BLOCK =
+  '\n\nSchool name:\nCity / Country:\nGrade band(s) — Elementary / Middle / High:\nApprox. student count:\nTarget academic year:\n\nThank you,\n';
+
+const pilotPackEmail =
+  `mailto:${ctaEmail}?subject=` +
+  encodeURIComponent('Roots — pilot pack request') +
+  '&body=' +
+  encodeURIComponent(
+    "Hello,\n\nWe'd like to see a pilot pack (Q1 scope + Week 1 sample + teacher guide) for Roots." +
+      SCHOOL_INFO_BLOCK,
+  );
+
+const licensingConversationEmail =
+  `mailto:${ctaEmail}?subject=` +
+  encodeURIComponent('Roots — licensing conversation') +
+  '&body=' +
+  encodeURIComponent(
+    "Hello,\n\nWe're evaluating Roots for our school and would like to open a licensing conversation." +
+      SCHOOL_INFO_BLOCK,
+  );
+
+const closingEmail =
   `mailto:${ctaEmail}?subject=` +
   encodeURIComponent('Roots for [School Name] — Inquiry') +
   '&body=' +
   encodeURIComponent(
-    'Assalamu alaikum Dina,\n\nWe are interested in the Roots curriculum for our school.\n\nSchool name:\nCity / Country:\nGrade band(s) — Elementary / Middle / High:\nApprox. student count:\nTarget academic year:\nCurrent Qur’an/Arabic curriculum (if any):\n\nThank you,\n'
+    "Hello,\n\nWe'd like to bring Roots to our school." + SCHOOL_INFO_BLOCK,
   );
 
 // Card renderer for per-level licenses. `future` badge shown when the level
@@ -64,30 +84,58 @@ function LicenseCard({ lic }) {
 export default function ForSchools() {
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section className="container-page pt-16 pb-16 sm:pt-24 sm:pb-20 text-center">
-        <span className="chip">Curriculum licensing for K–12 Islamic schools</span>
-        <h1 className="mt-5 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-          Roots{' '}
-          <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-accent-500 bg-clip-text text-transparent">
-            جذور
-          </span>
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-xl text-slate-700 font-display">
-          Bilingual Qur’an &amp; Arabic curriculum for K–12 Islamic schools.
-        </p>
-        <p className="mx-auto mt-3 max-w-2xl text-lg text-slate-600">
-          Elementary, middle school, and high school — nine tracks total, one integrated system.
-          Every interaction is async: email, document, and pre-recorded walkthrough. No scheduled calls
-          required.
-        </p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a href={emailUs} className="btn-primary px-6 py-3 text-base">
-            Email us
-          </a>
-          <a href="#pricing" className="btn-secondary px-6 py-3 text-base">
-            See pricing
-          </a>
+      {/* Hero — brand-first, warm, direct to school decision-makers */}
+      <section className="relative overflow-hidden">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-50/80 via-white to-white"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute -top-40 left-1/2 -z-10 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-brand-200/40 blur-3xl"
+        />
+        <div className="container-page pt-16 pb-16 sm:pt-24 sm:pb-20">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="chip">Curriculum licensing for schools</span>
+            <h1 className="mt-4 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1]">
+              A bilingual Qur&rsquo;an and Arabic curriculum,{' '}
+              <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-accent-500 bg-clip-text text-transparent">
+                tailored to your school
+              </span>
+              .
+            </h1>
+            <p className="mx-auto mt-8 max-w-2xl text-lg text-slate-700 leading-relaxed text-left sm:text-center">
+              <strong className="text-slate-900">Roots | جذور</strong> is a three-track K&ndash;12
+              system (Beginner, Intermediate, Advanced), currently anchored in a rigorous{' '}
+              <em>Juz&rsquo; 30</em> foundation. It&rsquo;s designed to serve native Arabic
+              speakers and English-speaking learners in the same framework. We don&rsquo;t sell an
+              off-the-shelf textbook &mdash; we tailor Roots to each school we license to.
+            </p>
+            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <a href={pilotPackEmail} className="btn-primary px-7 py-3.5 text-base">
+                See a pilot pack &rarr;
+              </a>
+              <a href={licensingConversationEmail} className="btn-secondary px-7 py-3.5 text-base">
+                Book a licensing conversation &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How this works — warm intro paragraph before pricing */}
+      <section className="container-page pt-6 pb-6 sm:pt-8 sm:pb-8">
+        <div className="mx-auto max-w-3xl rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-6 sm:p-8">
+          <div className="text-xs font-semibold uppercase tracking-wide text-brand-700 mb-2">
+            How this works
+          </div>
+          <p className="text-slate-700 leading-relaxed">
+            Every school runs Arabic and Islamic Studies differently. So does every license. When
+            your school evaluates Roots, we send a pilot pack (Q1 scope + Week 1 sample + teacher
+            guide). If it&rsquo;s a fit, we tailor the curriculum to your school &mdash; pacing,
+            presentation, integration with your existing programs. Then you license per level or per
+            grade band. That&rsquo;s it. No calls required unless you want one.
+          </p>
         </div>
       </section>
 
@@ -320,78 +368,74 @@ export default function ForSchools() {
         </div>
       </section>
 
-      {/* Section 6 — How it works (async) */}
+      {/* Section 6 — How it works (four steps, humanized) */}
       <section className="container-page py-16 sm:py-20">
         <div className="max-w-3xl mx-auto text-center">
           <span className="chip">How it works</span>
           <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight">
-            Four async steps, start to running classroom
+            Four steps, from first email to running classroom.
           </h2>
           <p className="mt-4 text-slate-600">
-            Every step is email, document, or pre-recorded video. No scheduled calls at any point.
+            Every step is email, shared document, or short pre-recorded video. If you&rsquo;d rather
+            hop on a call, we&rsquo;ll make time.
           </p>
         </div>
-        <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ol className="mt-12 mx-auto max-w-3xl space-y-8">
           {howItWorks.map((step) => (
-            <li key={step.n} className="card">
-              <div className="text-xs font-semibold text-brand-700 mb-2">STEP {step.n}</div>
-              <h3 className="font-display text-lg font-semibold text-slate-900 mb-2">{step.title}</h3>
-              <p className="text-sm text-slate-600">{step.body}</p>
+            <li key={step.n} className="flex gap-5">
+              <span
+                aria-hidden="true"
+                className="font-display text-2xl font-semibold text-brand-600 tabular-nums leading-none pt-0.5"
+              >
+                {step.n}
+              </span>
+              <div>
+                <h3 className="font-display text-lg font-semibold text-slate-900 leading-snug">
+                  {step.title}
+                </h3>
+                <p className="mt-1.5 text-slate-700 leading-relaxed">{step.body}</p>
+              </div>
             </li>
           ))}
         </ol>
       </section>
 
-      {/* Section 7 — Meet Dina */}
+      {/* Section 7 — Behind Roots (quiet, credible) */}
       <section className="bg-slate-50 py-16 sm:py-20">
         <div className="container-page">
-          <div className="max-w-3xl mx-auto rounded-2xl bg-white p-6 sm:p-10 ring-1 ring-slate-200">
-            <div className="text-center">
-              <div
-                className="mx-auto grid h-24 w-24 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-white mb-4 shadow-soft"
-                style={{ fontFamily: 'Amiri, serif', fontSize: '2.5rem' }}
-                aria-hidden="true"
-              >
-                د
-              </div>
-              <span className="chip">About Dina</span>
-              <h2 className="mt-3 text-2xl sm:text-3xl font-bold tracking-tight">
-                Meet {meetDina.name}
-              </h2>
-              <div className="mt-2 text-sm text-brand-700 font-medium">{meetDina.role}</div>
+          <div className="mx-auto max-w-3xl rounded-2xl bg-white ring-1 ring-slate-200 p-6 sm:p-8">
+            <div className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">
+              Behind Roots
             </div>
-            <p className="mt-6 text-slate-700 leading-relaxed text-center">{meetDina.bio}</p>
-            <div className="mt-6 flex flex-wrap gap-2 justify-center">
-              {meetDina.credentials.map((c) => (
-                <span
-                  key={c}
-                  className="text-xs px-3 py-1.5 rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-100"
-                >
-                  {c}
-                </span>
-              ))}
-            </div>
+            <p className="text-slate-700 leading-relaxed">
+              Roots is designed by <strong>Dina Mohamed Sayed El-Ahl</strong>, an Arabic Language
+              and Qur&rsquo;anic Studies educator with years of K&ndash;12 curriculum experience at
+              a US-based online Islamic school. She built Roots because she couldn&rsquo;t find the
+              curriculum she wanted for her own students.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Section 8 — Freemium hook */}
-      <section className="container-page pb-20 pt-8">
-        <div className="max-w-2xl mx-auto rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 p-6 sm:p-8 text-center text-white shadow-soft">
-          <div className="text-xs uppercase tracking-wide font-semibold text-brand-100 mb-3">
-            Free sample
-          </div>
-          <h3 className="font-display text-xl sm:text-2xl font-bold mb-3">Try Week 1 free</h3>
-          <p className="text-brand-100 mb-5">
-            The Roots Tajweed Reading Series bundle on the Shop page is the fastest way to see how
-            Dina writes a lesson. Grab it, then bring the full curriculum to your school.
+      {/* Section 8 — Closing / signature */}
+      <section className="container-page pb-20 pt-8 sm:pt-12">
+        <div className="mx-auto max-w-3xl rounded-3xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 p-8 sm:p-12 text-center text-white shadow-soft">
+          <h2 className="font-display text-2xl sm:text-3xl font-semibold">
+            Ready to bring Roots to your school?
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-brand-100">
+            Email us with your students, your grade bands, and your target start date. We reply
+            within 2 business days.
           </p>
-          <a
-            href="/shop"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-brand-700 font-semibold text-sm hover:bg-brand-50 transition-colors"
-          >
-            Visit the Shop →
-          </a>
+          <p className="mt-4">
+            <a
+              href={closingEmail}
+              className="underline font-semibold hover:text-white text-brand-50"
+            >
+              roots@pathwayslearn.com
+            </a>{' '}
+            <span className="text-brand-100">&mdash; every message is read.</span>
+          </p>
         </div>
       </section>
     </div>

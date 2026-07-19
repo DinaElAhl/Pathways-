@@ -35,7 +35,7 @@ const mailto = 'mailto:roots@pathwayslearn.com?subject=';
 
 function buyUrl(name, price) {
   return `${mailto}${encodeURIComponent(`Roots ${name} License Purchase — $${price}`)}&body=${encodeURIComponent(
-    `Assalamu alaikum, I'd like to purchase the Roots ${name} license.`
+    `Hello,\n\nWe'd like to purchase the Roots ${name} license for our school.\n\nSchool name:\nCity / Country:\nGrade band:\nApprox. student count:\nTarget start date:\n\nThank you,\n`
   )}`;
 }
 function customizeUrl(name) {
@@ -311,23 +311,23 @@ export const customisedCurriculum = [
 export const howItWorks = [
   {
     n: '01',
-    title: 'Email us',
-    body: 'Send your school info — grade band, student count, target academic year. We reply within 2 business days.',
+    title: 'Tell us about your students.',
+    body: 'Email us with your grade bands, student count, and target academic year. We reply within 2 business days.',
   },
   {
     n: '02',
-    title: 'Placement audit',
-    body: 'We send a self-serve placement pack. Your teachers administer it in class, upload results back to us. No calls needed.',
+    title: 'We send a placement pack so you can see where your students stand.',
+    body: 'A self-serve placement audit your teachers can administer in class. Results come back to us; we recommend the right track for each cohort.',
   },
   {
     n: '03',
-    title: 'Implementation',
-    body: 'You receive your full license pack — scope, decks, guides, assessments, resource packs — with a getting-started document and pre-recorded walkthroughs. Async onboarding.',
+    title: 'You receive the full license pack — scope, decks, guides, assessments — with async onboarding.',
+    body: 'Everything a teacher needs to walk into Monday morning knowing what to teach and how to measure it. Delivered as documents plus a pre-recorded walkthrough.',
   },
   {
     n: '04',
-    title: 'Ongoing async support',
-    body: 'Monthly email check-in, plus refinement based on the assessment results you send back. Every interaction is email or document.',
+    title: 'We stay in touch. Monthly check-ins, refinements based on what your students actually do.',
+    body: 'Every interaction is email or shared document. No calls unless you want one — and if you do, we make time.',
   },
 ];
 
