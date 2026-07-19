@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
-// Homepage — mission-first hero. Roots leads; the founder is a quiet,
-// trustworthy paragraph near the bottom, not the marketing angle.
+// Homepage — brand-first hero. Roots is the speaker ("we/us"), not Dina.
+// Founder attribution is quiet, below the fold, in "Behind Roots".
 
 const AUDIENCES = [
   {
@@ -58,7 +58,7 @@ const RECENT = [
 export default function Home() {
   return (
     <>
-      {/* Hero — mission first */}
+      {/* Hero — brand-first, "we/us" voice */}
       <section className="relative overflow-hidden">
         <div
           aria-hidden="true"
@@ -70,26 +70,23 @@ export default function Home() {
         />
         <div className="container-page pt-16 pb-16 sm:pt-24 sm:pb-20">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="font-display text-lg font-semibold text-brand-700">
-              Assalamu alaikum.
-            </p>
-            <h1 className="mt-4 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1]">
-              Every Muslim child deserves to know{' '}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1]">
               <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-accent-500 bg-clip-text text-transparent">
-                what they&rsquo;re reciting
+                Roots | جذور
               </span>
-              .
+              <span className="block mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-800">
+                a bilingual Qur&rsquo;an and Arabic curriculum.
+              </span>
             </h1>
             <p className="mx-auto mt-8 max-w-2xl text-lg text-slate-700 leading-relaxed text-left sm:text-center">
-              <strong className="text-slate-900">Roots | جذور</strong> is a bilingual
-              (English/Arabic) Qur&rsquo;an and Arabic curriculum that starts at the alphabet and
-              takes you to reading Qur&rsquo;anic verses with meaning. Currently focused on{' '}
-              <em>Juz&rsquo; 30</em> as a solid foundation; three tracks (Beginner, Intermediate,
-              Advanced) across Elementary, Middle, and High School.
+              We built Roots because we couldn&rsquo;t find the curriculum we wanted for our
+              students &mdash; one that treats Arabic as sacred, teaches the Qur&rsquo;an as a
+              companion, and doesn&rsquo;t leave a parent behind because they don&rsquo;t speak
+              Arabic.
             </p>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-700 leading-relaxed text-left sm:text-center">
-              Built for homeschool families and Islamic schools. Designed to serve native
-              Arabic speakers and English-speaking learners in the same framework.
+              Roots is a small home for the curriculum we built to fix that, and for the tools,
+              exams, and resources we keep building around it.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link to="/roots" className="btn-primary px-7 py-3.5 text-base">
@@ -181,10 +178,10 @@ export default function Home() {
             Behind Roots
           </div>
           <p className="text-sm text-slate-700 leading-relaxed">
-            Roots is designed and written by <strong>Dina Mohamed Sayed El-Ahl</strong>, an
-            Arabic Language and Qur&rsquo;anic Studies educator with years of K&ndash;12
-            curriculum experience at a US-based online Islamic school. She built Roots
-            because she couldn&rsquo;t find the curriculum she wanted for her own students.
+            Roots is designed by <strong>Dina Mohamed Sayed El-Ahl</strong>, an Arabic Language
+            and Qur&rsquo;anic Studies educator with years of K&ndash;12 curriculum experience.
+            She built Roots because she couldn&rsquo;t find the curriculum she wanted for her
+            own students.
           </p>
           <p className="mt-3 text-sm text-slate-700">
             Contact:{' '}
@@ -200,17 +197,17 @@ export default function Home() {
       <section className="container-page pb-20">
         <div className="mx-auto max-w-3xl rounded-3xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 p-8 sm:p-12 text-center text-white shadow-soft">
           <p className="font-display text-2xl sm:text-3xl font-semibold">
-            Assalamu alaikum from Egypt.
+            From Egypt, with love. <span aria-hidden="true">🌱</span>
           </p>
           <p className="mx-auto mt-4 max-w-xl text-brand-100">
-            Reach me at{' '}
+            Reach us at{' '}
             <a
               href="mailto:roots@pathwayslearn.com"
               className="underline hover:text-white"
             >
               roots@pathwayslearn.com
             </a>{' '}
-            &mdash; I read every message.
+            &mdash; every message is read.
           </p>
         </div>
       </section>
