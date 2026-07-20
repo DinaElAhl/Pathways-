@@ -105,8 +105,8 @@ export default function ForSchools() {
               .
             </h1>
             <p className="mx-auto mt-8 max-w-2xl text-lg text-slate-700 leading-relaxed text-left sm:text-center">
-              <strong className="text-slate-900">Roots | جذور</strong> is a three-track K&ndash;12
-              system (Beginner, Intermediate, Advanced), currently anchored in a rigorous{' '}
+              <strong className="text-slate-900">Roots | جذور</strong> is a three-level K&ndash;12
+              system (Level C, Level B, Level A), currently anchored in a rigorous{' '}
               <em>Juz&rsquo; 30</em> foundation. It&rsquo;s designed to serve native Arabic
               speakers and English-speaking learners in the same framework. We don&rsquo;t sell an
               off-the-shelf textbook &mdash; we tailor Roots to each school we license to.

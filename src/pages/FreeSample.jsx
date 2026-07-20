@@ -94,7 +94,7 @@ export default function FreeSample() {
             {
               icon: 'sparkles',
               title: 'The lesson deck',
-              body: 'The exact slides used in a Roots Beginner classroom on the first day. Bilingual, print-ready.',
+              body: 'The exact slides used in a Roots Level C classroom on the first day. Bilingual, print-ready.',
             },
             {
               icon: 'target',
@@ -185,8 +185,8 @@ export default function FreeSample() {
           <p className="mt-4 text-brand-100 leading-relaxed">
             built by Dina Mohamed Sayed El-Ahl, an Arabic Language and Qur’anic Studies educator
             who taught at a US online Islamic school. Roots is used by homeschool families,
-            microschools, and Islamic schools — one three-track program (Beginner, Intermediate,
-            Advanced) that grows with your child from the alphabet all the way to Qur’anic reading
+            microschools, and Islamic schools — one three-level program (Level C, Level B,
+            Level A) that grows with your child from the alphabet all the way to Qur’anic reading
             with tajweed.
           </p>
           <div className="mt-6 flex flex-wrap gap-4 text-sm">

@@ -18,8 +18,8 @@ const DIFFERENTIATORS = [
     body: 'Every lesson is written in both English and Arabic — not English lessons run through a translator. The two languages are drafted side by side, from scratch.',
   },
   {
-    title: 'Three tracks by proficiency.',
-    body: 'Beginner, Intermediate, and Advanced tracks run in parallel across Elementary, Middle, and High School. Mixed populations learn the same content at the right stretch.',
+    title: 'Three levels by proficiency.',
+    body: 'Level C, Level B, and Level A tracks run in parallel across Elementary, Middle, and High School. Mixed populations learn the same content at the right stretch.',
   },
   {
     title: 'Every product is sourced.',
