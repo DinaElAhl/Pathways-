@@ -41,9 +41,9 @@ const RECENT = [
   },
   {
     href: '/pathways-exam',
-    eyebrow: 'Free to take',
+    eyebrow: 'CEFR-aligned · published methodology',
     title: 'Roots Arabic & Qur’an Proficiency Exam (RAQP)',
-    body: 'CEFR-aligned (A1–B2), 15 questions, 5 minutes. Take it, get a level determination, get a certificate you can verify publicly.',
+    body: 'CEFR-aligned (A1–B2), 15 questions, 5 minutes. A level determination and a certificate you can verify publicly. Currently in a diagnostic testing phase ahead of formal accreditation.',
     cta: 'Take the RAQP',
   },
   {

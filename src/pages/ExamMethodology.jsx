@@ -31,7 +31,7 @@ export default function ExamMethodology() {
           </p>
           <p className="text-slate-700 leading-relaxed">
             A general Arabic and Qur’an language proficiency exam aligned to the CEFR framework
-            (A1–C1). Ideal for placement, exit assessment, and general credentialing.
+            (A1–B2). Ideal for placement, exit assessment, and general credentialing.
           </p>
           <p className="text-slate-700 leading-relaxed mt-4">
             <strong>RQAP — Roots Qur’anic Arabic Proficiency, Level 2 Asasi</strong> (<a href="/rqap.html" className="link">/rqap.html</a>)
@@ -65,7 +65,7 @@ export default function ExamMethodology() {
             <li>
               <strong>Overall verdict:</strong> for RQAP, the verdict is one of Pass, Merit, or
               Distinction based on published cutoffs (see below). For RAQP, the verdict is the CEFR
-              level (A1 / A2 / B1 / B2 / C1) determined by the score distribution across sections.
+              level (A1 / A2 / B1 / B2) determined by the highest level cleared at the 70% pass mark.
             </li>
           </ul>
         </section>
@@ -82,13 +82,24 @@ export default function ExamMethodology() {
           </ul>
 
           <h3 className="mt-6 mb-2 text-lg font-semibold text-slate-900">RAQP (CEFR-aligned)</h3>
-          <ul className="space-y-1.5 text-slate-700 list-disc pl-6">
-            <li><strong>C1:</strong> ≥ 90% overall on advanced-tagged items</li>
-            <li><strong>B2:</strong> ≥ 75% overall on advanced items OR ≥ 90% on intermediate items</li>
-            <li><strong>B1:</strong> ≥ 60% overall on intermediate items</li>
-            <li><strong>A2:</strong> ≥ 60% overall on beginner items</li>
-            <li><strong>A1:</strong> ≥ 40% overall on beginner items</li>
+          <p className="text-slate-700 leading-relaxed">
+            The RAQP is a sequential ladder. Each level is a 10-item set with a pass mark of
+            7/10 (70%). A candidate who passes a level advances to the next; the level awarded
+            is the highest level cleared.
+          </p>
+          <ul className="mt-3 space-y-1.5 text-slate-700 list-disc pl-6">
+            <li><strong>B2 (Mutaqaddim):</strong> cleared Level 4 at ≥ 70%</li>
+            <li><strong>B1 (Mutawassit):</strong> cleared Level 3 at ≥ 70%</li>
+            <li><strong>A2 (Asasi):</strong> cleared Level 2 at ≥ 70%</li>
+            <li><strong>A1 (Mubtadi):</strong> cleared Level 1 at ≥ 70%</li>
+            <li><strong>Below A1:</strong> Level 1 not cleared — a retake is available at any time</li>
           </ul>
+          <p className="mt-3 text-slate-700 leading-relaxed">
+            Item difficulty is set by CEFR level alone. The school-type selection changes the
+            subject matter and register of the items — family and school topics for younger
+            candidates, workplace and civic topics for adults — but never the linguistic demand.
+            A1 is A1 at every age.
+          </p>
           <p className="mt-4 text-slate-700 leading-relaxed">
             Full alignment matrix at{' '}
             <Link to="/exam/cefr-alignment" className="link">

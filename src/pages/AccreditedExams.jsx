@@ -255,7 +255,7 @@ export default function AccreditedExams() {
                     marginTop: 'auto'
                   }}
                 >
-                  {isPending ? 'Take Free Exam →' : 'Learn More →'}
+                  {isPending ? 'Take the Exam →' : 'Learn More →'}
                 </a>
               </div>
             );
