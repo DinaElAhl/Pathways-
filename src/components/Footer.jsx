@@ -57,8 +57,8 @@ export default function Footer() {
         <div>
           <h4 className="text-sm font-semibold text-slate-900">Stay in the loop</h4>
           <p className="mt-3 text-sm text-slate-600">
-            Want to hear when new curriculum, lessons, or exam updates drop? Send Dina a note and
-            she'll add you to the update list.
+            Want to hear when new curriculum, lessons, or exam updates drop? Send us a note and
+            we'll add you to the update list.
           </p>
           {/* Newsletter form intentionally goes through mailto until a real newsletter tool
               (ConvertKit / MailerLite / Beehiiv) is picked. Composing an email is honest —
@@ -73,7 +73,7 @@ export default function Footer() {
               if (!value) return
               const subject = encodeURIComponent('Please add me to Pathways updates')
               const body = encodeURIComponent(
-                `Hi Dina,\n\nPlease add ${value} to your update list — I'd like to hear when new curriculum, lessons, or exam updates ship.\n\nThank you.`
+                `Hello,\n\nPlease add ${value} to your update list — I'd like to hear when new curriculum, lessons, or exam updates ship.\n\nThank you.`
               )
               window.location.href = `mailto:roots@pathwayslearn.com?subject=${subject}&body=${body}`
             }}
@@ -87,10 +87,10 @@ export default function Footer() {
               className="min-w-0 flex-1 rounded-full border-0 bg-white px-4 py-2 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500"
             />
             <button type="submit" className="btn-primary px-4">
-              Ask Dina
+              Ask Roots
             </button>
             <p className="w-full text-xs text-slate-500 mt-1">
-              Opens your email app with a note pre-filled — Dina replies personally.
+              Opens your email app with a note pre-filled — we reply personally.
             </p>
           </form>
         </div>

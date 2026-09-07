@@ -123,7 +123,7 @@ export default function Verify() {
             <p className="text-sm text-slate-600">
               The public verification service is being set up. For now, please contact{' '}
               <a href="mailto:roots@pathwayslearn.com" className="link">roots@pathwayslearn.com</a> with
-              the certificate ID and Dina will confirm authenticity by email.
+              the certificate ID and we will confirm authenticity by email.
             </p>
           </div>
         )}

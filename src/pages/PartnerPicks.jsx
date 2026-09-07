@@ -28,7 +28,7 @@ export default function PartnerPicks() {
         </h1>
         <p className="mt-4 max-w-2xl text-slate-600">
           Lesser-known but genuinely excellent tools, tutors, and textbooks
-          Dina has vetted — across languages, coding, design, data, and more.
+          we have vetted — across languages, coding, design, data, and more.
           Many are free. Some are paid.
         </p>
 
