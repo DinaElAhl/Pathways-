@@ -3,38 +3,74 @@ import { useEffect, useRef, useState } from 'react';
 import Icon from './Icon.jsx';
 import { audiences } from '../data/audiences.js';
 
-// Primary links shown in the top bar
+// Nav labels are text-only. Color emoji were removed: they rendered at an
+// inconsistent size against the rest of the site's chrome, and the extra
+// glyph width pushed every label past its pill so items wrapped onto 2-4
+// lines inside a 56px (h-14) bar. Items also carry whitespace-nowrap +
+// shrink-0 below so a long label can never wrap again.
+
+// Primary links shown in the top bar. Kept to what fits on one row at 1280px:
+// "For Schools" was dropped from here because the brand CTA button on the
+// right already goes to /for-schools, and AI Match, Builder and the RQAP exam
+// moved into "More". Every route is still reachable — only placement changed.
 const primaryLinks = [
   { to: '/', label: 'Home', end: true },
   { to: '/pathways', label: 'Pathways' },
   { to: '/roots', label: 'Roots' },
   { to: '/tools', label: 'Tools' },
   { to: '/accredited-exams', label: 'Exams' },
-  { to: '/pathways-exam', label: '🎯 RAQP Exam' },
-  { to: '/for-schools', label: '🏫 For Schools' },
-  { to: '/shop', label: '🛒 Shop' },
-  { to: '/free-sample', label: '🎁 Free Sample' },
+  { to: '/pathways-exam', label: 'RAQP Exam' },
+  { to: '/shop', label: 'Shop' },
+  { to: '/free-sample', label: 'Free Sample' },
   { to: '/resources', label: 'Resources' },
-  { to: '/recommend', label: 'AI Match' },
 ];
 
-// External-style links (open static HTML, not React routes)
-const externalLinks = [
-  { href: '/rqap.html', label: '🎓 RQAP Level 2' },
+// Secondary links under "More", grouped with headings.
+//
+// The RQAP exams get their own group so they read as one family and can't be
+// misread as the RAQP exam (CEFR-aligned, /pathways-exam), which keeps its own
+// top-bar slot — the two acronyms differ only by a transposed letter.
+// Only RQAP Level 2 Asasi ships today; a Level 1 entry drops into this group
+// when that page exists. Links use `href` when they open a static HTML file
+// rather than a React route.
+const moreGroups = [
+  {
+    title: 'RQAP exams',
+    links: [{ href: '/rqap.html', label: 'RQAP 2 — Level 2 Asasi' }],
+  },
+  {
+    title: 'Exams & assessment',
+    links: [
+      { to: '/quran-exams', label: 'Quran Exams' },
+      { to: '/exam-dashboard', label: 'Exam Dashboard' },
+      { to: '/exam/methodology', label: 'Exam Methodology' },
+      { to: '/exam/cefr-alignment', label: 'CEFR Alignment' },
+    ],
+  },
+  {
+    title: 'Curriculum & tools',
+    links: [
+      { to: '/curriculum/sources', label: 'Curriculum Sources' },
+      { to: '/edu-hub', label: 'EduHub & Tools' },
+      { to: '/recommend', label: 'AI Match' },
+      // href, not `to`: builder.html is a static file that vercel.json excludes
+      // from the SPA rewrites. As a router <Link> it was intercepted by the
+      // catch-all route and landed on NotFound instead of the page.
+      { href: '/builder.html', label: 'Builder' },
+      { to: '/partners', label: 'Partners' },
+    ],
+  },
+  {
+    title: 'Roots',
+    links: [
+      { to: '/about', label: 'About' },
+      { to: '/contact', label: 'Contact' },
+    ],
+  },
 ];
 
-// Secondary links grouped under "More"
-const moreLinks = [
-  { to: '/quran-exams', label: '📖 Quran Exams' },
-  { to: '/exam-dashboard', label: '📊 Exam Dashboard' },
-  { to: '/exam/methodology', label: '📋 Exam Methodology' },
-  { to: '/exam/cefr-alignment', label: '🎓 CEFR Alignment' },
-  { to: '/curriculum/sources', label: '📚 Curriculum Sources' },
-  { to: '/edu-hub', label: 'EduHub & Tools' },
-  { to: '/partners', label: 'Partners' },
-  { to: '/about', label: 'About' },
-  { to: '/contact', label: 'Contact' },
-];
+// Flattened for the mobile menu, which lists everything in one column.
+const moreLinks = moreGroups.flatMap((g) => g.links);
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -83,14 +119,14 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden lg:flex items-center gap-1 flex-1">
+          <div className="hidden xl:flex items-center gap-1 flex-1">
             {primaryLinks.map((l) => (
               <NavLink
                 key={l.to}
                 to={l.to}
                 end={l.end}
                 className={({ isActive }) =>
-                  `px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                  `shrink-0 whitespace-nowrap px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
                     isActive
                       ? 'bg-brand-50 text-brand-700'
                       : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
@@ -100,15 +136,6 @@ export default function Navbar() {
                 {l.label}
               </NavLink>
             ))}
-            {externalLinks.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
-              >
-                {l.label}
-              </a>
-            ))}
 
             {/* More dropdown */}
             <div className="relative" ref={moreRef}>
@@ -116,7 +143,7 @@ export default function Navbar() {
                 type="button"
                 onClick={() => setMoreOpen((v) => !v)}
                 aria-expanded={moreOpen}
-                className="px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors flex items-center gap-1"
+                className="shrink-0 whitespace-nowrap px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors flex items-center gap-1"
               >
                 More
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -124,19 +151,41 @@ export default function Navbar() {
                 </svg>
               </button>
               {moreOpen && (
-                <div className="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-lg border border-slate-100 py-2 min-w-[160px] z-50">
-                  {moreLinks.map((l) => (
-                    <NavLink
-                      key={l.to}
-                      to={l.to}
-                      className={({ isActive }) =>
-                        `block px-4 py-2 text-sm ${
-                          isActive ? 'text-brand-700 bg-brand-50' : 'text-slate-700 hover:bg-slate-50'
-                        }`
-                      }
+                <div className="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-lg border border-slate-100 py-2 min-w-[220px] z-50">
+                  {moreGroups.map((g, gi) => (
+                    <div
+                      key={g.title}
+                      className={gi > 0 ? 'mt-1 border-t border-slate-100 pt-1' : undefined}
                     >
-                      {l.label}
-                    </NavLink>
+                      <div className="px-4 pt-2 pb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        {g.title}
+                      </div>
+                      {g.links.map((l) =>
+                        l.href ? (
+                          <a
+                            key={l.href}
+                            href={l.href}
+                            className="block whitespace-nowrap px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                          >
+                            {l.label}
+                          </a>
+                        ) : (
+                          <NavLink
+                            key={l.to}
+                            to={l.to}
+                            className={({ isActive }) =>
+                              `block whitespace-nowrap px-4 py-2 text-sm ${
+                                isActive
+                                  ? 'text-brand-700 bg-brand-50'
+                                  : 'text-slate-700 hover:bg-slate-50'
+                              }`
+                            }
+                          >
+                            {l.label}
+                          </NavLink>
+                        ),
+                      )}
+                    </div>
                   ))}
                 </div>
               )}
@@ -148,7 +197,7 @@ export default function Navbar() {
                 type="button"
                 onClick={() => setForOpen((v) => !v)}
                 aria-expanded={forOpen}
-                className="px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors flex items-center gap-1"
+                className="shrink-0 whitespace-nowrap px-3 py-1.5 rounded-md text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors flex items-center gap-1"
               >
                 For you
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -172,13 +221,7 @@ export default function Navbar() {
           </div>
 
           {/* Right side buttons */}
-          <div className="hidden lg:flex items-center gap-2 ml-2">
-            <Link
-              to="/builder.html"
-              className="px-3 py-1.5 rounded-md text-sm font-medium text-pink-600 hover:bg-pink-50 transition-colors"
-            >
-              🚀 Builder
-            </Link>
+          <div className="hidden xl:flex shrink-0 items-center gap-2 ml-2">
             <Link
               to="/for-schools"
               className="px-4 py-2 rounded-lg text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors"
@@ -190,7 +233,7 @@ export default function Navbar() {
           {/* Mobile menu button */}
           <button
             type="button"
-            className="lg:hidden ml-auto p-2 rounded-lg text-slate-500 hover:bg-slate-100"
+            className="xl:hidden ml-auto p-2 rounded-lg text-slate-500 hover:bg-slate-100"
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
           >
@@ -206,30 +249,31 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="lg:hidden bg-white border-t border-slate-100 py-3 px-4 space-y-1">
-          {[...primaryLinks, ...moreLinks].map((l) => (
-            <NavLink
-              key={l.to}
-              to={l.to}
-              end={l.end}
-              className={({ isActive }) =>
-                `block px-3 py-2 rounded-lg text-sm font-medium ${
-                  isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-700 hover:bg-slate-50'
-                }`
-              }
-            >
-              {l.label}
-            </NavLink>
-          ))}
-          {externalLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50"
-            >
-              {l.label}
-            </a>
-          ))}
+        <div className="xl:hidden bg-white border-t border-slate-100 py-3 px-4 space-y-1">
+          {[...primaryLinks, ...moreLinks].map((l) =>
+            l.href ? (
+              <a
+                key={l.href}
+                href={l.href}
+                className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50"
+              >
+                {l.label}
+              </a>
+            ) : (
+              <NavLink
+                key={l.to}
+                to={l.to}
+                end={l.end}
+                className={({ isActive }) =>
+                  `block px-3 py-2 rounded-lg text-sm font-medium ${
+                    isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-700 hover:bg-slate-50'
+                  }`
+                }
+              >
+                {l.label}
+              </NavLink>
+            ),
+          )}
           <div className="pt-2 border-t border-slate-100 space-y-1">
             <Link to="/for-schools" className="block px-3 py-2 rounded-lg text-sm font-semibold bg-brand-600 text-white text-center">
               For schools
