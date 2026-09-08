@@ -87,10 +87,10 @@ export default function Footer() {
               className="min-w-0 flex-1 rounded-full border-0 bg-white px-4 py-2 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500"
             />
             <button type="submit" className="btn-primary px-4">
-              Ask Roots
+              Ask us
             </button>
             <p className="w-full text-xs text-slate-500 mt-1">
-              Opens your email app with a note pre-filled — we reply personally.
+              Opens your email app with a note pre-filled — we&rsquo;ll reply personally.
             </p>
           </form>
         </div>
