@@ -2148,6 +2148,7 @@ const App = (function() {
     currentItemIndex: 0,       // index within current section
     responses: {},             // keyed by item.id => { value, correct, ... }
     sectionStartTime: null,
+    sectionTimedOut: false,
     examStartTime: null,
     audioBlobs: {},
     audioRecordings: {},       // keyed by item.id => { blob, url, durationSec }
@@ -2243,6 +2244,7 @@ const App = (function() {
   function startSection() {
     state.currentItemIndex = 0;
     state.sectionStartTime = Date.now();
+    state.sectionTimedOut = false;
     showItem();
     goTo('item-screen');
     startTimer();
@@ -2530,13 +2532,17 @@ const App = (function() {
 
     document.getElementById('done-section-title').textContent = section.title.replace(/^Section \d[A-Z] — /, '');
 
+    const timedOut = state.sectionTimedOut
+      ? 'Time expired, so this section closed automatically. '
+      : '';
+
     const isLast = state.currentSectionIndex === state.sectionOrder.length - 1;
     if (isLast) {
-      document.getElementById('done-message').textContent = 'You have completed all sections of the examination. The next step is scoring.';
+      document.getElementById('done-message').textContent = timedOut + 'You have completed all sections of the examination. The next step is scoring.';
       document.getElementById('done-continue-btn').textContent = 'View Results →';
     } else {
       const next = EXAM.sections[state.sectionOrder[state.currentSectionIndex + 1]];
-      document.getElementById('done-message').textContent = `You've completed this section. Up next: ${next.title.replace(/^Section \d[A-Z] — /, '')}.`;
+      document.getElementById('done-message').textContent = timedOut + `You've completed this section. Up next: ${next.title.replace(/^Section \d[A-Z] — /, '')}.`;
       document.getElementById('done-continue-btn').textContent = 'Continue to Next Section →';
     }
     goTo('section-done-screen');
@@ -2581,7 +2587,12 @@ const App = (function() {
       if (remaining <= 0) {
         timerEl.textContent = '00:00';
         timerEl.classList.add('danger');
-        // Don't auto-submit; we let user finish for the demo
+        // Time is up. The section closes itself: answers already given stand,
+        // anything unanswered is scored as incorrect. On the final section this
+        // carries straight through to scoring and submission.
+        stopTimer();
+        state.sectionTimedOut = true;
+        finishSection();
         return;
       }
       const m = Math.floor(remaining / 60);
