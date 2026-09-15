@@ -64,7 +64,8 @@ function PrepScreen({ questions, level, onDone }) {
     setStreak(0);
   }, [picked]);
 
-  const timeLeft = useTimer(15, handleTimeout);
+  const PREP_SECONDS = 15;
+  const timeLeft = useTimer(PREP_SECONDS, handleTimeout);
 
   function choose(opt) {
     if (picked) return;
@@ -94,7 +95,7 @@ function PrepScreen({ questions, level, onDone }) {
     }
   }
 
-  const pct = ((8-timeLeft)/8)*100;
+  const pct = ((PREP_SECONDS-timeLeft)/PREP_SECONDS)*100;
   const timerColor = timeLeft<3 ? '#ff4b4b' : timeLeft<5 ? '#ffc800' : '#58cc02';
 
   return (
@@ -576,7 +577,7 @@ function WelcomeScreen({ onStart }) {
         }}>
           لنبدأ → START EXAM
         </button>
-        <p style={{ fontSize:12, color:'#afafaf', marginTop:12 }}>4 levels • A1–C1 CEFR • Age-appropriate questions</p>
+        <p style={{ fontSize:12, color:'#afafaf', marginTop:12 }}>4 levels • A1–B2 CEFR • Age-appropriate content at every level</p>
       </div>
     </div>
   );

@@ -45,9 +45,9 @@ const LIVE_NOW = [
   },
   {
     href: '/pathways-exam',
-    eyebrow: 'Free to take',
+    eyebrow: 'CEFR-aligned · published methodology',
     title: 'Roots Arabic & Qur’an Proficiency Exam (RAQP)',
-    body: 'CEFR A1–B2. Fifteen questions, five minutes, level determination and a verifiable certificate.',
+    body: 'CEFR A1–B2. Fifteen questions, five minutes, level determination and a verifiable certificate. Currently in a diagnostic testing phase ahead of formal accreditation.',
     cta: 'Take the RAQP',
   },
   {
@@ -152,8 +152,8 @@ export default function About() {
               Three things you can use today.
             </h2>
             <p className="mt-3 text-slate-600">
-              A starter reading series, a free proficiency exam, and full curriculum licensing
-              for schools.
+              A starter reading series, a CEFR-aligned proficiency exam, and full curriculum
+              licensing for schools.
             </p>
           </div>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

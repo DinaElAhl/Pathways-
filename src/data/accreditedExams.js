@@ -445,21 +445,21 @@ export const accreditedExams = [
     category: 'Arabic',
     type: 'Proficiency Assessment',
     countries: ['Global'],
-    description: 'A multi-level Arabic and Quranic literacy assessment by Pathways, mapping learners from elementary to advanced using CEFR standards (A1-C1) with Quranic surah benchmarks and tajweed evaluation.',
+    description: 'A multi-level Arabic and Quranic literacy assessment by Pathways, mapping learners from elementary to advanced against CEFR bands (A1-B2) with Quranic surah benchmarks and tajweed evaluation.',
     recognizedBy: 'Pathways (Accreditation Pending)',
-    level: 'A1-C1 (4 Levels)',
-    cost: 'Free (Paid upon accreditation)',
+    level: 'A1-B2 (4 Levels)',
+    cost: 'Diagnostic testing phase ahead of formal accreditation',
     availability: 'Online, year-round',
     difficulty: 2,
     status: 'pending',
     levels: [
       { level: 1, arabic: 'Mubtadi', name: 'Mubtadi', audience: 'Elementary', cefr: 'A1', surahs: 'Al-Fatiha, Al-Ikhlas, Al-Kawthar, Al-Nas' },
-      { level: 2, arabic: 'Asasi', name: 'Asasi', audience: 'Middle School', cefr: 'B1', surahs: 'Juz Amma short' },
-      { level: 3, arabic: 'Mutawassit', name: 'Mutawassit', audience: 'High School', cefr: 'B2', surahs: 'Full Juz Amma + Al-Mulk excerpt' },
-      { level: 4, arabic: 'Mutaqaddim', name: 'Mutaqaddim', audience: 'Adults', cefr: 'C1', surahs: 'Thematic study across Juz Amma' }
+      { level: 2, arabic: 'Asasi', name: 'Asasi', audience: 'Middle School', cefr: 'A2', surahs: 'Juz Amma short' },
+      { level: 3, arabic: 'Mutawassit', name: 'Mutawassit', audience: 'High School', cefr: 'B1', surahs: 'Full Juz Amma + Al-Mulk excerpt' },
+      { level: 4, arabic: 'Mutaqaddim', name: 'Mutaqaddim', audience: 'Adults', cefr: 'B2', surahs: 'Thematic study across Juz Amma' }
     ],
     prepResources: [
-      { name: 'Take the Exam (Free)', url: 'https://claude.ai/public/artifacts/130ad91f-9ec4-42a3-8f5d-479aef8a5b59' },
+      { name: 'Take the Exam', url: 'https://www.pathwayslearn.com/pathways-exam' },
       { name: 'Pathways Arabic Pathway', url: 'https://www.pathwayslearn.com/pathways/arabic-language' },
       { name: 'Quran Study Resources', url: 'https://www.pathwayslearn.com/resources' }
     ]
