@@ -2119,6 +2119,13 @@ const EXAM = {
     }
   }
 };
+
+// The advertised per-section item count must never outrun the bank that is
+// actually administered. Derive it from itemsList so the two cannot drift:
+// the hard-coded values here claimed 93 items against a real pool of 21.
+Object.values(EXAM.sections).forEach(section => {
+  section.items = section.itemsList.length;
+});
 </script>
 
 <script>
