@@ -460,11 +460,19 @@ function FinalReport({ studentName, schoolType, levelResults, totalXp, onRestart
   const [showCert, setShowCert] = useState(false);
   const passedLevels = levelResults.filter(r=>r.passed);
   const highest = passedLevels.length>0 ? passedLevels[passedLevels.length-1] : null;
-  const finalLevelId = highest?.levelId || 'mubtadi';
-  const finalLevel = LEVELS.find(l=>l.id===finalLevelId)||LEVELS[0];
+  // Clearing no level means no credential. The old fallback to 'mubtadi' did
+  // not match any LEVELS id, so it silently resolved to LEVELS[0] and handed a
+  // printable A1 certificate to someone who had scored 0/10.
+  const earnedCredential = !!highest;
+  const finalLevel = highest ? LEVELS.find(l=>l.id===highest.levelId) || null : null;
   const school = SCHOOL_TYPES.find(s=>s.id===schoolType);
+  // Where the attempt stopped, so we can say what to work on.
+  const stopped = levelResults[levelResults.length-1] || null;
+  const stoppedLevel = stopped ? LEVELS.find(l=>l.id===stopped.levelId) : null;
 
   function printCert() {
+    // Never render a CEFR badge the candidate has not earned.
+    if (!earnedCredential || !finalLevel) return;
     const date = new Date().toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'});
     const w = window.open('','_blank');
     w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>RAQP Certificate</title>
@@ -487,11 +495,20 @@ function FinalReport({ studentName, schoolType, levelResults, totalXp, onRestart
   return (
     <div style={{ minHeight:'100vh', background:'#f8fafc', paddingBottom:48 }}>
       <div style={{ background:'linear-gradient(135deg,#1e293b,#3b4f6b)', padding:'32px 24px', textAlign:'center' }}>
-        <div style={{ fontSize:48, marginBottom:8 }}>🏆</div>
-        <h2 style={{ fontSize:22, fontWeight:900, color:'#fff', margin:'0 0 4px' }}>Exam Complete!</h2>
-        <div style={{ background:finalLevel.bg, color:finalLevel.color, display:'inline-block', padding:'4px 16px', borderRadius:20, fontWeight:800, fontSize:16, margin:'8px 0 4px' }}>
-          {finalLevel.name} — {finalLevel.cefr}
-        </div>
+        <div style={{ fontSize:48, marginBottom:8 }}>{earnedCredential ? '🏆' : '💪'}</div>
+        <h2 style={{ fontSize:22, fontWeight:900, color:'#fff', margin:'0 0 4px' }}>
+          {earnedCredential ? 'Exam Complete!' : 'Not yet — keep practising'}
+        </h2>
+        {earnedCredential && finalLevel ? (
+          <div style={{ background:finalLevel.bg, color:finalLevel.color, display:'inline-block', padding:'4px 16px', borderRadius:20, fontWeight:800, fontSize:16, margin:'8px 0 4px' }}>
+            {finalLevel.name} — {finalLevel.cefr}
+          </div>
+        ) : (
+          <p style={{ color:'#cbd5e1', margin:'8px auto 0', fontSize:14, maxWidth:420, lineHeight:1.5 }}>
+            You did not clear a level this time, so there is no proficiency level to award yet.
+            Your answers are below — they show exactly where to put the practice.
+          </p>
+        )}
         {studentName && <p style={{ color:'#94a3b8', margin:'4px 0 0', fontSize:14 }}>{studentName}</p>}
         <div style={{ color:'#ffc800', fontWeight:800, fontSize:18, marginTop:8 }}>⚡ {totalXp} XP Earned</div>
       </div>
@@ -512,10 +529,27 @@ function FinalReport({ studentName, schoolType, levelResults, totalXp, onRestart
             );
           })}
         </div>
+        {!earnedCredential && stoppedLevel && (
+          <div style={{ background:'#fff', border:'1px solid #e2e8f0', borderLeft:'4px solid #1cb0f6', borderRadius:14, padding:'18px 20px', marginBottom:20 }}>
+            <div style={{ fontWeight:800, fontSize:15, color:'#1e293b', marginBottom:8 }}>What to work on</div>
+            <p style={{ fontSize:13, color:'#475569', margin:'0 0 10px', lineHeight:1.6 }}>
+              You stopped at <strong>{stoppedLevel.name} ({stoppedLevel.cefr})</strong> with
+              {' '}{stopped.score}/10. The pass mark is {stoppedLevel.passMark}%, so aim for 7 of 10.
+            </p>
+            <p style={{ fontSize:13, color:'#475569', margin:'0 0 10px', lineHeight:1.6 }}>
+              <strong>This level covers:</strong> {stoppedLevel.label}
+            </p>
+            <p style={{ fontSize:13, color:'#475569', margin:0, lineHeight:1.6 }}>
+              <strong>Recite and review:</strong> {stoppedLevel.surahs}
+            </p>
+          </div>
+        )}
         <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
-          <button onClick={printCert} className="duo-btn" style={{ flex:1, minWidth:160, background:'#58cc02', color:'#fff', border:'none', borderRadius:14, padding:'14px 0', fontSize:14, fontWeight:800, cursor:'pointer', boxShadow:'0 4px 0 #3d9900' }}>
-            🏅 Print Certificate
-          </button>
+          {earnedCredential && (
+            <button onClick={printCert} className="duo-btn" style={{ flex:1, minWidth:160, background:'#58cc02', color:'#fff', border:'none', borderRadius:14, padding:'14px 0', fontSize:14, fontWeight:800, cursor:'pointer', boxShadow:'0 4px 0 #3d9900' }}>
+              🏅 Print Certificate
+            </button>
+          )}
           <button onClick={onRestart} className="duo-btn" style={{ flex:1, minWidth:160, background:'#fff', color:'#1cb0f6', border:'2px solid #1cb0f6', borderRadius:14, padding:'12px 0', fontSize:14, fontWeight:700, cursor:'pointer' }}>
             🔄 Start New Exam
           </button>
