@@ -249,7 +249,7 @@ export default function Resources() {
             Not sure where to start?
           </h2>
           <p className="mt-2 text-slate-600">
-            Email Dina at{' '}
+            Email us at{' '}
             <a
               href="mailto:roots@pathwayslearn.com"
               className="font-semibold text-brand-700 hover:text-brand-800"
