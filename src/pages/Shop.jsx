@@ -50,7 +50,7 @@ export default function Shop() {
     <div className="bg-white">
       {/* Hero */}
       <section className="container-page pt-16 pb-10 sm:pt-24 text-center">
-        <span className="chip">Curriculum by Dina Mohamed</span>
+        <span className="chip">Curriculum by Roots</span>
         <h1 className="mt-5 text-4xl sm:text-5xl font-bold tracking-tight">
           The{' '}
           <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-accent-500 bg-clip-text text-transparent">

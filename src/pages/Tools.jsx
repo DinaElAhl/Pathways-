@@ -226,7 +226,7 @@ export default function Tools() {
       <section className="container-page pb-24">
         <div className="mx-auto max-w-3xl rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-6 sm:p-8">
           <div className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">
-            Also from Dina
+            Also from Roots
           </div>
           <h3 className="font-display text-xl font-semibold text-slate-900">
             The E² Teaching Framework

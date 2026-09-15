@@ -184,7 +184,7 @@ export const highSchoolLicenses = [
     price: '$10,000',
     period: '/ year',
     description:
-      'Full HS-A track: 37 weeks of rhetorical Arabic, comparative tafsir, and capstone portfolios. Directly extended from the highest-level HS track Dina led at Bayaan Academy.',
+      'Full HS-A track: 37 weeks of rhetorical Arabic, comparative tafsir, and capstone portfolios. Directly extended from the highest-level HS track our founder led at Bayaan Academy.',
     buyUrl: buyUrl('HS-A Level A', '10,000'),
     customizeUrl: customizeUrl('HS-A'),
     available: 'Fall 2026',
@@ -331,10 +331,10 @@ export const howItWorks = [
   },
 ];
 
-export const meetDina = {
-  name: 'Dina Mohamed Sayed El-Ahl',
+export const meetTheFounder = {
+  name: 'The educator behind Roots',
   role: 'Curriculum Designer · Arabic & Qur’anic Studies Educator',
-  bio: 'Dina taught Arabic and Qur’anic Studies at Bayaan Academy, a US-based online Islamic school, where she led both the Elementary Advanced and High School Advanced tracks and built the scope-and-sequence framework used across grade bands. Her master’s thesis was in Arabic natural language processing (text summarization). She is a Wayground / Quizizz Game Changer certified trainer and the author of the Roots Tajweed Reading Series.',
+  bio: 'The founder of Roots taught Arabic and Qur’anic Studies at Bayaan Academy, a US-based online Islamic school, where she led both the Elementary Advanced and High School Advanced tracks and built the scope-and-sequence framework used across grade bands. Her master’s thesis was in Arabic natural language processing (text summarization). She is a Wayground / Quizizz Game Changer certified trainer and the author of the Roots Tajweed Reading Series.',
   credentials: [
     'Arabic & Qur’an educator (US online Islamic school)',
     'Led ES-Advanced and HS-Advanced tracks at Bayaan Academy',

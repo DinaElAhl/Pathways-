@@ -6,7 +6,7 @@ const suggestions = [
   { to: '/for-schools', label: '🏫 For Schools', desc: 'K–12 licensing (ES, MS, HS)' },
   { to: '/free-sample', label: '🎁 Free Sample', desc: 'The Week 1 sample pack' },
   { to: '/pathways-exam', label: '🎯 RAQP Exam', desc: 'CEFR-aligned proficiency exam' },
-  { to: '/contact', label: '✉️ Contact', desc: 'Say hello to Dina' },
+  { to: '/contact', label: '✉️ Contact', desc: 'Say hello to the Roots team' },
 ]
 
 export default function NotFound() {

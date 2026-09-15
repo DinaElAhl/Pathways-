@@ -85,7 +85,7 @@ export const shopLessons = [
 // for restoration if the licensing tier changes.
 
 export const shopAuthor = {
-  name: 'Dina Mohamed Sayed El-Ahl',
+  name: 'The educator behind Roots',
   bio: 'An Arabic and Quranic Studies educator who taught online at a US-based Islamic school, with a master’s degree in Arabic natural language processing, and a career built on making the Quran readable for anyone who wants to learn.',
   payhipStore: 'https://payhip.com/b/CeFMp',
   gumroadStore: 'https://bududiva.gumroad.com/',

@@ -6,7 +6,7 @@ import Icon from '../components/Icon.jsx'
 // Email capture is a mailto placeholder until Dina picks a newsletter tool
 // (ConvertKit / MailerLite / Beehiiv etc.). When she wires a real capture,
 // replace the <form> action with the tool's embed and drop the mailto.
-const DINA_EMAIL = 'roots@pathwayslearn.com'
+const ROOTS_EMAIL = 'roots@pathwayslearn.com'
 const MAILTO_SUBJECT = 'Free Roots Week 1 Sample Request'
 
 export default function FreeSample() {
@@ -23,9 +23,9 @@ export default function FreeSample() {
     }
     const subject = encodeURIComponent(MAILTO_SUBJECT)
     const body = encodeURIComponent(
-      `Assalamu alaikum Dina,\n\nPlease send me the free Roots Week 1 sample pack.\n\nMy email: ${trimmed}\n\nJazakum Allahu khairan,\n`
+      `Assalamu alaikum,\n\nPlease send me the free Roots Week 1 sample pack.\n\nMy email: ${trimmed}\n\nJazakum Allahu khairan,\n`
     )
-    window.location.href = `mailto:${DINA_EMAIL}?subject=${subject}&body=${body}`
+    window.location.href = `mailto:${ROOTS_EMAIL}?subject=${subject}&body=${body}`
   }
 
   return (
@@ -73,7 +73,7 @@ export default function FreeSample() {
             <p className="mt-2 text-xs text-rose-600" role="alert">{error}</p>
           )}
           <p className="mt-3 text-xs text-slate-500">
-            Composes an email to Dina — she sends the pack back the same day.
+            Composes an email to us — we send the pack back the same day.
           </p>
         </div>
       </section>
@@ -183,7 +183,7 @@ export default function FreeSample() {
             is a bilingual Qur’an and Arabic curriculum system
           </h2>
           <p className="mt-4 text-brand-100 leading-relaxed">
-            built by Dina Mohamed Sayed El-Ahl, an Arabic Language and Qur’anic Studies educator
+            built by an Arabic Language and Qur’anic Studies educator
             who taught at a US online Islamic school. Roots is used by homeschool families,
             microschools, and Islamic schools — one three-level program (Level C, Level B,
             Level A) that grows with your child from the alphabet all the way to Qur’anic reading
@@ -216,7 +216,7 @@ export default function FreeSample() {
             One click, then check your inbox. No spam.
           </p>
           <a
-            href={`mailto:${DINA_EMAIL}?subject=${encodeURIComponent(MAILTO_SUBJECT)}`}
+            href={`mailto:${ROOTS_EMAIL}?subject=${encodeURIComponent(MAILTO_SUBJECT)}`}
             className="btn-primary mt-6 px-6 py-3 text-base"
           >
             Send me the free lesson

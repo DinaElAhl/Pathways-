@@ -46,7 +46,7 @@ export default function ExamMethodology() {
         <section>
           <h2 className="mt-10 mb-3 text-2xl sm:text-3xl font-bold tracking-tight">Item design</h2>
           <p className="text-slate-700 leading-relaxed">
-            Every exam question is written by Dina Mohamed Sayed El-Ahl (curriculum architect + Arabic
+            Every exam question is written in-house by the Roots curriculum architect (an Arabic
             and Qur’anic Studies educator). Every question is:
           </p>
           <ul className="mt-4 space-y-2 text-slate-700 list-disc pl-6">

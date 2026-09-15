@@ -408,7 +408,7 @@ export default function ForSchools() {
               Behind Roots
             </div>
             <p className="text-slate-700 leading-relaxed">
-              Roots is designed by <strong>Dina Mohamed Sayed El-Ahl</strong>, an Arabic Language
+              Roots is designed by an Arabic Language
               and Qur&rsquo;anic Studies educator with years of K&ndash;12 curriculum experience at
               a US-based online Islamic school. She built Roots because she couldn&rsquo;t find the
               curriculum she wanted for her own students.

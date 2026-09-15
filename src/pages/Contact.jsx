@@ -14,7 +14,7 @@ const topics = [
   'Press / media',
 ]
 
-const DINA_EMAIL = 'roots@pathwayslearn.com'
+const ROOTS_EMAIL = 'roots@pathwayslearn.com'
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -45,8 +45,8 @@ export default function Contact() {
     if (!validate()) return
     const subject = `Pathways — ${form.topic}`
     const body =
-      `Hi Dina,\n\n${form.message.trim()}\n\n— ${form.name.trim()}\nReply to: ${form.email.trim()}`
-    const href = `mailto:${DINA_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+      `Hello,\n\n${form.message.trim()}\n\n— ${form.name.trim()}\nReply to: ${form.email.trim()}`
+    const href = `mailto:${ROOTS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     window.location.href = href
   }
 
@@ -61,7 +61,7 @@ export default function Contact() {
           </h1>
           <p className="mt-3 max-w-2xl text-lg text-slate-600">
             Questions about the Roots curriculum, licensing for your school, or the RQAP exam?
-            Every note reaches Dina directly.
+            Every note reaches the Roots team directly.
           </p>
         </div>
       </section>
@@ -72,8 +72,8 @@ export default function Contact() {
           <ContactInfo
             icon="mail"
             label="Email"
-            value={DINA_EMAIL}
-            href={`mailto:${DINA_EMAIL}`}
+            value={ROOTS_EMAIL}
+            href={`mailto:${ROOTS_EMAIL}`}
           />
           <ContactInfo
             icon="pin"
@@ -144,7 +144,7 @@ export default function Contact() {
                 rows={5}
                 value={form.message}
                 onChange={update('message')}
-                placeholder="Tell Dina what you're working on or wondering about..."
+                placeholder="Tell us what you're working on or wondering about..."
                 className={`mt-1.5 w-full rounded-xl border-0 bg-white px-4 py-3 text-sm text-slate-900 ring-1 ring-inset placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500 ${
                   errors.message ? 'ring-rose-300' : 'ring-slate-200'
                 }`}
@@ -157,7 +157,7 @@ export default function Contact() {
             <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-xs text-slate-500">
                 Prefer to write directly?{' '}
-                <a href={`mailto:${DINA_EMAIL}`} className="link">{DINA_EMAIL}</a>
+                <a href={`mailto:${ROOTS_EMAIL}`} className="link">{ROOTS_EMAIL}</a>
               </p>
               <button type="submit" className="btn-primary px-6 py-3">
                 Compose email
