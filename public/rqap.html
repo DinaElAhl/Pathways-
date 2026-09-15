@@ -1813,14 +1813,12 @@ const EXAM = {
             "The Creator, who brought the heavens and the earth into being",
             "The Owner of the Day of Judgment, before whom all will stand"
           ],
-          correct: 0
         },
         {
           id: "L2-1A-002",
           tag: "Root Extraction",
           stem: "The trilateral root (الجذر) of the word <span class='arabic-inline'>الكَوْثَر</span> in Surah al-Kawthar is:",
           options: ["ك – و – ر", "ك – ث – ل", "ك – ث – ر", "ك – ي – ر"],
-          correct: 2,
           arabicOptions: true
         },
         {
@@ -1833,7 +1831,6 @@ const EXAM = {
             "كَذَّاب (a habitual liar)",
             "كَرِيم (noble, generous)"
           ],
-          correct: 0,
           arabicOptions: true
         },
         {
@@ -1846,14 +1843,12 @@ const EXAM = {
             "The great and total shaking of the earth itself",
             "The state of the ground after the shaking stops"
           ],
-          correct: 2
         },
         {
           id: "L2-1A-005",
           tag: "Root Extraction",
           stem: "The trilateral root (الجذر) of the word <span class='arabic-inline'>المَغْضُوب</span> in Surah al-Fatiha (<span class='arabic-inline'>غَيْرِ المَغْضُوبِ عَلَيْهِمْ</span>) is:",
           options: ["غ – ض – ب", "غ – ي – ب", "غ – ذ – ب", "غ – ص – ب"],
-          correct: 0,
           arabicOptions: true
         }
       ]
@@ -1881,7 +1876,6 @@ const EXAM = {
             "Command form",
             "Past tense, third person masculine singular"
           ],
-          correct: 1
         },
         {
           id: "L2-1B-002",
@@ -1894,7 +1888,6 @@ const EXAM = {
             "A حرف جزم (jussive particle) governing a verb",
             "A حرف عطف (conjunction) linking two nouns"
           ],
-          correct: 1
         },
         {
           id: "L2-1B-003",
@@ -1906,7 +1899,6 @@ const EXAM = {
             "Subject: الكَوْثَر; single object: the pronoun ك",
             "No object at all; the verb here is intransitive"
           ],
-          correct: 1
         },
         {
           id: "L2-1B-004",
@@ -1918,7 +1910,6 @@ const EXAM = {
             "مرفوع (nominative) — as خبر for an implied مبتدأ",
             "مبني (indeclinable) — it takes no case ending"
           ],
-          correct: 2
         }
       ]
     },
@@ -1945,7 +1936,6 @@ const EXAM = {
             "Abraha's army that marched on the Ka'ba; the message is that Allah defends His house",
             "The Quraysh leaders who held the Ka'ba; the message is the honour of lineage"
           ],
-          correct: 2
         },
         {
           id: "L2-1C-002",
@@ -1958,7 +1948,6 @@ const EXAM = {
             "Denying the Judgment shows itself in cruelty to the orphan and the poor",
             "Only open disbelief is condemned; cruelty done in private is not counted"
           ],
-          correct: 2
         }
       ]
     },
@@ -2014,7 +2003,6 @@ const EXAM = {
             "The middle of the tongue against the roof of the mouth",
             "The furthest part of the throat"
           ],
-          correct: 1
         },
         {
           id: "L2-2A-002",
@@ -2026,7 +2014,6 @@ const EXAM = {
             "الإقلاب — the noon becomes a hidden meem with ghunna",
             "الإخفاء — the noon is concealed between the two"
           ],
-          correct: 2
         },
         {
           id: "L2-2A-003",
@@ -2038,14 +2025,12 @@ const EXAM = {
             "مد متصل (connected madd, 4–5 counts)",
             "مد طبيعي (natural madd, 2 counts)"
           ],
-          correct: 3
         },
         {
           id: "L2-2A-004",
           tag: "Qalqala",
           stem: "Which of the following letters is one of the <span class='arabic-inline'>حروف القلقلة</span> (letters of qalqala)?",
           options: ["ت", "ج", "س", "ف"],
-          correct: 1,
           arabicOptions: true
         },
         {
@@ -2058,7 +2043,6 @@ const EXAM = {
             "Replace the tanwin with an alif",
             "Extend the kasra into a yaa madd"
           ],
-          correct: 1
         }
       ]
     },
@@ -2085,7 +2069,6 @@ const EXAM = {
             "Iqlab — the noon is converted to a hidden meem sound",
             "Ikhfa' — the noon is concealed without full merging"
           ],
-          correct: 1
         },
         {
           id: "L2-2B-002",
@@ -2097,7 +2080,6 @@ const EXAM = {
             "Waqf Hasan (permitted, but starting from the next word alone is discouraged)",
             "Waqf Qabih (forbidden stop — the meaning is broken)"
           ],
-          correct: 0
         }
       ]
     },
@@ -2342,12 +2324,9 @@ const App = (function() {
   }
 
   function selectOption(itemId, optionIndex, element) {
-    // Find item to determine correctness
-    const item = findItem(itemId);
-    state.responses[itemId] = {
-      value: optionIndex,
-      correct: optionIndex === item.correct
-    };
+    // Record only what was chosen. Whether it is right is decided by
+    // /api/score-rqap, which holds the answer key.
+    state.responses[itemId] = { value: optionIndex };
     // Update UI
     document.querySelectorAll('.item-option').forEach(o => o.classList.remove('selected'));
     element.classList.add('selected');
@@ -2622,16 +2601,47 @@ const App = (function() {
   // === SUBMIT & SCORING ===
   function submitExam() {
     goTo('submitting-screen');
-    const results = scoreExam();
-    state.results = results;
-    submitToSheet(results)
-      .then(status => { state.submissionStatus = status; })
-      .catch(err => { state.submissionStatus = { ok: false, error: String(err) }; });
-    setTimeout(() => {
-      renderResults(results);
-      renderSubmissionStatus();
-      goTo('results-screen');
-    }, 2200);
+    const started = Date.now();
+
+    scoreExam()
+      .then(results => {
+        state.results = results;
+        submitToSheet(results)
+          .then(status => { state.submissionStatus = status; })
+          .catch(err => { state.submissionStatus = { ok: false, error: String(err) }; });
+
+        // Keep the submitting screen up long enough to read.
+        const wait = Math.max(0, 2200 - (Date.now() - started));
+        setTimeout(() => {
+          renderResults(results);
+          renderSubmissionStatus();
+          goTo('results-screen');
+        }, wait);
+      })
+      .catch(err => { showScoringError(err); });
+  }
+
+  // Scoring is the one step with no offline fallback, so say so plainly and
+  // let the candidate retry without losing their answers.
+  function showScoringError(err) {
+    const host = document.getElementById('submitting-screen');
+    if (!host) { alert('We could not score your exam. Please try again.'); return; }
+    const inner = host.querySelector('.screen-inner') || host;
+    inner.innerHTML = '' +
+      '<div class="panel">' +
+        '<h3 style="margin-bottom:0.75rem">We could not score your exam</h3>' +
+        '<p class="small">Your answers are safe in this browser tab. Marking happens on our server, ' +
+        'and that request did not get through. Check your connection and try again - ' +
+        'do not close this tab.</p>' +
+        '<p class="small text-faint" style="font-family:ui-monospace,monospace">' + String(err) + '</p>' +
+        '<div class="item-nav mt-2">' +
+          '<button class="btn btn-primary" onclick="App.retrySubmit()">Try scoring again</button>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function retrySubmit() {
+    window.location.reload();
   }
 
   // === GOOGLE SHEETS DELIVERY (via Apps Script Web App) ===
@@ -2641,7 +2651,7 @@ const App = (function() {
       const r = state.responses[k];
       responses[k] = {
         value: r.value,
-        correct: r.correct === true ? 1 : (r.correct === false ? 0 : null),
+        correct: (results.itemResults && results.itemResults[k] !== undefined) ? results.itemResults[k] : null,
         wordCount: r.wordCount || null
       };
     });
@@ -2722,100 +2732,31 @@ const App = (function() {
     }
   }
 
+  // Scoring lives on the server. The page posts what the candidate chose and
+  // gets back marks; it never sees the answer key. If the call fails there is
+  // no local fallback by design - a fallback would mean shipping the key again.
   function scoreExam() {
-    const sectionScores = {};
-
-    state.sectionOrder.forEach(key => {
-      const section = EXAM.sections[key];
-      let earned = 0;
-      let max = 0;
-
-      section.itemsList.forEach(item => {
-        const r = state.responses[item.id];
-        if (item.options) {
-          // MCQ — straight scoring
-          max += 1;
-          if (r && r.correct) earned += 1;
-        } else if (item.type === 'essay-arabic' || item.type === 'essay-target') {
-          // Heuristic auto-grading for demo: scale based on word count vs. minimum
-          max += 5;
-          if (r && r.wordCount) {
-            const min = item.minWords || 50;
-            const hit = Math.min(1, r.wordCount / min);
-            // Cap simulated score at 4/5 — full marks require human rater
-            earned += Math.round(hit * 4 * 10) / 10;
-          }
-        } else if (item.type === 'audio') {
-          // Heuristic: based on duration of recording
-          max += 5;
-          if (state.audioRecordings[item.id]) {
-            const dur = state.audioRecordings[item.id].durationSec;
-            // Reasonable range 15-90 seconds for Surah al-Nas
-            if (dur >= 20 && dur <= 90) earned += 4;
-            else if (dur >= 10) earned += 3;
-            else earned += 2;
-          }
-        }
-      });
-
-      const pct = max > 0 ? (earned / max) * 100 : 0;
-      sectionScores[key] = { earned, max, pct: Math.round(pct * 10) / 10, items: section.itemsList.length };
+    const responses = {};
+    Object.keys(state.responses).forEach(k => {
+      const r = state.responses[k];
+      responses[k] = { value: r.value, wordCount: r.wordCount || null };
     });
 
-    // Track scores
-    const trackScores = { language: null, tajweed: null };
+    const audio = {};
+    Object.keys(state.audioRecordings).forEach(k => {
+      audio[k] = { durationSec: state.audioRecordings[k].durationSec };
+    });
 
-    if (state.selectedTracks.language) {
-      // Track 1: 1A=20%, 1B=20%, 1C=30%, 1D=30%
-      const w = { '1A': 0.20, '1B': 0.20, '1C': 0.30, '1D': 0.30 };
-      let weighted = 0;
-      let weightSum = 0;
-      ['1A', '1B', '1C', '1D'].forEach(k => {
-        if (sectionScores[k]) {
-          weighted += sectionScores[k].pct * w[k];
-          weightSum += w[k];
-        }
-      });
-      trackScores.language = weightSum > 0 ? Math.round((weighted / weightSum) * 10) / 10 : 0;
-    }
-
-    if (state.selectedTracks.tajweed) {
-      // Track 2: 2A=40%, 2B=25%, 2C=35%
-      const w = { '2A': 0.40, '2B': 0.25, '2C': 0.35 };
-      let weighted = 0;
-      let weightSum = 0;
-      ['2A', '2B', '2C'].forEach(k => {
-        if (sectionScores[k]) {
-          weighted += sectionScores[k].pct * w[k];
-          weightSum += w[k];
-        }
-      });
-      trackScores.tajweed = weightSum > 0 ? Math.round((weighted / weightSum) * 10) / 10 : 0;
-    }
-
-    // Verdict per RQAP scoring policy
-    const langPass = trackScores.language !== null && trackScores.language >= 65;
-    const langDist = trackScores.language !== null && trackScores.language >= 80;
-    const tajPass = trackScores.tajweed !== null && trackScores.tajweed >= 70;
-    const tajDist = trackScores.tajweed !== null && trackScores.tajweed >= 85;
-
-    let verdict, verdictArabic, verdictTier;
-    if (state.selectedTracks.language && state.selectedTracks.tajweed) {
-      if (langDist && tajDist) { verdict = 'Level 2 with Distinction'; verdictArabic = 'أساسي مع الامتياز'; verdictTier = 'distinction'; }
-      else if (langPass && tajPass) { verdict = 'Level 2 (Asasi) — Pass'; verdictArabic = 'أساسي — ناجح'; verdictTier = 'pass'; }
-      else if (langPass || tajPass) { verdict = 'Single-Track Pass'; verdictArabic = 'نجاح في مسار واحد'; verdictTier = 'pass-partial'; }
-      else { verdict = 'Below Threshold'; verdictArabic = 'دون الحدّ المطلوب'; verdictTier = 'fail'; }
-    } else if (state.selectedTracks.language) {
-      verdict = langDist ? 'Language Track — Distinction' : (langPass ? 'Language Track — Pass' : 'Language Track — Below Threshold');
-      verdictArabic = langDist ? 'مسار اللغة — امتياز' : (langPass ? 'مسار اللغة — ناجح' : 'مسار اللغة — دون الحدّ');
-      verdictTier = langDist ? 'distinction' : (langPass ? 'pass' : 'fail');
-    } else {
-      verdict = tajDist ? 'Tajweed Track — Distinction' : (tajPass ? 'Tajweed Track — Pass' : 'Tajweed Track — Below Threshold');
-      verdictArabic = tajDist ? 'مسار التجويد — امتياز' : (tajPass ? 'مسار التجويد — ناجح' : 'مسار التجويد — دون الحدّ');
-      verdictTier = tajDist ? 'distinction' : (tajPass ? 'pass' : 'fail');
-    }
-
-    return { sectionScores, trackScores, verdict, verdictArabic, verdictTier };
+    return fetch('/api/score-rqap', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ selectedTracks: state.selectedTracks, responses: responses, audio: audio })
+    })
+    .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
+    .then(body => {
+      if (!body || !body.ok || !body.results) throw new Error((body && body.error) || 'Scoring failed.');
+      return body.results;
+    });
   }
 
   // === RESULTS RENDERING ===
@@ -2970,6 +2911,7 @@ const App = (function() {
     toggleRecording,
     nextItem, prevItem,
     viewCertificate, downloadReport,
+    retrySubmit,
     goTo
   };
 })();
