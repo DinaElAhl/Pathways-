@@ -1757,11 +1757,16 @@
             </div>
           </div>
 
+          <div class="certificate-verify" style="margin-top:1.25rem;text-align:center">
+            <div class="lbl" style="font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:#64748b">Verify this credential</div>
+            <a id="cert-verify-link" href="#" style="font-size:0.8rem;font-family:ui-monospace,monospace;color:#1e293b;word-break:break-all">—</a>
+          </div>
+
           <div class="certificate-seal">جذور</div>
         </div>
 
         <div class="panel-info">
-          <p class="small" style="margin-bottom: 0;"><strong>Demo certificate.</strong> Credentials issued through a live RQAP administration include a unique QR code linking to a verifiable online record, and (once Al-Azhar partnership is finalized) a co-endorsing seal.</p>
+          <p class="small" style="margin-bottom: 0;"><strong>Demo certificate.</strong> Every credential carries the verification address printed above, which resolves against the Roots credential registry. A scannable QR encoding that same address, and (once the Al-Azhar partnership is finalized) a co-endorsing seal, are still to come.</p>
         </div>
 
         <div class="item-nav mt-2">
@@ -2898,6 +2903,13 @@ const App = (function() {
     const certId = 'RQAP-2-' + Date.now().toString(36).toUpperCase();
     document.getElementById('cert-id').textContent = certId;
     state.certId = certId;
+
+    // Reader-side verification. The certificate now carries the address that
+    // resolves it, so a school or parent holding a printout can check it.
+    const verifyPath = '/verify/' + encodeURIComponent(certId);
+    const verifyLink = document.getElementById('cert-verify-link');
+    verifyLink.href = 'https://www.pathwayslearn.com' + verifyPath;
+    verifyLink.textContent = 'pathwayslearn.com' + verifyPath;
 
     const today = new Date();
     const dateStr = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
