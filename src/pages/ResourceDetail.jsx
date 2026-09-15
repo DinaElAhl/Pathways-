@@ -8,7 +8,10 @@ import NotFound from './NotFound.jsx'
 export default function ResourceDetail() {
   const { slug } = useParams()
   const resource = getResource(slug)
-  if (!resource) return <NotFound />
+  // Phase 1: the hub links cards to their canonical URLs, so per-slug detail pages
+  // are unused. New resource entries carry no legacy detail fields (`summary` etc.);
+  // 404 for them rather than rendering a broken page.
+  if (!resource || !resource.summary) return <NotFound />
 
   const related = resources
     .filter((r) => r.slug !== slug && r.type === resource.type)
