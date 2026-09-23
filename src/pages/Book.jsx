@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { bookingEvents, bookingHref, formatPrice, isCalConfigured, BOOKING_EMAIL } from '../data/booking.js'
 
 // /book — the conversations Roots offers. Content lives in src/data/booking.js.
@@ -7,6 +8,15 @@ import { bookingEvents, bookingHref, formatPrice, isCalConfigured, BOOKING_EMAIL
 // Cal.com widget can replace the cards' links at that point).
 export default function Book() {
   const calReady = isCalConfigured()
+  const { hash } = useLocation()
+
+  // Deep links like /book#parent-consult come from the audience pages. Layout
+  // scrolls to the top on every route change, so wait a tick, then bring the card in.
+  useEffect(() => {
+    if (!hash) return
+    const t = setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'center' }), 50)
+    return () => clearTimeout(t)
+  }, [hash])
 
   return (
     <>
@@ -30,7 +40,7 @@ export default function Book() {
       <section className="container-page pb-16 sm:pb-20">
         <div className="mx-auto grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {bookingEvents.map((e) => (
-            <div key={e.key} id={e.key} className="card flex flex-col scroll-mt-24">
+            <div key={e.key} id={e.key} className={`card flex flex-col scroll-mt-24 ${hash === '#' + e.key ? 'ring-2 ring-brand-500' : ''}`}>
               <span className="text-xs font-semibold uppercase tracking-wide text-brand-700">{e.audience}</span>
               <h2 className="mt-2 font-display text-lg font-semibold text-slate-900">{e.title}</h2>
               <div className="mt-2 flex items-baseline gap-3 text-sm text-slate-600">

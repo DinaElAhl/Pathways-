@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { getAudience, audiences } from '../data/audiences.js'
 import Icon from '../components/Icon.jsx'
+import { getBookingEvent, formatPrice } from '../data/booking.js'
 import NotFound from './NotFound.jsx'
 
 // /for/<slug> — one page per audience, driven entirely by src/data/audiences.js.
@@ -50,6 +51,7 @@ export default function AudiencePage() {
   if (!audience) return <NotFound />
 
   const others = audiences.filter((a) => a.slug !== slug)
+  const call = audience.booking && getBookingEvent(audience.booking.event)
 
   return (
     <>
@@ -119,6 +121,23 @@ export default function AudiencePage() {
           </div>
         </div>
       </section>
+
+      {call && (
+        <section className="container-page pt-16 sm:pt-20">
+          <div className="mx-auto flex max-w-3xl flex-col gap-6 rounded-3xl border border-brand-200 bg-brand-50/60 p-6 sm:flex-row sm:items-center sm:p-8">
+            <div className="flex-1">
+              <span className="text-xs font-semibold uppercase tracking-wide text-brand-700">
+                {call.minutes} min &middot; {formatPrice(call.price)}
+              </span>
+              <h2 className="mt-2 font-display text-2xl font-semibold text-slate-900">{call.title}</h2>
+              <p className="mt-2 text-slate-700 leading-relaxed">{audience.booking.body}</p>
+            </div>
+            <Link to={`/book#${call.key}`} className="btn-primary shrink-0 px-6 py-3">
+              Book a {call.title.toLowerCase().replace(/^roots /, '')} ({formatPrice(call.price)}) &rarr;
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* Featured Roots resources — live items and clearly-marked roadmap only. */}
       <section className="container-page py-16 sm:py-20">

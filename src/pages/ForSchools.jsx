@@ -184,6 +184,23 @@ export default function ForSchools() {
         </ul>
       </section>
 
+      {/* Entry point before any price — a free call */}
+      <section className="container-page py-10 sm:py-12">
+        <div className="mx-auto flex max-w-3xl flex-col gap-6 rounded-3xl border border-emerald-200 bg-emerald-50/60 p-6 sm:flex-row sm:items-center sm:p-8">
+          <div className="flex-1">
+            <span className="text-xs font-semibold uppercase tracking-wide text-emerald-800">Start here &middot; Free</span>
+            <h2 className="mt-2 font-display text-2xl font-semibold text-slate-900">Free 15-minute discovery call</h2>
+            <p className="mt-2 text-slate-700 leading-relaxed">
+              Not sure which licence fits, or whether Roots fits at all? Tell us about your students
+              and your program, and we will tell you honestly. No commitment.
+            </p>
+          </div>
+          <Link to="/book#discovery" className="btn-primary shrink-0 px-6 py-3">
+            Book a discovery call &rarr;
+          </Link>
+        </div>
+      </section>
+
       {/* Section 3 — Standard licenses (Bucket A) */}
       <section id="pricing" className="bg-slate-50 py-16 sm:py-20">
         <div className="container-page">

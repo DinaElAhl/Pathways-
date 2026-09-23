@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 // Copy for /curriculum/sources — verbatim from Credibility_Layer_Drafts.md §2.
 export default function CurriculumSources() {
   return (
@@ -94,6 +96,13 @@ export default function CurriculumSources() {
           <a href="mailto:roots@pathwayslearn.com" className="link">roots@pathwayslearn.com</a>.
           We’ll correct and republish within 7 days.
         </footer>
+
+        <p className="mt-6 text-sm text-slate-700">
+          Want these sources held up against your own program?{' '}
+          <Link to="/book#curriculum-audit" className="link font-semibold">
+            Order a curriculum audit for your school ($300) &rarr;
+          </Link>
+        </p>
       </article>
     </div>
   )

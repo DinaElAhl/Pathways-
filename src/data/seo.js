@@ -63,7 +63,7 @@ export const staticSeo = {
   '/tools': {
     title: 'Pathways for Teachers',
     description:
-      'Pathways for Teachers is a $19 Windows desktop app for lesson plans, quizzes and teaching help. Everything stays on your own computer; nothing is ever uploaded.',
+      'Pathways for Teachers: a Windows desktop app for lesson plans, quizzes and teaching help, $19 once the store opens. Your work stays on your own computer.',
   },
   '/tools/e2-teaching': {
     title: 'E² Teaching Framework',

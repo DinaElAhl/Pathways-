@@ -118,6 +118,11 @@ export const audiences = [
       { label: 'See how the exam is built', to: '/exam/methodology' },
       { label: 'Book a call', to: '/book' },
     ],
+    // Paid call offered on this page — details come from src/data/booking.js.
+    booking: {
+      event: 'strategy',
+      body: 'Bring your class list and your timetable. We will work out how Roots fits your groups, how to pace Level C, B and A side by side, and where the exams belong.',
+    },
   },
   {
     slug: 'parents',
@@ -177,6 +182,10 @@ export const audiences = [
       { label: 'Browse the Shop', to: '/shop' },
       { label: 'Book a call', to: '/book' },
     ],
+    booking: {
+      event: 'parent-consult',
+      body: 'Tell us your child’s age, what they already know and how much time you have. We will leave you with a clear starting point and a weekly rhythm you can keep.',
+    },
   },
   {
     slug: 'schools',
@@ -293,6 +302,10 @@ export const audiences = [
       { label: 'Read the Roots Method', to: '/roots', primary: true },
       { label: 'Book a call', to: '/book' },
     ],
+    booking: {
+      event: 'strategy',
+      body: 'Walk through the method, the sources and the exam design with us before you license, bundle or recommend Roots — and bring the hard questions.',
+    },
   },
 ]
 
