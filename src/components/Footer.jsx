@@ -113,7 +113,12 @@ export default function Footer() {
       <div className="border-t border-slate-200">
         <div className="container-page flex flex-col items-center justify-between gap-2 py-6 text-xs text-slate-500 sm:flex-row">
           <p>&copy; {year} Pathways. Built for curious learners and the people who teach them.</p>
-          <p>Made with care &middot; All rights reserved.</p>
+          <nav aria-label="Legal" className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <Link to="/privacy" className="hover:text-brand-700">Privacy</Link>
+            <Link to="/terms" className="hover:text-brand-700">Terms</Link>
+            <Link to="/refund" className="hover:text-brand-700">Refunds</Link>
+            <span>All rights reserved.</span>
+          </nav>
         </div>
       </div>
     </footer>
