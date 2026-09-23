@@ -47,7 +47,7 @@ export const legalPages = {
         heading: 'Service providers',
         body: ['These third parties process data on our behalf:'],
         list: [
-          'Vercel — hosts the website and runs the exam-scoring function.',
+          'Vercel — hosts the website, runs the exam-scoring function, and provides our page-view analytics.',
           'Google (Apps Script and Google Sheets) — our exam results and certificate registry. Where the registry is not yet switched on for an exam, results are kept only in your own browser.',
           'Payhip and Gumroad — sell and deliver our digital products and process payments.',
           'Our email provider — receives and stores the messages you send us.',
@@ -78,7 +78,7 @@ export const legalPages = {
       {
         heading: 'Cookies and local storage',
         body: [
-          'We do not use advertising or tracking cookies. Some pages save your progress in your own browser (local storage) — for example exam results on this device — so you can come back to them. You can clear this at any time from your browser settings.',
+          'We do not use advertising or tracking cookies. We count page visits with Vercel Web Analytics, which sets no cookies and does not identify you individually. Some pages save your progress in your own browser (local storage) — for example exam results on this device — so you can come back to them. You can clear this at any time from your browser settings.',
         ],
       },
       {
