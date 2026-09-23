@@ -1708,8 +1708,11 @@
 
         <div id="submission-status" class="panel-info" style="margin-top: 1rem;"></div>
 
+        <!-- Shown in place of the certificate route when no track cleared its threshold. -->
+        <div id="next-steps" class="panel" style="display: none; margin-top: 1rem;"></div>
+
         <div class="item-nav mt-2">
-          <button class="btn btn-light" onclick="App.viewCertificate()">View Certificate →</button>
+          <button class="btn btn-light" id="view-cert-btn" onclick="App.viewCertificate()">View Certificate →</button>
           <button class="btn btn-primary" onclick="App.downloadReport()">Download Report</button>
         </div>
       </div>
@@ -1759,6 +1762,7 @@
 
           <div class="certificate-verify" style="margin-top:1.25rem;text-align:center">
             <div class="lbl" style="font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:#64748b">Verify this credential</div>
+            <div id="cert-qr" style="width:96px;height:96px;margin:0.5rem auto 0.35rem" aria-hidden="true"></div>
             <a id="cert-verify-link" href="#" style="font-size:0.8rem;font-family:ui-monospace,monospace;color:#1e293b;word-break:break-all">—</a>
           </div>
 
@@ -1766,7 +1770,7 @@
         </div>
 
         <div class="panel-info">
-          <p class="small" style="margin-bottom: 0;"><strong>Demo certificate.</strong> Every credential carries the verification address printed above, which resolves against the Roots credential registry. A scannable QR encoding that same address, and (once the Al-Azhar partnership is finalized) a co-endorsing seal, are still to come.</p>
+          <p class="small" style="margin-bottom: 0;"><strong>Demo certificate.</strong> Every credential carries the verification address printed above, and a QR code encoding that same address, which resolves against the Roots credential registry. A co-endorsing seal (once the Al-Azhar partnership is finalized) is still to come.</p>
         </div>
 
         <div class="item-nav mt-2">
@@ -1779,6 +1783,7 @@
   </div> <!-- /app-main -->
 </div> <!-- /app-shell -->
 
+<script src="/vendor/qrcode-generator-2.0.4.js"></script>
 <script>
 // ============================================
 // EXAM CONTENT — ITEM BANK
@@ -2852,6 +2857,18 @@ const App = (function() {
     verifyLink.href = 'https://www.pathwayslearn.com' + verifyPath;
     verifyLink.textContent = 'pathwayslearn.com' + verifyPath;
 
+    // Scannable twin of the printed address. SVG so it prints crisply.
+    const qrHost = document.getElementById('cert-qr');
+    qrHost.innerHTML = '';
+    if (typeof qrcode === 'function') {
+      const qr = qrcode(0, 'M');
+      qr.addData(verifyLink.href);
+      qr.make();
+      qrHost.innerHTML = qr.createSvgTag({ cellSize: 3, margin: 0, scalable: true });
+    }
+
+    renderNextSteps(results);
+
     const today = new Date();
     const dateStr = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     document.getElementById('cert-date').textContent = dateStr;
@@ -2859,6 +2876,37 @@ const App = (function() {
     const validUntil = new Date(today);
     validUntil.setFullYear(validUntil.getFullYear() + 2);
     document.getElementById('cert-valid').textContent = validUntil.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  // A candidate below threshold on every attempted track gets no certificate
+  // route at all: the button goes, and in its place a plain list of the
+  // sections to work on before sitting again, weakest first.
+  function renderNextSteps(results) {
+    const failed = results.verdictTier === 'fail';
+    const btn = document.getElementById('view-cert-btn');
+    if (btn) btn.style.display = failed ? 'none' : '';
+    const host = document.getElementById('next-steps');
+    if (!host) return;
+    if (!failed) { host.style.display = 'none'; host.innerHTML = ''; return; }
+
+    const weak = state.sectionOrder
+      .map(key => ({ section: EXAM.sections[key], sec: results.sectionScores[key] }))
+      .filter(({ section, sec }) => sec && sec.pct < (section.track === 'tajweed' ? 70 : 65))
+      .sort((a, b) => a.sec.pct - b.sec.pct);
+
+    const items = weak.map(({ section, sec }) =>
+      '<li style="margin-bottom:0.75rem"><strong>' + section.title + '</strong> — ' + sec.pct.toFixed(0) + '%' +
+      '<br><span class="small text-faint">' + (section.description || '') + '</span></li>'
+    ).join('');
+
+    host.innerHTML =
+      '<h3 style="margin-bottom:0.5rem">Come back after more practice</h3>' +
+      '<p class="small" style="margin-bottom:1rem">This attempt did not reach the threshold for a certificate ' +
+      '(65% on the Language track, 70% on Tajweed). Here is what to work on before you sit again, weakest first:</p>' +
+      (items ? '<ol style="padding-left:1.25rem;margin:0 0 1rem">' + items + '</ol>' : '') +
+      '<p class="small" style="margin-bottom:0">The diagnostic above has your section-by-section marks. ' +
+      '<a href="/free-sample">Start with the free Roots sample</a>, or <a href="/contact">get in touch</a> if you would like help planning your practice.</p>';
+    host.style.display = '';
   }
 
   function viewCertificate() {

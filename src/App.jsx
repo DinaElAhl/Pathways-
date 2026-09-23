@@ -67,6 +67,7 @@ export default function App() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/for-schools" element={<ForSchools />} />
         <Route path="/free-sample" element={<FreeSample />} />
+        <Route path="/verify" element={<Verify />} />
         <Route path="/verify/:certId" element={<Verify />} />
         <Route path="/exam/methodology" element={<ExamMethodology />} />
         <Route path="/exam/cefr-alignment" element={<CefrAlignment />} />

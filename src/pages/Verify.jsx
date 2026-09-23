@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { APPS_SCRIPT_URL, isAppsScriptConfigured } from '../config/apps-script.js'
 
 // Fold a name to initials for privacy on the public verify page.
@@ -18,10 +18,50 @@ function formatDate(iso) {
 
 export default function Verify() {
   const { certId } = useParams()
+  return certId ? <VerifyResult certId={certId} /> : <VerifyLookup />
+}
+
+// /verify with no ID: a lookup box that sends the reader to /verify/<id>.
+function VerifyLookup() {
+  const navigate = useNavigate()
+  const [id, setId] = useState('')
+  const submit = (e) => {
+    e.preventDefault()
+    const clean = id.trim().toUpperCase()
+    if (clean) navigate(`/verify/${encodeURIComponent(clean)}`)
+  }
+  return (
+    <div className="bg-white">
+      <section className="container-page pt-14 pb-20 sm:pt-20 max-w-2xl mx-auto">
+        <div className="text-center mb-8">
+          <span className="chip">Certificate verification</span>
+          <h1 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight">Check a Roots certificate</h1>
+          <p className="mt-3 text-slate-600">
+            Every Roots certificate prints its ID and a QR code. Scan the code, or type the ID below
+            (for example <span className="font-mono">RQAP-L2A-2026-000042</span>).
+          </p>
+        </div>
+        <form onSubmit={submit} className="flex flex-col sm:flex-row gap-3">
+          <label htmlFor="cert-id" className="sr-only">Certificate ID</label>
+          <input
+            id="cert-id"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+            placeholder="Certificate ID"
+            autoComplete="off"
+            className="flex-1 rounded-xl border border-slate-300 px-4 py-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-brand-600"
+          />
+          <button type="submit" className="btn-primary">Verify</button>
+        </form>
+      </section>
+    </div>
+  )
+}
+
+function VerifyResult({ certId }) {
   const [state, setState] = useState({ status: 'loading', data: null, error: null })
 
   useEffect(() => {
-    if (!certId) { setState({ status: 'not_found', data: null, error: 'Missing certificate ID.' }); return }
     if (!isAppsScriptConfigured()) {
       setState({ status: 'unconfigured', data: null, error: null })
       return
@@ -48,7 +88,7 @@ export default function Verify() {
         <div className="text-center mb-8">
           <span className="chip">Certificate verification</span>
           <h1 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight">
-            Pathways Certificate Verification
+            Certificate verification
           </h1>
           <p className="mt-3 text-slate-600">
             Certificate ID:{' '}
@@ -85,7 +125,7 @@ export default function Verify() {
               )}
             </dl>
             <p className="mt-6 text-xs text-emerald-800 text-center">
-              This certificate was issued by Pathways and is recorded in the Pathways submissions
+              This certificate was issued by Roots and is recorded in the Roots credential
               registry. Holder name is shown as initials for privacy.
             </p>
           </div>
@@ -129,7 +169,7 @@ export default function Verify() {
         )}
 
         <div className="mt-8 text-center text-sm">
-          <Link to="/" className="link">← Back to Pathways</Link>
+          <Link to="/verify" className="link">← Check another certificate</Link>
         </div>
       </section>
     </div>
