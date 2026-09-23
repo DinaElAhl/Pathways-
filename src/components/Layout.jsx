@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { Suspense, useEffect } from 'react'
 import Navbar from './Navbar.jsx'
 import Footer from './Footer.jsx'
+import Seo from './Seo.jsx'
 
 function PageFallback() {
   return (
@@ -21,6 +22,7 @@ export default function Layout() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <Seo pathname={pathname} />
       <Navbar />
       <main className="flex-1">
         <Suspense fallback={<PageFallback />}>
