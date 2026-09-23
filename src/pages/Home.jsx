@@ -188,7 +188,10 @@ export default function Home() {
             <a href="mailto:roots@pathwayslearn.com" className="link">
               roots@pathwayslearn.com
             </a>{' '}
-            &mdash; every message is read.
+            &mdash; every message is read. Rather talk?{' '}
+            <Link to="/book" className="link font-semibold">
+              Book a call &rarr;
+            </Link>
           </p>
         </div>
       </section>

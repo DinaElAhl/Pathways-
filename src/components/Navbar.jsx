@@ -64,6 +64,7 @@ const moreGroups = [
     title: 'Roots',
     links: [
       { to: '/about', label: 'About' },
+      { to: '/book', label: 'Book a call' },
       { to: '/contact', label: 'Contact' },
     ],
   },

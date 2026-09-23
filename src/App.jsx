@@ -37,6 +37,7 @@ const ExamMethodology = lazy(() => import('./pages/ExamMethodology.jsx'))
 const CurriculumSources = lazy(() => import('./pages/CurriculumSources.jsx'))
 const CefrAlignment = lazy(() => import('./pages/CefrAlignment.jsx'))
 const LegalPage = lazy(() => import('./pages/LegalPage.jsx'))
+const Book = lazy(() => import('./pages/Book.jsx'))
 
 export default function App() {
   return (
@@ -73,6 +74,7 @@ export default function App() {
         <Route path="/exam/methodology" element={<ExamMethodology />} />
         <Route path="/exam/cefr-alignment" element={<CefrAlignment />} />
         <Route path="/curriculum/sources" element={<CurriculumSources />} />
+        <Route path="/book" element={<Book />} />
         <Route path="/privacy" element={<LegalPage page="privacy" />} />
         <Route path="/terms" element={<LegalPage page="terms" />} />
         <Route path="/refund" element={<LegalPage page="refund" />} />

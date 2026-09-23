@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import {
   rootsSystem,
   licenseIncludes,
@@ -20,15 +21,6 @@ const pilotPackEmail =
   '&body=' +
   encodeURIComponent(
     "Hello,\n\nWe'd like to see a pilot pack (Q1 scope + Week 1 sample + teacher guide) for Roots." +
-      SCHOOL_INFO_BLOCK,
-  );
-
-const licensingConversationEmail =
-  `mailto:${ctaEmail}?subject=` +
-  encodeURIComponent('Roots — licensing conversation') +
-  '&body=' +
-  encodeURIComponent(
-    "Hello,\n\nWe're evaluating Roots for our school and would like to open a licensing conversation." +
       SCHOOL_INFO_BLOCK,
   );
 
@@ -115,9 +107,9 @@ export default function ForSchools() {
               <a href={pilotPackEmail} className="btn-primary px-7 py-3.5 text-base">
                 See a pilot pack &rarr;
               </a>
-              <a href={licensingConversationEmail} className="btn-secondary px-7 py-3.5 text-base">
-                Book a licensing conversation &rarr;
-              </a>
+              <Link to="/book" className="btn-secondary px-7 py-3.5 text-base">
+                Book a call &rarr;
+              </Link>
             </div>
           </div>
         </div>
@@ -436,6 +428,11 @@ export default function ForSchools() {
             </a>{' '}
             <span className="text-brand-100">&mdash; every message is read.</span>
           </p>
+          <div className="mt-8">
+            <Link to="/book" className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 text-base font-semibold text-brand-800 shadow-sm hover:bg-brand-50">
+              Or book a call &rarr;
+            </Link>
+          </div>
         </div>
       </section>
     </div>

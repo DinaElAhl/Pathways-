@@ -100,6 +100,11 @@ export const staticSeo = {
     description:
       'Check that a Roots certificate is genuine. Scan the QR code on the certificate or enter its ID to see the holder, the level awarded and the date it was issued.',
   },
+  '/book': {
+    title: 'Book a call',
+    description:
+      'Book time with Roots: a free 15-minute discovery call, a parent consult, a strategy call for teachers, or a curriculum audit and partnership call for schools.',
+  },
   '/privacy': {
     title: 'Privacy Policy',
     description:

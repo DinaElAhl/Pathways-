@@ -116,6 +116,7 @@ export const audiences = [
     ctas: [
       { label: 'Get the free Week 1 pack', to: '/free-sample', primary: true },
       { label: 'See how the exam is built', to: '/exam/methodology' },
+      { label: 'Book a call', to: '/book' },
     ],
   },
   {
@@ -174,6 +175,7 @@ export const audiences = [
     ctas: [
       { label: 'Get the free Week 1 pack', to: '/free-sample', primary: true },
       { label: 'Browse the Shop', to: '/shop' },
+      { label: 'Book a call', to: '/book' },
     ],
   },
   {
@@ -289,7 +291,7 @@ export const audiences = [
     ],
     ctas: [
       { label: 'Read the Roots Method', to: '/roots', primary: true },
-      { label: 'Talk to us', to: '/contact' },
+      { label: 'Book a call', to: '/book' },
     ],
   },
 ]

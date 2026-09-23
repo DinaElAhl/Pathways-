@@ -194,6 +194,11 @@ export default function About() {
             Islamic school. She built Roots because she couldn&rsquo;t find the curriculum she
             wanted for her own students.
           </p>
+          <p className="mt-4">
+            <Link to="/book" className="btn-primary px-5 py-2.5 text-sm">
+              Book a call with Roots &rarr;
+            </Link>
+          </p>
         </div>
       </section>
 
