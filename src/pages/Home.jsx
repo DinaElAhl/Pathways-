@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import CreativeTrail from '../components/CreativeTrail.jsx'
 import RootsCommunity from '../components/RootsCommunity.jsx'
 import RootsMethodCards from '../components/RootsMethodCards.jsx'
 
@@ -82,6 +83,7 @@ export default function Home() {
         </div>
       </section>
 
+      <CreativeTrail />
       {/* The three steps of the Roots Method */}
       <section className="roots-method container-page pb-16 sm:pb-20" aria-labelledby="roots-method-title">
         <div className="max-w-2xl">
