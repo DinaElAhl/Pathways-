@@ -33,6 +33,7 @@ export const eduHubTools = [
   },
   {
     title: 'Visual Learning Path Builder',
+    hidden: true,
     tagline: 'Build and export your own learning path',
     description: 'Create a sequence of learning steps, save it on your device, and export it as a JSON file.',
     href: '/builder.html',
@@ -42,6 +43,7 @@ export const eduHubTools = [
   },
   {
     title: 'E² Teaching Framework',
+    hidden: true,
     tagline: 'Engage · Explore · Explain · Elaborate · Evaluate',
     description: 'Native in-app workspace with guiding prompts inside every stage. Use it on any topic from your school curriculum.',
     href: '/tools/e2-teaching',

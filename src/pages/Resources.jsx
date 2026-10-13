@@ -74,6 +74,7 @@ export default function Resources() {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
     return resources.filter((r) => {
+      if (r.hidden) return false
       if (!showPlanned && r.status === 'roadmap') return false
       if (audience !== 'all' && !r.audiences.includes(audience)) return false
       if (age !== 'All' && !r.ageBands.includes(age)) return false

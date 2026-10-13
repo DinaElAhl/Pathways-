@@ -410,6 +410,7 @@ export const resources = [
   },
   {
     slug: 'e2-teaching-framework',
+    hidden: true,
     section: 5,
     status: 'live',
     type: 'Guide',

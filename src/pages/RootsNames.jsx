@@ -29,7 +29,6 @@ export default function RootsNames() {
           <p className="mt-3 max-w-3xl text-slate-700 leading-relaxed italic">{namesIntro.call}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to="/roots" className="btn-ghost">← Back to Roots</Link>
-            <Link to="/tools/e2-teaching" className="btn-primary">Use in E² Teaching Tool</Link>
           </div>
         </div>
       </section>

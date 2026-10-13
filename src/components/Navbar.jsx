@@ -48,7 +48,6 @@ const moreGroups = [
       // href, not `to`: builder.html is a static file that vercel.json excludes
       // from the SPA rewrites. As a router <Link> it was intercepted by the
       // catch-all route and landed on NotFound instead of the page.
-      { href: '/builder.html', label: 'Builder' },
       { to: '/partners', label: 'Partners' },
     ],
   },
