@@ -40,7 +40,7 @@ function ArtifactCard({ a }) {
   )
 }
 
-import E2SchoolCallout from '../components/E2SchoolCallout.jsx'
+
 
 export default function EduHub() {
   return (
@@ -49,17 +49,13 @@ export default function EduHub() {
         <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">Hub</p>
         <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mt-1">EduHub & Tools</h1>
         <p className="text-slate-700 mt-3">
-          One place that gathers every Pathways tool and artifact — the E² EduHub educator platform,
-          the Pathways Hub landing, the Visual Learning Path Builder, the E² Teaching Framework,
-          the AI Studio, and the Roots of Knowledge. Use them together to <strong>desecularize any
-          curriculum you follow</strong> by anchoring it to Allāh’s Names, His signs in the universe,
-          and the akhlāq of real success.
+          Five focused tools for learning and teaching, all available here on Pathways.
+          Play, plan a lesson, build a learning path, or explore the Roots Method.
         </p>
       </header>
 
-      <E2SchoolCallout />
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {eduHubTools.map((a) => (
+        {eduHubTools.filter(a => !a.hidden).map((a) => (
           <ArtifactCard key={a.title} a={a} />
         ))}
       </div>

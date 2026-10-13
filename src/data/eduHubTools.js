@@ -11,6 +11,8 @@ export const eduHubTools = [
   },
   {
     title: 'E² EduHub',
+    hidden: true,
+    hiddenReason: 'Legacy hub overlaps with Teacher Studio and the current EduHub.',
     tagline: 'The all-in-one educator platform',
     description: 'Free tools for teachers, parents, homeschoolers, schools and universities — lesson generator, resource library, planner, assessment tools and the E² Teaching Framework, all in one place.',
     href: '/edu-hub.html',
@@ -20,6 +22,8 @@ export const eduHubTools = [
   },
   {
     title: 'Pathways Hub',
+    hidden: true,
+    hiddenReason: 'Repeated landing page with old external hosting links; retained for reference.',
     tagline: 'One holistic place that unites all the projects',
     description: 'A landing that brings together Pathways Learn, E² EduHub and the Frameworks Navigator for learners, teachers and parents in one navigation.',
     href: '/pathways-hub.html',
@@ -29,8 +33,8 @@ export const eduHubTools = [
   },
   {
     title: 'Visual Learning Path Builder',
-    tagline: 'Drag-and-drop your own learning path',
-    description: 'Build your own pathway from blocks (concepts, resources, exercises, reflections) and share it. Already wired into Pathways at /builder.',
+    tagline: 'Build and export your own learning path',
+    description: 'Create a sequence of learning steps, save it on your device, and export it as a JSON file.',
     href: '/builder.html',
     cta: 'Open Builder',
     color: 'sky',
