@@ -98,8 +98,8 @@ export default function CurriculumSources() {
         </footer>
 
         <p className="mt-6 text-sm text-slate-700">
-          Want these sources held up against your own program? Curriculum audits for schools
-          ($300) are coming soon &mdash;{' '}
+          Want these sources held up against your own program? Focused curriculum reviews for schools
+          ($150) are coming soon &mdash;{' '}
           <Link to="/book#curriculum-audit" className="link font-semibold">
             ask to hear when they open &rarr;
           </Link>

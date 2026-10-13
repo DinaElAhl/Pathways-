@@ -1,55 +1,22 @@
+import RootsMethodCards from '../components/RootsMethodCards.jsx'
+import NameStudyCard from '../components/NameStudyCard.jsx'
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { namesIntro, quranicNames } from '../data/quranicNames.js'
 
-function NameCard({ n, defaultOpen }) {
-  const [open, setOpen] = useState(!!defaultOpen)
-  return (
-    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left"
-      >
-        <div className="min-w-0">
-          <div className="flex items-baseline gap-3">
-            <div className="text-xl font-bold text-brand-700">{n.transliteration}</div>
-            <div className="text-2xl font-arabic text-slate-900">{n.arabic}</div>
-          </div>
-          <div className="text-sm text-slate-600 mt-0.5">{n.meaning}</div>
-        </div>
-        <div className="text-xs text-slate-500 flex-none">{n.ayah}</div>
-      </button>
-      {open && (
-        <div className="px-4 pb-4 space-y-3 border-t border-slate-100 pt-3">
-          <div>
-            <div className="text-xs uppercase tracking-wide font-semibold text-emerald-700">Manifestation in the universe</div>
-            <div className="text-sm text-slate-800 mt-1 leading-relaxed">{n.manifestation}</div>
-          </div>
-          <div>
-            <div className="text-xs uppercase tracking-wide font-semibold text-amber-700">Tafakkur — what to ponder</div>
-            <div className="text-sm text-slate-800 mt-1 leading-relaxed">{n.tafakkur}</div>
-          </div>
-          <div>
-            <div className="text-xs uppercase tracking-wide font-semibold text-brand-700">Akhlāq — how it shapes you</div>
-            <div className="text-sm text-slate-800 mt-1 leading-relaxed">{n.akhlaq}</div>
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
-
 export default function RootsNames() {
   const [q, setQ] = useState('')
+  const [focus, setFocus] = useState('')
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase()
-    if (!s) return quranicNames
-    return quranicNames.filter((n) =>
-      [n.transliteration, n.arabic, n.meaning, n.manifestation, n.tafakkur, n.akhlaq]
+    const pool = focus ? quranicNames.filter(n => n.transliteration === focus) : quranicNames
+    if (!s) return pool
+    return pool.filter((n) =>
+      [n.transliteration, n.arabic, n.meaning, n.meaningArabic, n.ayah, n.manifestation, n.tafakkur, n.akhlaq]
         .filter(Boolean)
         .some((v) => v.toLowerCase().includes(s))
     )
-  }, [q])
+  }, [q, focus])
 
   return (
     <>
@@ -76,28 +43,16 @@ export default function RootsNames() {
             in this life is to know Him through what He created, and real purpose is to let that
             knowledge shape your akhlāq, your gratitude, and your obedience.
           </p>
-          <ul className="mt-4 grid md:grid-cols-3 gap-3 text-sm text-slate-700">
-            <li className="rounded-xl border border-emerald-100 bg-emerald-50/50 p-3">
-              <div className="font-semibold text-emerald-800">1. Manifestation</div>
-              <div>Where do you see this Name in creation, in your body, in history?</div>
-            </li>
-            <li className="rounded-xl border border-amber-100 bg-amber-50/50 p-3">
-              <div className="font-semibold text-amber-800">2. Tafakkur</div>
-              <div>Ponder until you feel awe. Knowledge without reflection is incomplete.</div>
-            </li>
-            <li className="rounded-xl border border-brand-100 bg-brand-50/50 p-3">
-              <div className="font-semibold text-brand-800">3. Akhlāq</div>
-              <div>Let the Name reshape your character — that is the purpose of knowing Him.</div>
-            </li>
-          </ul>
+          <RootsMethodCards />
         </div>
 
         <div className="mt-8 flex items-center justify-between gap-3 flex-wrap">
           <div>
-            <h2 className="text-2xl font-bold text-slate-900">The {quranicNames.length} Qur'anic Names</h2>
-            <p className="text-sm text-slate-500">Only Names mentioned in the Qur'an. Click any to expand.</p>
+            <h2 className="text-2xl font-bold text-slate-900">{quranicNames.length} Qur’anic learning cards</h2>
+            <p className="text-sm text-slate-500">Selected Qur’anic Names and descriptions; some cards pair related Names. Click to read, reflect, and act.</p>
           </div>
           <input
+            aria-label="Search Names in English or Arabic"
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -106,9 +61,18 @@ export default function RootsNames() {
           />
         </div>
 
+        <div className="mt-5 max-w-xl">
+          <label htmlFor="name-focus" className="block text-sm font-semibold text-brand-800">Choose one Name for a lesson · اختر اسمًا للتعلّم</label>
+          <select id="name-focus" value={focus} onChange={e => { setFocus(e.target.value); setQ('') }} className="mt-2 w-full rounded-lg border border-brand-200 bg-white p-3">
+            <option value="">Browse all cards</option>
+            {quranicNames.map(n => <option key={n.transliteration} value={n.transliteration}>{n.transliteration} — {n.arabic} — {n.meaning}</option>)}
+          </select>
+          <p className="mt-2 text-sm text-slate-600">Read the reference, discuss the reflection, choose one action, and review what changed next lesson.</p>
+        </div>
+
         <div className="mt-5 grid md:grid-cols-2 gap-3">
           {filtered.map((n) => (
-            <NameCard key={n.transliteration} n={n} />
+            <NameStudyCard key={`${n.transliteration}-${focus}`} n={n} defaultOpen={!!focus} />
           ))}
           {filtered.length === 0 && (
             <div className="md:col-span-2 text-center text-slate-500 py-10">No Names match "{q}".</div>

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { rootsMethodSteps } from '../data/rootsMethod.js'
+import RootsMethodCards from '../components/RootsMethodCards.jsx'
 
 // Homepage — brand-first hero. Roots is the speaker ("we/us"), not Dina.
 // Founder attribution is quiet, below the fold, in "Behind Roots".
@@ -42,9 +42,9 @@ const RECENT = [
   },
   {
     href: '/pathways-exam',
-    eyebrow: 'CEFR-aligned · published methodology',
+    eyebrow: 'Arabic placement pilot · published methodology',
     title: 'Roots Arabic & Qur’an Proficiency Exam (RAQP)',
-    body: 'CEFR-aligned (A1–B2), 15 questions, 5 minutes. A level determination and a certificate you can verify publicly. Currently in a diagnostic testing phase ahead of formal accreditation.',
+    body: 'A written Arabic placement pilot with four intended A1–B2 levels and ten scored questions per level. Read the methodology to understand the results and the evidence still needed for external validation.',
     cta: 'Take the RAQP',
   },
   {
@@ -72,9 +72,12 @@ export default function Home() {
             </div>
             <span className="roots-hero-note">Small beginnings. Deep roots. Room to grow.</span>
           </div>
-          <Link to="/book" className="roots-poster-link" aria-label="Book your Arabic and Qur’an classes">
-            <img src={import.meta.env.BASE_URL + 'brand/book-classes.jpg'} alt="Roots: Book your classes now, with illustrated learners joining a teacher online." width="1024" height="1280" fetchPriority="high" />
-          </Link>
+          <div className="roots-growth-panel">
+            <img src={import.meta.env.BASE_URL + 'brand/roots-sprout.svg'} alt="Roots smiling sprout" width="210" height="210" />
+            <span className="roots-growth-word" lang="ar" dir="rtl">جذور</span>
+            <p>Rooted in meaning.<br />Growing into character.</p>
+            <p className="font-arabic" lang="ar" dir="rtl">معرفةٌ تتجذّر، وأخلاقٌ تنمو.</p>
+          </div>
         </div>
       </section>
 
@@ -85,15 +88,7 @@ export default function Home() {
           <h2 id="roots-method-title" className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Three steps in every lesson.</h2>
           <p className="mt-3 text-slate-600">Manifestation → Tafakkur → Akhlāq.</p>
         </div>
-        <ol className="mt-10 grid gap-5 sm:grid-cols-3">
-          {rootsMethodSteps.map((step, index) => (
-            <li key={step.key} className={`roots-step roots-step-${step.key} card flex h-full flex-col`}>
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-brand-600 text-sm font-bold text-white">{index + 1}</span>
-              <h3 className="mt-4 font-display text-lg font-semibold text-slate-900">{step.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">{step.description}</p>
-            </li>
-          ))}
-        </ol>
+        <RootsMethodCards />
       </section>
 
       {/* Who it's for */}

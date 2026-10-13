@@ -26,41 +26,26 @@ export const bookingEvents = [
     description: 'A short first conversation: tell us what you are looking for and we will point you to the right place in Roots.',
   },
   {
-    key: 'parent-consult',
-    title: 'Parent consult call',
+    key: 'learning-support',
+    title: 'Arabic & Qur’an learning consultation',
     minutes: 30,
-    price: 100,
-    audience: 'Parents',
-    description: 'Plan your child’s Qur’an and Arabic learning at home: where to start, what to use, and how to keep it going.',
-  },
-  {
-    key: 'strategy',
-    title: 'Roots strategy call',
-    minutes: 45,
-    price: 150,
-    audience: 'Teachers & educators',
-    description: 'For teachers, tutors and program leads: how to teach with Roots, pace a group, and use the exams well.',
+    price: 35,
+    audience: 'Parents, teachers & educators',
+    description: 'Bring one learning or teaching challenge. We will help you choose a practical starting point and a manageable next step.',
   },
   {
     key: 'curriculum-audit',
-    title: 'Curriculum audit for schools',
+    title: 'School curriculum review',
     minutes: 60,
-    price: 300,
+    price: 150,
     audience: 'Schools',
-    description: 'We look at your current Arabic and Qur’an program alongside Roots and the CEFR, and talk through the gaps and the next steps.',
-  },
-  {
-    key: 'partnership',
-    title: 'School partnership deep-dive',
-    minutes: 90,
-    price: 500,
-    audience: 'Schools',
-    description: 'For leadership teams ready to adopt Roots: scope, levels, pacing, teacher onboarding and a licensing plan shaped to your school.',
+    description: 'A focused review of one existing Arabic and Qur’an program. Agree the scope first; choose a review conversation or a written review. Full curriculum development and licensing are separate.',
   },
 ]
 
 export function getBookingEvent(key) {
-  return bookingEvents.find((e) => e.key === key)
+  const aliases = { 'parent-consult': 'learning-support', strategy: 'learning-support', partnership: 'discovery' }
+  return bookingEvents.find((e) => e.key === (aliases[key] || key))
 }
 
 export function formatPrice(price) {

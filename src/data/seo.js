@@ -17,12 +17,11 @@ import { resources } from './resources.js'
 
 export const SITE_URL = 'https://www.pathwayslearn.com'
 export const TITLE_SUFFIX = ' · Roots | جذور'
-// TODO: replace with a Roots-branded 1200×630 image. public/og-image.png still
-// shows the older "Pathways" wordmark, and there is no Roots logo in /public yet.
+// Existing Pathways social image; intro-film artwork remains a local draft.
 export const OG_IMAGE = `${SITE_URL}/og-image.png`
 
 const DEFAULT_DESCRIPTION =
-  'Roots is a bilingual English–Arabic Qur’an and Arabic curriculum from Egypt: a Tajweed reading series, CEFR-aligned proficiency exams and K–12 school licensing.'
+  'Roots brings Qur’an, Arabic and character together through bilingual lessons, the three-step Roots Method, teacher tools and school curriculum support.'
 
 // Hand-written entries for every fixed route.
 export const staticSeo = {
@@ -33,7 +32,7 @@ export const staticSeo = {
   '/resources': {
     title: 'Resources',
     description:
-      'Everything Roots in one library: reading lessons, exams, teacher guides, the Roots Method and curriculum sources — filtered by who you are and what you teach.',
+      'Find Pathways teaching tools and Roots lessons, guides and Qur’anic reflections. Filter available resources by audience, age, subject and learning setting.',
   },
   '/roots': {
     title: 'Roots of Knowledge',
@@ -41,7 +40,7 @@ export const staticSeo = {
       'Roots of Knowledge traces every science back to its Source: mathematics, physics, biology and more, taught through the Roots Method and grounded in tawḥīd.',
   },
   '/roots/names': {
-    title: 'Allah’s Names in the Universe',
+    title: 'Allah’s Names in the Qur’an',
     description:
       'Allah’s Names in the Universe: each Name, how it shows in creation, a question to ponder, and the character it calls us to. Every āyah of creation is a window.',
   },
@@ -103,7 +102,7 @@ export const staticSeo = {
   '/book': {
     title: 'Book a class',
     description:
-      'Book a live Arabic and Qur’an class with Roots at Level C, B or A, right on the page. Discovery, parent, teacher and school calls are coming soon to book too.',
+      'Book a live Roots Arabic and Qur’an class. Explore free discovery, affordable learning consultations and focused school reviews with a clear, agreed scope.',
   },
   '/privacy': {
     title: 'Privacy Policy',

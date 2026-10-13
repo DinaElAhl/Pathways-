@@ -45,9 +45,9 @@ const LIVE_NOW = [
   },
   {
     href: '/pathways-exam',
-    eyebrow: 'CEFR-aligned · published methodology',
+    eyebrow: 'Arabic placement pilot · published methodology',
     title: 'Roots Arabic & Qur’an Proficiency Exam (RAQP)',
-    body: 'CEFR A1–B2. Fifteen questions, five minutes, level determination and a verifiable certificate. Currently in a diagnostic testing phase ahead of formal accreditation.',
+    body: 'An Arabic placement pilot with intended A1–B2 mappings and ten scored questions per level. Read the methodology for its scope and limitations.',
     cta: 'Take the RAQP',
   },
   {

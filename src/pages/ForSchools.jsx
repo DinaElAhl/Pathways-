@@ -63,7 +63,7 @@ function LicenseCard({ lic }) {
       <p className="text-sm text-slate-600 flex-1 mb-5">{lic.description}</p>
       <div className="flex flex-col gap-2">
         <a href={lic.buyUrl} className="btn-primary w-full">
-          Buy license
+          Request a quote
         </a>
         <a href={lic.customizeUrl} className="btn-secondary w-full">
           Email for questions
@@ -239,7 +239,7 @@ export default function ForSchools() {
                   href={fullK12License.buyUrl}
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-brand-700 font-semibold text-sm hover:bg-brand-50 transition-colors"
                 >
-                  Buy K–12 license
+                  Request K–12 quote
                 </a>
                 <a
                   href={fullK12License.customizeUrl}
@@ -351,11 +351,10 @@ export default function ForSchools() {
           <div className="max-w-3xl mx-auto text-center">
             <span className="chip">Customised Curriculum</span>
             <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight">
-              Beyond the standard licenses
+              Start with one focused review
             </h2>
             <p className="mt-4 text-slate-600">
-              Bespoke frameworks, teacher enablement, and end-to-end curriculum development — all
-              delivered async by email, document, and video walkthrough. No scheduled calls required.
+              A clear, affordable first step before a larger commitment. Review one existing program, identify priorities, and decide whether you need further support.
             </p>
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

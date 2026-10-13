@@ -1,48 +1,8 @@
-import { useState } from 'react'
+import NameStudyCard from '../components/NameStudyCard.jsx'
 import { Link } from 'react-router-dom'
 import { rootsHero, rootDisciplines } from '../data/rootsOfKnowledge.js'
 import { namesIntro, quranicNames } from '../data/quranicNames.js'
-
-function NameCard({ n }) {
-  const [open, setOpen] = useState(false)
-  return (
-    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left"
-      >
-        <div className="min-w-0">
-          <div className="flex items-baseline gap-3">
-            <span className="text-xl font-bold text-brand-700">{n.transliteration}</span>
-            <span className="text-2xl font-arabic text-slate-900" dir="rtl" lang="ar">{n.arabic}</span>
-          </div>
-          <div className="text-sm text-slate-600 mt-0.5">{n.meaning}</div>
-        </div>
-        <span className="text-xs text-slate-500 flex-none">{open ? '−' : '+'}</span>
-      </button>
-      {open && (
-        <div className="px-4 pb-4 space-y-3 border-t border-slate-100 pt-3">
-          <div>
-            <div className="text-xs uppercase tracking-wide font-semibold text-slate-500">Qur'anic reference</div>
-            <p className="text-sm text-slate-700 mt-1">{n.ayah}</p>
-          </div>
-          <div>
-            <div className="text-xs uppercase tracking-wide font-semibold text-emerald-700">Manifestation in the universe</div>
-            <p className="text-sm text-slate-800 mt-1 leading-relaxed">{n.manifestation}</p>
-          </div>
-          <div>
-            <div className="text-xs uppercase tracking-wide font-semibold text-amber-700">Tafakkur — ponder</div>
-            <p className="text-sm text-slate-800 mt-1 leading-relaxed">{n.tafakkur}</p>
-          </div>
-          <div>
-            <div className="text-xs uppercase tracking-wide font-semibold text-brand-700">Akhlāq — life takeaway</div>
-            <p className="text-sm text-slate-800 mt-1 leading-relaxed">{n.akhlaq}</p>
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
+import RootsMethodCards from '../components/RootsMethodCards.jsx'
 
 export default function RootsOfKnowledge() {
   return (
@@ -61,14 +21,7 @@ export default function RootsOfKnowledge() {
       <section className="container-page py-12">
         <h2 className="text-2xl font-bold text-slate-900">{rootsHero.frameworkLabel || 'The Roots Method'}</h2>
         <p className="mt-2 text-slate-600 max-w-3xl">{rootsHero.frameworkSubtitle || 'Three steps we walk through in every subject.'}</p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {rootsHero.steps.map((s) => (
-            <div key={s.key} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <div className="text-lg font-bold text-slate-900">{s.title}</div>
-              <p className="mt-2 text-sm text-slate-600 leading-relaxed">{s.desc}</p>
-            </div>
-          ))}
-        </div>
+        <RootsMethodCards />
       </section>
 
       <section className="bg-slate-50">
@@ -93,10 +46,10 @@ export default function RootsOfKnowledge() {
           <div className="mt-4 max-w-3xl rounded-xl bg-amber-100/70 border border-amber-200 p-4 text-amber-900 text-sm leading-relaxed">
             {namesIntro.call}
           </div>
-          <div className="mt-2 text-sm text-slate-500">{quranicNames.length} Names — click any to expand. <Link to="/roots/names" className="ml-1 text-brand-700 font-semibold hover:underline">Open the full Names page →</Link></div>
+          <div className="mt-2 text-sm text-slate-500">{quranicNames.length} learning cards — click any to study. <Link to="/roots/names" className="ml-1 text-brand-700 font-semibold hover:underline">Open the full Names page →</Link></div>
           <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {quranicNames.map((n) => (
-              <NameCard key={n.transliteration} n={n} />
+              <NameStudyCard key={n.transliteration} n={n} />
             ))}
           </div>
         </div>

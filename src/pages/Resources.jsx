@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import {
   resources,
   resourceTypes,
@@ -57,6 +57,7 @@ export default function Resources() {
   const [subject, setSubject] = useState('All')
   const [type, setType] = useState('All')
   const [query, setQuery] = useState('')
+  const [showPlanned, setShowPlanned] = useState(false)
 
   // Keep ?audience=... in sync so audience links from /for/* pages land here.
   useEffect(() => {
@@ -72,6 +73,7 @@ export default function Resources() {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
     return resources.filter((r) => {
+      if (!showPlanned && r.status === 'roadmap') return false
       if (audience !== 'all' && !r.audiences.includes(audience)) return false
       if (age !== 'All' && !r.ageBands.includes(age)) return false
       if (context !== 'All' && !r.contexts.includes(context)) return false
@@ -84,7 +86,7 @@ export default function Resources() {
         r.subjects.some((s) => s.toLowerCase().includes(q))
       )
     })
-  }, [audience, age, context, subject, type, query])
+  }, [audience, age, context, subject, type, query, showPlanned])
 
   const reset = () => {
     setAudience('all')
@@ -93,6 +95,7 @@ export default function Resources() {
     setSubject('All')
     setType('All')
     setQuery('')
+    setShowPlanned(false)
   }
 
   const isFiltered =
@@ -110,7 +113,7 @@ export default function Resources() {
         <div className="container-page pt-14 pb-10 sm:pt-20">
           <span className="chip">Resources</span>
           <h1 className="mt-4 text-4xl sm:text-5xl font-bold tracking-tight">
-            Everything Roots, in one library.
+            Pathways resources. Put them to work.
           </h1>
           <div className="mt-4 max-w-2xl space-y-3 text-lg text-slate-600">
             <p>
@@ -118,8 +121,8 @@ export default function Resources() {
               organized by who you are, what you teach, and where you’re starting from.
             </p>
             <p>
-              Some of this is shipped. Some is on the way. We say which is which, because a
-              curriculum built on truth shouldn’t fudge its own inventory.
+              Start with available materials. Use the filters to find something for your learners,
+              or go straight to a teaching tool, a free lesson, or a Qur’anic reflection.
             </p>
           </div>
         </div>
@@ -201,8 +204,17 @@ export default function Resources() {
         </div>
       </section>
 
+      <nav aria-label="Resource starting points" className="container-page flex flex-wrap gap-3 pt-4">
+        <Link className="btn-primary" to="/edu-hub">Plan a lesson in EduHub →</Link>
+        <Link className="btn-secondary" to="/free-sample">Try a free Roots lesson →</Link>
+        <Link className="btn-secondary" to="/roots/names">Study a Qur’anic Name →</Link>
+      </nav>
       {/* Sections */}
       <div className="container-page py-8 pb-16">
+        <label className="mb-5 inline-flex items-center gap-2 text-sm text-slate-700">
+          <input type="checkbox" checked={showPlanned} onChange={e => setShowPlanned(e.target.checked)} />
+          Include planned resources (not available yet)
+        </label>
         {filtered.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-300 p-12 text-center">
             <h3 className="text-lg font-semibold text-slate-900">Nothing matches.</h3>

@@ -25,7 +25,7 @@ export const audiences = [
     ],
     highlights: [
       'Five reading lessons that go alphabet → letter sounds → joining letters → vowel marks → reading with tajweed. $4 a lesson, $15 for all five.',
-      'A proficiency exam you can sit without ever having used Roots — CEFR-aligned A1–B2, fifteen questions, and a certificate anyone can check.',
+      'An Arabic placement pilot you can try without having used Roots — ten scored questions per target level, with published methodology and limitations.',
       'Every rule traced to a named source: Ibn al-Jazari, Al-Marsafi and Ayman Suwayd for tajweed; Ibn Ajurrum and Ibn Malik for grammar.',
       'Three steps inside every lesson — Manifestation, Tafakkur, Akhlāq — so reciting, understanding, and living it aren’t three separate subjects.',
     ],
@@ -41,9 +41,9 @@ export const audiences = [
       {
         to: '/pathways-exam',
         status: 'live',
-        eyebrow: 'CEFR-aligned · published methodology',
+        eyebrow: 'Arabic placement pilot · published methodology',
         title: 'Roots Arabic & Qur’an Proficiency Exam (RAQP)',
-        body: 'Fifteen questions, about five minutes, a CEFR level determination and a verifiable certificate. Currently in a diagnostic testing phase ahead of formal accreditation.',
+        body: 'Ten scored questions per target level, with intended A1–B2 mappings. A diagnostic placement pilot; external validation and accreditation are not established.',
         cta: 'Take the RAQP',
       },
       {
@@ -120,7 +120,7 @@ export const audiences = [
     ],
     // Paid call offered on this page — details come from src/data/booking.js.
     booking: {
-      event: 'strategy',
+      event: 'learning-support',
       body: 'Bring your class list and your timetable. We will work out how Roots fits your groups, how to pace Level C, B and A side by side, and where the exams belong.',
     },
   },
@@ -163,7 +163,7 @@ export const audiences = [
       {
         to: '/pathways-exam',
         status: 'live',
-        eyebrow: 'CEFR-aligned · published methodology',
+        eyebrow: 'Arabic placement pilot · published methodology',
         title: 'Roots Arabic & Qur’an Proficiency Exam (RAQP)',
         body: 'Five minutes, a CEFR level, and a certificate you can verify. Currently in a diagnostic testing phase ahead of formal accreditation.',
         cta: 'Take the RAQP',
@@ -183,7 +183,7 @@ export const audiences = [
       { label: 'Book a class', to: '/book' },
     ],
     booking: {
-      event: 'parent-consult',
+      event: 'learning-support',
       body: 'Tell us your child’s age, what they already know and how much time you have. We will leave you with a clear starting point and a weekly rhythm you can keep.',
     },
   },
@@ -303,7 +303,7 @@ export const audiences = [
       { label: 'Book a class', to: '/book' },
     ],
     booking: {
-      event: 'strategy',
+      event: 'learning-support',
       body: 'Walk through the method, the sources and the exam design with us before you license, bundle or recommend Roots — and bring the hard questions.',
     },
   },

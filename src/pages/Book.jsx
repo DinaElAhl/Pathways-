@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { bookingEvents, formatPrice, liveUrl, isLive, requestHref } from '../data/booking.js'
+import { bookingEvents, formatPrice, liveUrl, isLive, requestHref, getBookingEvent } from '../data/booking.js'
 
 // /book — sessions Roots offers. Events live in src/data/booking.js; the
 // Calendly account lives in src/config/booking.js.
@@ -58,7 +58,7 @@ export default function Book() {
   // route change, so wait a tick, then bring the card in.
   useEffect(() => {
     if (!hash) return
-    const t = setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'center' }), 50)
+    const t = setTimeout(() => document.getElementById(getBookingEvent(hash.slice(1))?.key || hash.slice(1))?.scrollIntoView({ block: 'center' }), 50)
     return () => clearTimeout(t)
   }, [hash])
 
