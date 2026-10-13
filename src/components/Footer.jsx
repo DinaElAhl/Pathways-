@@ -4,7 +4,7 @@ import { audiences } from '../data/audiences.js'
 export default function Footer() {
   const year = new Date().getFullYear()
   return (
-    <footer className="mt-20 border-t border-slate-200 bg-slate-50">
+    <footer className="roots-footer mt-20 border-t border-slate-200 bg-slate-50">
       <div className="container-page py-14 grid gap-10 md:grid-cols-5">
         <div className="md:col-span-2">
           <div className="flex items-center gap-2.5">
@@ -16,7 +16,7 @@ export default function Footer() {
               </svg>
             </span>
             <span className="font-display text-lg font-semibold text-slate-900">
-              Pathways
+              Roots | جذور
             </span>
           </div>
           <p className="mt-4 max-w-sm text-sm text-slate-600">

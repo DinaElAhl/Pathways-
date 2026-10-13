@@ -58,51 +58,28 @@ const RECENT = [
 
 export default function Home() {
   return (
-    <>
-      {/* Hero — brand-first, "we/us" voice */}
-      <section className="relative overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-50/80 via-white to-white"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute -top-40 left-1/2 -z-10 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-brand-200/40 blur-3xl"
-        />
-        <div className="container-page pt-16 pb-16 sm:pt-24 sm:pb-20">
-          <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1]">
-              <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-accent-500 bg-clip-text text-transparent">
-                Roots | جذور
-              </span>
-              <span className="block mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-800">
-                a bilingual Qur&rsquo;an and Arabic curriculum.
-              </span>
-            </h1>
-            <p className="mx-auto mt-8 max-w-2xl text-lg text-slate-700 leading-relaxed text-left sm:text-center">
-              We built Roots because we couldn&rsquo;t find the curriculum we wanted for our
-              students &mdash; one that treats Arabic as sacred, teaches the Qur&rsquo;an as a
-              companion, and doesn&rsquo;t leave a parent behind because they don&rsquo;t speak
-              Arabic.
-            </p>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-700 leading-relaxed text-left sm:text-center">
-              Roots is a small home for the curriculum we built to fix that, and for the tools,
-              exams, and resources we keep building around it.
-            </p>
-            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Link to="/roots" className="btn-primary px-7 py-3.5 text-base">
-                Meet Roots &rarr;
-              </Link>
-              <Link to="/shop" className="btn-secondary px-7 py-3.5 text-base">
-                Browse the Shop &rarr;
-              </Link>
+    <div className="roots-home">
+      <section className="roots-hero">
+        <div className="container-page roots-hero-grid">
+          <div className="roots-hero-copy">
+            <div className="roots-signature"><img src={import.meta.env.BASE_URL + 'brand/roots-sprout.svg'} alt="" width="70" height="70" /><span>ROOTS <span lang="ar">| جذور</span></span></div>
+            <h1>The Qur’an as a <em>companion.</em><br />Arabic with <em>roots.</em></h1>
+            <p className="roots-hero-arabic" lang="ar" dir="rtl">القرآن رفيق... لا مجرّد مادة.</p>
+            <p className="roots-hero-description">A bilingual Qur’an and Arabic curriculum that grows with your child. For curious learners, caring parents, and the teachers beside them.</p>
+            <div className="roots-hero-actions">
+              <Link to="/free-sample" className="btn-primary">Try a free lesson &rarr;</Link>
+              <Link to="/book" className="btn-secondary">Book a class &rarr;</Link>
             </div>
+            <span className="roots-hero-note">Small beginnings. Deep roots. Room to grow.</span>
           </div>
+          <Link to="/book" className="roots-poster-link" aria-label="Book your Arabic and Qur’an classes">
+            <img src={import.meta.env.BASE_URL + 'brand/book-classes.jpg'} alt="Roots: Book your classes now, with illustrated learners joining a teacher online." width="1024" height="1280" fetchPriority="high" />
+          </Link>
         </div>
       </section>
 
       {/* The three steps of the Roots Method */}
-      <section className="container-page pb-16 sm:pb-20" aria-labelledby="roots-method-title">
+      <section className="roots-method container-page pb-16 sm:pb-20" aria-labelledby="roots-method-title">
         <div className="max-w-2xl">
           <span className="chip">The Roots Method</span>
           <h2 id="roots-method-title" className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Three steps in every lesson.</h2>
@@ -110,7 +87,7 @@ export default function Home() {
         </div>
         <ol className="mt-10 grid gap-5 sm:grid-cols-3">
           {rootsMethodSteps.map((step, index) => (
-            <li key={step.key} className="card flex h-full flex-col">
+            <li key={step.key} className={`roots-step roots-step-${step.key} card flex h-full flex-col`}>
               <span className="grid h-8 w-8 place-items-center rounded-full bg-brand-600 text-sm font-bold text-white">{index + 1}</span>
               <h3 className="mt-4 font-display text-lg font-semibold text-slate-900">{step.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-slate-600">{step.description}</p>
@@ -120,7 +97,7 @@ export default function Home() {
       </section>
 
       {/* Who it's for */}
-      <section className="bg-slate-50">
+      <section className="roots-audiences bg-slate-50">
         <div className="container-page py-16 sm:py-20">
           <div className="max-w-2xl">
             <span className="chip">Who Roots is for</span>
@@ -155,7 +132,7 @@ export default function Home() {
       </section>
 
       {/* Recent from Roots */}
-      <section className="container-page py-16 sm:py-20">
+      <section className="roots-recent container-page py-16 sm:py-20">
         <div className="max-w-2xl">
           <span className="chip">Recent from Roots</span>
           <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
@@ -233,6 +210,6 @@ export default function Home() {
           </p>
         </div>
       </section>
-    </>
+    </div>
   )
 }

@@ -5,17 +5,17 @@ export default {
     extend: {
       colors: {
         brand: {
-          50: '#f0f7ff',
-          100: '#dceaff',
-          200: '#bfd8ff',
-          300: '#93bdff',
-          400: '#6098ff',
-          500: '#3b74ff',
-          600: '#2555f5',
-          700: '#1c41d8',
-          800: '#1c38ad',
-          900: '#1d3689',
-          950: '#152256',
+          50: '#f1f7ef',
+          100: '#e0eedb',
+          200: '#c1dbba',
+          300: '#99c38d',
+          400: '#70a760',
+          500: '#518b43',
+          600: '#397330',
+          700: '#2d5c29',
+          800: '#264a24',
+          900: '#203e20',
+          950: '#102c1d',
         },
         accent: {
           400: '#fbbf24',
@@ -25,10 +25,10 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['"Space Grotesk"', 'Inter', 'ui-sans-serif', 'sans-serif'],
+        display: ['Nunito', '"Space Grotesk"', 'ui-sans-serif', 'sans-serif'],
       },
       boxShadow: {
-        soft: '0 10px 30px -12px rgba(28, 56, 173, 0.25)',
+        soft: '0 10px 30px -12px rgba(32, 62, 32, 0.18)',
       },
     },
   },

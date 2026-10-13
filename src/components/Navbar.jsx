@@ -109,14 +109,15 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm' : 'bg-white'}`}>
+    <nav className={`roots-nav fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm' : 'bg-white'}`}>
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-14 gap-4">
 
-          {/* Logo — wordmark only; no image asset yet */}
+          {/* Pathways is the umbrella for Roots and the teaching tools. */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <span className="font-bold text-lg text-brand-700 tracking-tight">Pathways</span>
-            <span className="text-xs text-slate-400 leading-tight hidden sm:block">EduHub<br />& Tools</span>
+            <span className="font-display font-bold text-lg text-brand-900 tracking-tight">Pathways</span>
+            <span className="text-xs text-slate-500 leading-tight hidden sm:block">EduHub<br />&amp; Tools</span>
+
           </Link>
 
           {/* Desktop nav */}

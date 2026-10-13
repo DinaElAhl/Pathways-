@@ -40,3 +40,58 @@
     @apply font-medium text-brand-700 hover:text-brand-800 underline-offset-4 hover:underline;
   }
 }
+
+/* Roots social identity: green, butter yellow, coral and mint. */
+@layer base {
+  body { background: #faf6eb; }
+  ::selection { background: #edcd61; color: #234b37; }
+}
+@layer components {
+  .roots-nav { border-bottom: 1px solid #d5e4d9; }
+  .roots-nav .font-display { letter-spacing: .03em; }
+  .btn-primary { background: #315e42; box-shadow: 0 5px 14px #234b3718; }
+  .btn-secondary { background: #fffdf5; }
+  .roots-home { background: #faf6eb; }
+  .roots-hero { position: relative; overflow: hidden; background: #def0e6; background-image: radial-gradient(#315e4213 1px, transparent 1px); background-size: 26px 26px; }
+  .roots-hero::before { content: ''; position: absolute; width: 390px; height: 390px; background: #f0eddb; border-radius: 50%; left: -230px; top: -160px; pointer-events: none; }
+  .roots-hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 4rem; padding-top: 6.5rem; padding-bottom: 4.5rem; position: relative; }
+  .roots-signature { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.6rem; font-family: Georgia, serif; font-size: 1.25rem; font-weight: 800; letter-spacing: .15em; color: #315e42; }
+  .roots-signature [lang='ar'] { letter-spacing: 0; }
+  .roots-hero h1 { color: #234b37; font-size: clamp(2.8rem, 4.3vw, 4.4rem); font-weight: 900; line-height: 1.08; letter-spacing: -.035em; }
+  .roots-hero h1 em { font-style: normal; color: #438c51; }
+  .roots-hero-arabic { color: #357649; font-size: 1.55rem; font-weight: 700; margin-top: 1.3rem; text-align: left; }
+  .roots-hero-description { max-width: 31rem; color: #3d5646; font-size: 1.1rem; line-height: 1.8; margin-top: 1.6rem; }
+  .roots-hero-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.8rem; }
+  .roots-hero-actions .btn-primary { background: #edcd61; color: #234b37; font-size: 1rem; padding: .9rem 1.5rem; }
+  .roots-hero-actions .btn-primary:hover { background: #f4d878; }
+  .roots-hero-actions .btn-secondary { color: #234b37; font-size: 1rem; padding: .9rem 1.5rem; }
+  .roots-hero-note { display: block; margin-top: 1.6rem; color: #526957; font-size: .85rem; }
+  .roots-poster-link { display: block; transform: rotate(2deg); max-width: 390px; justify-self: center; border-radius: 2rem; overflow: hidden; box-shadow: 0 18px 40px #234b3725; border: 7px solid #fffdf5; }
+  .roots-poster-link img { width: 100%; height: auto; }
+  .roots-method { padding-top: 4.5rem; }
+  .roots-home .chip { background: #e77c79; color: #273e31; letter-spacing: .12em; font-weight: 800; text-transform: uppercase; box-shadow: none; border: none; }
+  .roots-home h2 { font-weight: 900; color: #234b37; }
+  .roots-step { position: relative; padding: 2rem; border-radius: 1.8rem; box-shadow: 0 8px 20px #234b370a; border: none; min-height: 245px; }
+  .roots-step-manifestation { background: #deeee1; }
+  .roots-step-tafakkur { background: #f4d66f; }
+  .roots-step-akhlaq { background: #f3b4a6; }
+  .roots-step > span { background: #fffdf5; color: #315e42; font-size: 1.1rem; width: 2.6rem; height: 2.6rem; }
+  .roots-step h3 { color: #234b37; font-size: 1.65rem; font-weight: 900; }
+  .roots-step p { color: #354b3d; font-size: 1rem; line-height: 1.7; }
+  .roots-audiences { background: #e2f0e8; }
+  .roots-audiences .card { background: #fffdf5; border-radius: 1.6rem; border-top: 4px solid #e77c79; }
+  .roots-recent .card { border-radius: 1.6rem; background: #fffdf5; }
+  .roots-footer { background: #e2f0e8; border-top: 4px solid #e77c79; }
+}
+@media (max-width: 767px) {
+  .roots-hero-grid { grid-template-columns: 1fr; padding-top: 5rem; gap: 2.5rem; }
+  .roots-hero h1 { font-size: clamp(2.65rem, 10vw, 4rem); }
+  .roots-poster-link { max-width: 310px; transform: rotate(1deg); }
+  .roots-hero-description { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+/* Keep reference colors above the shared card background utilities. */
+.roots-step-manifestation { background-color: #deeee1; }
+.roots-step-tafakkur { background-color: #f4d66f; }
+.roots-step-akhlaq { background-color: #f3b4a6; }
+.roots-audiences, .roots-footer { background-color: #e2f0e8; }
