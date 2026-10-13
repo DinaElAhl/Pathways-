@@ -25,7 +25,8 @@ export const learningGames = [
           "Yāʾ"
         ],
         "answer": 1,
-        "explanation": "Tāʾ (ت) has two dots above. Its sound is t."
+        "explanation": "Tāʾ (ت) has two dots above. Its sound is t.",
+        "speechDisabled": true
       },
       {
         "prompt": "Name this letter.",
@@ -201,7 +202,8 @@ export const learningGames = [
           "bu"
         ],
         "answer": 0,
-        "explanation": "Fatḥah (َ) gives a short a: بَ = ba."
+        "explanation": "Fatḥah (َ) gives a short a: بَ = ba.",
+        "speechDisabled": true
       },
       {
         "prompt": "Which syllable matches this letter and vowel?",
@@ -213,7 +215,8 @@ export const learningGames = [
           "bi"
         ],
         "answer": 2,
-        "explanation": "Kasrah (ِ) gives a short i: بِ = bi."
+        "explanation": "Kasrah (ِ) gives a short i: بِ = bi.",
+        "speechDisabled": true
       },
       {
         "prompt": "Which syllable matches this letter and vowel?",
@@ -225,7 +228,8 @@ export const learningGames = [
           "ba"
         ],
         "answer": 1,
-        "explanation": "Ḍammah (ُ) gives a short u: بُ = bu."
+        "explanation": "Ḍammah (ُ) gives a short u: بُ = bu.",
+        "speechDisabled": true
       },
       {
         "prompt": "Which syllable matches this letter and vowel?",
@@ -237,7 +241,8 @@ export const learningGames = [
           "tu"
         ],
         "answer": 0,
-        "explanation": "Fatḥah (َ): تَ = ta."
+        "explanation": "Fatḥah (َ): تَ = ta.",
+        "speechDisabled": true
       },
       {
         "prompt": "Which syllable matches this letter and vowel?",
@@ -249,7 +254,8 @@ export const learningGames = [
           "mi"
         ],
         "answer": 2,
-        "explanation": "Kasrah (ِ): مِ = mi."
+        "explanation": "Kasrah (ِ): مِ = mi.",
+        "speechDisabled": true
       }
     ]
   },
