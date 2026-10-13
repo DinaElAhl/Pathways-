@@ -49,7 +49,7 @@ export default function RootsNames() {
         <div className="mt-8 flex items-center justify-between gap-3 flex-wrap">
           <div>
             <h2 className="text-2xl font-bold text-slate-900">{quranicNames.length} Qur’anic learning cards</h2>
-            <p className="text-sm text-slate-500">Selected Qur’anic Names and descriptions; some cards pair related Names. Click to read, reflect, and act.</p>
+            <p className="text-sm text-slate-500">Selected Qur’anic Names and descriptions; some cards pair related Names. Open each colorful flashcard to explore Manifestation, Tafakkur and Akhlāq.</p>
           </div>
           <input
             aria-label="Search Names in English or Arabic"
@@ -70,7 +70,7 @@ export default function RootsNames() {
           <p className="mt-2 text-sm text-slate-600">Read the reference, discuss the reflection, choose one action, and review what changed next lesson.</p>
         </div>
 
-        <div className="mt-5 grid md:grid-cols-2 gap-3">
+        <div className="mt-5 grid md:grid-cols-2 gap-6">
           {filtered.map((n) => (
             <NameStudyCard key={`${n.transliteration}-${focus}`} n={n} defaultOpen={!!focus} />
           ))}
