@@ -1,7 +1,9 @@
+import { rootsMethodSteps } from './rootsMethod.js'
+
 // Roots of Knowledge — Pathways
 // A new curriculum that returns every science to its Source.
 // Inspired by — but distinct from — frameworks like 5D Thinking.
-// Our framework: The Roots Method (six stages).
+// Our framework: The Roots Method (three steps).
 
 export const rootsHero = {
   eyebrow: "A new curriculum",
@@ -10,15 +12,8 @@ export const rootsHero = {
   intro:
     "Modern curricula teach the sciences as if nature itself decides, designs, and acts. The Qur'an teaches otherwise: nature is sign (āyah), not source. Allah — al-Khāliq, al-Muṣawwir, al-Ḥakim, al-Qayyūm — creates, shapes, and sustains every cause and every effect, and may suspend any of them whenever He wills. The Roots Method is our own curriculum for studying every discipline back to that truth: rigorous in the science, honest about its limits, and grounded in tawhīd.",
   frameworkLabel: "The Roots Method",
-  frameworkSubtitle: "Six stages we walk through in every subject.",
-  steps: [
-    { key: "ayah", title: "1. Āyah — See the Sign", desc: "Notice the phenomenon as a sign placed deliberately by Allah, not a brute fact. Observation begins with adab." },
-    { key: "tafakkur", title: "2. Tafakkur — Study the Pattern", desc: "Investigate the mechanism, the math, the history, the structure. Rigor is part of worship." },
-    { key: "tamyiz", title: "3. Tamyīz — Discern the Causes", desc: "Separate secondary causes (asbāb) from the True Cause. Name where modern language gives nature a will it does not own." },
-    { key: "tawhid", title: "4. Tawḥīd — Anchor in His Names", desc: "Re-attach the subject to Allah's attributes — al-Khāliq, al-Muṣawwir, al-Ḥakīm, al-Qayyūm, ar-Razzāq — and to revelation." },
-    { key: "amal", title: "5. ʿAmal — Practice with Adab", desc: "Apply the science with justice, benefit, and restraint. Knowledge that doesn't shape action is incomplete." },
-    { key: "shukr", title: "6. Shukr — Return in Gratitude", desc: "Close every unit by returning what was learned to its Source through reflection, duʿā, and witness." },
-  ],
+  frameworkSubtitle: "Three steps we walk through in every subject.",
+  steps: rootsMethodSteps.map((step, index) => ({ key: step.key, title: `${index + 1}. ${step.title}`, desc: step.description })),
   principles: [
     "Nature has no will, no power, no authority of its own — it is sustained moment by moment by Allah.",
     "Causes (asbāb) are real but dependent; Allah may suspend any cause whenever He wills (the miracle is not an exception to a 'law of nature' — it is a reminder of who runs the law).",

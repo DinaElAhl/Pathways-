@@ -60,7 +60,7 @@ export default function RootsOfKnowledge() {
 
       <section className="container-page py-12">
         <h2 className="text-2xl font-bold text-slate-900">{rootsHero.frameworkLabel || 'The Roots Method'}</h2>
-        <p className="mt-2 text-slate-600 max-w-3xl">{rootsHero.frameworkSubtitle || 'Six stages we walk through in every subject.'}</p>
+        <p className="mt-2 text-slate-600 max-w-3xl">{rootsHero.frameworkSubtitle || 'Three steps we walk through in every subject.'}</p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {rootsHero.steps.map((s) => (
             <div key={s.key} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">

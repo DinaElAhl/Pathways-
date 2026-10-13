@@ -27,7 +27,7 @@ export const audiences = [
       'Five reading lessons that go alphabet → letter sounds → joining letters → vowel marks → reading with tajweed. $4 a lesson, $15 for all five.',
       'A proficiency exam you can sit without ever having used Roots — CEFR-aligned A1–B2, fifteen questions, and a certificate anyone can check.',
       'Every rule traced to a named source: Ibn al-Jazari, Al-Marsafi and Ayman Suwayd for tajweed; Ibn Ajurrum and Ibn Malik for grammar.',
-      'Six stages inside every lesson — Āyah, Tafakkur, Tamyīz, Tawḥīd, ʿAmal, Shukr — so reciting, understanding, and living it aren’t three separate subjects.',
+      'Three steps inside every lesson — Manifestation, Tafakkur, Akhlāq — so reciting, understanding, and living it aren’t three separate subjects.',
     ],
     featured: [
       {
@@ -50,8 +50,8 @@ export const audiences = [
         to: '/roots',
         status: 'live',
         eyebrow: 'The method',
-        title: 'The six stages of the Roots Method',
-        body: 'Āyah → Tafakkur → Tamyīz → Tawḥīd → ʿAmal → Shukr. The spine every Roots lesson is built on, written out stage by stage.',
+        title: 'The three steps of the Roots Method',
+        body: 'Manifestation → Tafakkur → Akhlāq. The spine every Roots lesson is built on, written out step by step.',
         cta: 'Read the method',
       },
     ],
@@ -255,13 +255,13 @@ export const audiences = [
     sub: 'For curriculum designers, tutors, coaches, and Islamic Studies specialists.',
     intro: [
       'Roots publishes its bibliography, its exam methodology, and its CEFR alignment on the site, so you can evaluate it properly before you ever license or recommend it.',
-      'The six-stage Roots Method — Āyah, Tafakkur, Tamyīz, Tawḥīd, ʿAmal, Shukr — is the spine under every lesson, and it is documented rather than implied.',
+      'The three-step Roots Method — Āyah, Tafakkur, Tamyīz, Tawḥīd, ʿAmal, Shukr — is the spine under every lesson, and it is documented rather than implied.',
       'If you tutor or run a small program, the Roots packs, exams and workbooks are yours to license or bundle. Write to us and we will talk about what that looks like.',
     ],
     highlights: [
       'Published exam methodology: item design, level determination, and the CEFR mapping, in full.',
       'A complete bibliography — Ibn al-Jazari, Al-Marsafi, Ayman Suwayd, Ibn Ajurrum, Ibn Malik, Bukhari, Muslim.',
-      'The six-stage Roots Method written out stage by stage, so you can see the pedagogy rather than infer it.',
+      'The three-step Roots Method written out step by step, so you can see the pedagogy rather than infer it.',
       'A parallel Level C / B / A design over identical content — a workable answer to mixed-proficiency groups.',
     ],
     featured: [
@@ -269,8 +269,8 @@ export const audiences = [
         to: '/roots',
         status: 'live',
         eyebrow: 'The method',
-        title: 'The Roots Method, in six stages',
-        body: 'Āyah → Tafakkur → Tamyīz → Tawḥīd → ʿAmal → Shukr, and what each stage is doing inside a lesson.',
+        title: 'The Roots Method, in three steps',
+        body: 'Manifestation → Tafakkur → Akhlāq, and what each step is doing inside a lesson.',
         cta: 'Read the method',
       },
       {
