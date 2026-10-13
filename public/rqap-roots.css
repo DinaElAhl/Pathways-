@@ -1,0 +1,45 @@
+/* Roots learning interface. Certificate presentation retains its existing styles. */
+.screen:not(#certificate-screen), .topbar {
+  --teal-deep: #365f3d;
+  --teal-mid: #47794b;
+  --teal-light: #609b68;
+  --gold: #956c16;
+  --gold-light: #edcd61;
+  --gold-pale: #f4df98;
+  --cream: #faf6eb;
+  --cream-deep: #edf5e9;
+  --rule: #c1dbba;
+  font-family: 'Nunito', sans-serif;
+}
+.screen:not(#certificate-screen) :is(h1,h2,h3,h4,.btn,.item-position,.section-stat .num,.welcome-meta-item .value) { font-family: 'Nunito', sans-serif; font-weight: 800; }
+#welcome-screen { background: #def0e6; background-image: radial-gradient(#47794b18 1px, transparent 1px); background-size: 28px 28px; }
+#welcome-screen::before { background: #edcd61; opacity: .35; }
+#welcome-screen::after { background: #f3b4a6; opacity: .35; }
+#welcome-screen h1, #welcome-screen h1 .accent { color: #365f3d; font-style: normal; }
+.welcome-eyebrow, .welcome-arabic, .welcome-tagline, .welcome-meta-item .label, .welcome-meta-item .value { color: #365f3d; }
+.welcome-tagline { font-family: 'Nunito', sans-serif; font-style: normal; }
+.welcome-eyebrow { background: #f3b4a6; padding: .55rem 1rem; border-radius: 999px; letter-spacing: .12em; }
+.welcome-meta { border-top-color: #aacba9; gap: 1rem; }
+.welcome-meta-item { background: #fffdf5; padding: 1rem; border-radius: 1.25rem; }
+.welcome-meta-item:nth-child(2) { background: #f4df98; }
+.welcome-meta-item:nth-child(3) { background: #f3c8bc; }
+.screen:not(#certificate-screen) .btn { border-radius: 999px; letter-spacing: 0; }
+.screen:not(#certificate-screen) .btn-primary { background: #edcd61; color: #29492f; border-color: #edcd61; box-shadow: 0 5px 14px #47794b18; }
+.screen:not(#certificate-screen) .btn-primary:hover:not(:disabled) { background: #f4df98; border-color: #f4df98; }
+.screen:not(#certificate-screen) .btn-secondary { color: #365f3d; border-color: #609b68; }
+.screen:not(#certificate-screen) :is(.panel,.item-container,.panel-cream,.panel-info,.item-verse,.item-passage,.track-card-select) { border-radius: 1.4rem; }
+.screen:not(#certificate-screen) .panel { border-top: 4px solid #e77c79; }
+.screen:not(#certificate-screen) .panel-cream { background: #f9edbb; border-left-color: #edcd61; }
+.screen:not(#certificate-screen) .panel-info { background: #def0e6; }
+.screen:not(#certificate-screen) .item-verse { background: #def0e6; }
+.screen:not(#certificate-screen) .item-tag { background: #f3c8bc; color: #6d3d32; border: 0; border-radius: 999px; }
+.screen:not(#certificate-screen) .item-option { border-radius: 1rem; background: #fffdf5; }
+.screen:not(#certificate-screen) .item-option:hover { border-color: #609b68; background: #edf5e9; }
+.screen:not(#certificate-screen) .item-option.selected { border-color: #47794b; background: #def0e6; }
+.screen:not(#certificate-screen) .item-option.selected .letter { background: #47794b; border-color: #47794b; }
+.topbar { background: #def0e6; color: #365f3d; border-bottom-color: #e77c79; }
+.topbar :is(.topbar-brand,.topbar-timer,.topbar-section) { color: #365f3d; }
+.topbar .topbar-timer.warning { color: #855b0a; }
+.topbar .topbar-timer.danger { color: #a8443a; }
+.screen:not(#certificate-screen) :is(input,textarea,select):focus-visible, .screen:not(#certificate-screen) .btn:focus-visible { outline: 3px solid #47794b; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { #welcome-screen :is(h1,.welcome-eyebrow,.welcome-arabic,.welcome-tagline,.welcome-meta,.welcome-cta) { animation: none; opacity: 1; } }
