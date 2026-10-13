@@ -19,7 +19,7 @@ const primaryLinks = [
   { to: '/roots', label: 'Roots' },
   { to: '/tools', label: 'Tools' },
   { to: '/accredited-exams', label: 'Exams' },
-  { to: '/pathways-exam', label: 'RAQP Exam' },
+  { to: '/rqap-exams', label: 'RQAP Exams' },
   { to: '/shop', label: 'Shop' },
   { to: '/free-sample', label: 'Free Sample' },
   { to: '/resources', label: 'Resources' },
@@ -27,17 +27,8 @@ const primaryLinks = [
 
 // Secondary links under "More", grouped with headings.
 //
-// The RQAP exams get their own group so they read as one family and can't be
-// misread as the RAQP exam (CEFR-aligned, /pathways-exam), which keeps its own
-// top-bar slot — the two acronyms differ only by a transposed letter.
-// Only RQAP Level 2 Asasi ships today; a Level 1 entry drops into this group
-// when that page exists. Links use `href` when they open a static HTML file
-// rather than a React route.
+// Both Roots assessments share a single primary navigation entry.
 const moreGroups = [
-  {
-    title: 'RQAP exams',
-    links: [{ href: '/rqap.html', label: 'RQAP 2 — Level 2 Asasi' }],
-  },
   {
     title: 'Exams & assessment',
     links: [

@@ -27,6 +27,7 @@ const E2TeachingTool = lazy(() => import('./pages/E2TeachingTool.jsx'))
 const EduHub = lazy(() => import('./pages/EduHub'))
 const AccreditedExams = lazy(() => import('./pages/AccreditedExams.jsx'))
 const QuranExams = lazy(() => import('./pages/QuranExams.jsx'))
+const RqapExams = lazy(() => import('./pages/RqapExams.jsx'))
 const PathwaysExam = lazy(() => import('./pages/PathwaysExam.jsx'))
 const ExamDashboard = lazy(() => import('./pages/ExamDashboard.jsx'))
 const Shop = lazy(() => import('./pages/Shop.jsx'))
@@ -64,6 +65,7 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/accredited-exams" element={<AccreditedExams />} />
         <Route path="/quran-exams" element={<QuranExams />} />
+        <Route path="/rqap-exams" element={<RqapExams />} />
         <Route path="/pathways-exam" element={<PathwaysExam />} />
         <Route path="/exam-dashboard" element={<ExamDashboard />} />
         <Route path="/shop" element={<Shop />} />

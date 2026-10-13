@@ -25,6 +25,7 @@ const DEFAULT_DESCRIPTION =
 
 // Hand-written entries for every fixed route.
 export const staticSeo = {
+  '/rqap-exams': { title: 'RQAP Exams: Arabic and Tajweed assessments', description: 'Choose your Roots assessment: written Arabic placement or foundational Qur’anic Arabic and Tajweed. Explore both pilots, their scope and scoring methods.' },
   '/': {
     title: 'A bilingual Qur’an and Arabic curriculum',
     description: DEFAULT_DESCRIPTION,
