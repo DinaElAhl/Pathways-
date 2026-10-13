@@ -25,6 +25,7 @@ const DEFAULT_DESCRIPTION =
 
 // Hand-written entries for every fixed route.
 export const staticSeo = {
+ '/roots/quran-encyclopedia': { title: 'The Quran Encyclopedia: free sample', description: 'Explore an Al-Fatiha sample from The Quran Encyclopedia: Arabic verses, transliteration, English meanings and reflection. Discover the full 114-surah EPUB.' },
  '/connect/collaborators':{title:'Collaborate with Roots',description:'Share your skills and ideas with Roots through a short collaboration enquiry. Review your answers and email Roots about teaching, design, research or tools.'},
  '/connect/partners':{title:'Partner with Roots',description:'Explore a Roots partnership for your school, organisation or community. Share your goals and audience, then review and email your enquiry directly to Roots.'},
  '/connect/schools':{title:'School enquiry survey',description:'Tell Roots about your school, teaching priorities and support needs. Explore the free E² framework, curriculum licensing or tailored teacher support options.'},

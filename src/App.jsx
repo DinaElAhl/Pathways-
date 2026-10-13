@@ -20,6 +20,7 @@ const NotFound = lazy(() => import('./pages/NotFound.jsx'))
 const AIRecommender = lazy(() => import('./pages/AIRecommender.jsx'))
 const PartnerPicks = lazy(() => import('./pages/PartnerPicks.jsx'))
 const RootsOfKnowledge = lazy(() => import('./pages/RootsOfKnowledge.jsx'))
+const QuranEncyclopedia = lazy(() => import('./pages/QuranEncyclopedia.jsx'))
 const RootsNames = lazy(() => import('./pages/RootsNames.jsx'))
 const RootDiscipline = lazy(() => import('./pages/RootDiscipline.jsx'))
 const Tools = lazy(() => import('./pages/Tools.jsx'))
@@ -52,6 +53,7 @@ export default function App() {
         <Route path="/recommend" element={<AIRecommender />} />
         <Route path="/partners" element={<PartnerPicks />} />
         <Route path="/roots" element={<RootsOfKnowledge />} />
+        <Route path="/roots/quran-encyclopedia" element={<QuranEncyclopedia />} />
         <Route path="/roots/names" element={<RootsNames />} />
         <Route path="/roots/:slug" element={<RootDiscipline />} />
         <Route path="/tools" element={<Tools />} />

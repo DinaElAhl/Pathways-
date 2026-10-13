@@ -1,3 +1,4 @@
+import EncyclopediaCallout from '../components/EncyclopediaCallout.jsx'
 import { shopBundle, shopLessons, shopAuthor } from '../data/shopProducts.js';
 
 // Small logos for the marketplace buttons. Inline so the page stays
@@ -48,6 +49,7 @@ function BuyButtons({ payhipUrl, gumroadUrl, size = 'sm' }) {
 export default function Shop() {
   return (
     <div className="bg-white">
+      <EncyclopediaCallout />
       {/* Hero */}
       <section className="container-page pt-16 pb-10 sm:pt-24 text-center">
         <span className="chip">Curriculum by Roots</span>

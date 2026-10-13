@@ -1,3 +1,4 @@
+import EncyclopediaCallout from '../components/EncyclopediaCallout.jsx'
 import NameStudyCard from '../components/NameStudyCard.jsx'
 import { Link } from 'react-router-dom'
 import { rootsHero, rootDisciplines } from '../data/rootsOfKnowledge.js'
@@ -18,6 +19,7 @@ export default function RootsOfKnowledge() {
         </div>
       </section>
 
+      <EncyclopediaCallout />
       <section className="container-page py-12">
         <h2 className="text-2xl font-bold text-slate-900">{rootsHero.frameworkLabel || 'The Roots Method'}</h2>
         <p className="mt-2 text-slate-600 max-w-3xl">{rootsHero.frameworkSubtitle || 'Three steps we walk through in every subject.'}</p>
