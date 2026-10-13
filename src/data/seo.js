@@ -25,8 +25,8 @@ const DEFAULT_DESCRIPTION =
 
 // Hand-written entries for every fixed route.
 export const staticSeo = {
- '/connect/collaborators':{title:'Collaborate with Roots',description:'Share your skills and ideas with Roots through a short collaboration enquiry. Review your answers and email Dina about teaching, design, research or tools.'},
- '/connect/partners':{title:'Partner with Roots',description:'Explore a Roots partnership for your school, organisation or community. Share your goals and audience, then review and email your enquiry directly to Dina.'},
+ '/connect/collaborators':{title:'Collaborate with Roots',description:'Share your skills and ideas with Roots through a short collaboration enquiry. Review your answers and email Roots about teaching, design, research or tools.'},
+ '/connect/partners':{title:'Partner with Roots',description:'Explore a Roots partnership for your school, organisation or community. Share your goals and audience, then review and email your enquiry directly to Roots.'},
  '/connect/schools':{title:'School enquiry survey',description:'Tell Roots about your school, teaching priorities and support needs. Explore the free E² framework, curriculum licensing or tailored teacher support options.'},
  '/play': {title:'Roots Play: free Arabic learning games',description:'Play free Arabic letter and word games with instant feedback. Practise with your child or class, then explore Roots lessons for your next learning step.'},
   '/rqap-exams': { title: 'RQAP Exams: Arabic and Tajweed assessments', description: 'Choose your Roots assessment: written Arabic placement or foundational Qur’anic Arabic and Tajweed. Explore both pilots, their scope and scoring methods.' },
