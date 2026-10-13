@@ -66,22 +66,22 @@ export const learningGames = [
     "id": "words",
     "title": "Build an Arabic Word",
     "arabic": "رتّب حروف الكلمة",
-    "description": "Put letters in reading order to build three everyday words.",
+    "description": "Build three everyday words using letter tiles with short vowels.",
     "questions": [
       {
         "prompt": "Build bāb — door. Choose letters in Arabic reading order (right to left).",
         "display": "باب",
         "letters": [
           "ا",
-          "ب",
+          "بَ",
           "ب"
         ],
         "sequence": [
-          "ب",
+          "بَ",
           "ا",
           "ب"
         ],
-        "explanation": "ب + ا + ب → باب (bāb): door."
+        "explanation": "بَ + ا + ب → بَاب (bāb): door. Fatḥah on ب gives ba; ا lengthens the vowel to ā."
       },
       {
         "prompt": "Build kitāb — book. Choose letters in Arabic reading order (right to left).",
@@ -89,31 +89,31 @@ export const learningGames = [
         "letters": [
           "ب",
           "ا",
-          "ك",
-          "ت"
+          "كِ",
+          "تَ"
         ],
         "sequence": [
-          "ك",
-          "ت",
+          "كِ",
+          "تَ",
           "ا",
           "ب"
         ],
-        "explanation": "ك + ت + ا + ب → كتاب (kitāb): book."
+        "explanation": "كِ + تَ + ا + ب → كِتَاب (kitāb): book. Kasrah gives ki; fatḥah with ا gives tā."
       },
       {
         "prompt": "Build qalam — pen. Choose letters in Arabic reading order (right to left).",
         "display": "قلم",
         "letters": [
           "م",
-          "ق",
-          "ل"
+          "قَ",
+          "لَ"
         ],
         "sequence": [
-          "ق",
-          "ل",
+          "قَ",
+          "لَ",
           "م"
         ],
-        "explanation": "ق + ل + م → قلم (qalam): pen."
+        "explanation": "قَ + لَ + م → قَلَم (qalam): pen. Fatḥah gives qa and la."
       }
     ]
   },
