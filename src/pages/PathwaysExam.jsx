@@ -635,7 +635,7 @@ function WelcomeScreen({ onStart }) {
         }}>
           لنبدأ → START EXAM
         </button>
-        <p style={{ fontSize:12, color:'#777', marginTop:12 }}>4 target levels • Intended A1–B2 mappings • Written-language placement pilot</p>
+        <p style={{ fontSize:12, color:'#777', marginTop:12 }}>For non-native Arabic speakers · للناطقين بغير العربية • 4 target levels • Intended A1–B2 mappings • Written-language placement pilot</p>
         <p style={{ fontSize:12, color:'#777', lineHeight:1.6 }}>This exam does not assess listening, speaking, or extended writing. <Link to="/exam/methodology">Read the methodology and limitations.</Link></p>
       </div>
     </div>
