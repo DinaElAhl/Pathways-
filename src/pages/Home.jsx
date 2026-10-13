@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import RootsCommunity from '../components/RootsCommunity.jsx'
 import RootsMethodCards from '../components/RootsMethodCards.jsx'
 
 // Homepage — brand-first hero. Roots is the speaker ("we/us"), not Dina.
@@ -161,6 +162,8 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      <RootsCommunity />
 
       {/* Behind Roots — quiet founder attribution */}
       <section className="container-page pb-16 sm:pb-20">

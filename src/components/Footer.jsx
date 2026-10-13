@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { socialLinks } from '../data/socialLinks.js'
 import { audiences } from '../data/audiences.js'
 
 export default function Footer() {
@@ -56,6 +57,7 @@ export default function Footer() {
 
         <div>
           <h4 className="text-sm font-semibold text-slate-900">Stay in the loop</h4>
+          <div className="mt-3 flex flex-col gap-2">{socialLinks.map(s => <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-brand-800 hover:underline">{s.name} · {s.handle}<span className="sr-only"> (opens in a new tab)</span></a>)}</div>
           <p className="mt-3 text-sm text-slate-600">
             Want to hear when new curriculum, lessons, or exam updates drop? Send us a note and
             we'll add you to the update list.
