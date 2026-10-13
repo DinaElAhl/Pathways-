@@ -1,0 +1,15 @@
+@font-face{font-family:'Roots Quran';src:url('/fonts/amiri-quran/AmiriQuran-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+.quran-encyclopedia{background:#faf7ed}
+.quran-encyclopedia .quran-hero{background:#e1eee0;background-image:radial-gradient(#47794b19 1px,transparent 1px);background-size:24px 24px}
+.quran-hero-grid{display:grid;grid-template-columns:1.2fr 1fr;align-items:center;gap:2rem}
+.quran-book-art{width:100%;max-width:460px;margin:auto;filter:drop-shadow(0 16px 12px #47794b12)}
+.quran-reading-card{border:1px solid #d5dfcd;border-radius:26px;background:#fffdf6;box-shadow:0 6px 0 #dce7d4;padding:1.5rem;overflow:visible}
+.quran-reading-card:nth-child(3n+2){border-color:#e7cf80;box-shadow:0 6px 0 #f6e7b2}
+.quran-reading-card:nth-child(3n){border-color:#e7b2a9;box-shadow:0 6px 0 #f6dcd4}
+.quran-ayah{font-family:'Roots Quran',serif;font-weight:400!important;font-size:clamp(2rem,4vw,3rem);line-height:2.5;letter-spacing:normal;text-align:right;color:#365f3d;margin-top:.75rem;overflow-wrap:break-word;padding:.4rem 0}
+.quran-verse-label{display:flex;align-items:center;gap:.75rem;color:#47794b;font-size:.85rem;font-weight:600}
+.quran-verse-seal{display:inline-grid;place-items:center;width:38px;height:38px;background:#f8e4a1;border:1px solid #d6b85a;border-radius:12px;flex-shrink:0;font-size:1.1rem}
+.quran-reading-aid{background:#f1f6eb;padding:1rem 1.25rem;border-radius:16px;margin-top:.75rem}
+.quran-encyclopedia input{accent-color:#47794b;width:18px;height:18px}
+@media(min-width:640px){.quran-reading-card{padding:2rem 2.5rem}}
+@media(max-width:639px){.quran-hero-grid{grid-template-columns:1fr;gap:0}.quran-book-art{max-width:300px}.quran-ayah{line-height:2.4}.quran-reading-card{padding:1.25rem}}
