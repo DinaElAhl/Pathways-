@@ -36,9 +36,31 @@ const pad = n => String(n).padStart(2, '0');
 const LS_KEY = 'raqp_results';
 function saveResult(r) { try { const p=JSON.parse(localStorage.getItem(LS_KEY)||'[]'); p.unshift(r); localStorage.setItem(LS_KEY,JSON.stringify(p.slice(0,100))); } catch(e){} }
 
-function useTimer(secs, onEnd) {
+function useTimer(secs, onEnd, resetKey = 0, paused = false) {
   const [left, setLeft] = useState(secs);
-  useEffect(() => { if(left<=0){onEnd();return;} const id=setTimeout(()=>setLeft(l=>l-1),1000); return ()=>clearTimeout(id); }, [left, onEnd]);
+  const deadline = useRef(Date.now() + secs * 1000);
+  const onEndRef = useRef(onEnd);
+  const ended = useRef(false);
+  onEndRef.current = onEnd;
+  useEffect(() => {
+    deadline.current = Date.now() + secs * 1000;
+    ended.current = false;
+    setLeft(secs);
+  }, [secs, resetKey]);
+  useEffect(() => {
+    if (paused) return;
+    const tick = () => {
+      const remaining = Math.max(0, Math.ceil((deadline.current - Date.now()) / 1000));
+      setLeft(remaining);
+      if (remaining === 0 && !ended.current) {
+        ended.current = true;
+        onEndRef.current();
+      }
+    };
+    tick();
+    const id = setInterval(tick, 250);
+    return () => clearInterval(id);
+  }, [secs, resetKey, paused]);
   return left;
 }
 
@@ -65,7 +87,7 @@ function PrepScreen({ questions, level, onDone }) {
   }, [picked]);
 
   const PREP_SECONDS = 15;
-  const timeLeft = useTimer(PREP_SECONDS, handleTimeout);
+  const timeLeft = useTimer(PREP_SECONDS, handleTimeout, timeKey, picked !== null);
 
   function choose(opt) {
     if (picked) return;
@@ -267,8 +289,10 @@ function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
   if (!q) { return null; }
 
   const handleEnd = useCallback(() => {
-    onFinish([...answers, {q:q?.id, chosen:null, correct:q?.opts?.[q?.answer]||'', passed:false}]);
-  }, [answers, q, onFinish]);
+    // Preserve a submitted answer when time expires during its feedback screen.
+    const currentAnswer = revealed ? chosen : null;
+    onFinish([...answers, {q:q?.id, chosen:currentAnswer, correct:q?.opts?.[q?.answer]||'', passed:revealed && currentAnswer === q?.opts?.[q?.answer]}]);
+  }, [answers, q, chosen, revealed, onFinish]);
 
   const timeLeft = useTimer(25*60, handleEnd);
   const mm = Math.floor(timeLeft/60), ss = timeLeft%60;
@@ -565,7 +589,7 @@ function WelcomeScreen({ onStart }) {
   const steps = [
     { icon:'🔥', color:'#ff9600', title:'Warm-Up', desc:'5 flashcard questions with hearts, XP & streaks' },
     { icon:'🏁', color:'#1cb0f6', title:'Real Exam', desc:'10 focused questions — no hearts, just focus' },
-    { icon:'🏆', color:'#58cc02', title:'Certificate', desc:'Print your CEFR proficiency level (accreditation in progress)' },
+    { icon:'🏆', color:'#58cc02', title:'Report', desc:'Roots placement result; external accreditation not established' },
   ];
   return (
     <div style={{ minHeight:'100vh', background:'#fff', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'32px 20px' }}>
@@ -611,7 +635,8 @@ function WelcomeScreen({ onStart }) {
         }}>
           لنبدأ → START EXAM
         </button>
-        <p style={{ fontSize:12, color:'#afafaf', marginTop:12 }}>4 levels • A1–B2 CEFR • Age-appropriate content at every level</p>
+        <p style={{ fontSize:12, color:'#777', marginTop:12 }}>4 target levels • Intended A1–B2 mappings • Written-language placement pilot</p>
+        <p style={{ fontSize:12, color:'#777', lineHeight:1.6 }}>This exam does not assess listening, speaking, or extended writing. <Link to="/exam/methodology">Read the methodology and limitations.</Link></p>
       </div>
     </div>
   );

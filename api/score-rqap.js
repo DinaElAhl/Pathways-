@@ -100,7 +100,8 @@ function scoreSection(sectionKey, responses, audio, itemResults) {
 
     if (item.type === 'mcq') {
       max += 1
-      const right = !!r && Number(r.value) === ANSWER_KEY[item.id]
+      // Do not coerce null, false, or an empty string into option zero.
+      const right = !!r && Number.isInteger(r.value) && r.value >= 0 && r.value <= 3 && r.value === ANSWER_KEY[item.id]
       // Reported back so the registrar submission keeps its existing shape.
       // It says whether the choice was right, never which choice was right.
       itemResults[item.id] = r ? (right ? 1 : 0) : null
@@ -108,17 +109,19 @@ function scoreSection(sectionKey, responses, audio, itemResults) {
     } else if (item.type === 'essay') {
       // Heuristic stand-in for a human rater; capped at 4 of 5.
       max += 5
-      const wc = r ? Number(r.wordCount) : 0
+      // Completion proxy only: count actual text rather than caller-supplied metadata.
+      // TODO: proper expert marking of writing before certification use.
+      const text = typeof r?.value === 'string' ? r.value.trim() : ''
+      const wc = text ? text.split(/\s+/u).length : 0
       if (wc > 0) earned += round1(Math.min(1, wc / item.minWords) * 4)
     } else if (item.type === 'audio') {
       max += 5
       const rec = audio[item.id]
-      // Gate on the recording existing, not on its length. That is what the
-      // browser did, so a zero-length recording still earns the floor of 2 —
-      // generous, but changing it would silently re-mark candidates. Worth
-      // revisiting as a scoring-policy decision, not as part of this move.
+      // Duration remains a demonstration completion proxy, not tajweed marking.
+      // TODO: expert recitation assessment before certification use.
       if (rec) {
-        const dur = Number(rec.durationSec) || 0
+        const dur = rec.durationSec
+        if (!Number.isFinite(dur) || dur <= 0) continue
         if (dur >= 20 && dur <= 90) earned += 4
         else if (dur >= 10) earned += 3
         else earned += 2

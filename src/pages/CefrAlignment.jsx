@@ -9,25 +9,18 @@ export default function CefrAlignment() {
         <header className="mb-8">
           <span className="chip">Exam alignment</span>
           <h1 className="mt-4 text-4xl sm:text-5xl font-bold tracking-tight">
-            RAQP — CEFR Alignment Document
+            RAQP — Proposed CEFR Alignment
           </h1>
           <p className="mt-4 text-slate-700 italic">
             Roots Arabic Qur’an Proficiency Exam (<Link to="/pathways-exam" className="link">/pathways-exam</Link>)
-            mapped to the Common European Framework of Reference for Languages (CEFR).
+            with intended mappings to the Common European Framework of Reference for Languages (CEFR).
           </p>
           <p className="mt-2 text-sm text-slate-500">
-            Published by Roots | جذور. Prepared 2026-07-15.
+            Published by Roots | جذور. Implementation reviewed October 2026; external validation pending.
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <a
-              href="/roots-cefr-alignment.pdf"
-              className="btn-primary"
-              download
-            >
-              📄 Download PDF
-            </a>
-            <Link to="/exam/methodology" className="btn-secondary">
+<Link to="/exam/methodology" className="btn-secondary">
               See exam methodology
             </Link>
           </div>
@@ -36,17 +29,12 @@ export default function CefrAlignment() {
         <section>
           <h2 className="mt-10 mb-3 text-2xl sm:text-3xl font-bold tracking-tight">What this document is</h2>
           <p className="text-slate-700 leading-relaxed">
-            The <strong>RAQP</strong> (Roots Arabic Qur’an Proficiency exam) is a general proficiency
-            exam in Modern Standard Arabic and Qur’anic Arabic vocabulary. Every question is tagged
+            The <strong>RAQP</strong> (Roots Arabic Qur’an Proficiency exam) is a written-language placement pilot in Modern Standard Arabic and Qur’anic Arabic vocabulary. Every question is tagged
             to a <strong>CEFR level</strong> (A1, A2, B1, or B2) at the time it enters the item bank.
-            This document is the public record of how that mapping is made, so any school, employer,
-            or evaluator can verify that a Roots CEFR level claim is honest.
+            This document is the public record of how that mapping is made, but the proposed mapping still requires independent review and learner-based validation.
           </p>
           <p className="mt-4 text-slate-700 leading-relaxed">
-            The RAQP does <strong>not</strong> award C1 or C2 at present. C1/C2 claims require an
-            oral/production component that a fully-multiple-choice exam cannot rigorously assess. A
-            future oral extension of the RAQP will make C1/C2 possible; this document will be updated
-            when that ships.
+            The RAQP does <strong>not</strong> award C1 or C2 at present. Overall proficiency claims at every level need evidence beyond these multiple-choice tasks. Future extensions must be validated before broader claims are made.
           </p>
         </section>
 
@@ -210,34 +198,8 @@ export default function CefrAlignment() {
           <h2 className="mt-10 mb-3 text-2xl sm:text-3xl font-bold tracking-tight">
             Scoring and level determination
           </h2>
-          <p className="text-slate-700 leading-relaxed">
-            Every candidate takes the RAQP at their <strong>chosen entry level</strong>. From there:
-          </p>
-          <ul className="mt-4 space-y-2 text-slate-700 list-disc pl-6">
-            <li>
-              <strong>A1 (Beginner) candidates</strong> must achieve ≥ 60% on A1 items to receive an
-              A1-verified certificate. Below 60%, the certificate reads “Pre-A1 / In Progress” and a
-              specific retake is scheduled.
-            </li>
-            <li>
-              <strong>A2 candidates</strong> need ≥ 60% overall AND ≥ 50% on A2-specific
-              vocabulary/grammar items.
-            </li>
-            <li>
-              <strong>B1 candidates</strong> need ≥ 60% overall AND ≥ 50% on B1-specific items AND
-              ≥ 65% on A2 items (proving the earlier level is solid).
-            </li>
-            <li>
-              <strong>B2 candidates</strong> need ≥ 60% overall AND ≥ 50% on B2-specific items AND
-              ≥ 65% on B1 items.
-            </li>
-          </ul>
-          <p className="mt-4 text-slate-700 leading-relaxed">
-            <strong>Certificate uses the highest level for which the candidate meets all cutoffs.</strong>{' '}
-            So a candidate who signs up for B2 but only hits the A2 cutoff receives an A2 certificate
-            — never a B2 certificate they didn’t earn. This is the CEFR discipline: a claim is only
-            made when the evidence supports it.
-          </p>
+          <p className="text-slate-700 leading-relaxed">Candidates start at Level 1 and progress through a sequential ladder. Each level has 10 scored items and a 7/10 (70%) pass mark. An unsuccessful level ends the ladder. The report shows the highest level cleared; no certificate is offered when Level 1 is not cleared.</p>
+          <p className="mt-4 text-slate-700">These are intended CEFR mappings, not validated overall proficiency levels. Listening, speaking, and extended writing are not assessed. Independent descriptor review, representative learner trials, standard-setting, and empirical validation are required before making broader claims.</p>
         </section>
 
         <section>
@@ -246,14 +208,11 @@ export default function CefrAlignment() {
           </h2>
           <p className="text-slate-700 leading-relaxed">
             <strong>
-              A Roots CEFR-A1 through CEFR-B2 certificate confirms that on a specific date, the
-              candidate demonstrated the specified level of Arabic and Qur’anic Arabic proficiency on
-              the RAQP exam.
+              A Roots report records performance on RAQP written tasks on a specific date. Its A1–B2 labels are intended targets, not independently validated overall proficiency determinations.
             </strong>
           </p>
           <p className="mt-3 text-slate-700 leading-relaxed">
-            It <strong>does</strong> provide a portable, verifiable statement that any teacher,
-            evaluator, or admissions officer can trust as a placement signal.
+            It can inform placement within the assessed content. Recognition by schools, employers, or admissions offices is not assured; verification requires an issued registry record.
           </p>
           <p className="mt-3 text-slate-700 leading-relaxed">
             It <strong>does not</strong> confer:

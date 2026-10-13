@@ -16,11 +16,10 @@ export default function ExamMethodology() {
         <section className="prose-section">
           <h2 className="mt-10 mb-3 text-2xl sm:text-3xl font-bold tracking-tight">Our commitment</h2>
           <p className="text-slate-700 leading-relaxed">
-            Every certificate Roots issues carries a real proficiency claim. We take that seriously.
+            These are development assessments. External accreditation and validated CEFR linking have not been established.
             This page explains — publicly — how we build our exams, how we score them, and how we
             determine the level that appears on your certificate. If you’re a school, a homeschool
-            parent, or an employer evaluating a Roots credential, everything you need to trust our
-            exams is here.
+            parent, or an employer evaluating a Roots credential, the implemented scoring and limitations are explained here.
           </p>
         </section>
 
@@ -30,24 +29,29 @@ export default function ExamMethodology() {
             <strong>RAQP — Roots Arabic Qur’an Proficiency</strong> (<Link to="/pathways-exam" className="link">/pathways-exam</Link>)
           </p>
           <p className="text-slate-700 leading-relaxed">
-            A general Arabic and Qur’an language proficiency exam aligned to the CEFR framework
-            (A1–B2). Ideal for placement, exit assessment, and general credentialing.
+            A written-language placement pilot with intended A1–B2 mappings. It samples vocabulary, grammar, and reading; it does not test listening, speaking, or extended writing.
           </p>
           <p className="text-slate-700 leading-relaxed mt-4">
             <strong>RQAP — Roots Qur’anic Arabic Proficiency, Level 2 Asasi</strong> (<a href="/rqap.html" className="link">/rqap.html</a>)
           </p>
           <p className="text-slate-700 leading-relaxed">
-            A rigorous, seven-section certification exam covering Tajweed Theory + Arabic Language at
+            A seven-section demonstration assessment covering Tajweed Theory + Arabic Language at
             the Asasi (foundation) level. Designed for graduating students of the Roots Elementary
             program or comparable curricula.
           </p>
         </section>
 
+        <section className="mt-8 rounded-xl bg-amber-50 p-5">
+          <h2 className="text-xl font-bold">Demonstration limitations</h2>
+          <p className="mt-3 text-slate-700">RQAP contains 18 multiple-choice items, two writing tasks, and one recording task across both tracks. Writing marks currently use text length; recording marks use reported duration. These are completion proxies, not judgements of writing quality or tajweed accuracy. Demonstration scores must not be used as accredited proficiency evidence.</p>
+          <p className="mt-3 text-slate-700">Certification development requires qualified expert marking and second marking, scholarly specification of the recitation tradition, learner trials, validated cutoffs, fairness checks, secure attempts and issuance, and external review.</p>
+          <a className="link" href="https://rm.coe.int/1680667a25" target="_blank" rel="noopener noreferrer">Council of Europe examination documentation</a>
+        </section>
+
         <section>
           <h2 className="mt-10 mb-3 text-2xl sm:text-3xl font-bold tracking-tight">Item design</h2>
           <p className="text-slate-700 leading-relaxed">
-            Every exam question is written in-house by the Roots curriculum architect (an Arabic
-            and Qur’anic Studies educator). Every question is:
+            These are item-development goals; expert review and learner trials are needed to establish whether every item meets them:
           </p>
           <ul className="mt-4 space-y-2 text-slate-700 list-disc pl-6">
             <li><strong>Anchored in a source.</strong> No manufactured content. Vocabulary comes from Qur’anic text; grammar comes from established Arabic grammar tradition (Nahw); Tajweed rules come from classical Tajweed sources.</li>
@@ -63,8 +67,7 @@ export default function ExamMethodology() {
             <li><strong>Multiple-choice items:</strong> binary correct/incorrect, weighted equally within a section unless otherwise noted.</li>
             <li><strong>Section percentages:</strong> each section’s score is reported as a percentage of possible points.</li>
             <li>
-              <strong>Overall verdict:</strong> for RQAP, the verdict is one of Pass, Merit, or
-              Distinction based on published cutoffs (see below). For RAQP, the verdict is the CEFR
+              <strong>Overall verdict:</strong> for RQAP, the verdict is one of Pass, Single-Track Pass, Distinction, or Below Threshold based on published cutoffs (see below). For RAQP, the verdict is the CEFR
               level (A1 / A2 / B1 / B2) determined by the highest level cleared at the 70% pass mark.
             </li>
           </ul>
@@ -75,9 +78,9 @@ export default function ExamMethodology() {
 
           <h3 className="mt-5 mb-2 text-lg font-semibold text-slate-900">RQAP Level 2 Asasi</h3>
           <ul className="space-y-1.5 text-slate-700 list-disc pl-6">
-            <li><strong>Distinction:</strong> ≥ 90% overall AND ≥ 80% in every section</li>
-            <li><strong>Merit:</strong> ≥ 75% overall AND ≥ 65% in every section</li>
-            <li><strong>Pass:</strong> ≥ 60% overall AND ≥ 50% in every section</li>
+            <li><strong>Language:</strong> pass 65%, distinction 80%. Section weights: vocabulary 20%, grammar 20%, comprehension 30%, writing 30%.</li>
+            <li><strong>Tajweed:</strong> pass 70%, distinction 85%. Section weights: theory 40%, application 25%, recording 35%.</li>
+            <li><strong>Both tracks selected:</strong> both must pass for a full pass. One passing track yields Single-Track Pass. No Merit tier or section minimum is implemented.</li>
             <li><strong>Below Pass:</strong> a retake is available at any time</li>
           </ul>
 
@@ -97,8 +100,7 @@ export default function ExamMethodology() {
           <p className="mt-3 text-slate-700 leading-relaxed">
             Item difficulty is set by CEFR level alone. The school-type selection changes the
             subject matter and register of the items — family and school topics for younger
-            candidates, workplace and civic topics for adults — but never the linguistic demand.
-            A1 is A1 at every age.
+            candidates, workplace and civic topics for adults — but equivalence across age variants still requires empirical testing.
           </p>
           <p className="mt-4 text-slate-700 leading-relaxed">
             Full alignment matrix at{' '}
@@ -122,9 +124,9 @@ export default function ExamMethodology() {
             Roots is a curriculum publisher, not an accreditation body.
           </p>
           <p className="mt-3 text-slate-700 leading-relaxed">
-            Every certificate carries a <strong>verifiable Cert ID</strong> (QR code +{' '}
+            Verification requires an issued record in the configured registry. A generated ID or QR link alone is insufficient. The lookup route is{' '}
             <code className="text-sm bg-slate-100 px-1.5 py-0.5 rounded">/verify/[cert-id]</code>{' '}
-            public URL) so anyone can confirm authenticity.
+            ; a record must exist for authenticity to be confirmed.
           </p>
         </section>
 
