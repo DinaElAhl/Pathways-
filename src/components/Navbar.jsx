@@ -43,6 +43,7 @@ const moreGroups = [
     links: [
       { to: '/curriculum/sources', label: 'Curriculum Sources' },
       { to: '/edu-hub', label: 'EduHub & Tools' },
+      { to: '/play', label: 'Roots Play — free games' },
       { to: '/recommend', label: 'AI Match' },
       // href, not `to`: builder.html is a static file that vercel.json excludes
       // from the SPA rewrites. As a router <Link> it was intercepted by the

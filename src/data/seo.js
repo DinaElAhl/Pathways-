@@ -25,6 +25,7 @@ const DEFAULT_DESCRIPTION =
 
 // Hand-written entries for every fixed route.
 export const staticSeo = {
+ '/play': {title:'Roots Play: free Arabic learning games',description:'Play free Arabic letter and word games with instant feedback. Practise with your child or class, then explore Roots lessons for your next learning step.'},
   '/rqap-exams': { title: 'RQAP Exams: Arabic and Tajweed assessments', description: 'Choose your Roots assessment: written Arabic placement or foundational Qur’anic Arabic and Tajweed. Explore both pilots, their scope and scoring methods.' },
   '/': {
     title: 'A bilingual Qur’an and Arabic curriculum',

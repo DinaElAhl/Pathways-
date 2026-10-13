@@ -1,4 +1,5 @@
 export const eduHubTools = [
+ { title:'Roots Play',tagline:'Free Arabic learning games',description:'Match Arabic letters and build everyday words with instant feedback. A quick activity for learners, parents and teachers.',href:'/play',cta:'Play now',color:'emerald',rootsNote:'Practise together, then continue with a free Roots lesson.' },
   {
     title: 'E² Teacher Studio',
     tagline: 'Lesson plans · blueprints · rubrics · LMS exports',
