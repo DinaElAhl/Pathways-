@@ -148,7 +148,7 @@ export const staticSeo = {
   '/edu-hub': {
     title: 'EduHub & Tools',
     description:
-      'EduHub gathers every tool in one place: the E² educator platform, the Visual Learning Path Builder, the E² Teaching Framework and the rest of the teaching kit.',
+      'Explore Pathways EduHub: lesson planning, rubrics, term blueprints and teacher tools, with editable suggestions and portable exports for your school’s LMS.',
   },
   '/apply/educator': {
     title: 'Teach with us',

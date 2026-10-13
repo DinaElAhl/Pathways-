@@ -1,52 +1,6 @@
 import { Link } from 'react-router-dom'
 
-const ARTIFACTS = [
-  {
-    title: 'E² EduHub',
-    tagline: 'The all-in-one educator platform',
-    description: 'Free tools for teachers, parents, homeschoolers, schools and universities — lesson generator, resource library, planner, assessment tools and the E² Teaching Framework, all in one place.',
-    href: '/edu-hub.html',
-    cta: 'Open EduHub',
-    color: 'amber',
-    rootsNote: 'Use it inside Pathways: every lesson, plan, or assessment can be desecularized by anchoring its topic to one of Allāh’s Names and a tafakkur prompt.'
-  },
-  {
-    title: 'Pathways Hub',
-    tagline: 'One holistic place that unites all the projects',
-    description: 'A landing that brings together Pathways Learn, E² EduHub and the Frameworks Navigator for learners, teachers and parents in one navigation.',
-    href: '/pathways-hub.html',
-    cta: 'Open Pathways Hub',
-    color: 'emerald',
-    rootsNote: 'Useful when you want to introduce someone to the whole vision in a single page.'
-  },
-  {
-    title: 'Visual Learning Path Builder',
-    tagline: 'Drag-and-drop your own learning path',
-    description: 'Build your own pathway from blocks (concepts, resources, exercises, reflections) and share it. Already wired into Pathways at /builder.',
-    href: '/builder.html',
-    cta: 'Open Builder',
-    color: 'sky',
-    rootsNote: 'When you build a path for any subject, end with an Evaluate block that ties the topic back to a Name and an akhlāq goal.'
-  },
-  {
-    title: 'E² Teaching Framework',
-    tagline: 'Engage · Explore · Explain · Elaborate · Evaluate',
-    description: 'Native in-app workspace with guiding prompts inside every stage. Use it on any topic from your school curriculum.',
-    href: '/tools/e2-teaching',
-    cta: 'Open E² Tool',
-    color: 'violet',
-    rootsNote: 'Each E² cycle ends by asking which of Allāh’s Names is manifest in what you studied and what akhlāq it asks of you.'
-  },
-  {
-    title: 'Roots of Knowledge',
-    tagline: 'Allāh’s Names manifest in every discipline',
-    description: '58 Names mentioned in the Qurʼan, mapped to disciplines (math, physics, biology, history, …) with tafakkur prompts and akhlāq for real success.',
-    href: '/roots',
-    cta: 'Open Roots',
-    color: 'teal',
-    rootsNote: 'This is the backbone of the desecularizing approach — start here, then bring any curriculum back to Tawḥīd.'
-  }
-]
+import { eduHubTools } from '../data/eduHubTools.js'
 
 const COLORS = {
   amber: 'ring-amber-200 bg-amber-50 text-amber-900',
@@ -77,7 +31,7 @@ function ArtifactCard({ a }) {
       <p className="text-xs italic mt-3 text-slate-600">{a.rootsNote}</p>
       <div className="mt-4">
         {isExternalStatic ? (
-          <a href={a.href} className={`inline-block rounded-lg px-4 py-2 text-sm font-semibold text-white ${cta}`}>{a.cta} →</a>
+          <a href={import.meta.env.BASE_URL + a.href.replace(/^\//, '')} className={`inline-block rounded-lg px-4 py-2 text-sm font-semibold text-white ${cta}`}>{a.cta} →</a>
         ) : (
           <Link to={a.href} className={`inline-block rounded-lg px-4 py-2 text-sm font-semibold text-white ${cta}`}>{a.cta} →</Link>
         )}
@@ -102,7 +56,7 @@ export default function EduHub() {
       </header>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {ARTIFACTS.map((a) => (
+        {eduHubTools.map((a) => (
           <ArtifactCard key={a.title} a={a} />
         ))}
       </div>

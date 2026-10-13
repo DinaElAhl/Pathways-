@@ -1,7 +1,13 @@
 {
   "rewrites": [
-    { "source": "/rqap", "destination": "/rqap.html" },
-    { "source": "/((?!builder\\.html$|rqap\\.html$|preview|assets/|favicon\\.ico|robots\\.txt|_vercel/).*)", "destination": "/index.html" }
+    {
+      "source": "/rqap",
+      "destination": "/rqap.html"
+    },
+    {
+      "source": "/((?!builder\\.html$|rqap\\.html$|teacher-studio/|preview|assets/|favicon\\.ico|robots\\.txt|_vercel/).*)",
+      "destination": "/index.html"
+    }
   ],
   "cleanUrls": false,
   "trailingSlash": false
