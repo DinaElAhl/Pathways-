@@ -118,7 +118,7 @@ export default function AccreditedExams() {
                     padding: '4px 0',
                     letterSpacing: 1
                   }}>
-                    ✦ PATHWAYS ORIGINAL · ACCREDITATION IN PROGRESS ✦
+                    ✦ ROOTS RQAP · ACCREDITATION COMING SOON ✦
                   </div>
                 )}
 
@@ -159,7 +159,7 @@ export default function AccreditedExams() {
                       fontSize: 12,
                       fontWeight: 600
                     }}>
-                      🕐 Pending Accreditation
+                      🕐 Accreditation planned · not yet accredited
                     </span>
                   )}
                 </div>
@@ -239,7 +239,7 @@ export default function AccreditedExams() {
                 )}
 
                 <a
-                  href={exam.url || (isPending ? 'https://claude.ai/public/artifacts/130ad91f-9ec4-42a3-8f5d-479aef8a5b59' : '#')}
+                  href={exam.url?.startsWith('/') ? import.meta.env.BASE_URL + exam.url.slice(1) : (exam.url || '#')}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{

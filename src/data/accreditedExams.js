@@ -441,14 +441,15 @@ export const accreditedExams = [
 }  ,
   {
     id: 24,
-    name: 'Pathways Arabic & Quran Proficiency Exam',
+    url: '/pathways-exam',
+    name: 'RQAP Exam 1 · Arabic for non-native speakers',
     category: 'Arabic',
     type: 'Proficiency Assessment',
     countries: ['Global'],
-    description: 'A multi-level Arabic and Quranic literacy assessment by Pathways, mapping learners from elementary to advanced against CEFR bands (A1-B2) with Quranic surah benchmarks and tajweed evaluation.',
-    recognizedBy: 'Pathways (Accreditation Pending)',
+    description: 'Roots written Arabic placement pilot for non-native Arabic speakers, with A1–B2 level mapping. External accreditation is planned; it is not currently an accredited qualification.',
+    recognizedBy: 'Not externally accredited — accreditation planned',
     level: 'A1-B2 (4 Levels)',
-    cost: 'Diagnostic testing phase ahead of formal accreditation',
+    cost: 'Free pilot',
     availability: 'Online, year-round',
     difficulty: 2,
     status: 'pending',
@@ -463,5 +464,6 @@ export const accreditedExams = [
       { name: 'Pathways Arabic Pathway', url: 'https://www.pathwayslearn.com/pathways/arabic-language' },
       { name: 'Quran Study Resources', url: 'https://www.pathwayslearn.com/resources' }
     ]
-  }
+  },
+ { id: 25, name: 'RQAP Exam 2 · Qur’anic Arabic & Tajweed for native speakers', category: 'Quran', type: 'Knowledge assessment', countries: ['Global'], description: 'Roots pilot for native Arabic speakers covering Qur’anic Arabic and Tajweed knowledge. Written questions do not certify oral recitation. External accreditation is planned, not granted.', recognizedBy: 'Not externally accredited — accreditation planned', level: 'Foundational · two tracks', cost: 'Free pilot', availability: 'Online, year-round', difficulty: 2, status: 'pending', url: '/rqap.html', prepResources: [{ name: 'Explore both Roots exams', url: '/rqap-exams' }] }
 ];
