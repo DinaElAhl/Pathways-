@@ -8,7 +8,7 @@ export default function EncyclopediaCallout() {
         <span className="chip">A Roots reading companion · Free sample</span>
         <h2 className="mt-4 text-3xl font-bold text-brand-700">{encyclopedia.title}</h2>
         <p lang="ar" dir="rtl" className="mt-2 text-2xl text-brand-700 text-left">{encyclopedia.arabicTitle}</p>
-        <p className="mt-4 text-slate-700">Explore an Al-Fatiha sample with Arabic verses, transliteration, English meanings and a reflection prompt. The full EPUB covers all 114 surahs.</p>
+        <p className="mt-4 text-slate-700">Explore Al-Fatiha with Arabic verses, English meanings, surah facts, the three Roots reflections, daily applications and a sourced story from the Sunnah. The full EPUB covers all 114 surahs.</p>
       </div>
       <Link to="/roots/quran-encyclopedia" className="btn-primary">Read the free sample →</Link>
     </div>

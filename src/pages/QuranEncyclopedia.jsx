@@ -1,3 +1,4 @@
+import SurahStudy from '../components/SurahStudy.jsx'
 import QuranBookIllustration from '../components/QuranBookIllustration.jsx'
 import './quranEncyclopedia.css'
 import { useState } from 'react'
@@ -32,6 +33,7 @@ export default function QuranEncyclopedia() {
           <label className="flex gap-2 items-center"><input type="checkbox" checked={showTranslation} onChange={e=>setShowTranslation(e.target.checked)} />Show English meaning</label>
         </div>
       </div>
+      <SurahStudy factsOnly />
       <div className="mt-6 space-y-4">
         {previewVerses.map(v=><article key={v.number} className="quran-reading-card">
           <p className="quran-verse-label"><span className="quran-verse-seal" lang="ar">{v.number.toLocaleString('ar-EG')}</span>Al-Fatiha · Verse {v.number}</p>
@@ -40,7 +42,7 @@ export default function QuranEncyclopedia() {
           {showTranslation && <p className="quran-reading-aid text-lg leading-relaxed text-slate-800">{v.translation}</p>}
         </article>)}
       </div>
-      <aside className="mt-6 rounded-3xl bg-rose-50 border-2 border-rose-200 p-6 sm:p-8"><h3 className="text-xl font-bold">Pause for reflection · تدبّر</h3><p className="mt-3 text-lg">{encyclopedia.reflection}</p></aside>
+      <SurahStudy />
       <p className="mt-6 text-sm leading-relaxed text-slate-600">Source: The Quran Encyclopedia, supplied by its author. Arabic text is credited in the book to Tanzil; English translation to Abdullah Yusuf Ali. Transliteration is a reading aid. Editorial reflections are study aids, not tafsir or a substitute for qualified teachers.</p>
     </section>
     <section id="full-book" className="container-page pb-16 scroll-mt-24">
