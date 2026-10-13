@@ -1,3 +1,4 @@
+import PracticeCallout from '../components/PracticeCallout.jsx'
 import { useMemo, useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import {
@@ -132,6 +133,7 @@ export default function Resources() {
       <ProgressionStrip />
 
       {/* Filter bar */}
+      <PracticeCallout />
       <section className="container-page pt-8">
         <p className="text-sm text-slate-600">
           Filter by who you are, the age you teach, the context you’re in, or the kind of

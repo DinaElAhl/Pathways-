@@ -163,7 +163,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="container-page pb-16"><div className="rounded-3xl bg-amber-100 p-7 sm:p-10"><h2 className="text-3xl font-bold">A little play. A little Arabic.</h2><p className="mt-3 text-slate-700">Match letters and build words with two free Roots games. No account needed.</p><Link to="/play" className="btn-primary mt-5">Try Roots Play →</Link></div></section>
+      <section className="container-page pb-16"><div className="rounded-3xl bg-amber-100 p-7 sm:p-10"><h2 className="text-3xl font-bold">A little play. A little Arabic.</h2><p className="mt-3 text-slate-700">Explore five free Arabic activities: letters, words, listening, short vowels and everyday phrases. No account needed.</p><Link to="/play" className="btn-primary mt-5">Try Roots Play →</Link></div></section>
       <RootsCommunity />
 
       {/* Behind Roots — quiet founder attribution */}

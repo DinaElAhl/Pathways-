@@ -1,3 +1,4 @@
+import PracticeCallout from '../components/PracticeCallout.jsx'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '../components/Icon.jsx'
@@ -79,6 +80,7 @@ export default function FreeSample() {
       </section>
 
       {/* What's inside */}
+      <PracticeCallout />
       <section className="container-page py-16 sm:py-20">
         <div className="max-w-3xl mx-auto text-center">
           <span className="chip">What’s inside</span>
