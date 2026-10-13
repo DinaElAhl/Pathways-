@@ -35,6 +35,8 @@ export default function Footer() {
             <li><Link to="/for-schools" className="text-slate-600 hover:text-brand-700">For Schools</Link></li>
             <li><Link to="/about" className="text-slate-600 hover:text-brand-700">About</Link></li>
             <li><Link to="/faq" className="text-slate-600 hover:text-brand-700">FAQ</Link></li>
+            <li><Link to="/connect/collaborators" className="text-slate-600 hover:text-brand-700">Collaborate with Roots</Link></li>
+            <li><Link to="/connect/schools" className="text-slate-600 hover:text-brand-700">School enquiry survey</Link></li>
             <li><Link to="/contact" className="text-slate-600 hover:text-brand-700">Contact</Link></li>
           </ul>
         </div>

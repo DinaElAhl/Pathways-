@@ -40,6 +40,8 @@ function ArtifactCard({ a }) {
   )
 }
 
+import E2SchoolCallout from '../components/E2SchoolCallout.jsx'
+
 export default function EduHub() {
   return (
     <section className="container-page py-10">
@@ -55,6 +57,7 @@ export default function EduHub() {
         </p>
       </header>
 
+      <E2SchoolCallout />
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {eduHubTools.map((a) => (
           <ArtifactCard key={a.title} a={a} />

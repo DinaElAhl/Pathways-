@@ -1,3 +1,4 @@
+import E2SchoolCallout from '../components/E2SchoolCallout.jsx'
 import { Link } from 'react-router-dom'
 import {
   rootsSystem,
@@ -77,6 +78,7 @@ export default function ForSchools() {
   return (
     <div className="bg-white">
       {/* Hero — brand-first, warm, direct to school decision-makers */}
+      <E2SchoolCallout />
       <section className="relative overflow-hidden">
         <div
           aria-hidden="true"
