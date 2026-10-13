@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { shopBundle } from '../data/shopProducts.js'
+import { rootsMethodSteps } from '../data/rootsMethod.js'
 
 // Homepage — brand-first hero. Roots is the speaker ("we/us"), not Dina.
 // Founder attribution is quiet, below the fold, in "Behind Roots".
@@ -101,58 +101,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Start with Roots — three ways in, from free to a conversation */}
-      <section className="container-page pb-16 sm:pb-20">
+      {/* The three steps of the Roots Method */}
+      <section className="container-page pb-16 sm:pb-20" aria-labelledby="roots-method-title">
         <div className="max-w-2xl">
-          <span className="chip">Start with Roots</span>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Three ways in.</h2>
-          <p className="mt-3 text-slate-600">
-            Try a lesson for free, take the whole reading series home, or talk it through with us first.
-          </p>
+          <span className="chip">The Roots Method</span>
+          <h2 id="roots-method-title" className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Three steps in every lesson.</h2>
+          <p className="mt-3 text-slate-600">Manifestation → Tafakkur → Akhlāq.</p>
         </div>
         <ol className="mt-10 grid gap-5 sm:grid-cols-3">
-          {[
-            {
-              step: '1',
-              label: 'Free',
-              title: 'Try the Week 1 sample',
-              body: 'One full reading lesson, a teacher guide and the student worksheets, sent to your inbox.',
-              to: '/free-sample',
-              cta: 'Get the free sample',
-            },
-            {
-              step: '2',
-              label: `$${shopBundle.price}`,
-              title: 'Get the Tajweed Series',
-              body: `All ${shopBundle.lessonCount} lessons, from the alphabet to reading with tajweed, as print-ready workbooks.`,
-              to: '/shop',
-              cta: 'Visit the Shop',
-            },
-            {
-              step: '3',
-              label: 'From free',
-              title: 'Book a call',
-              body: 'A free 15-minute discovery call, or a longer consult for parents, teachers or schools.',
-              to: '/book',
-              cta: 'See the calls',
-            },
-          ].map((s) => (
-            <li key={s.step}>
-              <Link to={s.to} className="card group flex h-full flex-col hover:shadow-soft transition">
-                <div className="flex items-center justify-between">
-                  <span className="grid h-8 w-8 place-items-center rounded-full bg-brand-600 text-sm font-bold text-white">
-                    {s.step}
-                  </span>
-                  <span className="text-sm font-semibold text-brand-700">{s.label}</span>
-                </div>
-                <h3 className="mt-4 font-display text-lg font-semibold text-slate-900 group-hover:text-brand-700">
-                  {s.title}
-                </h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">{s.body}</p>
-                <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 transition group-hover:gap-2">
-                  {s.cta} &rarr;
-                </span>
-              </Link>
+          {rootsMethodSteps.map((step, index) => (
+            <li key={step.key} className="card flex h-full flex-col">
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-brand-600 text-sm font-bold text-white">{index + 1}</span>
+              <h3 className="mt-4 font-display text-lg font-semibold text-slate-900">{step.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">{step.description}</p>
             </li>
           ))}
         </ol>
@@ -246,9 +207,9 @@ export default function Home() {
             <a href="mailto:roots@pathwayslearn.com" className="link">
               roots@pathwayslearn.com
             </a>{' '}
-            &mdash; every message is read. Rather talk?{' '}
+            &mdash; every message is read. Rather learn live?{' '}
             <Link to="/book" className="link font-semibold">
-              Book a call &rarr;
+              Book a class &rarr;
             </Link>
           </p>
         </div>
@@ -258,7 +219,7 @@ export default function Home() {
       <section className="container-page pb-20">
         <div className="mx-auto max-w-3xl rounded-3xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 p-8 sm:p-12 text-center text-white shadow-soft">
           <p className="font-display text-2xl sm:text-3xl font-semibold">
-            From Egypt, with love. <span aria-hidden="true">🌱</span>
+            With love. <span aria-hidden="true">🌱</span>
           </p>
           <p className="mx-auto mt-4 max-w-xl text-brand-100">
             Reach us at{' '}

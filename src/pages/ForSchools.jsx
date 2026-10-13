@@ -108,7 +108,7 @@ export default function ForSchools() {
                 See a pilot pack &rarr;
               </a>
               <Link to="/book" className="btn-secondary px-7 py-3.5 text-base">
-                Book a call &rarr;
+                Book a class &rarr;
               </Link>
             </div>
           </div>
@@ -188,15 +188,16 @@ export default function ForSchools() {
       <section className="container-page py-10 sm:py-12">
         <div className="mx-auto flex max-w-3xl flex-col gap-6 rounded-3xl border border-emerald-200 bg-emerald-50/60 p-6 sm:flex-row sm:items-center sm:p-8">
           <div className="flex-1">
-            <span className="text-xs font-semibold uppercase tracking-wide text-emerald-800">Start here &middot; Free</span>
+            <span className="text-xs font-semibold uppercase tracking-wide text-emerald-800">Start here &middot; Free &middot; Coming soon</span>
             <h2 className="mt-2 font-display text-2xl font-semibold text-slate-900">Free 15-minute discovery call</h2>
             <p className="mt-2 text-slate-700 leading-relaxed">
               Not sure which licence fits, or whether Roots fits at all? Tell us about your students
-              and your program, and we will tell you honestly. No commitment.
+              and your program, and we will tell you honestly. No commitment. Online booking for
+              this call opens soon.
             </p>
           </div>
           <Link to="/book#discovery" className="btn-primary shrink-0 px-6 py-3">
-            Book a discovery call &rarr;
+            Tell me when it opens &rarr;
           </Link>
         </div>
       </section>
@@ -447,7 +448,7 @@ export default function ForSchools() {
           </p>
           <div className="mt-8">
             <Link to="/book" className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 text-base font-semibold text-brand-800 shadow-sm hover:bg-brand-50">
-              Or book a call &rarr;
+              Book a class &rarr;
             </Link>
           </div>
         </div>

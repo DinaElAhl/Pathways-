@@ -53,7 +53,7 @@ export const staticSeo = {
   '/for-schools': {
     title: 'For schools',
     description:
-      'License Roots for your school: a bilingual Qur’an and Arabic curriculum at Level C, B and A, with a free 15-minute discovery call before you commit to anything.',
+      'License Roots for your school: a bilingual Qur’an and Arabic curriculum at Level C, B and A, tailored to each school, with a pilot pack to review first.',
   },
   '/about': {
     title: 'About Roots',
@@ -101,9 +101,9 @@ export const staticSeo = {
       'Check that a Roots certificate is genuine. Scan the QR code on the certificate or enter its ID to see the holder, the level awarded and the date it was issued.',
   },
   '/book': {
-    title: 'Book a call',
+    title: 'Book a class',
     description:
-      'Book time with Roots: a free 15-minute discovery call, a parent consult, a strategy call for teachers, or a curriculum audit and partnership call for schools.',
+      'Book a live Arabic and Qur’an class with Roots at Level C, B or A, right on the page. Discovery, parent, teacher and school calls are coming soon to book too.',
   },
   '/privacy': {
     title: 'Privacy Policy',
@@ -181,9 +181,9 @@ const AUDIENCE_DESCRIPTIONS = {
   learners:
     'Roots for learners: read the Qur’an with tajweed from the alphabet up, sit a CEFR-aligned Arabic proficiency exam, and trace every rule back to a named source.',
   teachers:
-    'Roots for teachers: ready-to-teach Qur’an and Arabic lessons at Level C, B and A over the same content, with published sources, exams and a strategy call.',
+    'Roots for teachers: ready-to-teach Qur’an and Arabic lessons at Level C, B and A over the same content, with published sources, exams and live classes.',
   parents:
-    'Roots for parents: teach your child Qur’anic Arabic at home with a free sample, a five-lesson Tajweed series, and a one-to-one consult call to plan ahead.',
+    'Roots for parents: teach your child Qur’anic Arabic at home with a free sample, a five-lesson Tajweed series, and live classes at Level C, B or A.',
   schools:
     'Roots for schools: a bilingual Qur’an and Arabic curriculum with CEFR-aligned exams, a published method and sources, and licences shaped to your grade bands.',
   educators:

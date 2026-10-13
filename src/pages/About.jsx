@@ -196,7 +196,7 @@ export default function About() {
           </p>
           <p className="mt-4">
             <Link to="/book" className="btn-primary px-5 py-2.5 text-sm">
-              Book a call with Roots &rarr;
+              Book a class &rarr;
             </Link>
           </p>
         </div>

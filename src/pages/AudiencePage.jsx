@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { getAudience, audiences } from '../data/audiences.js'
 import Icon from '../components/Icon.jsx'
-import { getBookingEvent, formatPrice } from '../data/booking.js'
+import { getBookingEvent, formatPrice, isLive } from '../data/booking.js'
 import NotFound from './NotFound.jsx'
 
 // /for/<slug> — one page per audience, driven entirely by src/data/audiences.js.
@@ -128,12 +128,19 @@ export default function AudiencePage() {
             <div className="flex-1">
               <span className="text-xs font-semibold uppercase tracking-wide text-brand-700">
                 {call.minutes} min &middot; {formatPrice(call.price)}
+                {!isLive(call) && <> &middot; Coming soon</>}
               </span>
               <h2 className="mt-2 font-display text-2xl font-semibold text-slate-900">{call.title}</h2>
               <p className="mt-2 text-slate-700 leading-relaxed">{audience.booking.body}</p>
+              {!isLive(call) && (
+                <p className="mt-2 text-sm text-slate-600">
+                  Online booking for this call opens soon. Until then, you can book a live class.
+                </p>
+              )}
             </div>
-            <Link to={`/book#${call.key}`} className="btn-primary shrink-0 px-6 py-3">
-              Book a {call.title.toLowerCase().replace(/^roots /, '')} ({formatPrice(call.price)}) &rarr;
+            {/* Per-audience copy ("Book a parent consult →") returns once the call is live in Calendly. */}
+            <Link to={isLive(call) ? `/book#${call.key}` : '/book'} className="btn-primary shrink-0 px-6 py-3">
+              {isLive(call) ? `Book a ${call.title.toLowerCase().replace(/^roots /, '')} (${formatPrice(call.price)})` : 'Book a class'} &rarr;
             </Link>
           </div>
         </section>

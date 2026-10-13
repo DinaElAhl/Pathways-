@@ -1,15 +1,22 @@
-// Bookable conversations — rendered by src/pages/Book.jsx (/book).
+// Bookable sessions — rendered by src/pages/Book.jsx (/book).
 //
-// TODO: replace with Cal.com URL — Dina will provide roots.cal.com or similar
-// once account is created. Set CAL_BASE_URL to the account URL and give each
-// event its `calSlug` (the event type's slug in Cal.com). Until then every
-// "Book →" button falls back to an email request, so no button on the live
-// site is a dead link.
-export const CAL_BASE_URL = '' // e.g. 'https://cal.com/roots'
+// The booking account itself lives in src/config/booking.js. An event with a
+// `calendly` key that resolves there is live and books through Calendly; every
+// other event shows as "coming soon" with an email request as its placeholder
+// link, so no button on the live site is dead. To make one live: create the
+// event type in Calendly, add its slug to EVENT_TYPES, and set `calendly` here.
+import { calendlyUrl } from '../config/booking.js'
 
 export const BOOKING_EMAIL = 'roots@pathwayslearn.com'
 
 export const bookingEvents = [
+  {
+    key: 'class',
+    title: 'Arabic & Qur’an class — Levels C, B, A',
+    audience: 'Learners',
+    description: 'A live Arabic and Qur’an class taught through the Roots tracks: Level C, Level B and Level A. Pick your level and a time that suits you.',
+    calendly: 'class_cba',
+  },
   {
     key: 'discovery',
     title: 'Free discovery call',
@@ -17,7 +24,6 @@ export const bookingEvents = [
     price: 0,
     audience: 'Anyone',
     description: 'A short first conversation: tell us what you are looking for and we will point you to the right place in Roots.',
-    calSlug: 'discovery', // TODO: confirm against the Cal.com event slug
   },
   {
     key: 'parent-consult',
@@ -26,7 +32,6 @@ export const bookingEvents = [
     price: 100,
     audience: 'Parents',
     description: 'Plan your child’s Qur’an and Arabic learning at home: where to start, what to use, and how to keep it going.',
-    calSlug: 'parent-consult', // TODO: confirm against the Cal.com event slug
   },
   {
     key: 'strategy',
@@ -35,7 +40,6 @@ export const bookingEvents = [
     price: 150,
     audience: 'Teachers & educators',
     description: 'For teachers, tutors and program leads: how to teach with Roots, pace a group, and use the exams well.',
-    calSlug: 'strategy', // TODO: confirm against the Cal.com event slug
   },
   {
     key: 'curriculum-audit',
@@ -44,7 +48,6 @@ export const bookingEvents = [
     price: 300,
     audience: 'Schools',
     description: 'We look at your current Arabic and Qur’an program alongside Roots and the CEFR, and talk through the gaps and the next steps.',
-    calSlug: 'curriculum-audit', // TODO: confirm against the Cal.com event slug
   },
   {
     key: 'partnership',
@@ -53,7 +56,6 @@ export const bookingEvents = [
     price: 500,
     audience: 'Schools',
     description: 'For leadership teams ready to adopt Roots: scope, levels, pacing, teacher onboarding and a licensing plan shaped to your school.',
-    calSlug: 'partnership', // TODO: confirm against the Cal.com event slug
   },
 ]
 
@@ -65,14 +67,18 @@ export function formatPrice(price) {
   return price === 0 ? 'Free' : `$${price}`
 }
 
-// Where a "Book →" button goes. Cal.com once configured; an email request until then.
-export function bookingHref(event) {
-  if (CAL_BASE_URL && event.calSlug) return `${CAL_BASE_URL.replace(/\/+$/, '')}/${event.calSlug}`
-  const subject = `Booking request: ${event.title} (${event.minutes} min)`
-  const body =
-    `Hello,\n\nI would like to book a ${event.title.toLowerCase()} (${event.minutes} min, ${formatPrice(event.price)}).\n\n` +
-    `Name:\nTime zone:\nA few times that suit me:\nWhat I would like to talk about:\n\nThank you.`
-  return `mailto:${BOOKING_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+// The Calendly URL for a live event, or null while it is coming soon.
+export function liveUrl(event) {
+  return event.calendly ? calendlyUrl(event.calendly) : null
 }
 
-export const isCalConfigured = () => CAL_BASE_URL.length > 0
+export const isLive = (event) => !!liveUrl(event)
+
+// Placeholder link for a coming-soon event: an email asking to be told when it opens.
+export function requestHref(event) {
+  const subject = `When it opens: ${event.title}`
+  const body =
+    `Hello,\n\nPlease let me know when the ${event.title.toLowerCase()} opens for booking.\n\n` +
+    `Name:\nTime zone:\nWhat I would like to talk about:\n\nThank you.`
+  return `mailto:${BOOKING_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+}

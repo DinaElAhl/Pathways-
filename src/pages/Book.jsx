@@ -1,17 +1,61 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { bookingEvents, bookingHref, formatPrice, isCalConfigured, BOOKING_EMAIL } from '../data/booking.js'
+import { bookingEvents, formatPrice, liveUrl, isLive, requestHref } from '../data/booking.js'
 
-// /book — the conversations Roots offers. Content lives in src/data/booking.js.
-// TODO: replace with Cal.com URL — Dina will provide roots.cal.com or similar
-// once account is created (set CAL_BASE_URL in src/data/booking.js; an embedded
-// Cal.com widget can replace the cards' links at that point).
+// /book — sessions Roots offers. Events live in src/data/booking.js; the
+// Calendly account lives in src/config/booking.js.
+
+const CALENDLY_CSS = 'https://assets.calendly.com/assets/external/widget.css'
+const CALENDLY_JS = 'https://assets.calendly.com/assets/external/widget.js'
+
+// Calendly's official embed. Script tags inside JSX never execute, so the
+// stylesheet and script are added to <head> once, then the widget is drawn
+// into our div with Calendly.initInlineWidget (which also works on a second
+// visit in the same session, when the script is already loaded).
+function loadCalendly() {
+  if (!document.querySelector(`link[href="${CALENDLY_CSS}"]`)) {
+    const l = document.createElement('link')
+    l.rel = 'stylesheet'
+    l.href = CALENDLY_CSS
+    document.head.appendChild(l)
+  }
+  if (window.Calendly) return Promise.resolve(window.Calendly)
+  return new Promise((resolve, reject) => {
+    let s = document.querySelector(`script[src="${CALENDLY_JS}"]`)
+    if (!s) {
+      s = document.createElement('script')
+      s.src = CALENDLY_JS
+      s.async = true
+      document.head.appendChild(s)
+    }
+    s.addEventListener('load', () => resolve(window.Calendly))
+    s.addEventListener('error', reject)
+  })
+}
+
+function CalendlyInline({ url }) {
+  const ref = useRef(null)
+  useEffect(() => {
+    let cancelled = false
+    loadCalendly()
+      .then((Calendly) => {
+        if (cancelled || !ref.current || !Calendly) return
+        ref.current.innerHTML = ''
+        Calendly.initInlineWidget({ url, parentElement: ref.current })
+      })
+      .catch(() => {}) // the fallback link below the widget still works
+    return () => { cancelled = true }
+  }, [url])
+  return <div ref={ref} className="w-full" style={{ minWidth: 320, height: 700 }} />
+}
+
 export default function Book() {
-  const calReady = isCalConfigured()
   const { hash } = useLocation()
+  const live = bookingEvents.filter(isLive)
+  const soon = bookingEvents.filter((e) => !isLive(e))
 
-  // Deep links like /book#parent-consult come from the audience pages. Layout
-  // scrolls to the top on every route change, so wait a tick, then bring the card in.
+  // Deep links like /book#parent-consult. Layout scrolls to the top on every
+  // route change, so wait a tick, then bring the card in.
   useEffect(() => {
     if (!hash) return
     const t = setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'center' }), 50)
@@ -24,25 +68,60 @@ export default function Book() {
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-50/80 via-white to-white" />
         <div className="container-page pt-16 pb-10 sm:pt-24 sm:pb-14">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="chip">Book a call</span>
+            <span className="chip">Book a class</span>
             <h1 className="mt-5 text-4xl sm:text-5xl font-bold tracking-tight leading-[1.1] text-slate-900">
               Book time with Roots
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-700">
-              Sometimes a conversation is faster than a page. We talk with parents planning a child&rsquo;s
-              Qur&rsquo;an and Arabic at home, teachers and tutors working with Roots, and schools weighing
-              whether Roots fits their program. Start with the free call if you are not sure which you need.
+              Book a live Arabic and Qur&rsquo;an class at your level, right here on this page. Calls for
+              parents, teachers and schools are on their way &mdash; they are listed below so you can see
+              what is coming.
             </p>
           </div>
         </div>
       </section>
 
+      {live.map((e) => (
+        <section key={e.key} id={e.key} className="container-page pb-16 sm:pb-20 scroll-mt-24">
+          <div className="mx-auto max-w-5xl rounded-3xl border border-brand-200 bg-white p-4 shadow-soft sm:p-8">
+            <div className="px-2 sm:px-0">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-800 ring-1 ring-inset ring-emerald-200">
+                <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                Booking open
+              </span>
+              <h2 className="mt-3 font-display text-2xl font-semibold text-slate-900">{e.title}</h2>
+              <p className="mt-2 max-w-2xl text-slate-700 leading-relaxed">{e.description}</p>
+            </div>
+            <div className="mt-6">
+              <CalendlyInline url={liveUrl(e)} />
+            </div>
+            <p className="mt-3 px-2 text-sm text-slate-500 sm:px-0">
+              Calendar not loading?{' '}
+              <a href={liveUrl(e)} target="_blank" rel="noopener noreferrer" className="link">
+                Book on Calendly instead &rarr;
+              </a>
+            </p>
+          </div>
+        </section>
+      ))}
+
       <section className="container-page pb-16 sm:pb-20">
-        <div className="mx-auto grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {bookingEvents.map((e) => (
+        <div className="mx-auto max-w-5xl">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">Coming soon</h2>
+          <p className="mt-2 text-slate-600">
+            These calls are not bookable online yet. Ask to hear when one opens and we will write back.
+          </p>
+        </div>
+        <div className="mx-auto mt-8 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {soon.map((e) => (
             <div key={e.key} id={e.key} className={`card flex flex-col scroll-mt-24 ${hash === '#' + e.key ? 'ring-2 ring-brand-500' : ''}`}>
-              <span className="text-xs font-semibold uppercase tracking-wide text-brand-700">{e.audience}</span>
-              <h2 className="mt-2 font-display text-lg font-semibold text-slate-900">{e.title}</h2>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs font-semibold uppercase tracking-wide text-brand-700">{e.audience}</span>
+                <span className="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-800 ring-1 ring-inset ring-amber-200">
+                  Coming soon
+                </span>
+              </div>
+              <h3 className="mt-2 font-display text-lg font-semibold text-slate-900">{e.title}</h3>
               <div className="mt-2 flex items-baseline gap-3 text-sm text-slate-600">
                 <span>{e.minutes} min</span>
                 <span aria-hidden="true">&middot;</span>
@@ -51,18 +130,15 @@ export default function Book() {
                 </span>
               </div>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">{e.description}</p>
-              <a href={bookingHref(e)} className="btn-primary mt-5 w-full">
-                Book &rarr;
+              <a href={requestHref(e)} className="btn-secondary mt-5 w-full">
+                Tell me when it opens
               </a>
             </div>
           ))}
         </div>
 
         <p className="mx-auto mt-10 max-w-2xl text-center text-sm text-slate-600">
-          {calReady
-            ? 'Pick a time on the next screen. '
-            : <>Online scheduling is coming soon. For now, the button opens an email to {BOOKING_EMAIL} &mdash; send a few times that suit you and we will confirm one. </>}
-          Paid calls can be cancelled free of charge up to 24 hours ahead &mdash; see our{' '}
+          Paid sessions can be cancelled free of charge up to 24 hours ahead &mdash; see our{' '}
           <Link to="/refund" className="link">refund policy</Link>.
         </p>
       </section>

@@ -116,7 +116,7 @@ export const audiences = [
     ctas: [
       { label: 'Get the free Week 1 pack', to: '/free-sample', primary: true },
       { label: 'See how the exam is built', to: '/exam/methodology' },
-      { label: 'Book a call', to: '/book' },
+      { label: 'Book a class', to: '/book' },
     ],
     // Paid call offered on this page — details come from src/data/booking.js.
     booking: {
@@ -180,7 +180,7 @@ export const audiences = [
     ctas: [
       { label: 'Get the free Week 1 pack', to: '/free-sample', primary: true },
       { label: 'Browse the Shop', to: '/shop' },
-      { label: 'Book a call', to: '/book' },
+      { label: 'Book a class', to: '/book' },
     ],
     booking: {
       event: 'parent-consult',
@@ -300,7 +300,7 @@ export const audiences = [
     ],
     ctas: [
       { label: 'Read the Roots Method', to: '/roots', primary: true },
-      { label: 'Book a call', to: '/book' },
+      { label: 'Book a class', to: '/book' },
     ],
     booking: {
       event: 'strategy',
