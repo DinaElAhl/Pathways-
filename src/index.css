@@ -98,3 +98,9 @@
 .roots-step-tafakkur { background-color: #f4d66f; }
 .roots-step-akhlaq { background-color: #f3b4a6; }
 .roots-audiences, .roots-footer { background-color: #e2f0e8; }
+
+/* Light sage panels keep large callouts bright across all pages. */
+.roots-light-panel { background: linear-gradient(135deg, #e0eedb, #c1dbba); color: #29492f; border: 1px solid #b5d2ad; }
+.roots-light-panel :is(h2, h3, p, li, span) { color: inherit; }
+.roots-light-panel .btn-primary { color: white; }
+.roots-light-panel .btn-secondary { color: #29492f; }

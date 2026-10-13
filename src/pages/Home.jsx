@@ -189,7 +189,7 @@ export default function Home() {
 
       {/* Closing / signature */}
       <section className="container-page pb-20">
-        <div className="mx-auto max-w-3xl rounded-3xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 p-8 sm:p-12 text-center text-white shadow-soft">
+        <div className="mx-auto max-w-3xl rounded-3xl roots-light-panel p-8 sm:p-12 text-center text-white shadow-soft">
           <p className="font-display text-2xl sm:text-3xl font-semibold">
             With love. <span aria-hidden="true">🌱</span>
           </p>

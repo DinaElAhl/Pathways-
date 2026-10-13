@@ -174,7 +174,7 @@ export default function FreeSample() {
 
       {/* About Roots */}
       <section className="container-page py-16 sm:py-20">
-        <div className="max-w-3xl mx-auto rounded-3xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 p-8 sm:p-12 text-white shadow-soft">
+        <div className="max-w-3xl mx-auto rounded-3xl roots-light-panel p-8 sm:p-12 text-white shadow-soft">
           <span className="inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur">
             About Roots
           </span>

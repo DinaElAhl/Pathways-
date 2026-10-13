@@ -219,7 +219,7 @@ export default function ForSchools() {
 
           {/* Full K–12 bundle — top card, highlighted */}
           <div className="mt-12 mb-10 max-w-4xl mx-auto">
-            <div className="relative rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 text-white p-8 shadow-soft">
+            <div className="relative rounded-2xl roots-light-panel text-white p-8 shadow-soft">
               <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap bg-accent-500 text-slate-900 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                 Most complete
               </span>
@@ -428,7 +428,7 @@ export default function ForSchools() {
 
       {/* Section 8 — Closing / signature */}
       <section className="container-page pb-20 pt-8 sm:pt-12">
-        <div className="mx-auto max-w-3xl rounded-3xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 p-8 sm:p-12 text-center text-white shadow-soft">
+        <div className="mx-auto max-w-3xl rounded-3xl roots-light-panel p-8 sm:p-12 text-center text-white shadow-soft">
           <h2 className="font-display text-2xl sm:text-3xl font-semibold">
             Ready to bring Roots to your school?
           </h2>

@@ -186,7 +186,7 @@ export default function Shop() {
             ))}
 
             {/* Cross-sell back to bundle */}
-            <div className="flex flex-col rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 p-6 text-white shadow-soft transition hover:shadow-lg">
+            <div className="flex flex-col rounded-2xl roots-light-panel p-6 text-white shadow-soft transition hover:shadow-lg">
               <span className="text-xs font-semibold text-brand-100 uppercase tracking-wide mb-1">
                 Save $5
               </span>
