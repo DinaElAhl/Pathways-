@@ -1,5 +1,6 @@
 import { videoPreviews } from '../data/videoPreviews.js'
 import { useState } from 'react'
+import VideoActivity from './VideoActivity.jsx'
 
 export default function VideoPreviews() {
   const [errors, setErrors] = useState({})
@@ -17,6 +18,7 @@ export default function VideoPreviews() {
         {errors[v.id] && <p role="alert" className="mt-3 text-sm text-rose-700">Video couldn’t load. Try opening the mobile video below in Safari.</p>}
         <div className="mt-4 flex flex-wrap gap-4 text-sm"><a className="link" href={mobileVideo(v)}>Open mobile video ↗</a><a className="link" href={import.meta.env.BASE_URL+v.video}>Watch in Full HD ↗</a></div>
       </div>
+      <VideoActivity lessonId={v.id} />
     </article>)}</div>
     <p className="mt-6 text-sm text-slate-600">These two videos are free. Further recorded Level C lessons will be offered separately; course purchase is not available yet.</p>
   </section>
