@@ -25,7 +25,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['Nunito', '"Space Grotesk"', 'ui-sans-serif', 'sans-serif'],
+        display: ['Fredoka', 'Nunito', 'ui-sans-serif', 'sans-serif'],
       },
       boxShadow: {
         soft: '0 10px 30px -12px rgba(32, 62, 32, 0.18)',
