@@ -15,13 +15,11 @@ import { audiences } from '../data/audiences.js';
 // moved into "More". Every route is still reachable — only placement changed.
 const primaryLinks = [
   { to: '/', label: 'Home', end: true },
-  { to: '/pathways', label: 'Pathways' },
   { to: '/roots', label: 'Roots' },
-  { to: '/tools', label: 'Tools' },
-  { to: '/accredited-exams', label: 'Exams' },
+  { to: '/play', label: 'Play' },
+  { to: '/edu-hub', label: 'EduHub' },
   { to: '/rqap-exams', label: 'RQAP Exams' },
   { to: '/shop', label: 'Shop' },
-  { to: '/free-sample', label: 'Free Sample' },
   { to: '/resources', label: 'Resources' },
 ];
 
@@ -32,23 +30,20 @@ const moreGroups = [
   {
     title: 'Exams & assessment',
     links: [
-      { to: '/quran-exams', label: 'Quran Exams' },
-      { to: '/exam-dashboard', label: 'Exam Dashboard' },
       { to: '/exam/methodology', label: 'Exam Methodology' },
       { to: '/exam/cefr-alignment', label: 'CEFR Alignment' },
     ],
   },
   {
-    title: 'Curriculum & tools',
+    title: 'Learning & curriculum',
     links: [
+      { to: '/free-sample', label: 'Free Sample' },
+      { to: '/roots/names', label: 'Allah’s Names' },
+      { to: '/roots/quran-encyclopedia', label: 'Quran Encyclopedia sample' },
       { to: '/curriculum/sources', label: 'Curriculum Sources' },
-      { to: '/edu-hub', label: 'EduHub & Tools' },
-      { to: '/play', label: 'Roots Play — free games' },
-      { to: '/recommend', label: 'AI Match' },
       // href, not `to`: builder.html is a static file that vercel.json excludes
       // from the SPA rewrites. As a router <Link> it was intercepted by the
       // catch-all route and landed on NotFound instead of the page.
-      { to: '/partners', label: 'Partners' },
     ],
   },
   {

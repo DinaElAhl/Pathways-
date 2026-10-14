@@ -395,6 +395,7 @@ export const resources = [
   // ─────────────────────────────────────────────────────────────
   {
     slug: 'pathways-teachers-app',
+    hidden: true,
     section: 5,
     status: 'live',
     type: 'Tool',

@@ -30,7 +30,6 @@ export default function Footer() {
           <h4 className="text-sm font-semibold text-slate-900">Explore</h4>
           <ul className="mt-3 space-y-2 text-sm">
             <li><Link to="/resources" className="text-slate-600 hover:text-brand-700">Resources</Link></li>
-            <li><Link to="/pathways" className="text-slate-600 hover:text-brand-700">Pathways</Link></li>
             <li><Link to="/shop" className="text-slate-600 hover:text-brand-700">Shop</Link></li>
             <li><Link to="/for-schools" className="text-slate-600 hover:text-brand-700">For Schools</Link></li>
             <li><Link to="/about" className="text-slate-600 hover:text-brand-700">About</Link></li>
@@ -102,14 +101,8 @@ export default function Footer() {
 
       <div className="border-t border-slate-200">
         <div className="container-page py-6 flex flex-wrap items-center justify-center gap-3 text-xs">
-          <Link to="/apply/educator" className="rounded-full bg-white px-3 py-1.5 font-medium text-brand-700 ring-1 ring-inset ring-brand-100 hover:bg-brand-50">
-            Teach with Pathways
-          </Link>
           <Link to="/apply/partner" className="rounded-full bg-white px-3 py-1.5 font-medium text-brand-700 ring-1 ring-inset ring-brand-100 hover:bg-brand-50">
             Partner with us
-          </Link>
-          <Link to="/faq" className="rounded-full bg-white px-3 py-1.5 font-medium text-slate-700 ring-1 ring-inset ring-slate-200 hover:bg-slate-50">
-            Read the FAQ
           </Link>
         </div>
       </div>
