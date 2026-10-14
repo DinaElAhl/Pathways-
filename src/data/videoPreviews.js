@@ -1,4 +1,6 @@
 export const videoPreviews = [
+  // Free previews; further course lessons have separate availability.
   { id: 'introduction', title: 'Welcome to Level C', duration: '1 min 51 sec', description: 'Meet the letter families and discover what children will learn. Start here, even if your child knows no Arabic yet.', video: 'video-previews/roots-level-c-introduction.mp4', poster: 'video-previews/introduction.jpg' },
   { id: 'lesson-1', title: 'Lesson 1: ب ت ث', duration: '3 min 2 sec', description: 'Listen, copy and find the letters. Explore B as in ball, T as in toy, and TH as in think, with Arabic pronunciation and dot games.', video: 'video-previews/roots-level-c-lesson-1.mp4', poster: 'video-previews/lesson-1.jpg' },
+  { id: 'level-b-introduction', title: 'Welcome to Level B', duration: '1 min 14 sec', description: 'Already recognise letters and read simple words with short vowels? Explore the next step: pronunciation, short and stretched sounds, and first Tajweed rules.', video: 'video-previews/roots-level-b-introduction.mp4', poster: 'video-previews/level-b-introduction.jpg' },
 ]

@@ -20,6 +20,6 @@ export default function VideoPreviews() {
       </div>
       <VideoActivity lessonId={v.id} />
     </article>)}</div>
-    <p className="mt-6 text-sm text-slate-600">These two videos are free. Further recorded Level C lessons will be offered separately; course purchase is not available yet.</p>
+    <p className="mt-6 text-sm text-slate-600">The Level C introduction, Lesson 1 and Level B introduction are free. Further recorded lessons will be offered separately; course purchase is not available yet.</p>
   </section>
 }
