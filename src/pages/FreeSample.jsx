@@ -1,5 +1,6 @@
 import PracticeCallout from '../components/PracticeCallout.jsx'
 import VideoPreviews from '../components/VideoPreviews.jsx'
+import LessonRoadmap from '../components/LessonRoadmap.jsx'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '../components/Icon.jsx'
@@ -50,6 +51,7 @@ export default function FreeSample() {
 
           {/* Email capture form */}
           <a href="#watch" className="btn-secondary mt-6">Watch the free cartoon lessons ↓</a>
+          <a href="#lesson-plan" className="mt-4 block text-sm font-semibold text-brand-700 underline">See the series plan &amp; levels ↓</a>
           <form
             onSubmit={onSubmit}
             noValidate
@@ -83,6 +85,7 @@ export default function FreeSample() {
 
       {/* What's inside */}
       <VideoPreviews />
+      <LessonRoadmap />
       <PracticeCallout />
       <section className="container-page py-16 sm:py-20">
         <div className="max-w-3xl mx-auto text-center">
