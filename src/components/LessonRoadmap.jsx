@@ -2,7 +2,7 @@ import { recordedLevels, levelCLessons } from '../data/lessonRoadmap.js'
 
 export default function LessonRoadmap() {
   return (
-    <section id="lesson-plan" aria-labelledby="lesson-plan-title" className="container-page py-14 sm:py-20">
+    <section id="lesson-plan" aria-labelledby="lesson-plan-title" className="container-page py-14 sm:py-20 scroll-mt-24">
       <div className="mx-auto max-w-3xl text-center">
         <span className="chip">Your learning journey · رحلة التعلّم</span>
         <h2 id="lesson-plan-title" className="mt-4 font-display text-3xl sm:text-4xl font-bold">Little steps. Growing confidence.</h2>

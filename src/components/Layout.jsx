@@ -13,12 +13,28 @@ function PageFallback() {
 }
 
 export default function Layout() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
 
   // Scroll to top on route change — tiny but nice UX detail.
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' })
-  }, [pathname])
+    if (!hash) {
+      window.scrollTo({ top: 0, behavior: 'auto' })
+      return
+    }
+    // A lazy-loaded page can mount after the browser's initial anchor scroll.
+    const scrollToSection = () => {
+      const section = document.getElementById(hash.slice(1))
+      if (!section) return false
+      section.scrollIntoView({ block: 'start', behavior: 'auto' })
+      return true
+    }
+    if (scrollToSection()) return
+    const observer = new MutationObserver(() => {
+      if (scrollToSection()) observer.disconnect()
+    })
+    observer.observe(document.getElementById('root'), { childList: true, subtree: true })
+    return () => observer.disconnect()
+  }, [pathname, hash])
 
   return (
     <div className="flex min-h-screen flex-col">
