@@ -1,3 +1,4 @@
+import RootsPodcast from '../components/RootsPodcast.jsx'
 import RootsMethodCards from '../components/RootsMethodCards.jsx'
 import NameStudyCard from '../components/NameStudyCard.jsx'
 import { useMemo, useState } from 'react'
@@ -78,6 +79,7 @@ export default function RootsNames() {
           )}
         </div>
       </section>
+      <RootsPodcast />
     </>
   )
 }

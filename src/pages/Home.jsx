@@ -1,3 +1,4 @@
+import RootsPodcast from '../components/RootsPodcast.jsx'
 import { Link } from 'react-router-dom'
 import CreativeTrail from '../components/CreativeTrail.jsx'
 import RootsCommunity from '../components/RootsCommunity.jsx'

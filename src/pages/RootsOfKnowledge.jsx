@@ -1,3 +1,4 @@
+import RootsPodcast from '../components/RootsPodcast.jsx'
 import EncyclopediaCallout from '../components/EncyclopediaCallout.jsx'
 import NameStudyCard from '../components/NameStudyCard.jsx'
 import { Link } from 'react-router-dom'
@@ -82,6 +83,7 @@ export default function RootsOfKnowledge() {
           ))}
         </div>
       </section>
+      <RootsPodcast />
     </>
   )
 }
