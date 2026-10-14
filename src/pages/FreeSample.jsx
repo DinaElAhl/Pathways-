@@ -1,4 +1,5 @@
 import PracticeCallout from '../components/PracticeCallout.jsx'
+import VideoPreviews from '../components/VideoPreviews.jsx'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '../components/Icon.jsx'
@@ -48,6 +49,7 @@ export default function FreeSample() {
           </p>
 
           {/* Email capture form */}
+          <a href="#watch" className="btn-secondary mt-6">Watch the free cartoon lessons ↓</a>
           <form
             onSubmit={onSubmit}
             noValidate
@@ -80,6 +82,7 @@ export default function FreeSample() {
       </section>
 
       {/* What's inside */}
+      <VideoPreviews />
       <PracticeCallout />
       <section className="container-page py-16 sm:py-20">
         <div className="max-w-3xl mx-auto text-center">
@@ -111,8 +114,7 @@ export default function FreeSample() {
             {
               icon: 'bolt',
               title: 'A short intro video',
-              body: '5 minutes walking you through how Roots works, from someone who’s taught it.',
-              coming: true,
+              body: 'Watch the Level C introduction and first cartoon lesson free on this page. No email needed.',
             },
           ].map((item) => (
             <div key={item.title} className="card">

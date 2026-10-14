@@ -5,7 +5,7 @@
       "destination": "/rqap.html"
     },
     {
-      "source": "/((?!builder\\.html$|rqap\\.html$|teacher-studio/|preview|assets/|favicon\\.ico|robots\\.txt|_vercel/).*)",
+      "source": "/((?!builder\\.html$|rqap\\.html$|teacher-studio/|video-previews/|preview|assets/|favicon\\.ico|robots\\.txt|_vercel/).*)",
       "destination": "/index.html"
     }
   ],
