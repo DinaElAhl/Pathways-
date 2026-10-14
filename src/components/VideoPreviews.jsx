@@ -10,7 +10,7 @@ export default function VideoPreviews() {
         <source src={import.meta.env.BASE_URL+v.video} type="video/mp4" />
         Your browser cannot play this video. <a href={import.meta.env.BASE_URL+v.video}>Open the lesson</a>.
       </video>
-      <div className="p-6"><p className="text-sm font-semibold text-brand-700">Free preview · {v.duration}</p><h3 className="mt-2 text-2xl font-bold">{v.title}</h3><p className="mt-3 text-slate-700 leading-relaxed">{v.description}</p><a className="mt-4 inline-block link text-sm" href={import.meta.env.BASE_URL+v.video}>Open video in a new page ↗</a></div>
+      <div className="p-6"><p className="text-sm font-semibold text-brand-700">Full HD · Free preview · {v.duration}</p><h3 className="mt-2 text-2xl font-bold">{v.title}</h3><p className="mt-3 text-slate-700 leading-relaxed">{v.description}</p><a className="mt-4 inline-block link text-sm" href={import.meta.env.BASE_URL+v.video}>Open video in a new page ↗</a></div>
     </article>)}</div>
     <p className="mt-6 text-sm text-slate-600">These two videos are free. Further recorded Level C lessons will be offered separately; course purchase is not available yet.</p>
   </section>
