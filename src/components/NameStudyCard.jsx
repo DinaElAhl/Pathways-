@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './nameFlashcards.css'
+import NameQuranText from './NameQuranText.jsx'
 
 export function nameReferences(ayah) {
   const refs = []
@@ -31,6 +32,7 @@ export default function NameStudyCard({ n, defaultOpen = false }) {
       <span className="roots-name-method-tags"><span>1 · Manifestation</span><span>2 · Tafakkur</span><span>3 · Akhlāq</span></span><span className="roots-name-turn">{open?'Close reflection ↑':'Open the three Roots steps ↓'}</span>
     </button>
     {open && <div className="roots-name-back px-4 pb-5 space-y-5 border-t border-brand-100 pt-4">
+      <NameQuranText name={n.transliteration} />
       <div>
         <h3 className="text-sm font-semibold text-brand-800">Begin with the Qur’an · ابدأ بالقرآن</h3>
         <div className="flex flex-wrap gap-2 mt-2">{nameReferences(n.ayah).map(ref => <a key={ref} href={`https://quran.com/${ref.replace(':','/')}`} target="_blank" rel="noopener noreferrer" className="link text-sm">Read {ref} ↗</a>)}</div>
