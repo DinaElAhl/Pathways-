@@ -1,0 +1,8 @@
+.roots-level-theme { color: var(--level-ink); background: var(--level-bg); border-color: var(--level-accent); }
+.roots-level-header { display:flex; align-items:center; gap:1rem; padding:1.25rem 1.5rem; }
+.roots-level-badge { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; width:3.5rem; height:3.5rem; border-radius:1.2rem; background:var(--level-badge); color:var(--level-ink); font-size:2rem; font-weight:600; }
+.roots-level-theme .roots-activity { background:#fffbee; border-color:var(--level-accent); }
+.roots-level-theme .roots-activity .btn-primary, .roots-level-theme .roots-activity .btn-secondary { background:var(--level-badge); color:var(--level-ink); border-color:var(--level-accent); }
+.roots-level-theme .roots-answer-option { background:var(--level-bg); border-color:var(--level-accent); }
+.roots-level-theme .roots-answer-option:hover { background:var(--level-accent); }
+.roots-level-theme .roots-activity-feedback { background:var(--level-bg); }

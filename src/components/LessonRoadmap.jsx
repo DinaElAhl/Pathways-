@@ -1,4 +1,6 @@
 import { recordedLevels, levelCLessons } from '../data/lessonRoadmap.js'
+import { levelThemeStyle } from '../data/levelThemes.js'
+import './LevelTheme.css'
 
 export default function LessonRoadmap() {
   return (
@@ -6,12 +8,12 @@ export default function LessonRoadmap() {
       <div className="mx-auto max-w-3xl text-center">
         <span className="chip">Your learning journey · رحلة التعلّم</span>
         <h2 id="lesson-plan-title" className="mt-4 font-display text-3xl sm:text-4xl font-bold">Little steps. Growing confidence.</h2>
-        <p className="mt-4 text-slate-600">A recorded Arabic and Qur’an series for non-native children, with pictures, listening and time to try. Start at C, then grow towards B and A.</p>
+        <p className="mt-4 text-slate-600">An Arabic learning path for non-native children of every background, with pictures, listening and time to try. Start at C, then grow towards B and A. Qur’an and Tajweed study is a separate pathway.</p>
       </div>
       <div className="mt-8 grid gap-5 md:grid-cols-3">
         {recordedLevels.map(item => (
-          <article key={item.level} className={`rounded-3xl p-6 text-slate-800 ${item.colour}`}>
-            <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-white font-display text-3xl font-bold" aria-label={`Level ${item.level}`}>{item.level}</span>
+          <article key={item.level} data-roadmap-level={item.level} style={levelThemeStyle(item.level)} className="roots-level-theme rounded-3xl border-2 p-6">
+            <span className="roots-level-badge font-display" aria-label={`Level ${item.level}`}>{item.level}</span>
             <p className="mt-4 text-xs font-semibold">{item.status}</p>
             <h3 className="mt-2 font-display text-2xl font-semibold">{item.title}</h3>
             <p lang="ar" dir="rtl" className="mt-2 text-lg">{item.arabic}</p>
