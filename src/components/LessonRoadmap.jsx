@@ -50,7 +50,7 @@ export default function LessonRoadmap() {
           ))}
         </ol>
       </details>
-      <p className="mx-auto mt-5 max-w-3xl text-center text-sm text-slate-600">This is the recorded-series roadmap, separate from school curriculum licenses. The Level C introduction, Lesson 1 and Level B introduction are public today. Level C Lesson 2 is a private draft; further videos and purchase details are not yet available. Progress depends on practice, not a fixed age or deadline.</p>
+      <p className="mx-auto mt-5 max-w-3xl text-center text-sm text-slate-600">This is the recorded-series roadmap, separate from school curriculum licenses. The ES-C introduction and Lesson 1, ES-B introduction and ES-A introduction are public today. Level C Lesson 2 is a private draft; further videos and purchase details are not yet available. Progress depends on practice, not a fixed age or deadline.</p>
     </section>
   )
 }

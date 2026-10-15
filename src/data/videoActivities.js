@@ -1,4 +1,14 @@
 export const videoActivities = {
+  'level-a-introduction': {
+    title: 'Ready to read and discover?',
+    description: 'A grown-up can read these aloud. Explore the ES-A learning routine together.',
+    questions: [
+      { prompt: 'What will we explore in ES-A?', choices: ['Short passages, useful words and their meanings', 'Only letter names'], answer: 0, explanation: 'ES-A brings reading skills together through short passages, everyday words and meaning.' },
+      { prompt: 'A word feels tricky. What can we do?', choices: ['Guess and rush ahead', 'Break it into smaller parts, replay and ask for help'], answer: 1, explanation: 'Take a small part at a time. Listen again and ask your teacher to guide you.' },
+      { prompt: 'Is Arabic reading a race?', choices: ['Yes — finish as fast as possible', 'No — practise carefully at your own pace'], answer: 1, explanation: 'Careful practice helps you grow. Understanding matters too.' },
+    ],
+    practice: 'Choose a familiar Arabic word with a teacher. Read it, explain its meaning, and draw a picture to match.',
+  },
   'level-b-introduction': {
     title: 'Ready for Level B?',
     description: 'A grown-up can read these aloud. Check the learning plan together; this is not a pronunciation test.',
