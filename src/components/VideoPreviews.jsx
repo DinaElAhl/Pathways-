@@ -12,7 +12,7 @@ export default function VideoPreviews() {
     <h2 id="free-video-title" className="mt-3 text-3xl sm:text-4xl font-bold">Your first Roots cartoon lessons</h2>
     <p className="mt-4 max-w-2xl text-slate-700">For children new to Arabic, with English guidance and Arabic sounds. Watch together, pause for a turn, and replay whenever you need.</p>
     <div className="mt-7 grid gap-6 lg:grid-cols-2">{videoPreviews.map(v=><article key={v.id} data-level={v.level} style={levelThemeStyle(v.level)} className="roots-level-theme rounded-3xl overflow-hidden border-2">
-      <header className="roots-level-header"><span className="roots-level-badge font-display" aria-label={`Level ${v.level}`}>{v.level}</span><div><p className="text-xs font-semibold tracking-wide">ROOTS · LEVEL {v.level}</p><p className="font-display text-xl font-semibold">{levelThemes[v.level].name}</p></div></header>
+      <header className="roots-level-header"><span className="roots-level-badge font-display" aria-label={`Level ${v.level}`}>{v.level}</span><div><p className="text-xs font-semibold tracking-wide">ROOTS · {v.track} · ELEMENTARY</p><p className="font-display text-xl font-semibold">{levelThemes[v.level].name}</p></div></header>
       <video className="block w-full aspect-video bg-slate-900" controls playsInline preload="metadata" poster={import.meta.env.BASE_URL+v.poster} aria-label={v.title} onError={()=>setErrors(previous=>({...previous,[v.id]:true}))} onPlay={e=>document.querySelectorAll('#watch video').forEach(other=>{if(other!==e.currentTarget)other.pause()})}>
         <source src={mobileVideo(v)} type="video/mp4" />
         Your browser cannot play this video. <a href={import.meta.env.BASE_URL+v.video}>Open the lesson</a>.
