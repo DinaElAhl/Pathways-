@@ -6,9 +6,9 @@ export const recordedLevels = [
 ]
 
 export const levelCLessons = [
-  { title: 'Welcome to the letter families', example: 'Listen → notice → try', status: 'Free now', available: true },
-  { title: 'Lesson 1 · The ب ت ث family', example: 'Same shape, different dots', status: 'Free now', available: true },
-  { title: 'Lesson 2 · The ج ح خ family', example: 'Explore where each sound comes from', status: 'Draft · under review' },
+  { title: 'Lesson 0 · Welcome to the letter families', example: 'Listen → notice → try', status: 'Free now', available: true },
+  { title: 'Level C · Lesson 1 · The ب ت ث family', example: 'Same shape, different dots', status: 'Free now', available: true },
+  { title: 'Level C · Lesson 2 · The ج ح خ family', example: 'Explore where each sound comes from', status: 'Draft · under review' },
   ...['د ذ', 'ر ز', 'س ش', 'ص ض', 'ط ظ', 'ع غ', 'ف ق'].map(letters => ({ title: `The ${letters} family`, example: 'Listen, copy and spot the difference', status: 'Planned' })),
   { title: 'Meet the remaining letters', example: 'ا ك ل م ن ه و ي · in small groups', status: 'Planned' },
   { title: 'Family games & review', example: 'Hear a sound, find its letter', status: 'Planned' },
