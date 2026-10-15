@@ -30,6 +30,7 @@ export default function RootsNames() {
           <p className="mt-3 max-w-3xl text-slate-700 leading-relaxed italic">{namesIntro.call}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to="/roots" className="btn-ghost">← Back to Roots</Link>
+            <button type="button" className="btn-primary" onClick={() => { setFocus(quranicNames[Math.floor(Math.random() * quranicNames.length)].transliteration); setQ(''); requestAnimationFrame(() => document.getElementById('name-focus')?.scrollIntoView({ behavior: 'smooth', block: 'center' })) }}>Explore one Name with me ✦</button>
           </div>
         </div>
       </section>
@@ -49,7 +50,7 @@ export default function RootsNames() {
         <div className="mt-8 flex items-center justify-between gap-3 flex-wrap">
           <div>
             <h2 className="text-2xl font-bold text-slate-900">{quranicNames.length} Qur’anic learning cards</h2>
-            <p className="text-sm text-slate-500">Selected Qur’anic Names and descriptions; some cards pair related Names. Open each colorful flashcard to explore Manifestation, Tafakkur and Akhlāq.</p>
+            <p className="text-sm text-slate-500">Selected Qur’anic Names and descriptions; some cards pair related Names. Open a card to notice, wonder and act, then try a meaning match.</p>
           </div>
           <input
             aria-label="Search Names in English or Arabic"

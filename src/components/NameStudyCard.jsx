@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './nameFlashcards.css'
 import NameQuranText from './NameQuranText.jsx'
+import NameLearningJourney from './NameLearningJourney.jsx'
 
 export function nameReferences(ayah) {
   const refs = []
@@ -38,14 +39,7 @@ export default function NameStudyCard({ n, defaultOpen = false }) {
         <div className="flex flex-wrap gap-2 mt-2">{nameReferences(n.ayah).map(ref => <a key={ref} href={`https://quran.com/${ref.replace(':','/')}`} target="_blank" rel="noopener noreferrer" className="link text-sm">Read {ref} ↗</a>)}</div>
         <p className="text-xs text-slate-500 mt-2">Read the surrounding verses and consult tafsir. The prompts below are teaching reflections.</p>
       </div>
-      {[
-        ['1. Manifestation', 'آثار الاسم في الخلق', n.manifestation],
-        ['2. Tafakkur', 'التفكّر', n.tafakkur],
-        ['3. Akhlāq — practise it', 'الأخلاق — طبّق ما تعلّمت', n.akhlaq],
-      ].map(([title, arabic, body], i) => <div key={title} className={'roots-name-step roots-name-step-'+i}>
-        <h3 className="text-sm font-semibold text-brand-800">{title} <span lang="ar" dir="rtl" className="font-arabic">· {arabic}</span></h3>
-        <p className="text-sm text-slate-800 mt-2 leading-relaxed">{body}</p>
-      </div>)}
+      <NameLearningJourney name={n} />
       <button type="button" onClick={copyLesson} className="btn-secondary text-sm">Copy this mini-lesson</button>
       <p role="status" className="text-xs text-slate-600">{copyStatus}</p>
     </div>}
