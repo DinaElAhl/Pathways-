@@ -1,6 +1,7 @@
 import { videoPreviews } from '../data/videoPreviews.js'
 import { useState } from 'react'
 import VideoActivity from './VideoActivity.jsx'
+import FreeLessonMaterials from './FreeLessonMaterials.jsx'
 import { levelThemes, levelThemeStyle } from '../data/levelThemes.js'
 import './LevelTheme.css'
 
@@ -22,6 +23,7 @@ export default function VideoPreviews() {
         <div className="mt-4 flex flex-wrap gap-4 text-sm"><a className="link" href={mobileVideo(v)}>Open mobile video ↗</a><a className="link" href={import.meta.env.BASE_URL+v.video}>Watch in Full HD ↗</a></div>
       </div>
       <VideoActivity lessonId={v.id} />
+      <FreeLessonMaterials lessonId={v.id} />
     </article>)}</div>
     <p className="mt-6 text-sm text-slate-600">Introductions are numbered Lesson 0 in each level. ES-C Lessons 0 and 1, ES-B Lesson 0 and ES-A Lesson 0 are free. Further recorded lessons will be offered separately; course purchase is not available yet.</p>
   </section>
