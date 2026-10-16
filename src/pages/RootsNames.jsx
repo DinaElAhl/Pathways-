@@ -1,3 +1,5 @@
+import RootsStoryArt from '../components/RootsStoryArt.jsx'
+import '../components/rootsStory.css'
 import RootsPodcast from '../components/RootsPodcast.jsx'
 import RootsMethodCards from '../components/RootsMethodCards.jsx'
 import NameStudyCard from '../components/NameStudyCard.jsx'
@@ -21,23 +23,26 @@ export default function RootsNames() {
 
   return (
     <>
-      <section className="bg-gradient-to-b from-amber-50/70 to-white">
-        <div className="container-page py-12 md:py-16">
-          <div className="text-xs uppercase tracking-wide text-amber-700 font-semibold">{namesIntro.eyebrow}</div>
-          <h1 className="mt-2 text-4xl md:text-5xl font-bold text-slate-900">{namesIntro.title}</h1>
-          <p className="mt-2 text-lg text-amber-700">{namesIntro.tagline}</p>
-          <p className="mt-5 max-w-3xl text-slate-700 leading-relaxed">{namesIntro.intro}</p>
-          <p className="mt-3 max-w-3xl text-slate-700 leading-relaxed italic">{namesIntro.call}</p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link to="/roots" className="btn-ghost">← Back to Roots</Link>
-            <button type="button" className="btn-primary" onClick={() => { setFocus(quranicNames[Math.floor(Math.random() * quranicNames.length)].transliteration); setQ(''); requestAnimationFrame(() => document.getElementById('name-focus')?.scrollIntoView({ behavior: 'smooth', block: 'center' })) }}>Explore one Name with me ✦</button>
+      <section className="roots-story-hero">
+        <div className="container-page roots-story-grid">
+          <div>
+            <span className="roots-story-kicker">Allah’s Names in the Qur’an · Roots reflections</span>
+            <h1 className="roots-story-title font-display">Begin with a Name.<br /><em>Let wonder grow.</em></h1>
+            <p className="roots-story-arabic font-arabic" lang="ar" dir="rtl">اقرأ، وتفكّر، واعمل بما تعلّمت.</p>
+            <p className="roots-story-copy">Read a Qur’anic reference. Notice something you usually pass by. Ask a deeper question—and carry one small act of goodness into your day.</p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <button type="button" className="btn-primary" onClick={() => { setFocus(quranicNames[Math.floor(Math.random() * quranicNames.length)].transliteration); setQ(''); requestAnimationFrame(() => document.getElementById('name-focus')?.scrollIntoView({ behavior: 'smooth', block: 'center' })) }}>Explore one Name with me ✦</button>
+              <a href="#names-library" className="btn-secondary">Choose a learning card ↓</a>
+            </div>
+            <div className="roots-story-path"><div><strong className="font-display">01 · Notice</strong><span>Manifestation · آثار الاسم</span></div><div><strong className="font-display">02 · Wonder</strong><span>Tafakkur · التفكّر</span></div><div><strong className="font-display">03 · Act</strong><span>Akhlāq · الأخلاق</span></div></div>
           </div>
+          <div><RootsStoryArt reflection /><p className="roots-story-note font-display">One Name. One thoughtful question.<br />One action to carry with you.</p></div>
         </div>
       </section>
 
       <section className="container-page py-10">
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
-          <h2 className="text-xl font-bold text-slate-900">How to use this list</h2>
+        <div className="roots-story-paper">
+          <h2 className="text-xl font-bold text-slate-900">A moment to notice. A reason to change.</h2>
           <p className="mt-2 text-slate-700 leading-relaxed">
             Every science is a window onto the Names of Allah. When you study a discipline, do not
             stop at the mechanism — ask which Name of Allah this phenomenon points to. Real success
@@ -45,9 +50,10 @@ export default function RootsNames() {
             knowledge shape your akhlāq, your gratitude, and your obedience.
           </p>
           <RootsMethodCards />
+          <details className="mt-6 rounded-xl bg-white/70 p-4 text-sm text-slate-700"><summary className="cursor-pointer font-semibold">About these reflections · عن هذه التأمّلات</summary><p className="mt-3 leading-relaxed">{namesIntro.intro}</p><p className="mt-2">{namesIntro.call}</p><Link to="/curriculum/sources" className="mt-3 inline-block underline">Explore curriculum sources →</Link></details>
         </div>
 
-        <div className="mt-8 flex items-center justify-between gap-3 flex-wrap">
+        <div id="names-library" className="mt-8 flex items-center justify-between gap-3 flex-wrap scroll-mt-24">
           <div>
             <h2 className="text-2xl font-bold text-slate-900">{quranicNames.length} Qur’anic learning cards</h2>
             <p className="text-sm text-slate-500">Selected Qur’anic Names and descriptions; some cards pair related Names. Open a card to notice, wonder and act, then try a meaning match.</p>

@@ -1,0 +1,17 @@
+.roots-story-hero{background:#fffbee;position:relative;overflow:hidden;color:#365f3d}
+.roots-story-grid{display:grid;gap:2rem;align-items:center;padding-top:4rem;padding-bottom:4rem}
+.roots-story-kicker{display:inline-flex;align-items:center;gap:.6rem;font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.roots-story-kicker:before{content:'';width:.65rem;height:.65rem;border-radius:50%;background:#e9a497}
+.roots-story-title{font-size:clamp(2.7rem,5.5vw,4.8rem);line-height:1.08;letter-spacing:-.035em;font-weight:600;margin-top:1.3rem}
+.roots-story-title em{font-style:normal;background:linear-gradient(transparent 62%,#edcd6280 62%);padding-right:.12em}
+.roots-story-arabic{font-size:1.8rem;line-height:1.7;margin-top:1rem;color:#508457}
+.roots-story-copy{font-size:1.05rem;line-height:1.85;margin-top:1.4rem;max-width:38rem;color:#506650}
+.roots-story-art{display:block;width:100%;max-width:34rem;margin:auto;animation:roots-story-arrive .6s ease-out}
+.roots-story-note{position:relative;margin:-.5rem auto 0;max-width:23rem;transform:rotate(-2deg);background:#fbe1d7;padding:1rem 1.5rem;border-radius:1rem;text-align:center;font-size:1.1rem;color:#365f3d}
+.roots-story-path{display:grid;gap:1rem;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:1.8rem}
+.roots-story-path>div{border-top:3px solid #edcd62;padding-top:.9rem}.roots-story-path>div:nth-child(2){border-color:#abd19d}.roots-story-path>div:nth-child(3){border-color:#e9a497}
+.roots-story-path strong{font-size:1.1rem}.roots-story-path span{display:block;font-size:.8rem;color:#61735e;margin-top:.3rem}
+.roots-story-section{background:#fffdf7;padding:3.5rem 0}.roots-story-paper{border-radius:2rem;background:#e0f1e5;padding:clamp(1.5rem,4vw,3rem)}
+@media(min-width:900px){.roots-story-grid{grid-template-columns:1.12fr 1fr;gap:3rem}.roots-story-grid>div{min-width:0}}
+@media(max-width:600px){.roots-story-grid{padding-top:2.5rem;padding-bottom:2.5rem}.roots-story-art{max-width:25rem}.roots-story-path{gap:.6rem}.roots-story-arabic{font-size:1.5rem}}
+@media(prefers-reduced-motion:reduce){.roots-story-art{animation:none}}@keyframes roots-story-arrive{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
