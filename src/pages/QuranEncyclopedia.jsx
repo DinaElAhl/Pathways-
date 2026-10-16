@@ -4,6 +4,7 @@ import './quranEncyclopedia.css'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { encyclopedia, previewVerses } from '../data/quranEncyclopedia.js'
+import { encyclopediaCommerce, encyclopediaCheckoutReady } from '../data/encyclopediaCommerce.js'
 
 export default function QuranEncyclopedia() {
   const [showTransliteration, setShowTransliteration] = useState(true)
@@ -49,8 +50,10 @@ export default function QuranEncyclopedia() {
       <div className="rounded-3xl bg-brand-100 p-7 sm:p-10">
         <h2 className="text-3xl font-bold text-brand-800">Continue with the full encyclopedia</h2>
         <p className="mt-4 text-slate-700 max-w-2xl">The full EPUB includes all 114 surahs with Arabic text, transliteration, English translation, overviews, vocabulary, life applications and reflection questions. Read it in an EPUB-compatible reading app.</p>
-        {encyclopedia.checkoutUrl ? <a href={encyclopedia.checkoutUrl} className="btn-primary mt-6" target="_blank" rel="noopener noreferrer">Buy the full book{encyclopedia.price ? ` — ${encyclopedia.price}` : ''} →</a> : <p role="status" className="mt-6 inline-block rounded-full bg-white px-5 py-3 font-semibold text-brand-800">Purchase coming soon</p>}
+        <div className="mt-7 grid gap-4 md:grid-cols-3" aria-label="How paid book access will work">{encyclopediaCommerce.delivery.map((step, i) => <div key={step.title} className="rounded-2xl bg-white/80 p-5"><span className="font-display text-2xl text-brand-700">0{i + 1}</span><h3 className="mt-3 font-display text-lg font-semibold">{step.title}</h3><p className="mt-2 text-sm leading-relaxed text-slate-700">{step.text}</p></div>)}</div>
+        {encyclopediaCheckoutReady() ? <a href={encyclopediaCommerce.productUrl} className="btn-primary mt-6" target="_blank" rel="noopener noreferrer">Buy the full EPUB — {new Intl.NumberFormat('en', { style: 'currency', currency: encyclopediaCommerce.currency }).format(encyclopediaCommerce.price)} →</a> : <p role="status" className="mt-6 inline-block rounded-full bg-white px-5 py-3 font-semibold text-brand-800">Purchase coming soon · Not accepting payments yet</p>}
         <p className="mt-3 text-sm text-slate-600">The free sample is available now. The full book will be a paid digital edition.</p>
+        <p className="mt-3 text-sm text-slate-600">The EPUB is a downloadable book, not an online video course. Read it in an EPUB-compatible app. See our <Link to="/refund" className="underline">refund policy</Link> before buying.</p>
       </div>
     </section>
   </div>
