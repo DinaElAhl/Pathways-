@@ -1,85 +1,36 @@
 import PracticeCallout from '../components/PracticeCallout.jsx'
 import VideoPreviews from '../components/VideoPreviews.jsx'
 import LessonRoadmap from '../components/LessonRoadmap.jsx'
-import { useState } from 'react'
+import LearnerNextSteps from '../components/LearnerNextSteps.jsx'
 import { Link } from 'react-router-dom'
 import Icon from '../components/Icon.jsx'
 
-// Lead-magnet landing page — copy from Outreach_Pack_v1.md Section C.
-// Email capture is a mailto placeholder until Dina picks a newsletter tool
-// (ConvertKit / MailerLite / Beehiiv etc.). When she wires a real capture,
-// replace the <form> action with the tool's embed and drop the mailto.
-const ROOTS_EMAIL = 'roots@pathwayslearn.com'
-const MAILTO_SUBJECT = 'Free Roots Week 1 Sample Request'
-
+// Free resources are available immediately; email contact is optional.
 export default function FreeSample() {
-  const [email, setEmail] = useState('')
-  const [error, setError] = useState('')
-
-  const onSubmit = (e) => {
-    e.preventDefault()
-    setError('')
-    const trimmed = email.trim()
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
-      setError('Please enter a valid email address.')
-      return
-    }
-    const subject = encodeURIComponent(MAILTO_SUBJECT)
-    const body = encodeURIComponent(
-      `Assalamu alaikum,\n\nPlease send me the free Roots Week 1 sample pack.\n\nMy email: ${trimmed}\n\nJazakum Allahu khairan,\n`
-    )
-    window.location.href = `mailto:${ROOTS_EMAIL}?subject=${subject}&body=${body}`
-  }
-
   return (
     <div className="bg-white">
-      {/* Hero + email capture */}
+      {/* Immediate free access */}
       <section className="bg-gradient-to-b from-brand-50/80 to-white">
         <div className="container-page pt-16 pb-14 sm:pt-24 text-center">
           <span className="chip">Free for homeschool parents &amp; teachers</span>
           <h1 className="mt-5 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
             Teach your child their first{' '}
             <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-accent-500 bg-clip-text text-transparent">
-              Qur’anic Arabic
+              Arabic
             </span>{' '}
             reading lesson — free.
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
-            The Roots Week 1 sample pack: one full lesson, a teacher guide, and the student
-            worksheets. No credit card. Just tell me where to send it.
+            Watch the free lessons, try an activity, and open the matching guides and worksheets.
+            No email, account or credit card needed.
           </p>
 
-          {/* Email capture form */}
-          <a href="#watch" className="btn-secondary mt-6">Watch the free cartoon lessons ↓</a>
-          <a href="#lesson-plan" className="mt-4 block text-sm font-semibold text-brand-700 underline">See the series plan &amp; levels ↓</a>
-          <form
-            onSubmit={onSubmit}
-            noValidate
-            className="mx-auto mt-8 flex flex-col gap-3 max-w-xl sm:flex-row"
-          >
-            <label htmlFor="sample-email" className="sr-only">Email address</label>
-            <input
-              id="sample-email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              className={`min-w-0 flex-1 rounded-full border-0 bg-white px-5 py-3 text-sm text-slate-900 shadow-sm ring-1 ring-inset placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500 ${
-                error ? 'ring-rose-300' : 'ring-slate-200'
-              }`}
-            />
-            <button type="submit" className="btn-primary px-6 py-3 text-base whitespace-nowrap">
-              Send me the free lesson
-              <Icon name="arrowRight" className="ml-2 h-4 w-4" strokeWidth={2} />
-            </button>
-          </form>
-          {error && (
-            <p className="mt-2 text-xs text-rose-600" role="alert">{error}</p>
-          )}
-          <p className="mt-3 text-xs text-slate-500">
-            Composes an email to us — we send the pack back the same day.
-          </p>
+          <a href="#watch" className="btn-primary mt-6">Start the free lessons ↓</a>
+          <div className="mt-4 flex flex-wrap justify-center gap-4 text-sm font-semibold text-brand-700">
+            <a href={`${import.meta.env.BASE_URL}lesson-packs/lesson-1-worksheet.html`} className="underline">Open the first worksheet →</a>
+            <a href="#lesson-plan" className="underline">See the levels and lesson plan ↓</a>
+          </div>
+          <p className="mt-4 text-xs text-slate-600">Free lessons are open to everyone. Questions? Choose “Ask Roots” below.</p>
         </div>
       </section>
 
@@ -213,23 +164,8 @@ export default function FreeSample() {
         </div>
       </section>
 
-      {/* Bottom CTA — email capture again */}
-      <section className="container-page pb-24">
-        <div className="max-w-2xl mx-auto rounded-2xl border border-slate-200 bg-white p-6 sm:p-10 text-center">
-          <h3 className="font-display text-xl sm:text-2xl font-bold text-slate-900">
-            Ready to start?
-          </h3>
-          <p className="mt-2 text-sm text-slate-600">
-            One click, then check your inbox. No spam.
-          </p>
-          <a
-            href={`mailto:${ROOTS_EMAIL}?subject=${encodeURIComponent(MAILTO_SUBJECT)}`}
-            className="btn-primary mt-6 px-6 py-3 text-base"
-          >
-            Send me the free lesson
-          </a>
-        </div>
-      </section>
+      <LearnerNextSteps />
+
     </div>
   )
 }
