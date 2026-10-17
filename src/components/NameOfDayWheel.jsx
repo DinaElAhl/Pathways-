@@ -66,8 +66,8 @@ export default function NameOfDayWheel({ onExplore }) {
                 const words = name.transliteration.split(' wa ')
                 return <g key={name.transliteration} data-wheel-name={name.transliteration} data-petal-index={i}>
                   <path d={`M160 160L${start[0]} ${start[1]}A138 138 0 0 1 ${end[0]} ${end[1]}Z`} fill={colours[i]} stroke="#fffbee" strokeWidth="3" />
-                  <text x={x} y={y - 6} textAnchor="middle" fill="#365f3d" className="roots-petal-arabic" lang="ar" direction="rtl" fontSize={name.arabic.length > 18 ? 10 : 15}>{name.arabic}</text>
-                  <text textAnchor="middle" fill="#365f3d" className="roots-petal-english" fontSize={name.transliteration.length > 17 ? 8 : 10}>{words.map((word, line) => <tspan key={line} x={x} y={y + 12 + line * 11}>{word}</tspan>)}</text>
+                  <g className="roots-petal-label" style={{ transformOrigin: `${x}px ${y}px`, transform: `rotate(${-rotation}deg)` }}><text x={x} y={y - 6} textAnchor="middle" fill="#365f3d" className="roots-petal-arabic" lang="ar" direction="rtl" fontSize={name.arabic.length > 18 ? 10 : 15}>{name.arabic}</text>
+                  <text textAnchor="middle" fill="#365f3d" className="roots-petal-english" fontSize={name.transliteration.length > 17 ? 8 : 10}>{words.map((word, line) => <tspan key={line} x={x} y={y + 12 + line * 11}>{word}</tspan>)}</text></g>
                 </g>
               })}
               <circle cx="160" cy="160" r="138" fill="none" stroke="#365f3d" strokeWidth="2" />
@@ -98,3 +98,4 @@ export default function NameOfDayWheel({ onExplore }) {
     </div>
   </section>
 }
+
