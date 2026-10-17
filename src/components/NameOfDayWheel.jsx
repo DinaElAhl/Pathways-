@@ -7,14 +7,8 @@ import { simpleNameMissions } from '../data/simpleNameMissions.js'
 
 const colours = ['#edcd62', '#b6d6b8', '#f0b3a3', '#fff0b3', '#d8ebcf', '#fbe1d7']
 const point = angle => [160 + 138 * Math.cos(angle), 160 + 138 * Math.sin(angle)]
-function freshPetals() {
-  const pool = [...quranicNames]
-  for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]] }
-  return pool.slice(0, 6)
-}
-
 export default function NameOfDayWheel({ onExplore }) {
-  const [petals, setPetals] = useState(freshPetals)
+  const petals = quranicNames
   const [rotation, setRotation] = useState(0)
   const [spinning, setSpinning] = useState(false)
   const [selected, setSelected] = useState(null)
@@ -27,7 +21,7 @@ export default function NameOfDayWheel({ onExplore }) {
   function spin() {
     if (busy.current) return
     busy.current = true
-    setSpinning(true); setCopyStatus('')
+    setSpinning(true); setSelected(null); setCopyStatus('')
     const random = window.crypto?.getRandomValues ? window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296 : Math.random()
     const index = Math.floor(random * petals.length)
     const angle = 360 - (index + .5) * 360 / petals.length
@@ -60,24 +54,21 @@ export default function NameOfDayWheel({ onExplore }) {
               {petals.map((name, i) => {
                 const a = -Math.PI / 2 + i * 2 * Math.PI / petals.length
                 const b = a + 2 * Math.PI / petals.length
-                const mid = (a + b) / 2
                 const start = point(a); const end = point(b)
-                const x = 160 + 96 * Math.cos(mid); const y = 160 + 96 * Math.sin(mid)
-                const words = name.transliteration.split(' wa ')
-                return <g key={name.transliteration} data-wheel-name={name.transliteration} data-petal-index={i}>
-                  <path d={`M160 160L${start[0]} ${start[1]}A138 138 0 0 1 ${end[0]} ${end[1]}Z`} fill={colours[i]} stroke="#fffbee" strokeWidth="3" />
-                  <g className="roots-petal-label" style={{ transformOrigin: `${x}px ${y}px`, transform: `rotate(${-rotation}deg)` }}><text x={x} y={y - 6} textAnchor="middle" fill="#365f3d" className="roots-petal-arabic" lang="ar" direction="rtl" fontSize={name.arabic.length > 18 ? 10 : 15}>{name.arabic}</text>
-                  <text textAnchor="middle" fill="#365f3d" className="roots-petal-english" fontSize={name.transliteration.length > 17 ? 8 : 10}>{words.map((word, line) => <tspan key={line} x={x} y={y + 12 + line * 11}>{word}</tspan>)}</text></g>
+                const mid = (a + b) / 2
+                return <g key={name.transliteration} data-wheel-name={name.transliteration} data-petal-index={i} data-revealed={selected === name ? "true" : "false"}>
+                  <path d={`M160 160L${start[0]} ${start[1]}A138 138 0 0 1 ${end[0]} ${end[1]}Z`} fill={selected === name ? '#ffffff' : colours[i % colours.length]} stroke={selected === name ? '#365f3d' : '#fffbee'} strokeWidth={selected === name ? 2 : .7} />
+                  <circle cx={160 + 122 * Math.cos(mid)} cy={160 + 122 * Math.sin(mid)} r="1.6" fill="#365f3d" opacity=".45" />
                 </g>
               })}
               <circle cx="160" cy="160" r="138" fill="none" stroke="#365f3d" strokeWidth="2" />
             </svg>
-            <button type="button" className="roots-wheel-hub roots-wheel-spin" onClick={spin} disabled={spinning} aria-label="Spin the reflection wheel" aria-busy={spinning}><img src={`${import.meta.env.BASE_URL}brand/roots-sprout.svg`} alt="" /><span className="font-display">{spinning ? 'Turning…' : 'Spin ↻'}</span></button>
+            <button key={selected ? `reveal-${rotation}` : 'covered'} type="button" className={`roots-wheel-hub roots-wheel-spin ${selected ? 'roots-wheel-revealed' : ''}`} onClick={spin} disabled={spinning} aria-label={selected ? 'Spin again for another Name' : 'Spin the reflection wheel'} aria-busy={spinning}>
+              {selected ? <><span lang="ar" dir="rtl" className="roots-reveal-arabic">{selected.arabic}</span><span className="roots-reveal-name">{selected.transliteration}</span><span className="roots-reveal-again">Spin again ↻</span></> : <><img src={`${import.meta.env.BASE_URL}brand/roots-sprout.svg`} alt="" /><span className="font-display">{spinning ? 'Turning…' : 'Spin ↻'}</span></>}
+            </button>
           </div>
-          <p className="roots-wheel-garden-hint">{spinning ? 'A little pause. A moment to reflect.' : 'Tap the sprout. Follow one small thought.'}</p>
-          <button type="button" className="btn-secondary mt-4 min-h-12 text-sm" disabled={spinning} onClick={() => { setPetals(freshPetals()); setSelected(null); setRotation(0); setCopyStatus('') }}>Explore six other Names ↻</button>
-          <p className="mt-3 text-xs text-slate-600">Six readable petals at a time, drawn from {quranicNames.length} learning cards.</p>
-          <ul className="sr-only" aria-label="Names on this wheel">{petals.map(name => <li key={name.transliteration}>{name.transliteration}: {name.meaning}</li>)}</ul>
+          <p className="roots-wheel-garden-hint">{spinning ? 'All cards stay face down until the wheel stops…' : selected ? 'One Name revealed. One small step to try.' : 'Every Name is here, face down. Tap the sprout to reveal one.'}</p>
+          <p className="mt-3 text-xs text-slate-600">All {quranicNames.length} Names in our current learning collection are on every spin.</p>
         </div>
         <div className="roots-wheel-result" aria-live="polite" aria-busy={spinning}>
           {!selected ? <div className="roots-wheel-invitation"><span aria-hidden="true" className="font-display text-5xl text-brand-600">❧</span><h3 className="mt-4 font-display text-2xl font-semibold text-brand-900">Plant a little kindness.<br />Let it grow through your day.</h3><ol className="mt-5 space-y-4 text-sm text-slate-700"><li><strong>1 · Notice</strong><br />Read the Name, meaning and reference.</li><li><strong>2 · Think</strong><br />Let one thoughtful question stay with you.</li><li><strong>3 · Do</strong><br />Try one realistic action, then reflect on what changed.</li></ol></div> : <div className={spinning ? 'opacity-50' : ''}>
