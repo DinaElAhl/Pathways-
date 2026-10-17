@@ -1,4 +1,5 @@
 import RootsStoryArt from '../components/RootsStoryArt.jsx'
+import NameOfDayWheel from '../components/NameOfDayWheel.jsx'
 import '../components/rootsStory.css'
 import RootsPodcast from '../components/RootsPodcast.jsx'
 import RootsMethodCards from '../components/RootsMethodCards.jsx'
@@ -33,6 +34,7 @@ export default function RootsNames() {
             <div className="mt-7 flex flex-wrap gap-3">
               <button type="button" className="btn-primary" onClick={() => { setFocus(quranicNames[Math.floor(Math.random() * quranicNames.length)].transliteration); setQ(''); requestAnimationFrame(() => document.getElementById('name-focus')?.scrollIntoView({ behavior: 'smooth', block: 'center' })) }}>Explore one Name with me ✦</button>
               <a href="#names-library" className="btn-secondary">Choose a learning card ↓</a>
+              <a href="#name-of-day" className="btn-secondary">Spin for today’s reflection ↻</a>
             </div>
             <div className="roots-story-path"><div><strong className="font-display">01 · Notice</strong><span>Manifestation · آثار الاسم</span></div><div><strong className="font-display">02 · Wonder</strong><span>Tafakkur · التفكّر</span></div><div><strong className="font-display">03 · Act</strong><span>Akhlāq · الأخلاق</span></div></div>
           </div>
@@ -40,6 +42,7 @@ export default function RootsNames() {
         </div>
       </section>
 
+      <NameOfDayWheel onExplore={name => { setFocus(name); setQ(''); requestAnimationFrame(() => document.getElementById('name-focus')?.scrollIntoView({ behavior: 'smooth', block: 'center' })) }} />
       <section className="container-page py-10">
         <div className="roots-story-paper">
           <h2 className="text-xl font-bold text-slate-900">A moment to notice. A reason to change.</h2>
