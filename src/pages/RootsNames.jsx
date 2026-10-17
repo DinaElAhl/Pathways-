@@ -1,5 +1,6 @@
 import RootsStoryArt from '../components/RootsStoryArt.jsx'
 import NameOfDayWheel from '../components/NameOfDayWheel.jsx'
+import IqraLearning from '../components/IqraLearning.jsx'
 import '../components/rootsStory.css'
 import RootsPodcast from '../components/RootsPodcast.jsx'
 import RootsMethodCards from '../components/RootsMethodCards.jsx'
@@ -42,6 +43,7 @@ export default function RootsNames() {
         </div>
       </section>
 
+      <IqraLearning />
       <NameOfDayWheel onExplore={name => { setFocus(name); setQ(''); requestAnimationFrame(() => document.getElementById('name-focus')?.scrollIntoView({ behavior: 'smooth', block: 'center' })) }} />
       <section className="container-page py-10">
         <div className="roots-story-paper">
