@@ -1,3 +1,5 @@
+import { useSearchParams } from 'react-router-dom'
+import WorksheetShopPreview from '../components/WorksheetShopPreview.jsx'
 import EncyclopediaCallout from '../components/EncyclopediaCallout.jsx'
 import { shopBundle, shopLessons, shopAuthor } from '../data/shopProducts.js';
 
@@ -47,6 +49,8 @@ function BuyButtons({ payhipUrl, gumroadUrl, size = 'sm' }) {
 }
 
 export default function Shop() {
+  const [searchParams] = useSearchParams()
+  if (searchParams.get('preview') === 'worksheets') return <WorksheetShopPreview />
   return (
     <div className="bg-white">
       <EncyclopediaCallout />
