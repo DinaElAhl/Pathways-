@@ -46,3 +46,14 @@ test('a planned membership cannot offer a checkout or imply protected access is 
   assert.equal(toolsMembership.checkoutUrl, null)
   assert.ok(toolsMembership.freeTools.some(tool => tool.href === '/spelling-bee'))
 })
+
+test('membership tiers separate individual, team and school scope without enabling billing', () => {
+  assert.deepEqual(toolsMembership.plans.map(plan => plan.id), ['teacher', 'team', 'school'])
+  for (const plan of toolsMembership.plans) {
+    assert.equal(plan.monthlyPrice, null)
+    assert.ok(plan.benefits.length >= 3)
+    assert.ok(plan.scope && plan.boundary)
+  }
+  assert.equal(toolsMembership.plans.find(plan => plan.id === 'school').pricing, 'quote')
+  assert.equal(toolsMembership.checkoutUrl, null)
+})

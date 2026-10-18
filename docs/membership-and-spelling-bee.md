@@ -61,3 +61,11 @@ version intentionally makes no claim to have it already.
 Browser checks cover a wrong answer without automatic advancement, vowelled
 correction, retry scoring, repeated-letter tiles, Arabic audio, real timer
 expiry, omitted answers and a 390px mobile layout.
+
+## Differentiated membership proposal
+
+The public membership page separates individual teachers, small teaching businesses and schools. All tiers remain proposals: teacher and team monthly prices are unconfirmed; schools are quoted individually. The page provides voluntary email enquiries, not checkout or automatic mailing-list enrolment.
+
+Individual access proposes personal planning and saved progress. Team access proposes shared resources and an owner view. School access proposes agreed staff seats, reporting and onboarding. Seat counts, learner limits and support commitments must be agreed before launch. Existing free tools remain free; paid books, worksheet packs and curriculum licences are separate unless explicitly included in a final offer.
+
+Do not enable checkout until secure accounts, server-verified entitlements, recurring billing and cancellation/expiry handling are tested. The current E² pilot remains browser-local with manual file exchange.
