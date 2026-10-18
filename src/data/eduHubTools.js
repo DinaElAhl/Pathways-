@@ -1,4 +1,5 @@
 export const eduHubTools = [
+ { title:'Roots Spelling Bee',tagline:'Free level-based spelling challenges',description:'Hear Arabic, build or type vowelled words, see corrections and retry. Choose a Roots stage for untimed practice or a timed classroom round.',href:'/spelling-bee',cta:'Start a spelling round',color:'amber',rootsNote:'A starter bank for friendly practice. Teachers compare results manually; shared rankings are not active.' },
  { title:'Roots Play',tagline:'Free Arabic learning games',description:'Five free Arabic activities with instant feedback: letters, word building, listening, short vowels and everyday phrase meanings.',href:'/play',cta:'Play now',color:'emerald',rootsNote:'Practise together, then continue with a free Roots lesson.' },
   {
     title: 'E² Teacher Studio',

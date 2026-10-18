@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import ToolsMembershipCallout from '../components/ToolsMembershipCallout.jsx'
 
 // /tools — single-product feature page for Pathways for Teachers.
 //
@@ -58,6 +59,7 @@ const specs = [
 export default function Tools() {
   return (
     <>
+      <div className="container-page pt-20"><ToolsMembershipCallout /></div>
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div

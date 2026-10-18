@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import { eduHubTools } from '../data/eduHubTools.js'
+import ToolsMembershipCallout from '../components/ToolsMembershipCallout.jsx'
 
 const COLORS = {
   amber: 'ring-amber-200 bg-amber-50 text-amber-900',
@@ -49,10 +50,11 @@ export default function EduHub() {
         <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">Hub</p>
         <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mt-1">EduHub & Tools</h1>
         <p className="text-slate-700 mt-3">
-          Three focused tools for learning and teaching, all available here on Pathways.
+          Focused tools for learning and teaching, all available here on Pathways.
           Play, plan a lesson, build a learning path, or explore the Roots Method.
         </p>
       </header>
+      <ToolsMembershipCallout />
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {eduHubTools.filter(a => !a.hidden).map((a) => (

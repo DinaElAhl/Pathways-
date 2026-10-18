@@ -42,6 +42,8 @@ const CurriculumSources = lazy(() => import('./pages/CurriculumSources.jsx'))
 const CefrAlignment = lazy(() => import('./pages/CefrAlignment.jsx'))
 const LegalPage = lazy(() => import('./pages/LegalPage.jsx'))
 const Book = lazy(() => import('./pages/Book.jsx'))
+const SpellingBee = lazy(() => import('./pages/SpellingBee.jsx'))
+const ToolsMembership = lazy(() => import('./pages/ToolsMembership.jsx'))
 
 export default function App() {
   return (
@@ -71,6 +73,8 @@ export default function App() {
         <Route path="/quran-exams" element={<QuranExams />} />
         <Route path="/connect/:type" element={<EnquirySurvey/>} />
         <Route path="/play" element={<LearningGames />} />
+        <Route path="/spelling-bee" element={<SpellingBee />} />
+        <Route path="/membership" element={<ToolsMembership />} />
         <Route path="/rqap-exams" element={<RqapExams />} />
         <Route path="/pathways-exam" element={<PathwaysExam />} />
         <Route path="/exam-dashboard" element={<ExamDashboard />} />

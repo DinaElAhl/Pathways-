@@ -38,6 +38,8 @@ const moreGroups = [
     title: 'Learning & curriculum',
     links: [
       { to: '/free-sample', label: 'Free Sample' },
+      { to: '/spelling-bee', label: 'Spelling Bee' },
+      { to: '/membership', label: 'Teacher Membership' },
       { to: '/roots/names', label: 'Allah’s Names' },
       { to: '/roots/quran-encyclopedia', label: 'Quran Encyclopedia sample' },
       { to: '/curriculum/sources', label: 'Curriculum Sources' },
