@@ -1,7 +1,8 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { score } from '../api/score-rqap.js'
-import { QUESTIONS, WARMUP } from '../src/data/examData.js'
+import { WARMUP } from '../src/data/examData.js'
+import { NON_NATIVE_BANK as QUESTIONS } from '../server/nonNativeBank.js'
 
 const language = responses => score({ selectedTracks: { language: true }, responses })
 test('blank and malformed MCQ choices cannot receive option-zero credit', () => {

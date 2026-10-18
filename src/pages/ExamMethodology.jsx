@@ -1,3 +1,4 @@
+import AssessmentDevelopment from '../components/AssessmentDevelopment.jsx'
 import { Link } from 'react-router-dom'
 
 // Copy for /exam/methodology — verbatim from Credibility_Layer_Drafts.md §1.
@@ -29,7 +30,7 @@ export default function ExamMethodology() {
             <strong>RAQP — Roots Arabic Qur’an Proficiency</strong> (<Link to="/pathways-exam" className="link">/pathways-exam</Link>)
           </p>
           <p className="text-slate-700 leading-relaxed">
-            A written-language placement pilot with intended A1–B2 mappings. It samples vocabulary, grammar, and reading; it does not test listening, speaking, or extended writing.
+            A written-language placement pilot with intended A1–B2 mappings. It samples general-Arabic vocabulary, grammar in context and reading. Religious knowledge is not part of these scored forms. It does not test listening, speaking, or extended writing. Answer keys remain server-side; candidates can revisit and flag items, and no marking feedback is shown until the form ends.
           </p>
           <p className="text-slate-700 leading-relaxed mt-4">
             <strong>RQAP — Roots Qur’anic Arabic Proficiency, Level 2 Asasi</strong> (<a href="/rqap.html" className="link">/rqap.html</a>)
@@ -43,7 +44,7 @@ export default function ExamMethodology() {
 
         <section className="mt-8 rounded-xl bg-amber-50 p-5">
           <h2 className="text-xl font-bold">Demonstration limitations</h2>
-          <p className="mt-3 text-slate-700">RQAP contains 18 multiple-choice items, two writing tasks, and one recording task across both tracks. Writing marks currently use text length; recording marks use reported duration. These are completion proxies, not judgements of writing quality or tajweed accuracy. Demonstration scores must not be used as accredited proficiency evidence.</p>
+          <p className="mt-3 text-slate-700">RQAP contains 18 multiple-choice items, two writing tasks, and one recording task across both tracks. Writing demonstration marks currently use word count; recording demonstration marks use reported duration. Reports separately show objective knowledge, actual attempted counts and sections requiring human review. These are completion proxies, not judgements of writing quality or tajweed accuracy. Demonstration scores must not be used as accredited proficiency evidence.</p>
           <p className="mt-3 text-slate-700">Certification development requires qualified expert marking and second marking, scholarly specification of the recitation tradition, learner trials, validated cutoffs, fairness checks, secure attempts and issuance, and external review.</p>
           <a className="link" href="https://rm.coe.int/1680667a25" target="_blank" rel="noopener noreferrer">Council of Europe examination documentation</a>
         </section>
@@ -54,7 +55,7 @@ export default function ExamMethodology() {
             These are item-development goals; expert review and learner trials are needed to establish whether every item meets them:
           </p>
           <ul className="mt-4 space-y-2 text-slate-700 list-disc pl-6">
-            <li><strong>Anchored in a source.</strong> No manufactured content. Vocabulary comes from Qur’anic text; grammar comes from established Arabic grammar tradition (Nahw); Tajweed rules come from classical Tajweed sources.</li>
+            <li><strong>Anchored in a source.</strong> No manufactured content. The non-native written forms use general Arabic contexts. The separate Qur’anic Arabic and Tajweed pilot uses its stated religious-study domain. Source and content review remain necessary for both.</li>
             <li><strong>Reviewed for level-appropriateness.</strong> Each item is tagged to a target level (CEFR for RAQP, Roots track for RQAP) before it goes into the bank.</li>
             <li><strong>Free of giveaways.</strong> No question stem contains the answer verbatim. No two answer choices are duplicates or near-duplicates.</li>
             <li><strong>Culturally and religiously appropriate.</strong> No content that would trouble a Muslim family.</li>
@@ -159,6 +160,7 @@ export default function ExamMethodology() {
           </ul>
         </section>
 
+        <AssessmentDevelopment />
         <footer className="mt-14 pt-8 border-t border-slate-200 text-sm text-slate-600 italic">
           Questions about methodology? Email{' '}
           <a href="mailto:roots@pathwayslearn.com" className="link">roots@pathwayslearn.com</a>.

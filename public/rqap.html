@@ -1706,7 +1706,7 @@
         </div>
 
         <div class="panel-info">
-          <p class="small" style="margin-bottom: 0;"><strong>Important note about this demo:</strong> Constructed-response and audio-recorded items are graded by certified human raters in the live RQAP examination. In this demo, those items are auto-scored using simplified heuristics (length and engagement) and marked accordingly in your diagnostic. Your actual score in a live administration would reflect rater judgement against the full rubric.</p>
+          <p class="small" style="margin-bottom: 0;"><strong>Important note about this demo:</strong> Writing and recitation require qualified human assessment; a staffed, validated live examination is not established here. This demonstration uses word count and reported recording duration as completion proxies. They cannot judge writing quality, pronunciation or Tajweed accuracy. The demonstration result is not evidence of accredited proficiency.</p>
         </div>
 
         <div id="submission-status" class="panel-info" style="margin-top: 1rem;"></div>
@@ -1810,7 +1810,7 @@ const EXAM = {
       titleArabic: "المفردات والجذور",
       description: "Tests recognition of common Quranic vocabulary, ability to extract trilateral roots, and word families. All multiple-choice.",
       instructions: "Choose the single best answer for each item. There is no penalty for guessing. Each item is worth equal marks.",
-      items: 20,
+      items: 5,
       time: 25,
       weight: "20% of Track 1",
       itemsList: [
@@ -1872,7 +1872,7 @@ const EXAM = {
       titleArabic: "النحو والصرف",
       description: "Tests recognition of classical Arabic grammatical categories: verb tense and person, noun case, and particle function.",
       instructions: "Each item presents a grammatical analysis question based on a Juz 'Amma verse. Select the most accurate analysis.",
-      items: 15,
+      items: 4,
       time: 20,
       weight: "20% of Track 1",
       itemsList: [
@@ -1932,7 +1932,7 @@ const EXAM = {
       titleArabic: "فهم الآيات",
       description: "Tests reading comprehension across complete short surahs of Juz 'Amma — narrative, theological, and inferential understanding.",
       instructions: "Read each passage carefully before answering. Some questions test direct comprehension; others test thematic synthesis.",
-      items: 20,
+      items: 2,
       time: 40,
       weight: "30% of Track 1",
       itemsList: [
@@ -2000,7 +2000,7 @@ const EXAM = {
       titleArabic: "نظرية التجويد",
       description: "Tests theoretical knowledge of makharij, sifaat, rules of noon and meem sakinah, types of madd, qalqala, and waqf categories.",
       instructions: "All items are multiple-choice. Each item is worth equal marks; there is no penalty for guessing.",
-      items: 25,
+      items: 5,
       time: 25,
       weight: "40% of Track 2",
       itemsList: [
@@ -2065,7 +2065,7 @@ const EXAM = {
       titleArabic: "تطبيق التجويد",
       description: "Tests the ability to apply tajweed rules in context — identifying which rule operates in a given verse and classifying waqf points.",
       instructions: "Select the most accurate identification or classification for each scenario.",
-      items: 10,
+      items: 2,
       time: 20,
       weight: "25% of Track 2",
       itemsList: [
@@ -2826,11 +2826,19 @@ const App = (function() {
         <h4>${section.title}</h4>
         <div class="diag-item">
           <span class="lbl">Items attempted</span>
-          <span class="score-val">${sec.items}</span>
+          <span class="score-val">${sec.attempted ?? 0} / ${sec.items}</span>
         </div>
         <div class="diag-item">
           <span class="lbl">Score</span>
           <span class="score-val">${sec.earned} / ${sec.max} (${sec.pct.toFixed(1)}%)</span>
+        </div>
+        <div class="diag-item">
+          <span class="lbl">Evidence type</span>
+          <span class="score-val">${sec.markingStatus === 'human-review-required' ? 'Completion only · human review required' : 'Written knowledge only'}</span>
+        </div>
+        <div class="diag-item">
+          <span class="lbl">Objective questions correct</span>
+          <span class="score-val">${sec.objectiveCorrect ?? 0} / ${sec.objectiveTotal ?? 0}</span>
         </div>
         <div class="diag-item">
           <span class="lbl">Weight in track</span>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { SCHOOL_TYPES, LEVELS, QUESTIONS, WARMUP, calcScore, saveToSheets } from '../data/examData';
+import { SCHOOL_TYPES, LEVELS, QUESTIONS, WARMUP, saveToSheets } from '../data/examData';
 
 // ─── Global CSS (injected once) ───────────────────────────────────────────────
 const CSS = `
@@ -275,150 +275,36 @@ function PrepSummary({ level, xp, hearts, onStartExam, onRetryPrep }) {
 }
 
 // ─── Real Exam Screen (Duolingo-style full-focus) ─────────────────────────────
-function ExamScreen({ questions, level, schoolName, prepXp, onFinish }) {
+function ExamScreen({ questions, level, onFinish }) {
   const [current, setCurrent] = useState(0);
-  const [chosen,  setChosen]  = useState(null);
-  const [revealed, setRevealed] = useState(false);
-  const [answers,  setAnswers]  = useState([]);
-  const [examXp,   setExamXp]  = useState(prepXp||0);
-  const [xpAnim,   setXpAnim]  = useState(false);
-
+  const [choices, setChoices] = useState({});
+  const [flagged, setFlagged] = useState([]);
+  const [review, setReview] = useState(false);
+  const currentChoices = useRef(choices);
+  currentChoices.current = choices;
+  const submit = useCallback(() => onFinish(questions.map(q => ({ q: q.id, chosen: currentChoices.current[q.id] ?? null }))), [questions, onFinish]);
+  const timeLeft = useTimer(25 * 60, submit);
   const q = questions[current];
-  const total = questions.length;
-  const pct = (current/total)*100;
-  if (!q) { return null; }
-
-  const handleEnd = useCallback(() => {
-    // Preserve a submitted answer when time expires during its feedback screen.
-    const currentAnswer = revealed ? chosen : null;
-    onFinish([...answers, {q:q?.id, chosen:currentAnswer, correct:q?.opts?.[q?.answer]||'', passed:revealed && currentAnswer === q?.opts?.[q?.answer]}]);
-  }, [answers, q, chosen, revealed, onFinish]);
-
-  const timeLeft = useTimer(25*60, handleEnd);
-  const mm = Math.floor(timeLeft/60), ss = timeLeft%60;
-  const timerColor = timeLeft<120?'#ff4b4b':timeLeft<300?'#ffc800':'#777';
-
-  function pickAnswer(opt) { if (!revealed) setChosen(opt); }
-  function confirm() {
-    if (!chosen || revealed) return;
-    setRevealed(true);
-    if (chosen === (q.opts?.[q.answer]||"")) {
-      setExamXp(x=>x+15);
-      setXpAnim(true);
-      setTimeout(()=>setXpAnim(false),900);
-    }
-  }
-  function next() {
-    const rec = { q:q.id, chosen, correct:q.opts[q.answer], passed: chosen===q.opts[q.answer] };
-    const newAns = [...answers, rec];
-    if (current+1>=total) { onFinish(newAns); }
-    else {
-      setAnswers(newAns);
-      setCurrent(c=>c+1);
-      setChosen(null);
-      setRevealed(false);
-    }
-  }
-
-  const isCorrect = revealed && chosen===q.opts[q.answer];
-  const isWrong   = revealed && chosen!==q.opts[q.answer];
-
-  return (
-    <div style={{ minHeight:'100vh', background:'#fff', display:'flex', flexDirection:'column' }}>
-      {/* Top bar */}
-      <div style={{ display:'flex', alignItems:'center', padding:'14px 20px', gap:16, borderBottom:'2px solid #e5e5e5', position:'sticky', top:0, background:'#fff', zIndex:10 }}>
-        <div style={{ flex:1, background:'#e5e5e5', borderRadius:99, height:10, overflow:'hidden' }}>
-          <div style={{ width:pct+'%', background:'#58cc02', height:'100%', borderRadius:99, transition:'width 0.5s', minWidth: pct>0?8:0 }}/>
-        </div>
-        <div style={{ fontSize:12, fontWeight:800, color:timerColor, fontVariantNumeric:'tabular-nums' }}>
-          ⏱ {pad(mm)}:{pad(ss)}
-        </div>
-        <div style={{ fontSize:12, fontWeight:800, color:'#ff9600' }}>⚡ {examXp} XP</div>
-      </div>
-
-      {xpAnim && <div className="xp-float" style={{ position:'fixed', top:70, right:60, fontSize:18, fontWeight:900, color:'#58cc02', zIndex:100 }}>+15 XP</div>}
-
-      {/* Question body */}
-      <div style={{ flex:1, display:'flex', flexDirection:'column', maxWidth:640, margin:'0 auto', width:'100%', padding:'28px 20px 12px' }}>
-        <div style={{ fontSize:12, fontWeight:700, color:'#afafaf', marginBottom:6, textTransform:'uppercase', letterSpacing:1 }}>
-          Question {current+1} of {total}
-        </div>
-        <div style={{ fontSize:14, fontWeight:700, color:level.color, marginBottom:20 }}>
-          {level.arabic} ({level.cefr}) • Real Exam
-        </div>
-        <div style={{ fontSize: q.rtl?22:18, fontWeight:700, color:'#1f1f1f', direction:q.rtl?'rtl':'ltr', textAlign:q.rtl?'right':'left', lineHeight:1.7, marginBottom:28, animation:'popIn 0.25s ease' }}>
-          {q.q}
-        </div>
-                {q.visual && <div style={{ fontSize:80, textAlign:'center', margin:'0 0 16px', lineHeight:1.2, animation:'popIn 0.4s ease' }}>{q.visual}</div>}
-
-        <div style={{ display:'grid', gap:12 }}>
-          {q.opts.map((opt,i)=>{
-            let bg='#fff', border='#e5e5e5', color='#1f1f1f', shadow='0 4px 0 #e5e5e5', cls='duo-opt';
-            if (!revealed && opt===chosen) { bg='#ddf4ff'; border='#1cb0f6'; shadow='0 4px 0 #1cb0f6'; }
-            if (revealed) {
-              if (opt===q.opts[q.answer])                          { bg='#d7ffb8'; border='#58cc02'; color='#2d7a00'; shadow='0 4px 0 #3d9900'; cls+=' correct'; }
-                          else if (opt===chosen && opt!==q.opts[q.answer])   { bg='#ffdfe0'; border='#ff4b4b'; color='#8b0000'; shadow='0 4px 0 #c03030'; cls+=' wrong'; }
-            }
-            return (
-              <button key={i} onClick={()=>pickAnswer(opt)} className={cls} style={{
-                background:bg, border:`2px solid ${border}`, borderRadius:14, padding:'14px 18px',
-                textAlign:q.rtl?'right':'left', fontSize:q.rtl?18:15, direction:q.rtl?'rtl':'ltr',
-                cursor:revealed?'default':'pointer', color, fontWeight:600,
-                display:'flex', alignItems:'center', gap:12,
-                boxShadow:shadow, transform:'translateY(-2px)',
-              }}>
-                <span style={{ minWidth:28, height:28, borderRadius:8, border:`2px solid ${border}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:800, color:border, flexShrink:0 }}>
-                  {['A','B','C','D'][i]}
-                </span>
-                <span>{opt}</span>
-                {revealed && opt===q.opts[q.answer] && <span style={{ marginLeft:'auto', fontSize:16 }}>✅</span>}
-                            {revealed && opt===chosen && opt!==q.opts[q.answer] && <span style={{ marginLeft:'auto', fontSize:16 }}>❌</span>}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Bottom action */}
-      <div style={{ padding:'16px 20px', borderTop:'2px solid #e5e5e5', background: revealed?(isCorrect?'#d7ffb8':'#ffdfe0'):'#fff', transition:'background 0.3s', animation: revealed?'slideUp 0.3s ease':'' }}>
-        {revealed && (
-          <div style={{ maxWidth:640, margin:'0 auto 12px', display:'flex', alignItems:'flex-start', gap:12 }}>
-            <span style={{ fontSize:24 }}>{isCorrect?'🎊':'💪'}</span>
-            <div>
-              <div style={{ fontWeight:800, color:isCorrect?'#2d7a00':'#a00000', fontSize:15 }}>
-                {isCorrect ? 'Correct! ✨' : 'Correct answer:'}
-              </div>
-              {!isCorrect && <div style={{ fontSize:14, fontWeight:600, color:'#c00000', marginTop:2 }}>{q.opts?.[q.answer]||q.answer}</div>}
-              {q.explain && !isCorrect && <div style={{ fontSize:12, color:'#888', marginTop:4 }}>💡 {q.explain}</div>}
-            </div>
-          </div>
-        )}
-        <div style={{ maxWidth:640, margin:'0 auto' }}>
-          {!revealed ? (
-            <button onClick={confirm} disabled={!chosen} className="duo-btn" style={{
-              width:'100%', background: chosen?'#58cc02':'#e5e5e5', color: chosen?'#fff':'#afafaf',
-              border:'none', borderRadius:14, padding:'16px 0', fontSize:16, fontWeight:800,
-              cursor:chosen?'pointer':'default', boxShadow: chosen?'0 4px 0 #3d9900':'0 4px 0 #ccc',
-            }}>
-              Check Answer
-            </button>
-          ) : (
-            <button onClick={next} className="duo-btn" style={{
-              width:'100%', background:isCorrect?'#58cc02':'#ff4b4b', color:'#fff',
-              border:'none', borderRadius:14, padding:'16px 0', fontSize:16, fontWeight:800, cursor:'pointer',
-              boxShadow:isCorrect?'0 4px 0 #3d9900':'0 4px 0 #c03030',
-            }}>
-              {current+1>=total ? '🏁 Finish Exam' : 'Continue →'}
-            </button>
-          )}
-        </div>
-      </div>
+  const attempted = Object.keys(choices).length;
+  return <section className="container-page max-w-3xl py-8" aria-label="Scored Arabic placement form">
+    <div className="sticky top-16 z-10 rounded-2xl border border-brand-200 bg-white p-4">
+      <div className="flex flex-wrap items-center justify-between gap-3"><strong>Level {level.id} · Written-language pilot</strong><span role="timer" aria-label="Time remaining" className="font-semibold tabular-nums">{pad(Math.floor(timeLeft / 60))}:{pad(timeLeft % 60)}</span></div>
+      <p className="mt-2 text-sm text-slate-600">{attempted} of {questions.length} answered. Warm-up points do not affect the score. No answers are revealed during this form.</p>
     </div>
-  );
+    {review ? <div className="mt-6 rounded-3xl bg-[#fff0b3] p-6"><h2 className="font-display text-2xl">Review before submitting</h2><p className="mt-3">{questions.length - attempted} unanswered · {flagged.length} marked for review. Unanswered questions receive zero marks.</p><div className="mt-5 flex flex-wrap gap-3">{questions.map((item, i) => <button type="button" className="btn-secondary min-h-12" key={item.id} onClick={() => { setCurrent(i); setReview(false); }}>Question {i + 1}{choices[item.id] ? ' · answered' : ' · blank'}{flagged.includes(item.id) ? ' · review' : ''}</button>)}</div><button type="button" className="btn-primary mt-6 min-h-12" onClick={submit}>Submit {questions.length - attempted ? `with ${questions.length - attempted} unanswered` : 'this level'} →</button></div> : <>
+      <p className="mt-6 text-sm font-semibold text-brand-700">Question {current + 1} of {questions.length}</p>
+      <fieldset className="mt-3"><legend className="whitespace-pre-line text-right text-xl leading-loose text-slate-900" lang="ar" dir="rtl">{q.q}</legend>
+        {q.visual && <div aria-hidden="true" className="my-5 text-center text-6xl">{q.visual}</div>}
+        <div className="mt-6 grid gap-3">{q.opts.map((option, i) => <label key={option} className={`flex min-h-14 cursor-pointer items-center gap-4 rounded-2xl border-2 p-4 ${choices[q.id] === option ? 'border-brand-600 bg-brand-50' : 'border-brand-100 bg-white'}`}><input type="radio" name={q.id} checked={choices[q.id] === option} onChange={() => setChoices(previous => ({ ...previous, [q.id]: option }))} /><span className="text-sm text-slate-500">{String.fromCharCode(65 + i)}</span><span className="flex-1 text-right text-lg" lang="ar" dir="rtl">{option}</span></label>)}</div>
+      </fieldset>
+      <button type="button" className="mt-5 min-h-12 underline" aria-pressed={flagged.includes(q.id)} onClick={() => setFlagged(previous => previous.includes(q.id) ? previous.filter(id => id !== q.id) : [...previous, q.id])}>{flagged.includes(q.id) ? 'Marked for review · remove mark' : 'Mark for review'}</button>
+      <div className="mt-5 flex flex-wrap justify-between gap-3"><button type="button" disabled={current === 0} className="btn-secondary min-h-12 disabled:opacity-50" onClick={() => setCurrent(i => i - 1)}>← Previous</button><button type="button" className="btn-primary min-h-12" onClick={() => current + 1 === questions.length ? setReview(true) : setCurrent(i => i + 1)}>{current + 1 === questions.length ? 'Review answers →' : choices[q.id] ? 'Next →' : 'Skip for now →'}</button></div>
+    </>}
+  </section>;
 }
 
 // ─── Level Result (celebration / retry) ──────────────────────────────────────
-function LevelResult({ level, score, total, passed, xp, onNext, onRetry, isLast }) {
+function LevelResult({ level, score, total, passed, xp, onNext, onRetry, isLast, sections }) {
   const pct = Math.round((score/total)*100);
   return (
     <div style={{ minHeight:'100vh', background:'#fff', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'32px 20px', textAlign:'center' }}>
@@ -445,6 +331,8 @@ function LevelResult({ level, score, total, passed, xp, onNext, onRetry, isLast 
           <div style={{ fontSize:12, color:'#aaa', fontWeight:700 }}>{pct}%</div>
         </div>
       </div>
+
+      {sections && <div className="mb-6 w-full max-w-lg rounded-2xl border border-brand-200 bg-[#fffbee] p-5 text-left"><h3 className="font-display text-lg">Your written-skill evidence</h3>{Object.entries(sections).map(([key, section]) => <p key={key} className="mt-2 text-sm">{key === 'vocabulary' ? 'Vocabulary' : key === 'grammar' ? 'Grammar in context' : 'Reading'}: {section.correct}/{section.total} correct · {section.attempted} attempted</p>)}<p className="mt-3 text-xs leading-relaxed">A ten-question sample is limited evidence, not a complete language profile. Listening, speaking and extended writing still need separate assessment. Intended CEFR mappings are unvalidated.</p></div>}
 
       {/* XP earned */}
       <div style={{ display:'flex', gap:16, justifyContent:'center', marginBottom:32, flexWrap:'wrap' }}>
@@ -636,7 +524,7 @@ function WelcomeScreen({ onStart }) {
           لنبدأ → START EXAM
         </button>
         <p style={{ fontSize:12, color:'#777', marginTop:12 }}>For non-native Arabic speakers · للناطقين بغير العربية • 4 target levels • Intended A1–B2 mappings • Written-language placement pilot</p>
-        <p style={{ fontSize:12, color:'#777', lineHeight:1.6 }}>This exam does not assess listening, speaking, or extended writing. <Link to="/exam/methodology">Read the methodology and limitations.</Link></p>
+        <p style={{ fontSize:12, color:'#777', lineHeight:1.6 }}>This general-Arabic form does not assess religious knowledge, listening, speaking, or extended writing. You can revisit and flag questions before submitting; feedback is withheld until the form ends. <Link to="/exam/methodology">Read the methodology and limitations.</Link></p>
       </div>
     </div>
   );
@@ -723,6 +611,9 @@ export default function PathwaysExam() {
   const [levelResults,setLevelResults]= useState([]);
   const [prepResult,  setPrepResult]  = useState(null);  // { xp, hearts }
   const [totalXp,     setTotalXp]     = useState(0);
+  const [scoringError, setScoringError] = useState('');
+  const pendingAnswers = useRef([]);
+  const submitting = useRef(false);
 
   const level  = LEVELS[levelIndex];
   const school = SCHOOL_TYPES.find(s=>s.id===schoolType);
@@ -742,18 +633,28 @@ export default function PathwaysExam() {
   function handleStartExam() { setScreen('exam'); }
   function handleRetryPrep() { setScreen('prep'); }
 
-  function handleExamFinish(answers) {
-    const score = answers.filter(a => a.passed).length;
-    const passed = score >= 7;
-    const newResults = [...levelResults, { levelId: level.id, score, passed, answers }];
-    setLevelResults(newResults);
-    // Save to localStorage and Google Sheets
-    if (!passed || levelIndex+1>=LEVELS.length) {
-      const rd = { id:Date.now(), studentName, schoolType, finalLevel: passed?level.id:(levelIndex>0?LEVELS[levelIndex-1].id:null), date:new Date().toISOString(), levelResults:newResults, totalXp, passed };
-        saveResult(rd);
-        saveToSheets(rd);
-    }
-    setScreen('levelResult');
+  async function handleExamFinish(answers) {
+    if (submitting.current) return;
+    submitting.current = true;
+    pendingAnswers.current = answers;
+    setScoringError(''); setScreen('marking');
+    try {
+      const response = await fetch('/api/score-arabic', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ level: level.code, schoolType, answers }) });
+      if (!response.ok) throw new Error('Scoring service unavailable');
+      const body = await response.json();
+      if (!body.ok || !body.results) throw new Error('Invalid scoring response');
+      const marked = body.results;
+      const { score, passed } = marked;
+      const newResults = [...levelResults, { levelId: level.id, score, passed, answers: marked.answers, sections: marked.sections }];
+      setLevelResults(newResults);
+      if (!passed || levelIndex + 1 >= LEVELS.length) {
+        const rd = { id: Date.now(), studentName, schoolType, finalLevel: passed ? level.id : (levelIndex > 0 ? LEVELS[levelIndex - 1].id : null), date: new Date().toISOString(), levelResults: newResults, totalXp, passed };
+        saveResult(rd); saveToSheets(rd);
+      }
+      setScreen('levelResult');
+    } catch {
+      setScoringError('We could not reach the scoring service. Your answers are retained in this open page. Retry below; no local score has been invented.');
+    } finally { submitting.current = false; }
   }
 
   function handleLevelNext() {
@@ -776,7 +677,8 @@ export default function PathwaysExam() {
       {screen==='prep'        && <PrepScreen questions={warmupQs.length>0?warmupQs:qs} level={level} onDone={handlePrepDone} />}
       {screen==='prepSummary' && prepResult && <PrepSummary level={level} xp={prepResult.xp} hearts={prepResult.hearts} onStartExam={handleStartExam} onRetryPrep={handleRetryPrep} />}
       {screen==='exam'        && <ExamScreen questions={qs} level={level} schoolName={school?.label||''} prepXp={totalXp} onFinish={handleExamFinish} />}
-      {screen==='levelResult' && lastResult && <LevelResult level={level} score={lastResult.score} total={10} passed={lastResult.passed} xp={totalXp} onNext={handleLevelNext} onRetry={handleLevelRetry} isLast={!lastResult.passed||levelIndex+1>=LEVELS.length} />}
+      {screen==='marking' && <section className="container-page py-16 text-center" aria-live="polite"><h2 className="font-display text-2xl">{scoringError ? 'Answers waiting to be scored' : 'Scoring your written responses…'}</h2>{scoringError && <><p className="mx-auto mt-4 max-w-xl">{scoringError}</p><button type="button" className="btn-primary mt-6" onClick={() => handleExamFinish(pendingAnswers.current)}>Retry scoring →</button></>}</section>}
+      {screen==='levelResult' && lastResult && <LevelResult level={level} score={lastResult.score} total={10} sections={lastResult.sections} passed={lastResult.passed} xp={totalXp} onNext={handleLevelNext} onRetry={handleLevelRetry} isLast={!lastResult.passed||levelIndex+1>=LEVELS.length} />}
       {screen==='report'      && <FinalReport studentName={studentName} schoolType={schoolType} levelResults={levelResults} totalXp={totalXp} onRestart={handleRestart} />}
     </>
   );

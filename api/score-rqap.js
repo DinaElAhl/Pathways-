@@ -94,18 +94,23 @@ function scoreSection(sectionKey, responses, audio, itemResults) {
   const items = SECTIONS[sectionKey] || []
   let earned = 0
   let max = 0
+  let attempted = 0
+  let objectiveCorrect = 0
+  let objectiveTotal = 0
 
   for (const item of items) {
     const r = responses[item.id]
 
     if (item.type === 'mcq') {
       max += 1
+      objectiveTotal++
+      if (r && Number.isInteger(r.value) && r.value >= 0 && r.value <= 3) attempted++
       // Do not coerce null, false, or an empty string into option zero.
       const right = !!r && Number.isInteger(r.value) && r.value >= 0 && r.value <= 3 && r.value === ANSWER_KEY[item.id]
       // Reported back so the registrar submission keeps its existing shape.
       // It says whether the choice was right, never which choice was right.
       itemResults[item.id] = r ? (right ? 1 : 0) : null
-      if (right) earned += 1
+      if (right) { earned += 1; objectiveCorrect++ }
     } else if (item.type === 'essay') {
       // Heuristic stand-in for a human rater; capped at 4 of 5.
       max += 5
@@ -113,6 +118,7 @@ function scoreSection(sectionKey, responses, audio, itemResults) {
       // TODO: proper expert marking of writing before certification use.
       const text = typeof r?.value === 'string' ? r.value.trim() : ''
       const wc = text ? text.split(/\s+/u).length : 0
+      if (wc > 0) attempted++
       if (wc > 0) earned += round1(Math.min(1, wc / item.minWords) * 4)
     } else if (item.type === 'audio') {
       max += 5
@@ -122,6 +128,7 @@ function scoreSection(sectionKey, responses, audio, itemResults) {
       if (rec) {
         const dur = rec.durationSec
         if (!Number.isFinite(dur) || dur <= 0) continue
+        attempted++
         if (dur >= 20 && dur <= 90) earned += 4
         else if (dur >= 10) earned += 3
         else earned += 2
@@ -133,7 +140,9 @@ function scoreSection(sectionKey, responses, audio, itemResults) {
     earned: round1(earned),
     max,
     pct: max > 0 ? round1((earned / max) * 100) : 0,
-    items: items.length,
+    items: items.length, attempted, unanswered: items.length - attempted,
+    objectiveCorrect, objectiveTotal,
+    markingStatus: items.some(item => item.type !== 'mcq') ? 'human-review-required' : 'objective-knowledge-only',
   }
 }
 
@@ -177,9 +186,10 @@ function decideVerdict(tracks, trackScores) {
 }
 
 export function score(payload) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('Invalid attempt.')
   const tracks = {
-    language: !!(payload.selectedTracks && payload.selectedTracks.language),
-    tajweed: !!(payload.selectedTracks && payload.selectedTracks.tajweed),
+    language: payload.selectedTracks?.language === true,
+    tajweed: payload.selectedTracks?.tajweed === true,
   }
   if (!tracks.language && !tracks.tajweed) {
     throw new Error('No track selected.')
@@ -202,7 +212,7 @@ export function score(payload) {
     tajweed: tracks.tajweed ? scoreTrack('tajweed', sectionScores) : null,
   }
 
-  return { sectionScores, trackScores, sectionOrder, itemResults, ...decideVerdict(tracks, trackScores) }
+  return { sectionScores, trackScores, sectionOrder, itemResults, evidenceStatus: 'demonstration-only', pendingHumanSections: sectionOrder.filter(key => sectionScores[key].markingStatus === 'human-review-required'), ...decideVerdict(tracks, trackScores) }
 }
 
 export default async function handler(req, res) {

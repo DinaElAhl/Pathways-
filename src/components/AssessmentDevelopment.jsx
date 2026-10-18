@@ -1,0 +1,10 @@
+import { assessmentDevelopment, expertRubrics } from '../data/assessmentDevelopment.js'
+
+export default function AssessmentDevelopment() {
+  return <section className="mt-10 border-t border-brand-200 pt-8" aria-labelledby="assessment-evidence-title">
+    <h2 id="assessment-evidence-title" className="font-display text-2xl font-semibold text-brand-900">What the evidence can tell you</h2>
+    <div className="mt-5 space-y-5">{assessmentDevelopment.map(area => <article key={area.title} className="rounded-2xl border border-brand-200 bg-[#fffbee] p-5"><h3 className="font-display text-xl text-brand-900">{area.title}</h3><p className="mt-3 text-sm leading-relaxed text-slate-700"><strong>Implemented:</strong> {area.current}</p><p className="mt-3 text-sm leading-relaxed text-slate-700"><strong>Development work:</strong> {area.next}</p></article>)}</div>
+    <details className="mt-6 rounded-2xl bg-brand-50 p-5"><summary className="cursor-pointer font-semibold text-brand-900">Proposed expert-marking criteria</summary><p className="mt-3 text-sm text-slate-700">These criteria are a development outline, not a validated rubric or an automatic marking service. A rating scale, benchmark performances and rater training must be agreed before use.</p>{expertRubrics.map(rubric => <div key={rubric.skill} className="mt-4"><h3 className="font-semibold">{rubric.skill}</h3><ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-700">{rubric.criteria.map(criterion => <li key={criterion}>{criterion}</li>)}</ul></div>)}</details>
+    <p className="mt-5 text-sm leading-relaxed text-slate-600">Increasing question counts alone does not validate an assessment. Item trials, defensible standards, trained marking, accessibility checks and independent review are still needed. See the <a href="https://www.coe.int/en/web/common-european-framework-reference-languages/tests-and-examinations" target="_blank" rel="noopener noreferrer" className="underline">Council of Europe examination guidance</a> and <a href="https://www.alte.org/Materials" target="_blank" rel="noopener noreferrer" className="underline">ALTE assessment materials</a>.</p>
+  </section>
+}
