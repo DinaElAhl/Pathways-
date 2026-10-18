@@ -1,102 +1,138 @@
-// Review samples only; never place full paid packs in public assets.
+// Free samples only. Full paid PDFs must remain in the checkout provider, never public assets.
 export const worksheetOffers = [
   {
     "track": "ES-C",
     "age": "ES",
     "level": "C",
     "worksheets": 22,
-    "pages": 31,
+    "pages": 43,
     "image": "assets/worksheet-previews/ES-C-sample.png",
     "sample": "assets/worksheet-previews/ES-C-sample.pdf",
     "price": null,
-    "checkoutUrl": null
+    "checkoutUrl": null,
+    "checkpoints": 6,
+    "currency": "USD",
+    "reviewApproved": false,
+    "deliveryVerified": false
   },
   {
     "track": "ES-B",
     "age": "ES",
     "level": "B",
     "worksheets": 12,
-    "pages": 19,
+    "pages": 25,
     "image": "assets/worksheet-previews/ES-B-sample.png",
     "sample": "assets/worksheet-previews/ES-B-sample.pdf",
     "price": null,
-    "checkoutUrl": null
+    "checkoutUrl": null,
+    "checkpoints": 3,
+    "currency": "USD",
+    "reviewApproved": false,
+    "deliveryVerified": false
   },
   {
     "track": "ES-A",
     "age": "ES",
     "level": "A",
     "worksheets": 12,
-    "pages": 19,
+    "pages": 25,
     "image": "assets/worksheet-previews/ES-A-sample.png",
     "sample": "assets/worksheet-previews/ES-A-sample.pdf",
     "price": null,
-    "checkoutUrl": null
+    "checkoutUrl": null,
+    "checkpoints": 3,
+    "currency": "USD",
+    "reviewApproved": false,
+    "deliveryVerified": false
   },
   {
     "track": "MS-C",
     "age": "MS",
     "level": "C",
     "worksheets": 22,
-    "pages": 31,
+    "pages": 43,
     "image": "assets/worksheet-previews/MS-C-sample.png",
     "sample": "assets/worksheet-previews/MS-C-sample.pdf",
     "price": null,
-    "checkoutUrl": null
+    "checkoutUrl": null,
+    "checkpoints": 6,
+    "currency": "USD",
+    "reviewApproved": false,
+    "deliveryVerified": false
   },
   {
     "track": "MS-B",
     "age": "MS",
     "level": "B",
     "worksheets": 12,
-    "pages": 19,
+    "pages": 25,
     "image": "assets/worksheet-previews/MS-B-sample.png",
     "sample": "assets/worksheet-previews/MS-B-sample.pdf",
     "price": null,
-    "checkoutUrl": null
+    "checkoutUrl": null,
+    "checkpoints": 3,
+    "currency": "USD",
+    "reviewApproved": false,
+    "deliveryVerified": false
   },
   {
     "track": "MS-A",
     "age": "MS",
     "level": "A",
     "worksheets": 12,
-    "pages": 19,
+    "pages": 25,
     "image": "assets/worksheet-previews/MS-A-sample.png",
     "sample": "assets/worksheet-previews/MS-A-sample.pdf",
     "price": null,
-    "checkoutUrl": null
+    "checkoutUrl": null,
+    "checkpoints": 3,
+    "currency": "USD",
+    "reviewApproved": false,
+    "deliveryVerified": false
   },
   {
     "track": "HS-C",
     "age": "HS",
     "level": "C",
     "worksheets": 22,
-    "pages": 31,
+    "pages": 43,
     "image": "assets/worksheet-previews/HS-C-sample.png",
     "sample": "assets/worksheet-previews/HS-C-sample.pdf",
     "price": null,
-    "checkoutUrl": null
+    "checkoutUrl": null,
+    "checkpoints": 6,
+    "currency": "USD",
+    "reviewApproved": false,
+    "deliveryVerified": false
   },
   {
     "track": "HS-B",
     "age": "HS",
     "level": "B",
     "worksheets": 12,
-    "pages": 19,
+    "pages": 25,
     "image": "assets/worksheet-previews/HS-B-sample.png",
     "sample": "assets/worksheet-previews/HS-B-sample.pdf",
     "price": null,
-    "checkoutUrl": null
+    "checkoutUrl": null,
+    "checkpoints": 3,
+    "currency": "USD",
+    "reviewApproved": false,
+    "deliveryVerified": false
   },
   {
     "track": "HS-A",
     "age": "HS",
     "level": "A",
     "worksheets": 12,
-    "pages": 19,
+    "pages": 25,
     "image": "assets/worksheet-previews/HS-A-sample.png",
     "sample": "assets/worksheet-previews/HS-A-sample.pdf",
     "price": null,
-    "checkoutUrl": null
+    "checkoutUrl": null,
+    "checkpoints": 3,
+    "currency": "USD",
+    "reviewApproved": false,
+    "deliveryVerified": false
   }
 ]
