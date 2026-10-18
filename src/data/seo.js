@@ -25,6 +25,7 @@ const DEFAULT_DESCRIPTION =
 
 // Hand-written entries for every fixed route.
 export const staticSeo = {
+ '/e2-mini': { title: 'E² Mini LMS: classes, lessons and feedback pilot', description: 'Try the E² Mini LMS pilot: organise classes, lessons and assignments, exchange learner files and record feedback. Saved on this browser, with backup exports.' },
  '/spelling-bee': { title: 'Roots Spelling Bee: Arabic spelling challenges', description: 'Hear Arabic and build or type words in Roots spelling challenges. Choose an age group and stage, practise with corrections, or play a timed classroom round.' },
  '/membership': { title: 'Roots Teacher Membership: monthly tools plan', description: 'Explore the planned Roots monthly teacher membership and try the current free tools. Pricing, member access and recurring billing are not available yet.' },
  '/roots/quran-encyclopedia': { title: 'The Quran Encyclopedia: free sample', description: 'Explore an Al-Fatiha sample from The Quran Encyclopedia: Arabic verses, transliteration, English meanings and reflection. Discover the full 114-surah EPUB.' },

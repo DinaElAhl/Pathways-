@@ -44,6 +44,7 @@ const LegalPage = lazy(() => import('./pages/LegalPage.jsx'))
 const Book = lazy(() => import('./pages/Book.jsx'))
 const SpellingBee = lazy(() => import('./pages/SpellingBee.jsx'))
 const ToolsMembership = lazy(() => import('./pages/ToolsMembership.jsx'))
+const E2MiniLms = lazy(() => import('./pages/E2MiniLms.jsx'))
 
 export default function App() {
   return (
@@ -75,6 +76,7 @@ export default function App() {
         <Route path="/play" element={<LearningGames />} />
         <Route path="/spelling-bee" element={<SpellingBee />} />
         <Route path="/membership" element={<ToolsMembership />} />
+        <Route path="/e2-mini" element={<E2MiniLms />} />
         <Route path="/rqap-exams" element={<RqapExams />} />
         <Route path="/pathways-exam" element={<PathwaysExam />} />
         <Route path="/exam-dashboard" element={<ExamDashboard />} />

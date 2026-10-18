@@ -7,6 +7,7 @@ export const toolsMembership = {
   // and cancellation / expiry handling are working and verified.
   checkoutUrl: null,
   freeTools: [
+    { title: 'E² Mini LMS pilot', description: 'Organise classes, lessons and manual learner-file exchanges on this browser.', href: '/e2-mini', cta: 'Open the workspace' },
     { title: 'E² Teacher Studio', description: 'Use the current planning and assessment tools.', href: '/teacher-studio/index.html', static: true },
     { title: 'E² rubrics and reflection', description: 'Reflect on a lesson and choose your next step.', href: '/teacher-studio/e2-rubrics-assessment.html', static: true },
     { title: 'Roots Spelling Bee', description: 'Practise or run a timed classroom spelling challenge.', href: '/spelling-bee' },
