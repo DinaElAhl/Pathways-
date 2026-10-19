@@ -37,6 +37,7 @@ const moreGroups = [
   {
     title: 'Learning & curriculum',
     links: [
+      { to: '/activities', label: 'Activity Library' },
       { to: '/free-sample', label: 'Free Sample' },
       { to: '/spelling-bee', label: 'Spelling Bee' },
       { to: '/membership', label: 'Teacher Membership' },
@@ -275,3 +276,4 @@ export default function Navbar() {
     </nav>
   );
 }
+

@@ -25,6 +25,7 @@ const DEFAULT_DESCRIPTION =
 
 // Hand-written entries for every fixed route.
 export const staticSeo = {
+ '/activities': { title: 'Pathways classroom activity library', description: 'Find free classroom activities by age, subject, time and purpose. Run quizzes, sorting tasks, discussion prompts and brain breaks with practical teacher guides.' },
  '/e2-mini': { title: 'E² Mini LMS: classes, lessons and feedback pilot', description: 'Try the E² Mini LMS pilot: organise classes, lessons and assignments, exchange learner files and record feedback. Saved on this browser, with backup exports.' },
  '/spelling-bee': { title: 'Roots Spelling Bee: Arabic spelling challenges', description: 'Hear Arabic and build or type words in Roots spelling challenges. Choose an age group and stage, practise with corrections, or play a timed classroom round.' },
  '/membership': { title: 'Roots memberships for teachers, teams and schools', description: 'Explore proposed Roots memberships for teachers, small teaching businesses and schools. Compare plans and try free tools while paid access is being prepared.' },
@@ -272,3 +273,4 @@ function build(path, e) {
     noindex: !!e.noindex,
   }
 }
+

@@ -92,4 +92,6 @@
   <url><loc>https://www.pathwayslearn.com/spelling-bee</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.pathwayslearn.com/membership</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.pathwayslearn.com/e2-mini</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.pathwayslearn.com/activities</loc></url>
 </urlset>
+

@@ -54,6 +54,7 @@ export default function EduHub() {
           Play, plan a lesson, build a learning path, or explore the Roots Method.
         </p>
       </header>
+      <aside className="mb-6 rounded-2xl bg-amber-100 p-6"><h2 className="font-display text-2xl">What does your class need today?</h2><p className="my-3">Find free classroom activities by age, subject, purpose and time. Run them here, with corrections and teacher guidance.</p><Link className="btn-primary" to="/activities">Explore the Pathways activity library →</Link></aside>
       <ToolsMembershipCallout />
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -75,3 +76,4 @@ export default function EduHub() {
     </section>
   )
 }
+
