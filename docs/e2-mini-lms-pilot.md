@@ -69,3 +69,9 @@ The isolated browser check `.work/check-e2-mini.mjs` exercises the real forms,
 downloads, file imports, marking, feedback return, reload persistence, duplicate
 rejection, confirmed backup restore, quota failure and 390px mobile layout.
 Test records never use the visitor's existing browser workspace.
+
+## Completed gradebook and reporting
+
+The Overview now shows one gradebook row per current learner and assignment, using the latest imported response. Unreceived work, work awaiting review and an actual zero mark are distinct. Reviewed work keeps the maximum points from the pack originally sent, even if the assignment changes later.
+
+Teachers can download a UTF-8 CSV spreadsheet (with Arabic support and spreadsheet-formula neutralisation) or print the current class report, including feedback. Both operations run on the device and make no cloud, identity or accreditation claim.

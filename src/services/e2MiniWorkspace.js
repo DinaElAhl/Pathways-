@@ -152,3 +152,21 @@ export function workspaceProgress(workspace) {
   for (const response of workspace.submissions) latest.set(response.assignmentId + ':' + response.learnerCode, response)
   return { classes: workspace.classes.length, lessons: workspace.lessons.length, assignments: workspace.assignments.length, expected: workspace.assignments.reduce((sum, row) => sum + (workspace.classes.find(group => group.id === row.classId)?.codes.length || 0), 0), received: latest.size, reviewed: [...latest.values()].filter(row => row.score != null).length }
 }
+// One row per current learner and assignment; revisions use the latest response.
+export function classGradebook(workspace, classId) {
+  const classroom = workspace.classes.find(row => row.id === classId)
+  if (!classroom) return []
+  const latest = new Map()
+  for (const response of workspace.submissions) if (response.classId === classId) latest.set(response.assignmentId + ':' + response.learnerCode, response)
+  return workspace.assignments.filter(row => row.classId === classId).flatMap(assignment => classroom.codes.map(code => {
+    const response = latest.get(assignment.id + ':' + code)
+    const pack = response && workspace.issuedPacks.find(row => row.id === response.packId)
+    return { classTitle: classroom.title, learnerCode: code, assignment: pack?.assignment.title || assignment.title, dueDate: pack?.assignment.dueDate || assignment.dueDate, status: !response ? 'Not received' : response.score == null ? 'Needs review' : 'Reviewed', score: response?.score ?? '', maxPoints: pack?.assignment.maxPoints ?? assignment.maxPoints, feedback: response?.feedback || '' }
+  }))
+}
+export function gradebookCsv(rows) {
+  // Quote every cell and neutralise spreadsheet formulas in user-entered text.
+  const cell = value => '"' + String(typeof value === 'string' && /^[\s]*[=+@-]/.test(value) ? "'" + value : value).replaceAll('"', '""') + '"'
+  const keys = ['classTitle', 'learnerCode', 'assignment', 'dueDate', 'status', 'score', 'maxPoints', 'feedback']
+  return '\uFEFF' + [['Class', 'Learner code', 'Assignment', 'Due date', 'Status', 'Score', 'Maximum points', 'Feedback'], ...rows.map(row => keys.map(key => row[key]))].map(row => row.map(cell).join(',')).join('\r\n')
+}

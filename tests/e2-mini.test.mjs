@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { emptyWorkspace, validateWorkspace, saveClass, addClassCodes, saveLesson, saveAssignment, issueLearningPack, parseLearningPack, makeLearningResponse, acceptLearnerResponse, reviewSubmission, feedbackFile, parseFeedback, workspaceProgress, learnerCodes, resourceLink } from '../src/services/e2MiniWorkspace.js'
+import { emptyWorkspace, validateWorkspace, saveClass, addClassCodes, saveLesson, saveAssignment, issueLearningPack, parseLearningPack, makeLearningResponse, acceptLearnerResponse, reviewSubmission, feedbackFile, parseFeedback, workspaceProgress, learnerCodes, resourceLink, classGradebook, gradebookCsv } from '../src/services/e2MiniWorkspace.js'
 
 function fixture(ready = true) {
   let workspace = saveClass(emptyWorkspace(), { title: 'Pilot ES-C', subject: 'Arabic', group: 'ES', stage: 'C', codes: 'CODE01, CODE02' })
@@ -63,6 +63,8 @@ test('a new revision is counted once and requires a new review', () => {
   assert.equal(workspace.submissions.length, 2)
   assert.equal(workspaceProgress(workspace).received, 1)
   assert.equal(workspaceProgress(workspace).reviewed, 0)
+  assert.equal(classGradebook(workspace, workspace.classes[0].id)[0].status, 'Needs review')
+  assert.equal(classGradebook(workspace, workspace.classes[0].id)[0].score, '')
 })
 test('later edits do not change the prompt or points already sent to a learner', () => {
   let workspace = fixture()
@@ -107,3 +109,31 @@ test('adding codes preserves previous records and rejects impossible due dates',
   assert.throws(() => saveAssignment(workspace, { ...workspace.assignments[0], dueDate: '2026-02-31' }), /due date/)
   assert.throws(() => saveAssignment(workspace, { ...workspace.assignments[0], dueDate: 0 }), /due date/)
 })
+
+
+test('gradebook distinguishes unreceived, unreviewed and zero scores and retains issued maximum', () => {
+  let workspace = fixture()
+  const id = workspace.classes[0].id
+  assert.deepEqual(classGradebook(workspace, 'missing'), [])
+  assert.equal(classGradebook(workspace, id)[0].status, 'Not received')
+  const issued = issueLearningPack(workspace, workspace.assignments[0].id, 'CODE01')
+  workspace = acceptLearnerResponse(issued.workspace, makeLearningResponse(issued.pack, 'My answer'))
+  assert.equal(classGradebook(workspace, id)[0].status, 'Needs review')
+  workspace = reviewSubmission(workspace, workspace.submissions[0].id, 0, 'Practise again.')
+  workspace = saveAssignment(workspace, { ...workspace.assignments[0], maxPoints: 20 })
+  const rows = classGradebook(workspace, id)
+  assert.equal(rows[0].score, 0)
+  assert.equal(rows[0].maxPoints, 10)
+  assert.equal(rows[1].score, '')
+  assert.equal(rows[1].maxPoints, 20)
+})
+
+test('CSV preserves Arabic and punctuation and neutralises spreadsheet formulas', () => {
+  const csv = gradebookCsv([{ classTitle: '=HYPERLINK("bad")', learnerCode: 'CODE01', assignment: 'بَاب, "door"', dueDate: '', status: 'Reviewed', score: 0, maxPoints: 10, feedback: '@formula' }])
+  assert.ok(csv.startsWith('\uFEFF'))
+  assert.ok(csv.includes('بَاب, ""door""'))
+  assert.ok(csv.includes('"\'=HYPERLINK'))
+  assert.ok(csv.includes('"\'@formula"'))
+  assert.ok(csv.includes('"0","10"'))
+})
+
