@@ -38,6 +38,7 @@ const moreGroups = [
     title: 'Learning & curriculum',
     links: [
       { to: '/activities', label: 'Activity Library' },
+      { href: import.meta.env.BASE_URL + 'national/index.html', label: 'Roots National · المنهج المصري' },
       { to: '/free-sample', label: 'Free Sample' },
       { to: '/spelling-bee', label: 'Spelling Bee' },
       { to: '/membership', label: 'Teacher Membership' },
@@ -276,4 +277,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
 

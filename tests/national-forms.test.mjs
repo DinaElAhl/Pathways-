@@ -4,7 +4,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 const code=fs.readFileSync('docs/national/Code.gs','utf8')
 function service(){
- const tabs={Students:[Array(25).fill('Header')],Teachers:[Array(25).fill('Header')]};let counter=0;const props=new Map([['NATIONAL_SHEET_ID','private-sheet']]);
+ const tabs={Students:[Array(28).fill('Header')],Teachers:[Array(28).fill('Header')]};let counter=0;const props=new Map([['NATIONAL_SHEET_ID','private-sheet']]);
  const tab=name=>({getLastRow:()=>tabs[name].length,appendRow:row=>tabs[name].push(row),getRange:(r,c,n)=>({getValue:()=>tabs[name][r-1][c-1],createTextFinder:value=>({matchEntireCell:()=>({findNext:()=>{const i=tabs[name].findIndex((row,index)=>index>0&&row[c-1]===value);return i<0?null:{getRow:()=>i+1}}})})})});
  const context=vm.createContext({Date,JSON,Error,ContentService:{MimeType:{JSON:'json'},createTextOutput:s=>({setMimeType:()=>JSON.parse(s)})},PropertiesService:{getScriptProperties:()=>({getProperty:k=>props.get(k),setProperty:(k,v)=>props.set(k,v)})},LockService:{getScriptLock:()=>({waitLock(){},hasLock:()=>true,releaseLock(){}})},SpreadsheetApp:{openById:()=>({getSheetByName:tab}),flush(){}},Utilities:{formatDate:()=> '2026-11-04',getUuid:()=>`00000000-0000-4000-8000-${String(++counter).padStart(12,'0')}`}})
  vm.runInContext(code,context);return {post:d=>context.doPost({postData:{contents:JSON.stringify(d)}}),tabs,props}
@@ -15,3 +15,11 @@ test('rejects missing consent, invalid contact, bot field and unknown programmes
 test('teacher application stores safe links without per-session pay or uploaded files',()=>{const s=service();const data={...student,formType:'teacher',fullName:'=formula',role:'ثالثة ثانوي — لغة عربية',degree:'آداب عربي',years:'١–٣ سنوات',demoTopic:'Third secondary grammar',timeZone:'Africa/Cairo',videoLink:'https://example.com/demo',cvLink:'https://example.com/cv'};assert.equal(s.post(data).ok,true);assert.equal(s.tabs.Teachers[1][4],"'=formula");assert.equal(s.tabs.Teachers[1][21],data.videoLink);assert.equal(s.tabs.Teachers[1][22],data.cvLink);assert.equal(service().post({...data,videoLink:'javascript:bad'}).ok,false)})
 test('unconfigured backend never returns a saved receipt',()=>{const s=service();s.props.delete('NATIONAL_SHEET_ID');assert.equal(s.post(student).ok,false)})
 test('public forms fail closed and contain no payment placeholders',()=>{const js=fs.readFileSync('public/national/forms.js','utf8');assert.ok(!js.includes('no-cors\''));assert.ok(js.includes('receipt.requestId !== requestId'));assert.ok(js.includes('button.disabled = true'));for(const f of ['register','teachers']){const html=fs.readFileSync(`public/national/${f}.html`,'utf8');assert.ok(!/payRef|expectedRate|type="file"|data-success|yourname|PASTE_/.test(html));assert.ok(html.includes('disabled type="submit"'))}})
+
+
+test('each application goes only to its own sheet with matching schedule and timezone columns',()=>{
+ const s=service();assert.equal(s.post({...student,days:'الأحد، الخميس',time:'٦–٨ م',timeZone:'Asia/Dubai',scheduleNotes:'بعد السادسة بتوقيت القاهرة'}).ok,true);
+ assert.equal(s.tabs.Students[1][11],'الأحد، الخميس');assert.equal(s.tabs.Students[1][12],'٦–٨ م');assert.equal(s.tabs.Students[1][25],'Asia/Dubai');assert.equal(s.tabs.Teachers.length,1);
+ const d={...student,requestId:'22222222-2222-4222-8222-222222222222',formType:'teacher',fullName:'TEST TEACHER',role:'ثالثة ثانوي — لغة عربية',degree:'آداب عربي',years:'١–٣ سنوات',demoTopic:'النحو',videoLink:'https://example.com/demo',days:'السبت، الثلاثاء',availability:'٤–٦ م',timeZone:'Africa/Cairo'};
+ assert.equal(s.post(d).ok,true);assert.equal(s.tabs.Students.length,2);assert.equal(s.tabs.Teachers.length,2);assert.equal(s.tabs.Teachers[1][11],d.days);assert.equal(s.tabs.Teachers[1][20],d.availability);assert.equal(s.tabs.Teachers[1][25],d.timeZone);assert.equal(s.tabs.Teachers[1][27],d.demoTopic);
+})
