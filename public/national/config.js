@@ -1,2 +1,2 @@
-// Set only after deploying docs/national/Code.gs as a separate Google web app.
-window.ROOTS_CONFIG = { ENDPOINT: '' };
+// Owner-provided deployment. Buttons remain disabled unless the health check confirms readiness.
+window.ROOTS_CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbxL6xHLof360QvyIGtdLpA6VTNmRXbjXOnOIjjGgAuBL1KbpshRwKjrXT0s2alTtPgT/exec' };
