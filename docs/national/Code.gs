@@ -1,5 +1,5 @@
 /** Roots National only. Deploy separately; do not replace exam/certificate scripts. */
-const NATIONAL_HEADERS = ['Created', 'Request ID', 'Receipt', 'Type', 'Name', 'Email', 'WhatsApp', 'Grade / Role', 'Parent', 'School', 'Concern', 'Days', 'Times', 'Plan', 'Source', 'City', 'Degree', 'Experience', 'Stages', 'Tools', 'Availability', 'Demo URL', 'CV URL', 'Notes', 'Status'];
+const NATIONAL_HEADERS = ['Created', 'Request ID', 'Receipt', 'Type', 'Name', 'Email', 'WhatsApp', 'Grade / Role', 'Parent', 'School', 'Concern', 'Days', 'Times', 'Plan', 'Source', 'City', 'Degree', 'Experience', 'Stages', 'Tools', 'Availability', 'Demo URL', 'CV URL', 'Notes', 'Status', 'Applicant time zone', 'Schedule notes (Cairo)', 'Demo topic'];
 function setupNational() {
   const sheet = SpreadsheetApp.getActiveSpreadsheet();
   if (!sheet) throw new Error('Run from the new Roots National spreadsheet.');
@@ -41,6 +41,10 @@ function doPost(e) {
     const url = key => { const v = nationalText_(d[key] || '', key === 'videoLink' && teacher, 500); if (v && !/^https:\/\/[^\s]+$/i.test(v)) throw new Error('Invalid link'); return v; };
     const keys = ['parentName','schoolType','concern','days','time','plan','source','city','degree','years','stages','tools','availability'];
     const fields = keys.map(key => nationalText_(d[key] || '', false, 1000));
+    const zone = nationalText_(d.timeZone || 'Africa/Cairo', true, 80);
+    if (!/^[A-Za-z_+-]+\/[A-Za-z_+\/-]+$/.test(zone)) throw new Error('Invalid timezone');
+    const scheduleNotes = nationalText_(d.scheduleNotes || '', false, 500);
+    const demoTopic = nationalText_(d.demoTopic || '', teacher, 150);
     const notes = nationalText_(d.notes || '', false, 1000), demo = url('videoLink'), cv = url('cvLink');
     lock.waitLock(10000);
     const props = PropertiesService.getScriptProperties();
@@ -61,7 +65,7 @@ function doPost(e) {
     if (quota.day !== today) quota = { day:today, count:0 };
     if (quota.count >= 100) throw new Error('Daily capacity reached');
     const receipt = 'RN-' + Utilities.getUuid();
-    const row = [new Date(), d.requestId, receipt, d.formType, name,email,phone,group, ...fields.slice(0,7), ...fields.slice(7), demo,cv,notes,'New'];
+    const row = [new Date(), d.requestId, receipt, d.formType, name,email,phone,group, ...fields.slice(0,7), ...fields.slice(7), demo,cv,notes,'New',zone,scheduleNotes,demoTopic];
     book.getSheetByName(teacher ? 'Teachers' : 'Students').appendRow(row.map(nationalCell_));
     SpreadsheetApp.flush();
     quota.count++; props.setProperty('NATIONAL_DAILY',JSON.stringify(quota));

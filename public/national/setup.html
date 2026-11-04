@@ -1,5 +1,5 @@
 <!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>تفعيل استقبال طلبات Roots National</title><link rel="stylesheet" href="forms.css"></head><body><main class="wrap"><div class="hero"><h1>خطوة Google المطلوبة للتفعيل</h1><p>جهّزنا الموقع والصور. استقبال الطلبات مغلق إلى أن يُنشر السكريبت من حسابك ويُختبر.</p></div><fieldset><legend>١ · إنشاء سجل خاص</legend><p>افتحي <a href="https://sheets.new" target="_blank" rel="noopener">Google Sheet جديدًا</a> باسم Roots National Applications. لا تشاركيه للعامة. من Extensions اختاري Apps Script.</p></fieldset><fieldset><legend>٢ · نسخ الكود</legend><p>الصقي الكود التالي في المشروع الجديد فقط. لا تستبدلي كود الامتحانات. اختاري setupNational ثم Run، ووافقي على صلاحيات الحساب. سيُحذف سجل الطلب بعد ٩٠ يومًا بواسطة مهمة يومية.</p><button class="btn" id="copy">نسخ الكود</button><p id="notice" role="status"></p><textarea id="code" readonly dir="ltr" style="height:350px;font-family:monospace">/** Roots National only. Deploy separately; do not replace exam/certificate scripts. */
-const NATIONAL_HEADERS = ['Created', 'Request ID', 'Receipt', 'Type', 'Name', 'Email', 'WhatsApp', 'Grade / Role', 'Parent', 'School', 'Concern', 'Days', 'Times', 'Plan', 'Source', 'City', 'Degree', 'Experience', 'Stages', 'Tools', 'Availability', 'Demo URL', 'CV URL', 'Notes', 'Status'];
+const NATIONAL_HEADERS = ['Created', 'Request ID', 'Receipt', 'Type', 'Name', 'Email', 'WhatsApp', 'Grade / Role', 'Parent', 'School', 'Concern', 'Days', 'Times', 'Plan', 'Source', 'City', 'Degree', 'Experience', 'Stages', 'Tools', 'Availability', 'Demo URL', 'CV URL', 'Notes', 'Status', 'Applicant time zone', 'Schedule notes (Cairo)', 'Demo topic'];
 function setupNational() {
   const sheet = SpreadsheetApp.getActiveSpreadsheet();
   if (!sheet) throw new Error('Run from the new Roots National spreadsheet.');
@@ -41,6 +41,10 @@ function doPost(e) {
     const url = key =&gt; { const v = nationalText_(d[key] || '', key === 'videoLink' &amp;&amp; teacher, 500); if (v &amp;&amp; !/^https:\/\/[^\s]+$/i.test(v)) throw new Error('Invalid link'); return v; };
     const keys = ['parentName','schoolType','concern','days','time','plan','source','city','degree','years','stages','tools','availability'];
     const fields = keys.map(key =&gt; nationalText_(d[key] || '', false, 1000));
+    const zone = nationalText_(d.timeZone || 'Africa/Cairo', true, 80);
+    if (!/^[A-Za-z_+-]+\/[A-Za-z_+\/-]+$/.test(zone)) throw new Error('Invalid timezone');
+    const scheduleNotes = nationalText_(d.scheduleNotes || '', false, 500);
+    const demoTopic = nationalText_(d.demoTopic || '', teacher, 150);
     const notes = nationalText_(d.notes || '', false, 1000), demo = url('videoLink'), cv = url('cvLink');
     lock.waitLock(10000);
     const props = PropertiesService.getScriptProperties();
@@ -61,7 +65,7 @@ function doPost(e) {
     if (quota.day !== today) quota = { day:today, count:0 };
     if (quota.count &gt;= 100) throw new Error('Daily capacity reached');
     const receipt = 'RN-' + Utilities.getUuid();
-    const row = [new Date(), d.requestId, receipt, d.formType, name,email,phone,group, ...fields.slice(0,7), ...fields.slice(7), demo,cv,notes,'New'];
+    const row = [new Date(), d.requestId, receipt, d.formType, name,email,phone,group, ...fields.slice(0,7), ...fields.slice(7), demo,cv,notes,'New',zone,scheduleNotes,demoTopic];
     book.getSheetByName(teacher ? 'Teachers' : 'Students').appendRow(row.map(nationalCell_));
     SpreadsheetApp.flush();
     quota.count++; props.setProperty('NATIONAL_DAILY',JSON.stringify(quota));

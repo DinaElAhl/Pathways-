@@ -72,24 +72,24 @@
 
     <fieldset>
       <legend>٤ · الأوقات المتاحة</legend>
-      <span class="hint">الأوقات المتاحة:</span>
+      <aside class="privacy-note"><strong>كل الفترات التالية بتوقيت القاهرة — Africa/Cairo.</strong><p>هذه اختيارات للتوفر وليست مواعيد حصص أو مقابلات مؤكدة. لا نفترض فرق ساعات ثابتًا؛ قد يتغير مع التوقيت الصيفي.</p><p id="zoneClock"></p></aside><label>المنطقة الزمنية التي تقيم فيها<select name="timeZone" id="timeZone" required><option value="Africa/Cairo">القاهرة — مصر</option><option value="Asia/Riyadh">الرياض — السعودية</option><option value="Asia/Dubai">دبي — الإمارات</option><option value="Europe/London">لندن — بريطانيا</option><option value="America/New_York">نيويورك — الولايات المتحدة</option></select></label><label>أيام وأوقات أخرى مناسبة لك <small>اختياري — اكتبها بتوقيت القاهرة</small><textarea name="scheduleNotes" maxlength="500" placeholder="مثلًا: الثلاثاء والخميس، من ٦ إلى ٨ مساءً بتوقيت القاهرة"></textarea></label>
       <div class="choices">
-        <label class="choice"><input type="checkbox" name="availability" value="٤–٦ م"><span>٤–٦ مساءً</span></label>
-        <label class="choice"><input type="checkbox" name="availability" value="٦–٨ م"><span>٦–٨ مساءً</span></label>
-        <label class="choice"><input type="checkbox" name="availability" value="٨–١٠ م"><span>٨–١٠ مساءً</span></label>
+        <label class="choice"><input type="checkbox" name="availability" value="٤–٦ م"><span>٤–٦ مساءً · القاهرة</span></label>
+        <label class="choice"><input type="checkbox" name="availability" value="٦–٨ م"><span>٦–٨ مساءً · القاهرة</span></label>
+        <label class="choice"><input type="checkbox" name="availability" value="٨–١٠ م"><span>٨–١٠ مساءً · القاهرة</span></label>
         <label class="choice"><input type="checkbox" name="availability" value="عطلة نهاية الأسبوع"><span>الجمعة والسبت</span></label>
       </div>
     </fieldset>
 
     <fieldset>
-      <legend>٥ · عيّنة من شغلك</legend>
-      <label><span class="req">رابط فيديو قصير (٣–٥ دقائق) تشرح فيه أي قاعدة أو درس</span><input type="url" name="videoLink" pattern="https://.*" required dir="ltr" placeholder="https://drive.google.com/… أو YouTube (غير مدرج)"></label>
+      <legend>٥ · نموذج الشرح</legend><aside class="privacy-note"><strong>فيديو مسجّل من ٣ إلى ٥ دقائق، وليس اختبارًا مباشرًا بموعد محدد.</strong><ul><li>رابعة ابتدائي: اختر فكرة واحدة من العربي أو الدين أو الدراسات في منهج الصف الرابع. مثال: التمييز بين الاسم والفعل، أو قراءة خريطة بسيطة. اشرحها لطفل في هذا الصف.</li><li>تالتة ثانوي: اختر نقطة واحدة من النحو أو البلاغة أو فهم النص، مع مثال وسؤال تطبيقي يناسب طالب الثانوية العامة.</li><li>اذكر الصف والموضوع في البداية، ثم شرحًا مختصرًا، ومثالًا، وسؤالًا يكشف فهم الطالب. لا يلزم إظهار وجهك؛ يمكن تسجيل الشاشة أو السبورة.</li><li>لا تضع طلابًا حقيقيين أو بياناتهم في التسجيل. تأكد أن رابط الفيديو يسمح بالمشاهدة للإدارة، دون طلب كلمة مرور حسابك.</li></ul><p>نراجع دقة المادة، ووضوح الشرح، ومناسبة المستوى، وطريقة التحقق من الفهم. أي مقابلة أو عرض تدريس مباشر يُحدّد لاحقًا بتوقيت القاهرة؛ لا يوجد موعد اختبار مؤكد حاليًا.</p></aside><label><span class="req">عنوان الدرس والصف الذي تشرحه</span><input type="text" name="demoTopic" maxlength="150" required placeholder="مثلًا: رابعة ابتدائي — الاسم والفعل"></label>
+      <label><span class="req">رابط فيديو نموذج الشرح (٣–٥ دقائق)</span><input type="url" name="videoLink" pattern="https://.*" required dir="ltr" placeholder="https://drive.google.com/… أو YouTube (غير مدرج)"></label>
       <label>رابط السيرة الذاتية <small>اختياري — رابط HTTPS يمكن للإدارة فتحه</small><input type="url" name="cvLink" pattern="https://.*" dir="ltr" placeholder="https://…"></label>
       <label>حاجة تحب تضيفها <small>اختياري</small><textarea maxlength="1000" name="notes"></textarea></label>
       <label class="check"><input type="checkbox" name="consent" value="موافق" required><span class="req">أوافق على استخدام بياناتي لأغراض التوظيف في جذور فقط.</span></label>
     </fieldset>
 
-    <label class="hp" aria-hidden="true">اترك هذا الحقل فارغًا<input maxlength="120" type="text" name="website" tabindex="-1" autocomplete="off"></label><p class="privacy-note">يُقدّم ولي الأمر طلب الطالب. نستخدم البيانات لمراجعة الطلب والتواصل بشأنه، وتُحفظ في حساب Google الخاص بإدارة Roots. تُحذف الطلبات من هذا السجل بعد ٩٠ يومًا؛ يُوضح أي استخدام لاحق للمقبولين بشكل مستقل. لا نطلب رقمًا قوميًّا أو بيانات دفع. لطلب الوصول أو الحذف: roots@pathwayslearn.com. <a href="/privacy">سياسة الخصوصية</a></p><button class="btn" disabled type="submit">إرسال الطلب</button>
+    <label class="hp" aria-hidden="true">اترك هذا الحقل فارغًا<input maxlength="120" type="text" name="website" tabindex="-1" autocomplete="off"></label><p class="privacy-note">نستخدم البيانات لمراجعة الطلب والتواصل بشأنه، وتُحفظ في حساب Google الخاص بإدارة Roots. تُحذف الطلبات من هذا السجل بعد ٩٠ يومًا؛ يُوضح أي استخدام لاحق للمقبولين بشكل مستقل. لا نطلب رقمًا قوميًّا أو بيانات دفع. لطلب الوصول أو الحذف: roots@pathwayslearn.com. <a href="/privacy">سياسة الخصوصية</a></p><button class="btn" disabled type="submit">إرسال الطلب</button>
   </form>
 
   <p class="foot">جذور | Roots National · حصص أونلاين للمنهج المصري</p>

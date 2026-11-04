@@ -39,3 +39,6 @@ forms.forEach(form => {
     }
   } catch { status.textContent = 'استقبال الطلبات غير متاح الآن. لا تدخل بياناتك أو ترسل مبالغ. حاول لاحقًا.' }
 })();
+
+const zoneSelect=document.getElementById('timeZone');
+if(zoneSelect){const deviceZone=Intl.DateTimeFormat().resolvedOptions().timeZone;if(deviceZone&&![...zoneSelect.options].some(o=>o.value===deviceZone)){zoneSelect.add(new Option('منطقتك الحالية — '+deviceZone,deviceZone));}const update=()=>{const now=new Date();const fmt=zone=>new Intl.DateTimeFormat('ar-EG',{timeZone:zone,hour:'numeric',minute:'2-digit'}).format(now);document.getElementById('zoneClock').textContent='وقت القاهرة الآن: '+fmt('Africa/Cairo')+' · الوقت في منطقتك المختارة الآن: '+fmt(zoneSelect.value)+' (للمقارنة فقط، وليس موعدًا محجوزًا).';};zoneSelect.addEventListener('change',update);update();}
