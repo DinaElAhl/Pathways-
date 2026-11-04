@@ -1,7 +1,7 @@
 /** Roots National only. Deploy separately; do not replace exam/certificate scripts. */
 const NATIONAL_HEADERS = ['Created', 'Request ID', 'Receipt', 'Type', 'Name', 'Email', 'WhatsApp', 'Grade / Role', 'Parent', 'School', 'Concern', 'Days', 'Times', 'Plan', 'Source', 'City', 'Degree', 'Experience', 'Stages', 'Tools', 'Availability', 'Demo URL', 'CV URL', 'Notes', 'Status', 'Applicant time zone', 'Schedule notes (Cairo)', 'Demo topic'];
 function setupNational() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = SpreadsheetApp.openById('10pnQV5StS_PEOjlBq77YTt4R8I-tLfLTC7a22OamJ1A');
   if (!sheet) throw new Error('Run from the new Roots National spreadsheet.');
   PropertiesService.getScriptProperties().setProperty('NATIONAL_SHEET_ID', sheet.getId());
   ['Students', 'Teachers'].forEach(name => {
@@ -86,3 +86,4 @@ function purgeNational() {
     });
   } finally { lock.releaseLock(); }
 }
+
