@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سجّل الآن | جذور Roots National</title>
+<meta name="description" content="حصص أونلاين من البيت للمنهج المصري: رابعة ابتدائي عربي ودين ودراسات، وثالثة ثانوي لغة عربية.">
+
+
+<link rel="stylesheet" href="forms.css">
+<meta name="robots" content="noindex"><link rel="canonical" href="https://www.pathwayslearn.com/national/register.html"></head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="lockup" href="/"><img src="../brand/roots-sprout.svg" alt="شعار جذور"><span>Roots <i>|</i> <b>جذور</b></span></a>
+    <span class="tag">إطلاق</span>
+  </div>
+
+  <div class="hero">
+    <h1>منهجهم نفسه… <em>يبني هويتهم</em></h1>
+    <p>حصص أونلاين من البيت، من غير ما تنزل · عربي ودين ودراسات بمنهج الوزارة</p>
+  </div>
+
+  <p id="availability" class="notice" role="status">الفورم قيد التجهيز؛ استقبال الطلبات لم يُفعّل بعد. لا تدخل بياناتك أو ترسل أي مبالغ الآن.</p><div id="msg" class="msg" role="status" aria-live="polite"></div>
+
+  <form id="reg" novalidate data-label="إرسال التسجيل"
+        >
+
+    <fieldset>
+      <legend>١ · نوع التسجيل</legend>
+      <div class="cards">
+        <label class="card"><input type="radio" name="plan" value="طلب تشخيص" required checked><div><b>🎁 طلب تشخيص مبدئي</b><small>طلب لتحديد احتياجات الطالب؛ يُؤكد الموعد بعد مراجعة الطلب.</small></div></label>
+        <label class="card"><input type="radio" name="plan" value="اشتراك شهري"><div><b>📚 اشتراك شهري</b><small>طلب معرفة تفاصيل البرنامج الشهري والمواعيد المتاحة؛ لا يُطلب دفع الآن.</small></div></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>٢ · بيانات الطالب</legend>
+      <label><span class="req">الاسم الأول للطالب</span><input maxlength="120" type="text" name="studentName" required autocomplete="off"></label>
+      <div class="grid2">
+        <label><span class="req">الصف</span>
+          <select name="grade" required>
+            <option value="">اختر</option>
+            <option>رابعة ابتدائي</option>
+            <option>ثالثة ثانوي</option>
+          </select>
+        </label>
+        <label><span class="req">نوع المدرسة</span>
+          <select name="schoolType" required>
+            <option value="">اختر</option>
+            <option>حكومي</option><option>تجريبي</option><option>لغات / خاص</option><option>أزهري</option><option>أخرى</option>
+          </select>
+        </label>
+      </div>
+      <label>أكثر ما يقلقك في مستواه <small>اختياري</small><textarea maxlength="1000" name="concern" placeholder="مثلًا: الإملاء، النحو، الفهم، الحفظ…"></textarea></label>
+    </fieldset>
+
+    <fieldset>
+      <legend>٣ · بيانات ولي الأمر</legend>
+      <label><span class="req">اسم ولي الأمر</span><input maxlength="120" type="text" name="parentName" required autocomplete="name"></label>
+      <div class="grid2">
+        <label><span class="req">رقم الواتساب</span><input type="tel" name="whatsapp" required inputmode="tel" pattern="[0-9+ ]{10,16}" placeholder="01xxxxxxxxx" dir="ltr"></label>
+        <label><span class="req">الإيميل</span><input type="email" name="email" required autocomplete="email" dir="ltr"><small>البريد الخاص بولي الأمر لمتابعة الطلب</small></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>٤ · المواعيد المناسبة</legend>
+      <span class="hint">اختر كل ما يناسبك، ونفتح المجموعة على الموعد الأكثر طلبًا.</span>
+      <div class="choices">
+        <label class="choice"><input type="checkbox" name="days" value="السبت والثلاثاء"><span>السبت والثلاثاء</span></label>
+        <label class="choice"><input type="checkbox" name="days" value="الأحد والأربعاء"><span>الأحد والأربعاء</span></label>
+        <label class="choice"><input type="checkbox" name="days" value="الاثنين والخميس"><span>الاثنين والخميس</span></label>
+      </div>
+      <div class="choices">
+        <label class="choice"><input type="checkbox" name="time" value="٤–٦ م"><span>٤–٦ مساءً</span></label>
+        <label class="choice"><input type="checkbox" name="time" value="٦–٨ م"><span>٦–٨ مساءً</span></label>
+        <label class="choice"><input type="checkbox" name="time" value="٨–١٠ م"><span>٨–١٠ مساءً</span></label>
+      </div>
+    </fieldset>
+
+    <aside class="privacy-note">طلب الالتحاق لا يؤكد وجود مجموعة أو موعد بدء. لا يوجد دفع من خلال هذا الفورم. تُرسل التفاصيل النهائية بعد مراجعة الطلب.</aside>
+
+    <fieldset>
+      <label>عرفت جذور منين؟ <small>اختياري</small>
+        <select name="source"><option value="">اختر</option><option>إنستجرام</option><option>فيسبوك</option><option>واتساب</option><option>صديق / قريب</option><option>أخرى</option></select>
+      </label>
+      <label class="check"><input type="checkbox" name="consent" value="موافق" required><span class="req">أؤكد أنني ولي الأمر أو مخوّل بتقديم الطلب، وأوافق على حفظ هذه البيانات واستخدامها للتواصل بشأن التسجيل.</span></label>
+    </fieldset>
+
+    <label class="hp" aria-hidden="true">اترك هذا الحقل فارغًا<input maxlength="120" type="text" name="website" tabindex="-1" autocomplete="off"></label><p class="privacy-note">يُقدّم ولي الأمر طلب الطالب. نستخدم البيانات لمراجعة الطلب والتواصل بشأنه، وتُحفظ في حساب Google الخاص بإدارة Roots. تُحذف الطلبات من هذا السجل بعد ٩٠ يومًا؛ يُوضح أي استخدام لاحق للمقبولين بشكل مستقل. لا نطلب رقمًا قوميًّا أو بيانات دفع. لطلب الوصول أو الحذف: roots@pathwayslearn.com. <a href="/privacy">سياسة الخصوصية</a></p><button class="btn" disabled type="submit">إرسال التسجيل</button>
+  </form>
+
+  <p class="foot">جذور | Roots National · حصص أونلاين للمنهج المصري</p>
+</div>
+
+<script src="config.js"></script><script src="forms.js"></script></body>
+</html>
+

@@ -1,0 +1,85 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>تفعيل استقبال طلبات Roots National</title><link rel="stylesheet" href="forms.css"></head><body><main class="wrap"><div class="hero"><h1>خطوة Google المطلوبة للتفعيل</h1><p>جهّزنا الموقع والصور. استقبال الطلبات مغلق إلى أن يُنشر السكريبت من حسابك ويُختبر.</p></div><fieldset><legend>١ · إنشاء سجل خاص</legend><p>افتحي <a href="https://sheets.new" target="_blank" rel="noopener">Google Sheet جديدًا</a> باسم Roots National Applications. لا تشاركيه للعامة. من Extensions اختاري Apps Script.</p></fieldset><fieldset><legend>٢ · نسخ الكود</legend><p>الصقي الكود التالي في المشروع الجديد فقط. لا تستبدلي كود الامتحانات. اختاري setupNational ثم Run، ووافقي على صلاحيات الحساب. سيُحذف سجل الطلب بعد ٩٠ يومًا بواسطة مهمة يومية.</p><button class="btn" id="copy">نسخ الكود</button><p id="notice" role="status"></p><textarea id="code" readonly dir="ltr" style="height:350px;font-family:monospace">/** Roots National only. Deploy separately; do not replace exam/certificate scripts. */
+const NATIONAL_HEADERS = ['Created', 'Request ID', 'Receipt', 'Type', 'Name', 'Email', 'WhatsApp', 'Grade / Role', 'Parent', 'School', 'Concern', 'Days', 'Times', 'Plan', 'Source', 'City', 'Degree', 'Experience', 'Stages', 'Tools', 'Availability', 'Demo URL', 'CV URL', 'Notes', 'Status'];
+function setupNational() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet();
+  if (!sheet) throw new Error('Run from the new Roots National spreadsheet.');
+  PropertiesService.getScriptProperties().setProperty('NATIONAL_SHEET_ID', sheet.getId());
+  ['Students', 'Teachers'].forEach(name =&gt; {
+    let tab = sheet.getSheetByName(name);
+    if (!tab) tab = sheet.insertSheet(name);
+    if (!tab.getLastRow()) tab.appendRow(NATIONAL_HEADERS);
+    tab.setFrozenRows(1);
+  });
+  if (!ScriptApp.getProjectTriggers().some(t =&gt; t.getHandlerFunction() === 'purgeNational')) ScriptApp.newTrigger('purgeNational').timeBased().everyDays(1).create();
+}
+function nationalReply_(data) { return ContentService.createTextOutput(JSON.stringify(data)).setMimeType(ContentService.MimeType.JSON); }
+function doGet(e) {
+  const configured = !!PropertiesService.getScriptProperties().getProperty('NATIONAL_SHEET_ID');
+  return nationalReply_({ ok: configured &amp;&amp; e.parameter.action === 'status', service: 'roots-national-v1' });
+}
+function nationalText_(value, required, max) {
+  if (typeof value !== 'string' || value.length &gt; (max || 120) || (required &amp;&amp; !value.trim())) throw new Error('Invalid field');
+  return value.trim();
+}
+function nationalCell_(value) { return /^\s*[=+@-]/.test(String(value)) ? "'" + value : value; }
+function doPost(e) {
+  const lock = LockService.getScriptLock();
+  try {
+    if (!e.postData || e.postData.contents.length &gt; 18000) throw new Error('Invalid request');
+    const d = JSON.parse(e.postData.contents);
+    if (!['student', 'teacher'].includes(d.formType) || !/^[a-f0-9-]{36}$/i.test(d.requestId || '') || d.website || d.consent !== 'موافق') throw new Error('Invalid request');
+    const teacher = d.formType === 'teacher';
+    const name = nationalText_(teacher ? d.fullName : d.studentName, true);
+    const email = nationalText_(d.email, true, 254);
+    const phone = nationalText_(d.whatsapp, true, 20);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !/^[0-9+ ]{10,16}$/.test(phone)) throw new Error('Invalid contact details');
+    const group = nationalText_(teacher ? d.role : d.grade, true);
+    if (!(teacher ? ['رابعة ابتدائي — عربي ودين ودراسات','ثالثة ثانوي — لغة عربية'] : ['رابعة ابتدائي','ثالثة ثانوي']).includes(group)) throw new Error('Invalid programme');
+    const required = teacher ? ['degree','years','videoLink'] : ['parentName','schoolType','plan'];
+    required.forEach(key =&gt; nationalText_(d[key], true, 500));
+    if (!teacher &amp;&amp; !['طلب تشخيص','اشتراك شهري'].includes(d.plan)) throw new Error('Invalid plan');
+    const url = key =&gt; { const v = nationalText_(d[key] || '', key === 'videoLink' &amp;&amp; teacher, 500); if (v &amp;&amp; !/^https:\/\/[^\s]+$/i.test(v)) throw new Error('Invalid link'); return v; };
+    const keys = ['parentName','schoolType','concern','days','time','plan','source','city','degree','years','stages','tools','availability'];
+    const fields = keys.map(key =&gt; nationalText_(d[key] || '', false, 1000));
+    const notes = nationalText_(d.notes || '', false, 1000), demo = url('videoLink'), cv = url('cvLink');
+    lock.waitLock(10000);
+    const props = PropertiesService.getScriptProperties();
+    const sheetId = props.getProperty('NATIONAL_SHEET_ID');
+    if (!sheetId) throw new Error('Not configured');
+    const book = SpreadsheetApp.openById(sheetId);
+    // Check both tabs so retries cannot turn one request into two applications.
+    for (const name of ['Students','Teachers']) {
+      const tab = book.getSheetByName(name);
+      if (!tab) throw new Error('Run setupNational first');
+      if (tab.getLastRow() &gt; 1) {
+        const match = tab.getRange(2,2,tab.getLastRow()-1,1).createTextFinder(d.requestId).matchEntireCell(true).findNext();
+        if (match) return nationalReply_({ ok:true, requestId:d.requestId, receipt:tab.getRange(match.getRow(),3).getValue() });
+      }
+    }
+    const today = Utilities.formatDate(new Date(),'Africa/Cairo','yyyy-MM-dd');
+    let quota = JSON.parse(props.getProperty('NATIONAL_DAILY') || '{}');
+    if (quota.day !== today) quota = { day:today, count:0 };
+    if (quota.count &gt;= 100) throw new Error('Daily capacity reached');
+    const receipt = 'RN-' + Utilities.getUuid();
+    const row = [new Date(), d.requestId, receipt, d.formType, name,email,phone,group, ...fields.slice(0,7), ...fields.slice(7), demo,cv,notes,'New'];
+    book.getSheetByName(teacher ? 'Teachers' : 'Students').appendRow(row.map(nationalCell_));
+    SpreadsheetApp.flush();
+    quota.count++; props.setProperty('NATIONAL_DAILY',JSON.stringify(quota));
+    return nationalReply_({ ok:true, requestId:d.requestId, receipt });
+  } catch (error) { return nationalReply_({ ok:false, error:'Unable to confirm application. Please retry later.' }); }
+  finally { if (lock.hasLock()) lock.releaseLock(); }
+}
+function purgeNational() {
+  const lock = LockService.getScriptLock(); lock.waitLock(10000);
+  try {
+    const id = PropertiesService.getScriptProperties().getProperty('NATIONAL_SHEET_ID'); if (!id) return;
+    const cutoff = Date.now() - 90*24*60*60*1000;
+    const book = SpreadsheetApp.openById(id);
+    ['Students','Teachers'].forEach(name =&gt; {
+      const tab=book.getSheetByName(name); if (!tab || tab.getLastRow()&lt;2) return;
+      const rows=tab.getRange(2,1,tab.getLastRow()-1,1).getValues();
+      for(let i=rows.length-1;i&gt;=0;i--) if(rows[i][0] instanceof Date &amp;&amp; rows[i][0].getTime()&lt;cutoff) tab.deleteRow(i+2);
+    });
+  } finally { lock.releaseLock(); }
+}
+</textarea></fieldset><fieldset><legend>٣ · نشر الاستقبال</legend><p>Deploy → New deployment → Web app. Execute as: Me. Who has access: Anyone. انسخي رابط Web app المنتهي بـ /exec وأرسليه هنا في المحادثة. لا ترسلي كلمة مرور أو رمز دخول.</p><p>هذه الخطوة تتيح إرسال الطلبات فقط؛ الشيت نفسه يجب أن يظل خاصًا. لا يرسل السكريبت رسائل بريد.</p></fieldset><fieldset><legend>٤ · قبل مشاركة الإعلان</legend><p>سنربط الرابط ونختبر حفظ طلب تجريبي ورقم المتابعة قبل فتح الإرسال. بعدها استخدمي روابط البايو:</p><a href="/join">سجّل ابنك — /join</a><a href="/teach">انضم كمعلم — /teach</a></fieldset><p class="foot">roots@pathwayslearn.com</p></main><script>document.getElementById('copy').onclick=async()=>{const t=document.getElementById('code');try{await navigator.clipboard.writeText(t.value);document.getElementById('notice').textContent='تم النسخ'}catch{t.focus();t.select();document.getElementById('notice').textContent='حددي النص وانسخيه يدويًا'}}</script></body></html>

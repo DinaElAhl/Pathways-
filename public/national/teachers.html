@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>انضم لفريقنا | جذور Roots National</title>
+<meta name="description" content="جذور تطلب معلمين أونلاين: لغة عربية ثالثة ثانوي، وعربي ودين ودراسات رابعة ابتدائي.">
+
+
+<link rel="stylesheet" href="forms.css">
+<meta name="robots" content="noindex"><link rel="canonical" href="https://www.pathwayslearn.com/national/teachers.html"></head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="lockup" href="/"><img src="../brand/roots-sprout.svg" alt="شعار جذور"><span>Roots <i>|</i> <b>جذور</b></span></a>
+    <span class="tag" style="background:var(--green)">انضم لفريقنا</span>
+  </div>
+
+  <div class="hero">
+    <h1>مطلوب <em>معلمين</em></h1>
+    <p>تقديم للعمل أونلاين في برامج Roots National. تُناقش التفاصيل المهنية مع المرشحين المناسبين.</p>
+  </div>
+
+  <p id="availability" class="notice" role="status">الفورم قيد التجهيز؛ استقبال الطلبات لم يُفعّل بعد. لا تدخل بياناتك أو ترسل أي مبالغ الآن.</p><div id="msg" class="msg" role="status" aria-live="polite"></div>
+
+  <form id="tch" novalidate data-label="إرسال الطلب"
+        >
+
+    <fieldset>
+      <legend>١ · الوظيفة</legend>
+      <div class="cards">
+        <label class="card"><input type="radio" name="role" value="رابعة ابتدائي — عربي ودين ودراسات" required><div><b>رابعة ابتدائي</b><small>عربي ودين ودراسات · تأسيس وأسلوب تفاعلي مع الأطفال</small></div></label>
+        <label class="card"><input type="radio" name="role" value="ثالثة ثانوي — لغة عربية"><div><b>ثالثة ثانوي</b><small>لغة عربية · خبرة في نظام الامتحان والنحو والبلاغة</small></div></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>٢ · البيانات الشخصية</legend>
+      <label><span class="req">الاسم بالكامل</span><input maxlength="120" type="text" name="fullName" required autocomplete="name"></label>
+      <div class="grid2">
+        <label><span class="req">رقم الواتساب</span><input type="tel" name="whatsapp" required inputmode="tel" pattern="[0-9+ ]{10,16}" dir="ltr" placeholder="01xxxxxxxxx"></label>
+        <label><span class="req">الإيميل</span><input type="email" name="email" required autocomplete="email" dir="ltr"></label>
+      </div>
+      <label>المحافظة <small>اختياري</small><input maxlength="120" type="text" name="city"></label>
+    </fieldset>
+
+    <fieldset>
+      <legend>٣ · المؤهل والخبرة</legend>
+      <div class="grid2">
+        <label><span class="req">المؤهل</span>
+          <select name="degree" required><option value="">اختر</option><option>دار العلوم</option><option>آداب عربي</option><option>تربية عربي</option><option>تربية أساسي / ابتدائي</option><option>أزهر</option><option>أخرى</option></select>
+        </label>
+        <label><span class="req">سنوات الخبرة في التدريس</span>
+          <select name="years" required><option value="">اختر</option><option>أقل من سنة</option><option>١–٣ سنوات</option><option>٣–٥ سنوات</option><option>أكثر من ٥ سنوات</option></select>
+        </label>
+      </div>
+      <span class="hint">المراحل اللي درّستها:</span>
+      <div class="choices">
+        <label class="choice"><input type="checkbox" name="stages" value="ابتدائي"><span>ابتدائي</span></label>
+        <label class="choice"><input type="checkbox" name="stages" value="إعدادي"><span>إعدادي</span></label>
+        <label class="choice"><input type="checkbox" name="stages" value="ثانوي"><span>ثانوي</span></label>
+        <label class="choice"><input type="checkbox" name="stages" value="ثانوية عامة"><span>ثانوية عامة</span></label>
+      </div>
+      <span class="hint">الأدوات اللي بتستخدمها بثقة:</span>
+      <div class="choices">
+        <label class="choice"><input type="checkbox" name="tools" value="Google Classroom"><span>Google Classroom</span></label>
+        <label class="choice"><input type="checkbox" name="tools" value="Google Meet / Zoom"><span>Meet / Zoom</span></label>
+        <label class="choice"><input type="checkbox" name="tools" value="Google Forms"><span>Google Forms</span></label>
+        <label class="choice"><input type="checkbox" name="tools" value="PowerPoint / Slides"><span>PowerPoint / Slides</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>٤ · الأوقات المتاحة</legend>
+      <span class="hint">الأوقات المتاحة:</span>
+      <div class="choices">
+        <label class="choice"><input type="checkbox" name="availability" value="٤–٦ م"><span>٤–٦ مساءً</span></label>
+        <label class="choice"><input type="checkbox" name="availability" value="٦–٨ م"><span>٦–٨ مساءً</span></label>
+        <label class="choice"><input type="checkbox" name="availability" value="٨–١٠ م"><span>٨–١٠ مساءً</span></label>
+        <label class="choice"><input type="checkbox" name="availability" value="عطلة نهاية الأسبوع"><span>الجمعة والسبت</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>٥ · عيّنة من شغلك</legend>
+      <label><span class="req">رابط فيديو قصير (٣–٥ دقائق) تشرح فيه أي قاعدة أو درس</span><input type="url" name="videoLink" pattern="https://.*" required dir="ltr" placeholder="https://drive.google.com/… أو YouTube (غير مدرج)"></label>
+      <label>رابط السيرة الذاتية <small>اختياري — رابط HTTPS يمكن للإدارة فتحه</small><input type="url" name="cvLink" pattern="https://.*" dir="ltr" placeholder="https://…"></label>
+      <label>حاجة تحب تضيفها <small>اختياري</small><textarea maxlength="1000" name="notes"></textarea></label>
+      <label class="check"><input type="checkbox" name="consent" value="موافق" required><span class="req">أوافق على استخدام بياناتي لأغراض التوظيف في جذور فقط.</span></label>
+    </fieldset>
+
+    <label class="hp" aria-hidden="true">اترك هذا الحقل فارغًا<input maxlength="120" type="text" name="website" tabindex="-1" autocomplete="off"></label><p class="privacy-note">يُقدّم ولي الأمر طلب الطالب. نستخدم البيانات لمراجعة الطلب والتواصل بشأنه، وتُحفظ في حساب Google الخاص بإدارة Roots. تُحذف الطلبات من هذا السجل بعد ٩٠ يومًا؛ يُوضح أي استخدام لاحق للمقبولين بشكل مستقل. لا نطلب رقمًا قوميًّا أو بيانات دفع. لطلب الوصول أو الحذف: roots@pathwayslearn.com. <a href="/privacy">سياسة الخصوصية</a></p><button class="btn" disabled type="submit">إرسال الطلب</button>
+  </form>
+
+  <p class="foot">جذور | Roots National · حصص أونلاين للمنهج المصري</p>
+</div>
+
+<script src="config.js"></script><script src="forms.js"></script></body>
+</html>
+
