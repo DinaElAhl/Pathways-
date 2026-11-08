@@ -38,7 +38,9 @@ const moreGroups = [
     title: 'Learning & curriculum',
     links: [
       { to: '/activities', label: 'Activity Library' },
-      { href: import.meta.env.BASE_URL + 'national/index.html', label: 'Roots National · المنهج المصري' },
+      { to: '/start', label: 'Choose your Roots programme' },
+      { to: '/roots-national', label: 'Roots National' },
+      { to: '/learn-arabic', label: 'Learn Arabic · Non-native speakers' },
       { to: '/free-sample', label: 'Free Sample' },
       { to: '/spelling-bee', label: 'Spelling Bee' },
       { to: '/membership', label: 'Teacher Membership' },

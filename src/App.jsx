@@ -44,6 +44,7 @@ const LegalPage = lazy(() => import('./pages/LegalPage.jsx'))
 const Book = lazy(() => import('./pages/Book.jsx'))
 const SpellingBee = lazy(() => import('./pages/SpellingBee.jsx'))
 const ToolsMembership = lazy(() => import('./pages/ToolsMembership.jsx'))
+const RootsProgrammes = lazy(() => import('./pages/RootsProgrammes.jsx'))
 const NationalRedirect = lazy(() => import('./pages/NationalRedirect.jsx'))
 const ActivityLibrary = lazy(() => import('./pages/ActivityLibrary.jsx'))
 const E2MiniLms = lazy(() => import('./pages/E2MiniLms.jsx'))
@@ -78,6 +79,9 @@ export default function App() {
         <Route path="/play" element={<LearningGames />} />
         <Route path="/spelling-bee" element={<SpellingBee />} />
         <Route path="/membership" element={<ToolsMembership />} />
+        <Route path="/start" element={<RootsProgrammes />} />
+        <Route path="/roots-national" element={<RootsProgrammes kind="national" />} />
+        <Route path="/learn-arabic" element={<RootsProgrammes kind="arabic" />} />
         <Route path="/join" element={<NationalRedirect kind="student" />} />
         <Route path="/teach" element={<NationalRedirect kind="teacher" />} />
         <Route path="/activities" element={<ActivityLibrary />} />

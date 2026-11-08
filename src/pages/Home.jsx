@@ -1,3 +1,4 @@
+import ProgrammeChooser from '../components/ProgrammeChooser.jsx'
 import RootsPodcast from '../components/RootsPodcast.jsx'
 import { Link } from 'react-router-dom'
 import CreativeTrail from '../components/CreativeTrail.jsx'
@@ -83,6 +84,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <ProgrammeChooser />
 
       <CreativeTrail />
       {/* The three steps of the Roots Method */}
