@@ -20,10 +20,10 @@ forms.forEach(form => {
       const receipt = await response.json();
       if (!response.ok || receipt.ok !== true || receipt.requestId !== requestId || !/^RN-[a-f0-9-]+$/i.test(receipt.receipt || '')) throw Error('لم يصل تأكيد الحفظ');
       form.hidden = true; form.classList.add('hidden'); msg.className = 'msg ok';
-      msg.textContent = `تم حفظ طلبك. رقم المتابعة: ${receipt.receipt}. هذا تأكيد استلام فقط، وليس قبولًا أو حجزًا أو تأكيد دفع.`;
+      msg.textContent = `✅ وصلنا طلبك! هنكلمك على واتساب قريب. رقم الطلب: ${receipt.receipt}`;
       msg.tabIndex = -1; msg.focus(); msg.scrollIntoView({ block: 'center' });
     } catch {
-      msg.className = 'msg bad'; msg.textContent = 'لم نتمكن من تأكيد حفظ الطلب. بياناتك ما زالت في الصفحة. يمكنك إعادة المحاولة بنفس الطلب؛ لا ترسل أي مبالغ.';
+      msg.className = 'msg bad'; msg.textContent = 'حصلت مشكلة في الإرسال. بياناتك لسه موجودة، جرّب تاني بعد دقيقة.';
       button.disabled = false;
     } finally { button.textContent = form.dataset.label }
   });
@@ -34,10 +34,10 @@ forms.forEach(form => {
     const response = await fetch(endpoint + '?action=status', { credentials: 'omit', signal: AbortSignal.timeout(15000) });
     const result = await response.json();
     if (response.ok && result.ok && result.service === 'roots-national-v1') {
-      ready = true; status.textContent = 'التقديم أونلاين متاح. يظهر رقم متابعة بعد تأكيد حفظ طلبك.';
+      ready = true; status.textContent = ''; status.hidden = true;
       forms.forEach(form => { form.querySelector('[type=submit]').disabled = false });
     }
-  } catch { status.textContent = 'استقبال الطلبات غير متاح الآن. لا تدخل بياناتك أو ترسل مبالغ. حاول لاحقًا.' }
+  } catch { status.textContent = 'حصلت مشكلة في التحميل. حدّث الصفحة بعد دقيقة.' }
 })();
 
 const zoneSelect=document.getElementById('timeZone');
