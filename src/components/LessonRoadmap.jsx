@@ -40,18 +40,18 @@ export default function LessonRoadmap() {
         <ol className="mt-5 grid gap-3 sm:grid-cols-2">
           {levelCLessons.map((lesson, index) => (
             <li key={lesson.title} className="flex flex-wrap gap-3 rounded-2xl bg-white p-4">
-              {lesson.thumbnail && <img src={import.meta.env.BASE_URL + lesson.thumbnail} alt="" width="640" height="360" loading="lazy" className="aspect-video w-full rounded-xl object-cover" />}
+              {lesson.video ? <video className="aspect-video w-full rounded-xl bg-slate-900" controls playsInline preload="none" poster={import.meta.env.BASE_URL + lesson.thumbnail} src={import.meta.env.BASE_URL + lesson.video} aria-label={lesson.title} /> : lesson.thumbnail && <img src={import.meta.env.BASE_URL + lesson.thumbnail} alt="" width="640" height="360" loading="lazy" className="aspect-video w-full rounded-xl object-cover" />}
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-100 font-bold" aria-hidden="true">{index + 1}</span>
               <div className="min-w-0">
                 <h4 className="font-display text-lg font-semibold">{lesson.title}</h4>
                 <p className="mt-1 text-sm text-slate-600">{lesson.example}</p>
-                {lesson.available ? <a href="#watch" className="mt-2 inline-block text-sm font-semibold text-brand-700 underline">Free now · Watch ↑</a> : <p className="mt-2 text-xs font-semibold text-slate-600">{lesson.status}</p>}
+                {lesson.available ? <a href="#watch" className="mt-2 inline-block text-sm font-semibold text-brand-700 underline">Free now · Watch ↑</a> : <p className="mt-2 text-xs font-semibold text-slate-600">{lesson.video ? 'Free to watch' : lesson.status}</p>}
               </div>
             </li>
           ))}
         </ol>
       </details>
-      <p className="mx-auto mt-5 max-w-3xl text-center text-sm text-slate-600">Watch the free videos above. The ES-C paid lessons shown here are locked. Checkout for the recorded series is coming soon.</p>
+      <p className="mx-auto mt-5 max-w-3xl text-center text-sm text-slate-600">All ES-C lessons are free. Watch the available videos here and check back as more lessons are released.</p>
     </section>
   )
 }

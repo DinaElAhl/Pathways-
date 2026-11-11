@@ -25,6 +25,6 @@ export default function VideoPreviews() {
       <VideoActivity lessonId={v.id} />
       <FreeLessonMaterials lessonId={v.id} />
     </article>)}</div>
-    <p className="mt-6 text-sm text-slate-600">Introductions are numbered Lesson 0 in each level. ES-C Lessons 0 and 1, ES-B Lesson 0 and ES-A Lesson 0 are free. Further recorded lessons will be offered separately; course purchase is not available yet.</p>
+    <p className="mt-6 text-sm text-slate-600">The ES-B and ES-A introductions are free. Continue with the full free ES-C series in the lesson plan below.</p>
   </section>
 }
