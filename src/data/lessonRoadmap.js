@@ -10,8 +10,8 @@ export const recordedLevels = [
 export const levelCLessons = [
   { title: 'Lesson 0 · Welcome to the letter families', example: 'Listen → notice → try', status: 'Free now', available: true, thumbnail: videoPreviews.find(video => video.id === 'introduction').poster },
   { title: 'Level C · Lesson 1 · The ب ت ث family', example: 'Same shape, different dots', status: 'Free now', available: true, thumbnail: videoPreviews.find(video => video.id === 'lesson-1').poster },
-  { title: 'Level C · Lesson 2 · The ج ح خ family', example: 'Explore where each sound comes from', video: 'video-previews/es-c-02.mp4', thumbnail: 'assets/lesson-thumbnails/es-c-02.webp' },
-  { title: 'The د ذ family', example: 'Listen, copy and spot the difference', video: 'video-previews/es-c-03.mp4', thumbnail: 'assets/lesson-thumbnails/es-c-03.webp' },
+  { title: 'Level C · Lesson 2 · The ج ح خ family', example: 'Explore where each sound comes from', video: 'video-previews/es-c-02.mp4?v=es-c-sunny', thumbnail: 'assets/lesson-thumbnails/es-c-02.webp?v=es-c-sunny' },
+  { title: 'The د ذ family', example: 'Listen, copy and spot the difference', video: 'video-previews/es-c-03.mp4?v=es-c-sunny', thumbnail: 'assets/lesson-thumbnails/es-c-03.webp?v=es-c-sunny' },
   ...['The ر ز family', 'The س ش family', 'The ص ض family', 'The ط ظ family', 'The ع غ family', 'The ف ق pair', 'Alif and hamzah', 'Meet ك and ل'].map((title, index) => ({
     title,
     example: 'Listen, copy and spot the difference',
