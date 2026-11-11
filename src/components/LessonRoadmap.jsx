@@ -39,7 +39,8 @@ export default function LessonRoadmap() {
         <p className="mt-3 text-sm text-slate-600">Letter families share visual features; they do not necessarily share an articulation point. Planned topics may span more than one short episode, with practice breaks.</p>
         <ol className="mt-5 grid gap-3 sm:grid-cols-2">
           {levelCLessons.map((lesson, index) => (
-            <li key={lesson.title} className="flex gap-3 rounded-2xl bg-white p-4">
+            <li key={lesson.title} className="flex flex-wrap gap-3 rounded-2xl bg-white p-4">
+              {lesson.thumbnail && <img src={import.meta.env.BASE_URL + lesson.thumbnail} alt="" width="640" height="360" loading="lazy" className="aspect-video w-full rounded-xl object-cover" />}
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-100 font-bold" aria-hidden="true">{index + 1}</span>
               <div className="min-w-0">
                 <h4 className="font-display text-lg font-semibold">{lesson.title}</h4>
@@ -50,7 +51,7 @@ export default function LessonRoadmap() {
           ))}
         </ol>
       </details>
-      <p className="mx-auto mt-5 max-w-3xl text-center text-sm text-slate-600">This is the recorded-series roadmap, separate from school curriculum licenses. The ES-C introduction and Lesson 1, ES-B introduction and ES-A introduction are public today. Level C Lesson 2 is a private draft; further videos and purchase details are not yet available. Progress depends on practice, not a fixed age or deadline.</p>
+      <p className="mx-auto mt-5 max-w-3xl text-center text-sm text-slate-600">Watch the free videos above. The ES-C paid lessons shown here are locked. Checkout for the recorded series is coming soon.</p>
     </section>
   )
 }
