@@ -17,7 +17,7 @@ export const levelCLessons = [
     thumbnail: `assets/lesson-thumbnails/es-c-${String(index + 4).padStart(2, '0')}.webp`,
   })),
   { title: 'Meet م and ن', example: 'Listen for mīm and nūn', status: 'Locked · Paid series', thumbnail: 'assets/lesson-thumbnails/es-c-12.webp' },
-  { title: 'Meet ه و ي', example: 'Three more letter shapes and sounds', status: 'Planned' },
+  { title: 'Meet ه و ي', example: 'Three more letter shapes and sounds', status: 'Locked · Paid series', thumbnail: 'assets/lesson-thumbnails/es-c-13.webp' },
   { title: 'Family games & review', example: 'Hear a sound, find its letter', status: 'Planned' },
   { title: 'Short vowels', example: 'Fatḥah, kasrah and ḍammah · say the sound', status: 'Planned' },
   { title: 'Our first reading steps', example: 'Right to left · letter connections · simple reading', status: 'Planned' },
