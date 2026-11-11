@@ -63,6 +63,14 @@ const moreGroups = [
   },
 ];
 
+// The Roots learning platform (LMS + Parent Voice) is a separate app on its own
+// subdomain, so it is a plain <a href>, not a router link.
+const LMS_URL = 'https://app.pathwayslearn.com';
+moreGroups.unshift({
+  title: 'Roots platform',
+  links: [{ href: LMS_URL, label: 'Roots LMS · School login' }],
+});
+
 // Flattened for the mobile menu, which lists everything in one column.
 const moreLinks = moreGroups.flatMap((g) => g.links);
 
@@ -217,6 +225,12 @@ export default function Navbar() {
 
           {/* Right side buttons */}
           <div className="hidden xl:flex shrink-0 items-center gap-2 ml-2">
+            <a
+              href={LMS_URL}
+              className="whitespace-nowrap px-4 py-2 rounded-lg text-sm font-semibold border border-brand-600 text-brand-700 hover:bg-brand-50 transition-colors"
+            >
+              School login
+            </a>
             <Link
               to="/for-schools"
               className="px-4 py-2 rounded-lg text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors"
@@ -270,6 +284,9 @@ export default function Navbar() {
             ),
           )}
           <div className="pt-2 border-t border-slate-100 space-y-1">
+            <a href={LMS_URL} className="block mb-2 px-3 py-2 rounded-lg text-sm font-semibold border border-brand-600 text-brand-700 text-center">
+              School login · Roots LMS
+            </a>
             <Link to="/for-schools" className="block px-3 py-2 rounded-lg text-sm font-semibold bg-brand-600 text-white text-center">
               For schools
             </Link>
