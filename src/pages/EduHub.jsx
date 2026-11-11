@@ -24,6 +24,7 @@ function ArtifactCard({ a }) {
   const ring = COLORS[a.color] || COLORS.emerald
   const cta = CTA_COLORS[a.color] || CTA_COLORS.emerald
   const isExternalStatic = a.href.endsWith('.html')
+  const isAbsolute = /^https?:\/\//.test(a.href)
   return (
     <div className={`rounded-2xl ring-1 ${ring} p-5 shadow-sm flex flex-col`}>
       <div className="text-xs font-semibold uppercase tracking-wide opacity-80">{a.tagline}</div>
@@ -31,7 +32,9 @@ function ArtifactCard({ a }) {
       <p className="text-sm mt-2 text-slate-700">{a.description}</p>
       <p className="text-xs italic mt-3 text-slate-600">{a.rootsNote}</p>
       <div className="mt-4">
-        {isExternalStatic ? (
+        {isAbsolute ? (
+          <a href={a.href} className={`inline-block rounded-lg px-4 py-2 text-sm font-semibold text-white ${cta}`}>{a.cta} →</a>
+        ) : isExternalStatic ? (
           <a href={import.meta.env.BASE_URL + a.href.replace(/^\//, '')} className={`inline-block rounded-lg px-4 py-2 text-sm font-semibold text-white ${cta}`}>{a.cta} →</a>
         ) : (
           <Link to={a.href} className={`inline-block rounded-lg px-4 py-2 text-sm font-semibold text-white ${cta}`}>{a.cta} →</Link>
