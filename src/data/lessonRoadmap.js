@@ -1,3 +1,5 @@
+import { videoPreviews } from './videoPreviews.js'
+
 // Recorded-course outline; availability is separate from school curriculum licenses.
 export const recordedLevels = [
   { level: 'C', title: 'First sounds & first reading', arabic: 'الأصوات والقراءة الأولى', colour: 'bg-amber-100', description: 'For children starting with no Arabic. Listen and copy first, then discover letter shapes, dots and short vowels.', status: 'Two free videos available', goals: ['Hear and recognise Arabic sounds', 'Find letters by their shapes and dots', 'Begin joining sounds into simple reading'] },
@@ -6,10 +8,10 @@ export const recordedLevels = [
 ]
 
 export const levelCLessons = [
-  { title: 'Lesson 0 · Welcome to the letter families', example: 'Listen → notice → try', status: 'Free now', available: true },
-  { title: 'Level C · Lesson 1 · The ب ت ث family', example: 'Same shape, different dots', status: 'Free now', available: true },
-  { title: 'Level C · Lesson 2 · The ج ح خ family', example: 'Explore where each sound comes from', status: 'Draft · under review' },
-  { title: 'The د ذ family', example: 'Listen, copy and spot the difference', status: 'Planned' },
+  { title: 'Lesson 0 · Welcome to the letter families', example: 'Listen → notice → try', status: 'Free now', available: true, thumbnail: videoPreviews.find(video => video.id === 'introduction').poster },
+  { title: 'Level C · Lesson 1 · The ب ت ث family', example: 'Same shape, different dots', status: 'Free now', available: true, thumbnail: videoPreviews.find(video => video.id === 'lesson-1').poster },
+  { title: 'Level C · Lesson 2 · The ج ح خ family', example: 'Explore where each sound comes from', status: 'Draft · under review', thumbnail: 'assets/lesson-thumbnails/es-c-02.webp' },
+  { title: 'The د ذ family', example: 'Listen, copy and spot the difference', status: 'Planned', thumbnail: 'assets/lesson-thumbnails/es-c-03.webp' },
   ...['The ر ز family', 'The س ش family', 'The ص ض family', 'The ط ظ family', 'The ع غ family', 'The ف ق pair', 'Alif and hamzah', 'Meet ك and ل'].map((title, index) => ({
     title,
     example: 'Listen, copy and spot the difference',
