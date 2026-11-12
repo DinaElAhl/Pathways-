@@ -220,17 +220,17 @@ function schoolChoice(withAccount) {
   const acct = withAccount ? `${formInput(t('email'), 'aEmail', '', 'email', 'autocomplete="email"')}${formInput(t('password'), 'aPass', '', 'password', 'autocomplete="new-password" minlength="6"')}` : '';
   if (signupKind === 'new') return tabs + formInput(t('fullName'), 'aName', '', 'text', 'autocomplete="name"') + acct
     + `<div class="field"><label for="aCountry">${L('Country', 'الدولة', 'Pays')}</label>${drawSelect('aCountry', countryOptions(), joinCountry, c => c ? countryName(c) : L('Choose your country…', 'اختاري دولتك…', 'Choisissez votre pays…'), 'onchange="setRegCountry(this.value)"')}</div>`
-    + `<div class="field"><label for="aSchool">${t('schoolName')}</label><input id="aSchool" maxlength="120" autocomplete="off" placeholder="${L('Type the first letters — we search for your school', 'اكتبي أول الحروف — سنبحث عن مدرستك', 'Tapez les premières lettres — nous cherchons votre école')}" oninput="schoolSearchInput(this.value)"><div id="schoolResults" class="sresults"></div></div>`
-    + formInput(L('City', 'المدينة', 'Ville'), 'aCity', '', 'text', 'maxlength="80"')
+    + `<div class="field"><label for="aCity">${L('City', 'المدينة', 'Ville')}</label><input id="aCity" maxlength="80" autocomplete="off" value="${esc(preCity)}" placeholder="${L('Type or pick your city', 'اكتبي أو اختاري مدينتك', 'Tapez ou choisissez votre ville')}" oninput="citySearchInput(this.value)" onfocus="citySearchInput(this.value)"><div id="cityResults" class="sresults"></div></div>`
+    + `<div class="field"><label for="aSchool">${t('schoolName')}</label><input id="aSchool" maxlength="120" autocomplete="off" value="${esc(preName)}" placeholder="${L('Type the first letters — we search for your school', 'اكتبي أول الحروف — سنبحث عن مدرستك', 'Tapez les premières lettres — nous cherchons votre école')}" oninput="schoolSearchInput(this.value)"><div id="schoolResults" class="sresults"></div></div>`
     + `<p class="hint">${t('newSchoolHint')} ${L('Roots reviews new schools before they appear in the public school list.', 'تراجع جذور المدارس الجديدة قبل ظهورها في قائمة المدارس.', 'Roots vérifie les nouvelles écoles avant de les afficher.')}</p>`
     + `<button style="width:100%" onclick="${withAccount ? 'doSignUp()' : 'completeProfile()'}">${withAccount ? t('signUp') : t('save')}</button>`;
   if (!foundSchool) {
     const codeBox = `<div class="field"><label for="aCode">${t('schoolCode')}</label><input id="aCode" value="${esc(joinCode)}" maxlength="8" style="text-transform:uppercase;letter-spacing:3px;font-weight:700" autocomplete="off"><span class="hint">${t('codeHint')}</span></div>
     <button style="width:100%" onclick="findSchool()">${t('findSchool')}</button>`;
     if (joinCode || showCodeBox) return tabs + codeBox + `<p><a href="#" onclick="setCodeBox(false);return false">← ${L('Find my school by country', 'ابحثي عن مدرستي حسب الدولة', 'Trouver mon école par pays')}</a></p>`;
-    const list = !joinCountry ? '' : `<div class="field"><label for="schoolSearch">${L('Your school', 'مدرستك', 'Votre école')}</label><input id="schoolSearch" autocomplete="off" placeholder="${L('Type the first letters of your school…', 'اكتبي أول حروف اسم مدرستك…', 'Tapez les premières lettres de votre école…')}" oninput="schoolSearchInput(this.value)"><div id="schoolResults" class="sresults">${dirSchools === null ? `<p class="hint">${t('loading')}</p>` : renderSchoolResults('', [])}</div></div>`;
+    const list = !joinCountry ? '' : `<div class="field"><label for="aCity">${L('City', 'المدينة', 'Ville')}</label><input id="aCity" maxlength="80" autocomplete="off" value="${esc(preCity)}" placeholder="${L('Type or pick your city', 'اكتبي أو اختاري مدينتك', 'Tapez ou choisissez votre ville')}" oninput="citySearchInput(this.value)" onfocus="citySearchInput(this.value)"><div id="cityResults" class="sresults"></div></div>` + `<div class="field"><label for="schoolSearch">${L('Your school', 'مدرستك', 'Votre école')}</label><input id="schoolSearch" autocomplete="off" placeholder="${L('Type the first letters of your school…', 'اكتبي أول حروف اسم مدرستك…', 'Tapez les premières lettres de votre école…')}" oninput="schoolSearchInput(this.value)"><div id="schoolResults" class="sresults">${dirSchools === null ? `<p class="hint">${t('loading')}</p>` : renderSchoolResults('', [])}</div></div>`;
     return tabs + `<div class="field"><label for="aCountry">${L('Country', 'الدولة', 'Pays')}</label>${drawSelect('aCountry', countryOptions(), joinCountry, c => c ? countryName(c) : L('Choose your country…', 'اختاري دولتك…', 'Choisissez votre pays…'), 'onchange="setJoinCountry(this.value)"')}</div>`
-      + list + `<p><a href="#" onclick="setCodeBox(true);return false">${L('Have a school code instead?', 'لديكِ كود المدرسة؟', "Vous avez un code d'école ?")}</a></p>`;
+      + list + (joinCountry ? `<button type="button" class="secondary" style="width:100%" onclick="registerFromJoin(-1)">＋ ${L('My school isn’t listed — register it on Roots', 'مدرستي غير موجودة — سجّليها في جذور', 'Mon école n’est pas listée — l’inscrire')}</button>` : '') + `<p><a href="#" onclick="setCodeBox(true);return false">${L('Have a school code instead?', 'لديكِ كود المدرسة؟', "Vous avez un code d'école ?")}</a></p>`;
   }
   const roleSel = `<div class="field"><label>${L('I am a…', 'أنا…', 'Je suis…')}</label>${drawSelect('aRole', ['parent', 'student', 'teacher'], signupRole, roleLabel, 'onchange="setSignupRole(this.value)"')}</div>`;
   return tabs + `<div class="schoolfound">✓ ${esc(foundSchool.name)} <a href="#" onclick="clearSchool();return false">${t('edit')}</a></div>`
@@ -256,18 +256,46 @@ function authScreen() {
   if (authState === 'pending') return `<h2>${t('pendingTitle')}</h2><p>${t('pendingText')}</p><p class="hint">${esc(school ? school.name : '')} · ${esc(me && me.grade)} · ${esc(me && me.class)}</p><button class="secondary" onclick="doSignOut()">${t('signOut')}</button>`;
   return '';
 }
-function setKind(k) { signupKind = k; flash = ''; extResults = []; render(); }
+function setKind(k) { if (k !== 'new') { preName = ''; } signupKind = k; flash = ''; extResults = []; render(); }
 function setCodeBox(v) { showCodeBox = v; if (!v) joinCode = ''; flash = ''; render(); }
 async function setJoinCountry(c) {
-  joinCountry = c; dirPick = ''; dirSchools = null; render(); if (!c) return;
+  joinCountry = c; dirPick = ''; dirSchools = null; preCity = ''; cityLL = null; render(); if (!c) return; countryBox(c);
   try { const s = await F.getDocs(F.query(F.collection(fb.fs, 'directory'), F.where('country', '==', c))); dirSchools = s.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => String(a.name).localeCompare(String(b.name))); }
   catch (e) { dirSchools = []; }
   render();
 }
 function pickDir(id) { const s = (dirSchools || []).find(x => x.id === id); if (!s) return; dirPick = id; foundSchool = { schoolId: s.id, name: s.name, grades: s.grades, classes: s.classes }; flash = ''; render(); }
 /* ---------- live school search (OpenStreetMap via Photon + Wikidata) ---------- */
-let bboxCache = {}, searchTimer = null, searchSeq = 0, extResults = [];
-function setRegCountry(c) { joinCountry = c; extResults = []; const box = document.getElementById('schoolResults'); if (box) box.innerHTML = ''; if (c) countryBox(c); const v = val('aSchool'); if (c && v.trim().length >= 3) schoolSearchInput(v); }
+let bboxCache = {}, searchTimer = null, searchSeq = 0, extResults = [], preName = '', preCity = '', cityLL = null, cityTimer = null, citySeq = 0, cityRes = [];
+const MAIN_CITIES = { EG: ['Cairo', 'Giza', 'Alexandria', 'New Cairo', '6th of October', 'Sheikh Zayed', 'Mansoura', 'Tanta', 'Zagazig', 'Ismailia', 'Port Said', 'Suez', 'Assiut', 'Minya', 'Sohag', 'Luxor', 'Aswan', 'Hurghada', 'Damietta', 'Fayoum', 'Beni Suef'],
+  SA: ['Riyadh', 'Jeddah', 'Mecca', 'Medina', 'Dammam', 'Khobar', 'Dhahran', 'Taif', 'Tabuk', 'Abha'], AE: ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Al Ain', 'Ras Al Khaimah', 'Fujairah'],
+  KW: ['Kuwait City', 'Hawalli', 'Salmiya', 'Farwaniya', 'Jahra', 'Ahmadi'], QA: ['Doha', 'Al Rayyan', 'Al Wakrah', 'Lusail'], BH: ['Manama', 'Muharraq', 'Riffa', 'Isa Town'], OM: ['Muscat', 'Salalah', 'Sohar', 'Nizwa'],
+  JO: ['Amman', 'Zarqa', 'Irbid', 'Aqaba'], GB: ['London', 'Birmingham', 'Manchester', 'Leeds', 'Glasgow', 'Bradford', 'Leicester', 'Luton'], US: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Dallas', 'Detroit', 'Dearborn', 'Atlanta', 'Washington'],
+  CA: ['Toronto', 'Mississauga', 'Montreal', 'Ottawa', 'Calgary', 'Edmonton', 'Vancouver'], MY: ['Kuala Lumpur', 'Selangor', 'Penang', 'Johor Bahru'], TR: ['Istanbul', 'Ankara', 'Izmir', 'Bursa'] };
+function citySearchInput(v) {
+  const box = document.getElementById('cityResults'); if (!box) return;
+  if (!joinCountry) { box.innerHTML = `<p class="hint">${L('Choose your country first.', 'اختاري الدولة أولاً.', "Choisissez d'abord le pays.")}</p>`; return; }
+  cityLL = null;
+  const q = v.trim().toLowerCase();
+  const main = (MAIN_CITIES[joinCountry] || []).filter(c => !q || c.toLowerCase().startsWith(q)).slice(0, 12);
+  const draw = list => { cityRes = list; box.innerHTML = list.length ? `<div class="chips">${list.map((c, i) => `<button type="button" class="chip" onclick="pickCity(${i})">${esc(c.n)}</button>`).join('')}</div>` : (q.length >= 2 ? `<p class="hint">${L('Keep typing — or just leave the city as typed.', 'أكملي الكتابة — أو اتركي المدينة كما كتبتِها.', 'Continuez ou laissez tel quel.')}</p>` : ''); };
+  draw(main.map(n => ({ n })));
+  clearTimeout(cityTimer); if (q.length < 2) return;
+  const seq = ++citySeq, c = joinCountry;
+  cityTimer = setTimeout(async () => {
+    try {
+      const box2 = await countryBox(c);
+      const j = await (await fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(v.trim()) + '&limit=15' + (box2 ? '&bbox=' + box2 : '') + '&osm_tag=place:city&osm_tag=place:town&osm_tag=place:suburb&osm_tag=place:village')).json();
+      if (seq !== citySeq) return;
+      const seen = new Set(main.map(x => x.toLowerCase())), out = main.map(n => ({ n }));
+      (j.features || []).filter(f => f.properties.countrycode === c && f.properties.name).forEach(f => { const n = f.properties.name, k = n.toLowerCase(); if (seen.has(k)) return; seen.add(k); out.push({ n, ll: f.geometry && f.geometry.coordinates }); });
+      draw(out.slice(0, 14));
+    } catch (e) {}
+  }, 350);
+}
+function pickCity(i) { const x = cityRes[i]; if (!x) return; const el = document.getElementById('aCity'); if (el) el.value = x.n; preCity = x.n; cityLL = x.ll || null; const box = document.getElementById('cityResults'); if (box) box.innerHTML = ''; const s = document.getElementById('aSchool') || document.getElementById('schoolSearch'); if (s) { s.focus(); if (s.value.trim().length >= 3) schoolSearchInput(s.value); } }
+function registerFromJoin(i) { const x = i >= 0 ? extResults[i] : null; preName = x ? x.n : (val('schoolSearch') || ''); preCity = (x && x.c) || val('aCity') || preCity; signupKind = 'new'; flash = ''; extResults = []; render(); }
+function setRegCountry(c) { joinCountry = c; extResults = []; preCity = ''; cityLL = null; const ci = document.getElementById('aCity'); if (ci) ci.value = ''; const cr = document.getElementById('cityResults'); if (cr) cr.innerHTML = ''; const box = document.getElementById('schoolResults'); if (box) box.innerHTML = ''; if (c) countryBox(c); const v = val('aSchool'); if (c && v.trim().length >= 3) schoolSearchInput(v); }
 async function countryBox(c) {
   if (bboxCache[c] !== undefined) return bboxCache[c];
   try { const s = localStorage.getItem('roots-bbox-' + c); if (s) return (bboxCache[c] = s); } catch (e) {}
@@ -284,11 +312,13 @@ async function searchOutside(q, c) {
   const enName = (() => { try { return new Intl.DisplayNames(['en'], { type: 'region' }).of(c) || ''; } catch (e) { return ''; } })().toLowerCase();
   const add = (n, city, src) => { n = String(n || '').trim(); const k = n.toLowerCase(); if (!n || seen.has(k)) return; seen.add(k); out.push({ n: n.slice(0, 120), c: String(city || '').slice(0, 80), src }); };
   const [ph, wd] = await Promise.allSettled([
-    fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(q) + '&limit=20' + (box ? '&bbox=' + box : '') + '&osm_tag=amenity:school&osm_tag=amenity:kindergarten&osm_tag=amenity:college').then(r => r.json()),
+    fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(q) + '&limit=20' + (box ? '&bbox=' + box : '') + (cityLL ? '&lat=' + cityLL[1] + '&lon=' + cityLL[0] : '') + '&osm_tag=amenity:school&osm_tag=amenity:kindergarten&osm_tag=amenity:college').then(r => r.json()),
     fetch('https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&origin=*&type=item&limit=15&language=' + (lang === 'ar' ? 'ar' : lang === 'fr' ? 'fr' : 'en') + '&uselang=en&search=' + encodeURIComponent(q)).then(r => r.json())
   ]);
   if (ph.status === 'fulfilled' && ph.value && ph.value.features) ph.value.features.filter(f => f.properties.countrycode === c && f.properties.name).forEach(f => add(f.properties.name, f.properties.city || f.properties.county || f.properties.state, 'OpenStreetMap'));
-  if (wd.status === 'fulfilled' && wd.value && wd.value.search) wd.value.search.filter(x => { const d = String(x.description || '').toLowerCase(); return /school|academy|college|lycée|lycee|école|madrasa|مدرسة/.test(d) && enName && d.includes(enName); }).forEach(x => add(x.label, '', 'Wikidata'));
+  if (wd.status === 'fulfilled' && wd.value && wd.value.search) wd.value.search.filter(x => { const d = String(x.description || '').toLowerCase(); return /school|academy|college|lycée|lycee|école|madrasa|مدرسة/.test(d) && enName && d.includes(enName); }).forEach(x => { const m = String(x.description || '').match(/ in ([^,]+),/); add(x.label, m ? m[1].trim() : '', 'Wikidata'); });
+  const cty = (val('aCity') || '').trim().toLowerCase();
+  if (cty) out.sort((a, b) => (String(b.c).toLowerCase().includes(cty) ? 1 : 0) - (String(a.c).toLowerCase().includes(cty) ? 1 : 0));
   return out.slice(0, 12);
 }
 function renderSchoolResults(q, ext) {
@@ -299,9 +329,9 @@ function renderSchoolResults(q, ext) {
   const rootsNames = new Set((dirSchools || []).map(s => String(s.name).toLowerCase()));
   const others = ext.filter(x => !rootsNames.has(x.n.toLowerCase()));
   if (joining) {
-    html += others.map(x => `<div class="sitem off">${esc(x.n)}${x.c ? ` <span class="muted">— ${esc(x.c)}</span>` : ''}<span class="stag grey">${L('not on Roots yet', 'غير مسجلة في جذور بعد', 'pas encore sur Roots')}</span></div>`).join('');
+    html += others.map(x => `<button type="button" class="sitem" onclick="registerFromJoin(${ext.indexOf(x)})">${esc(x.n)}${x.c ? ` <span class="muted">— ${esc(x.c)}</span>` : ''}<span class="stag grey">${L('not on Roots yet — tap to register it', 'غير مسجلة — اضغطي لتسجيلها', 'pas sur Roots — touchez pour l’inscrire')}</span></button>`).join('');
     if (!mine.length && !others.length) html += `<p class="hint">${ql.length < 3 && !(dirSchools || []).length ? L('No Roots-accredited schools in this country yet. Type your school name to search.', 'لا توجد مدارس معتمدة من جذور في هذه الدولة بعد. اكتبي اسم مدرستك للبحث.', 'Aucune école accréditée ici. Tapez le nom pour chercher.') : ql.length < 3 ? '' : L('No match yet — keep typing, or use a school code.', 'لا نتائج بعد — أكملي الكتابة أو استخدمي كود المدرسة.', 'Aucun résultat — continuez ou utilisez un code.')}</p>`;
-    if (others.length) html += `<p class="hint">${L('Schools marked “not on Roots yet” need to register first (Create account → Register a new school), or ask them for their Roots school code.', 'المدارس غير المسجلة يجب أن تسجّل أولاً (إنشاء حساب ← تسجيل مدرسة جديدة) أو اطلبي منها كود جذور.', 'Les écoles « pas encore sur Roots » doivent d’abord s’inscrire.')}</p>`;
+    if (others.length) html += `<p class="hint">${L('A school “not on Roots yet” is registered by its admin. If that’s you, tap it. Parents and students: ask the school for its Roots code.', 'المدرسة غير المسجلة تسجّلها إدارتها — إن كنتِ المسؤولة اضغطي عليها. أولياء الأمور والطلاب: اطلبوا كود جذور من المدرسة.', 'Une école « pas sur Roots » est inscrite par sa direction.')}</p>`;
   } else {
     html += others.map((x, i) => `<button type="button" class="sitem" onclick="pickExternal(${ext.indexOf(x)})"><b>${esc(x.n)}</b>${x.c ? ` <span class="muted">— ${esc(x.c)}</span>` : ''}</button>`).join('');
     if (ql.length >= 3 && !others.length) html += `<p class="hint">${L('Not found in the map data — that’s fine, just type your school’s full name.', 'غير موجودة في بيانات الخرائط — لا بأس، اكتبي الاسم كاملاً.', 'Introuvable — tapez simplement le nom complet.')}</p>`;
@@ -1173,7 +1203,7 @@ Object.assign(window, {
   saveMeeting, deleteMeeting, setApproved, editMember, saveMember, exportIssues, exportAll, saveName, accountReset, saveSchool, copyText,
   doSignIn, doSignUp, doReset, resendVerify, checkVerified, doSignOut, completeProfile, findSchool, setKind, clearSchool, render,
   markDirty: () => { checkDirty = true; },
-  setSignupRole, applyStarter, setCodeBox, setJoinCountry, pickDir, setRegCountry, schoolSearchInput, pickExternal, toggleAccredit, editCourse, saveCourse, openCourseView, setCourseTab, showLesson, editLesson, saveLesson, deleteLesson, showAssign, editAssign, saveAssign, deleteAssign,
+  setSignupRole, applyStarter, setCodeBox, setJoinCountry, pickDir, setRegCountry, schoolSearchInput, pickExternal, citySearchInput, pickCity, registerFromJoin, toggleAccredit, editCourse, saveCourse, openCourseView, setCourseTab, showLesson, editLesson, saveLesson, deleteLesson, showAssign, editAssign, saveAssign, deleteAssign,
   submitWork, markOne, markAllQuiz, setGb, exportGradebook, setAtt, saveAttendance, editNews, saveNews, deleteNews, linkChild, setAuthMode: m => { authMode = m; flash = ''; render(); }
 });
 
