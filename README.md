@@ -7,6 +7,9 @@ website on `main` and is never deployed by Vercel.
 - `public/` — the built app that Firebase Hosting serves
 - `src/` — app source (`app.js` is bundled to `public/app.js` with esbuild)
 
-Publish from Google Cloud Shell:
+Publish from Google Cloud Shell (builds the international school list from Wikidata, then deploys the app and its security rules):
 
-    git clone --depth 1 -b roots-lms-app https://github.com/DinaElAhl/Pathways- rl && cd rl && firebase deploy --only hosting --project roots-parent-voice
+    git clone --depth 1 -b roots-lms-app https://github.com/DinaElAhl/Pathways- rl && cd rl && python3 tools/build_intl_schools.py && firebase deploy --only hosting,firestore:rules --project roots-parent-voice
+
+- `firestore.rules` — database security rules (the Roots owner is identified by account ID)
+- `tools/build_intl_schools.py` — writes `public/schools/<ISO>.json` from Wikidata (CC0)

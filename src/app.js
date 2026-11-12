@@ -110,6 +110,10 @@ let page = '', grade = 'All', cls = 'All', tab = 0, editing = null, search = '',
 let authMode = joinCode ? 'signup' : 'signin', signupKind = 'join', foundSchool = null, signupRole = 'parent';
 let openCourse = null, courseTab = 'lessons', openLesson = null, openAssign = null, gbCourse = '', attCourse = '', attDate = '', lessonUnsubs = [], viewUnsubs = [], S_lessons = [], S_att = [], S_key = null;
 let authState = configured ? 'loading' : 'config', authUser = null, me = null, school = null, flash = '', isOwner = false, allSchools = [];
+const ISO = 'AF AX AL DZ AS AD AO AI AQ AG AR AM AW AU AT AZ BS BH BD BB BY BE BZ BJ BM BT BO BQ BA BW BV BR IO BN BG BF BI CV KH CM CA KY CF TD CL CN CX CC CO KM CG CD CK CR CI HR CU CW CY CZ DK DJ DM DO EC EG SV GQ ER EE SZ ET FK FO FJ FI FR GF PF TF GA GM GE DE GH GI GR GL GD GP GU GT GG GN GW GY HT HM VA HN HK HU IS IN ID IR IQ IE IM IL IT JM JP JE JO KZ KE KI KP KR KW KG LA LV LB LS LR LY LI LT LU MO MG MW MY MV ML MT MH MQ MR MU YT MX FM MD MC MN ME MS MA MZ MM NA NR NP NL NC NZ NI NE NG NU NF MK MP NO OM PK PW PS PA PG PY PE PH PN PL PT PR QA RE RO RU RW BL SH KN LC MF PM VC WS SM ST SA SN RS SC SL SG SX SK SI SB SO ZA GS SS ES LK SD SR SJ SE CH SY TW TJ TZ TH TL TG TK TO TT TN TR TM TC TV UG UA AE GB US UM UY UZ VU VE VN VG VI WF EH YE ZM ZW'.split(' ');
+function countryName(c) { try { return new Intl.DisplayNames([lang], { type: 'region' }).of(c) || c; } catch (e) { return c; } }
+function countryOptions() { return ['', ...ISO.slice().sort((a, b) => countryName(a).localeCompare(countryName(b), lang))]; }
+let joinCountry = '', dirSchools = null, dirPick = '', showCodeBox = false, allDirectory = {}, mySchoolDir = undefined;
 let fb = null, unsubs = [], profileUnsub = null, schoolUnsub = null, subKey = '', loadError = false;
 const S = { users: [], reps: [], issueSets: {}, meetings: [], checks: {}, courses: [], assignments: [], subs: [], attendance: [], news: [], students: [], kids: {}, kidSubs: {}, kidAtt: {}, kidAssign: {}, kidCourses: {} };
 
@@ -215,10 +219,21 @@ function schoolChoice(withAccount) {
   const tabs = `<div class="tabs"><button class="${signupKind === 'join' ? 'active' : ''}" onclick="setKind('join')">${t('joinSchool')}</button><button class="${signupKind === 'new' ? 'active' : ''}" onclick="setKind('new')">${t('newSchool')}</button></div>`;
   const acct = withAccount ? `${formInput(t('email'), 'aEmail', '', 'email', 'autocomplete="email"')}${formInput(t('password'), 'aPass', '', 'password', 'autocomplete="new-password" minlength="6"')}` : '';
   if (signupKind === 'new') return tabs + formInput(t('fullName'), 'aName', '', 'text', 'autocomplete="name"') + acct
-    + formInput(t('schoolName'), 'aSchool', '', 'text', 'maxlength="120"') + `<p class="hint">${t('newSchoolHint')}</p>`
+    + `<div class="field"><label for="aCountry">${L('Country', 'الدولة', 'Pays')}</label>${drawSelect('aCountry', countryOptions(), joinCountry, c => c ? countryName(c) : L('Choose your country…', 'اختاري دولتك…', 'Choisissez votre pays…'), 'onchange="loadIntl(this.value)"')}</div>`
+    + `<div class="field"><label for="aSchool">${t('schoolName')}</label><input id="aSchool" maxlength="120" list="intlList" autocomplete="off" oninput="intlFill(this.value)"><datalist id="intlList"></datalist><span class="hint" id="intlHint"></span></div>`
+    + formInput(L('City', 'المدينة', 'Ville'), 'aCity', '', 'text', 'maxlength="80"')
+    + `<p class="hint">${t('newSchoolHint')} ${L('Roots reviews new schools before they appear in the public school list.', 'تراجع جذور المدارس الجديدة قبل ظهورها في قائمة المدارس.', 'Roots vérifie les nouvelles écoles avant de les afficher.')}</p>`
     + `<button style="width:100%" onclick="${withAccount ? 'doSignUp()' : 'completeProfile()'}">${withAccount ? t('signUp') : t('save')}</button>`;
-  if (!foundSchool) return tabs + `<div class="field"><label for="aCode">${t('schoolCode')}</label><input id="aCode" value="${esc(joinCode)}" maxlength="8" style="text-transform:uppercase;letter-spacing:3px;font-weight:700" autocomplete="off"><span class="hint">${t('codeHint')}</span></div>
+  if (!foundSchool) {
+    const codeBox = `<div class="field"><label for="aCode">${t('schoolCode')}</label><input id="aCode" value="${esc(joinCode)}" maxlength="8" style="text-transform:uppercase;letter-spacing:3px;font-weight:700" autocomplete="off"><span class="hint">${t('codeHint')}</span></div>
     <button style="width:100%" onclick="findSchool()">${t('findSchool')}</button>`;
+    if (joinCode || showCodeBox) return tabs + codeBox + `<p><a href="#" onclick="setCodeBox(false);return false">← ${L('Find my school by country', 'ابحثي عن مدرستي حسب الدولة', 'Trouver mon école par pays')}</a></p>`;
+    const list = dirSchools === null ? '' : dirSchools.length
+      ? `<div class="field"><label for="aDir">${L('Your school', 'مدرستك', 'Votre école')}</label>${drawSelect('aDir', ['', ...dirSchools.map(s => s.id)], dirPick, id => { if (!id) return L('Choose…', 'اختاري…', 'Choisir…'); const s = dirSchools.find(x => x.id === id); return s.name + (s.city ? ' — ' + s.city : ''); }, 'onchange="pickDir(this.value)"')}<span class="hint">✓ ${L('Roots-accredited schools', 'مدارس معتمدة من جذور', 'Écoles accréditées Roots')}</span></div>`
+      : `<p class="hint">${L('No Roots-accredited schools in this country yet.', 'لا توجد مدارس معتمدة من جذور في هذه الدولة بعد.', 'Aucune école accréditée Roots dans ce pays pour le moment.')}</p>`;
+    return tabs + `<div class="field"><label for="aCountry">${L('Country', 'الدولة', 'Pays')}</label>${drawSelect('aCountry', countryOptions(), joinCountry, c => c ? countryName(c) : L('Choose your country…', 'اختاري دولتك…', 'Choisissez votre pays…'), 'onchange="setJoinCountry(this.value)"')}</div>`
+      + list + `<p><a href="#" onclick="setCodeBox(true);return false">${L('Have a school code instead?', 'لديكِ كود المدرسة؟', "Vous avez un code d'école ?")}</a></p>`;
+  }
   const roleSel = `<div class="field"><label>${L('I am a…', 'أنا…', 'Je suis…')}</label>${drawSelect('aRole', ['parent', 'student', 'teacher'], signupRole, roleLabel, 'onchange="setSignupRole(this.value)"')}</div>`;
   return tabs + `<div class="schoolfound">✓ ${esc(foundSchool.name)} <a href="#" onclick="clearSchool();return false">${t('edit')}</a></div>`
     + roleSel + formInput(t('fullName'), 'aName', '', 'text', 'autocomplete="name"') + acct + (signupRole === 'teacher' ? `<p class="hint">${L('The school admin will approve your teacher account.', 'ستوافق إدارة المدرسة على حساب المعلم.', 'La direction approuvera votre compte enseignant.')}</p>` : classPicker())
@@ -243,8 +258,27 @@ function authScreen() {
   if (authState === 'pending') return `<h2>${t('pendingTitle')}</h2><p>${t('pendingText')}</p><p class="hint">${esc(school ? school.name : '')} · ${esc(me && me.grade)} · ${esc(me && me.class)}</p><button class="secondary" onclick="doSignOut()">${t('signOut')}</button>`;
   return '';
 }
-function setKind(k) { signupKind = k; flash = ''; render(); }
-function clearSchool() { foundSchool = null; render(); }
+function setKind(k) { signupKind = k; flash = ''; render(); if (k === 'new' && joinCountry) loadIntl(joinCountry); }
+function setCodeBox(v) { showCodeBox = v; if (!v) joinCode = ''; flash = ''; render(); }
+async function setJoinCountry(c) {
+  joinCountry = c; dirPick = ''; dirSchools = null; render(); if (!c) return;
+  try { const s = await F.getDocs(F.query(F.collection(fb.fs, 'directory'), F.where('country', '==', c))); dirSchools = s.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => String(a.name).localeCompare(String(b.name))); }
+  catch (e) { dirSchools = []; }
+  render();
+}
+function pickDir(id) { const s = (dirSchools || []).find(x => x.id === id); if (!s) return; dirPick = id; foundSchool = { schoolId: s.id, name: s.name, grades: s.grades, classes: s.classes }; flash = ''; render(); }
+let intlCache = {};
+async function loadIntl(c) {
+  joinCountry = c; const dl = document.getElementById('intlList'), hint = document.getElementById('intlHint'); if (!dl) return;
+  dl.innerHTML = ''; if (hint) hint.textContent = ''; if (!c) return;
+  try {
+    if (!intlCache[c]) { const r = await fetch('schools/' + c + '.json', { cache: 'force-cache' }); intlCache[c] = r.ok ? await r.json() : []; }
+    dl.innerHTML = intlCache[c].map(s => `<option value="${esc(s.n)}">${esc([s.c, s.t].filter(Boolean).join(' · '))}</option>`).join('');
+    if (hint) hint.textContent = intlCache[c].length ? L(`Start typing — ${intlCache[c].length} international schools listed for this country (from Wikidata). Not listed? Just type your school name.`, `ابدئي الكتابة — ${intlCache[c].length} مدرسة دولية مدرجة لهذه الدولة (من ويكي بيانات). غير موجودة؟ اكتبي اسم مدرستك.`, `Tapez — ${intlCache[c].length} écoles internationales listées (Wikidata). Absente ? Tapez simplement le nom.`) : '';
+  } catch (e) { intlCache[c] = []; }
+}
+function intlFill(v) { const s = (intlCache[joinCountry] || []).find(x => x.n === v); const city = document.getElementById('aCity'); if (s && city && !city.value) city.value = s.c || ''; }
+function clearSchool() { foundSchool = null; dirPick = ''; render(); }
 async function findSchool() {
   const code = val('aCode').toUpperCase().replace(/[^A-Z0-9]/g, '');
   joinCode = code;
@@ -275,7 +309,7 @@ async function doSignIn() {
 function readProfileForm() {
   const name = val('aName').trim();
   if (!name) { flash = t('nameReq'); render(); return null; }
-  if (signupKind === 'new') { const sn = val('aSchool').trim(); if (!sn) { flash = t('nameReq'); render(); return null; } return { name, kind: 'new', schoolName: sn }; }
+  if (signupKind === 'new') { const sn = val('aSchool').trim(); if (!sn) { flash = t('nameReq'); render(); return null; } return { name, kind: 'new', schoolName: sn, country: val('aCountry'), city: val('aCity').trim().slice(0, 80) }; }
   if (!foundSchool) { flash = t('codeNotFound'); render(); return null; }
   const role = ['parent', 'student', 'teacher'].includes(signupRole) ? signupRole : 'parent';
   return { name, kind: 'join', role, schoolId: foundSchool.schoolId, grade: role === 'teacher' ? '' : val('aGrade'), cls: role === 'teacher' ? '' : val('aClass') };
@@ -307,7 +341,7 @@ async function createProfile(p) {
   for (let i = 0; i < 5; i++) { const ex = await F.getDoc(F.doc(fb.fs, 'schoolCodes', code)); if (!ex.exists()) break; code = newCode(); }
   const sref = F.doc(F.collection(fb.fs, 'schools'));
   const sname = p.schoolName.slice(0, 120);
-  await F.setDoc(sref, { name: sname, code, grades: DEFAULT_GRADES, classes: DEFAULT_CLASSES, createdBy: authUser.uid, createdAt: F.serverTimestamp() });
+  await F.setDoc(sref, { name: sname, code, grades: DEFAULT_GRADES, classes: DEFAULT_CLASSES, country: p.country || '', city: p.city || '', createdBy: authUser.uid, createdAt: F.serverTimestamp() });
   await F.setDoc(F.doc(fb.fs, 'schoolCodes', code), { schoolId: sref.id, name: sname, grades: DEFAULT_GRADES, classes: DEFAULT_CLASSES });
   await F.setDoc(ref, { name: p.name.slice(0, 100), email, schoolId: sref.id, role: 'admin', grade: '', class: '', approved: true, createdAt: F.serverTimestamp() });
 }
@@ -322,7 +356,7 @@ async function checkVerified() {
   try { await authUser.reload(); if (authUser.emailVerified) { await authUser.getIdToken(true); flash = ''; startProfile(); return; } } catch (e) {}
   flash = t('notVerifiedYet'); render();
 }
-async function doSignOut() { stopAll(); signupRole = 'parent'; openCourse = null; grade = 'All'; cls = 'All'; page = ''; authMode = 'signin'; signupKind = 'join'; flash = ''; foundSchool = null; try { await F.signOut(fb.auth); } catch (e) {} }
+async function doSignOut() { stopAll(); signupRole = 'parent'; openCourse = null; joinCountry = ''; dirSchools = null; dirPick = ''; showCodeBox = false; grade = 'All'; cls = 'All'; page = ''; authMode = 'signin'; signupKind = 'join'; flash = ''; foundSchool = null; try { await F.signOut(fb.auth); } catch (e) {} }
 
 /* ---------- live data ---------- */
 function stopData() { unsubs.forEach(u => { try { u(); } catch (e) {} }); unsubs = []; subKey = ''; S.users = []; S.reps = []; S.issueSets = {}; S.meetings = []; S.checks = {}; S.courses = []; S.assignments = []; S.subs = []; S.attendance = []; S.news = []; S.students = []; S.kids = {}; S.kidSubs = {}; S.kidAtt = {}; S.kidAssign = {}; S.kidCourses = {}; stopView(); loadError = false; }
@@ -350,7 +384,11 @@ function startProfile() {
   }, onErr);
   // Roots owner: the security rules only let the owner list every school.
   try {
-    const u = F.onSnapshot(F.collection(fb.fs, 'schools'), s => { isOwner = true; allSchools = list(s); softRender(); }, () => { isOwner = false; });
+    const u = F.onSnapshot(F.collection(fb.fs, 'schools'), s => {
+      isOwner = true; allSchools = list(s);
+      if (!unsubsOwner.dir) { unsubsOwner.dir = true; unsubsOwner.push(F.onSnapshot(F.collection(fb.fs, 'directory'), d => { allDirectory = {}; d.docs.forEach(x => { allDirectory[x.id] = x.data(); }); softRender(); }, () => {})); }
+      softRender();
+    }, () => { isOwner = false; });
     unsubsOwner.push(u);
   } catch (e) {}
 }
@@ -580,19 +618,27 @@ function schoolSettings() {
     <div class="row"><span class="bigcode">${esc(school.code)}</span><button class="secondary" onclick="copyText('${esc(school.code)}',this)">${t('copy')}</button></div>
     <div class="field" style="margin-top:12px"><label>${t('joinLink')}</label><div class="row"><input readonly value="${esc(link)}" style="flex:1;min-width:0"><button class="secondary" onclick="copyText('${esc(link)}',this)">${t('copy')}</button></div></div></div>
     <div style="height:15px"></div>
-    <div class="panel"><h2>${t('schoolSettings')}</h2>${formInput(t('schoolName'), 'ssName', school.name, 'text', 'maxlength="120"')}
+    <div class="panel"><h2>${t('schoolSettings')}</h2>${accreditBadge()}${formInput(t('schoolName'), 'ssName', school.name, 'text', 'maxlength="120"')}
+    <div class="formgrid">${formSelect(L('Country', 'الدولة', 'Pays'), 'ssCountry', countryOptions(), school.country || '', c => c ? countryName(c) : '—')}${formInput(L('City', 'المدينة', 'Ville'), 'ssCity', school.city || '', 'text', 'maxlength="80"')}</div>
     <div class="formgrid"><div class="field"><label for="ssGrades">${t('gradesLabel')}</label><textarea id="ssGrades" style="min-height:220px">${esc(GR().join('\n'))}</textarea></div>
     <div class="field"><label for="ssClasses">${t('classesLabel')}</label><input id="ssClasses" value="${esc(CL().join(', '))}"><span class="hint">${t('gradesHint')}</span></div></div>
     <button onclick="saveSchool()">${t('save')}</button></div>`;
 }
+function accreditBadge() {
+  if (mySchoolDir === undefined) { mySchoolDir = null; F.getDoc(F.doc(fb.fs, 'directory', sid())).then(d => { mySchoolDir = d.exists() ? d.data() : false; softRender(); }).catch(() => { mySchoolDir = false; }); }
+  return mySchoolDir ? `<div class="schoolfound">✓ ${L('Roots-accredited — parents, students and teachers can find your school by country when they sign up.', 'معتمدة من جذور — يمكن للأهل والطلاب والمعلمين إيجاد مدرستك حسب الدولة عند التسجيل.', 'Accréditée Roots — votre école apparaît dans la liste par pays.')}</div>`
+    : mySchoolDir === false ? `<div class="notice">${L('Awaiting Roots accreditation. Until then, people join with your school code or link.', 'بانتظار اعتماد جذور. حتى ذلك الحين ينضم الأعضاء بكود المدرسة أو الرابط.', 'Accréditation Roots en attente. En attendant, on rejoint avec le code ou le lien.')}</div>` : '';
+}
 async function saveSchool() {
   const name = val('ssName').trim().slice(0, 120);
+  const country = val('ssCountry'), city = val('ssCity').trim().slice(0, 80);
   const grades = [...new Set(val('ssGrades').split('\n').map(s => s.trim().replace(/\//g, '-').slice(0, 30)).filter(Boolean))].slice(0, 30);
   const classes = [...new Set(val('ssClasses').split(',').map(s => s.trim().replace(/\//g, '-').slice(0, 15)).filter(Boolean))].slice(0, 20);
   if (!name || !grades.length || !classes.length) return notify(t('nameReq'));
   const ok = await guard(async () => {
-    await F.updateDoc(F.doc(fb.fs, 'schools', sid()), { name, grades, classes });
+    await F.updateDoc(F.doc(fb.fs, 'schools', sid()), { name, grades, classes, country, city });
     await F.updateDoc(F.doc(fb.fs, 'schoolCodes', school.code), { name, grades, classes });
+    if (mySchoolDir) await F.updateDoc(F.doc(fb.fs, 'directory', sid()), { name, grades, classes, city });
   });
   if (ok) notify(t('saved'));
 }
@@ -602,7 +648,16 @@ function schoolsPage() {
   const rows = allSchools.slice().sort((a, b) => String(a.name).localeCompare(String(b.name)));
   const date = v => v && v.toDate ? v.toDate().toISOString().slice(0, 10) : (typeof v === 'string' ? v.slice(0, 10) : '');
   return viewTitle(t('schools'), `${t('schoolsHint')} · ${rows.length}`)
-    + `<div class="panel scroll"><table><thead><tr><th>${t('schoolName')}</th><th>${t('schoolCode')}</th><th>${t('created')}</th></tr></thead><tbody>${rows.map(s => `<tr><td>${esc(s.name)}</td><td><b class="code">${esc(s.code)}</b></td><td>${esc(date(s.createdAt))}</td></tr>`).join('') || `<tr><td colspan="3" class="empty">—</td></tr>`}</tbody></table></div>`;
+    + `<div class="panel scroll"><table><thead><tr><th>${t('schoolName')}</th><th>${L('Country', 'الدولة', 'Pays')}</th><th>${L('City', 'المدينة', 'Ville')}</th><th>${t('schoolCode')}</th><th>${t('created')}</th><th>${L('Roots-accredited', 'معتمدة من جذور', 'Accréditée Roots')}</th></tr></thead><tbody>${rows.map(s => `<tr><td>${esc(s.name)}</td><td>${s.country ? esc(countryName(s.country)) : '—'}</td><td>${esc(s.city || '—')}</td><td><b class="code">${esc(s.code)}</b></td><td>${esc(date(s.createdAt))}</td>
+      <td>${allDirectory[s.id] ? `<button class="tablebtn" onclick="toggleAccredit('${esc(s.id)}')">✓ ${L('Accredited', 'معتمدة', 'Accréditée')}</button>` : `<button class="tablebtn secondary" onclick="toggleAccredit('${esc(s.id)}')">${L('Accredit', 'اعتماد', 'Accréditer')}</button>`}</td></tr>`).join('') || `<tr><td colspan="6" class="empty">—</td></tr>`}</tbody></table>
+      <p class="hint">${L('Accredited schools appear in the country list when people sign up. Schools without a country cannot be listed until their admin sets it in School settings.', 'تظهر المدارس المعتمدة في قائمة الدولة عند التسجيل. يجب أن تحدد إدارة المدرسة الدولة في الإعدادات أولاً.', 'Les écoles accréditées apparaissent dans la liste par pays. Le pays doit être renseigné.')}</p></div>`;
+}
+function toggleAccredit(id) {
+  const s = allSchools.find(x => x.id === id); if (!s) return;
+  if (allDirectory[id]) return ask(L(`Remove Roots accreditation from ${s.name}? It will disappear from the public school list (members keep their accounts).`, `إلغاء اعتماد ${s.name}؟ ستختفي من القائمة العامة (يحتفظ الأعضاء بحساباتهم).`, `Retirer l'accréditation de ${s.name} ?`), () => guard(() => F.deleteDoc(F.doc(fb.fs, 'directory', id))));
+  if (!s.country) return notify(L('This school has no country yet. Ask its admin to set it in School settings.', 'لم تحدد هذه المدرسة دولتها بعد.', "Cette école n'a pas encore de pays."));
+  ask(L(`Accredit ${s.name} (${countryName(s.country)})? It will be listed publicly for people joining from that country.`, `اعتماد ${s.name} (${countryName(s.country)})؟ ستظهر في القائمة العامة لهذه الدولة.`, `Accréditer ${s.name} ?`),
+    () => guard(() => F.setDoc(F.doc(fb.fs, 'directory', id), { schoolId: id, name: s.name, country: s.country, city: s.city || '', grades: s.grades || DEFAULT_GRADES, classes: s.classes || DEFAULT_CLASSES, accredited: true, accreditedAt: F.serverTimestamp() })));
 }
 
 /* ---------- reports ---------- */
@@ -1064,7 +1119,7 @@ Object.assign(window, {
   saveMeeting, deleteMeeting, setApproved, editMember, saveMember, exportIssues, exportAll, saveName, accountReset, saveSchool, copyText,
   doSignIn, doSignUp, doReset, resendVerify, checkVerified, doSignOut, completeProfile, findSchool, setKind, clearSchool, render,
   markDirty: () => { checkDirty = true; },
-  setSignupRole, applyStarter, editCourse, saveCourse, openCourseView, setCourseTab, showLesson, editLesson, saveLesson, deleteLesson, showAssign, editAssign, saveAssign, deleteAssign,
+  setSignupRole, applyStarter, setCodeBox, setJoinCountry, pickDir, loadIntl, intlFill, toggleAccredit, editCourse, saveCourse, openCourseView, setCourseTab, showLesson, editLesson, saveLesson, deleteLesson, showAssign, editAssign, saveAssign, deleteAssign,
   submitWork, markOne, markAllQuiz, setGb, exportGradebook, setAtt, saveAttendance, editNews, saveNews, deleteNews, linkChild, setAuthMode: m => { authMode = m; flash = ''; render(); }
 });
 
@@ -1072,7 +1127,7 @@ render();
 if (configured) {
   fb = F.init(CFG.firebase);
   F.onAuthStateChanged(fb.auth, user => {
-    unsubsOwner.splice(0).forEach(u => { try { u(); } catch (e) {} });
+    unsubsOwner.splice(0).forEach(u => { try { u(); } catch (e) {} }); unsubsOwner.dir = false; mySchoolDir = undefined;
     authUser = user;
     if (!user) { stopAll(); authState = 'signedOut'; return render(); }
     if (!user.emailVerified) { stopAll(); authState = 'unverified'; return render(); }

@@ -6,7 +6,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js';
 import {
   initializeFirestore, persistentLocalCache, persistentMultipleTabManager, getFirestore,
-  doc, collection, setDoc, updateDoc, addDoc, deleteDoc, getDoc, onSnapshot, query, where, serverTimestamp
+  doc, collection, setDoc, updateDoc, addDoc, deleteDoc, getDoc, getDocs, onSnapshot, query, where, serverTimestamp
 } from 'https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js';
 
 export function init(config) {
@@ -20,5 +20,5 @@ export function init(config) {
 export {
   onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut,
   sendEmailVerification, sendPasswordResetEmail,
-  doc, collection, setDoc, updateDoc, addDoc, deleteDoc, getDoc, onSnapshot, query, where, serverTimestamp
+  doc, collection, setDoc, updateDoc, addDoc, deleteDoc, getDoc, getDocs, onSnapshot, query, where, serverTimestamp
 };

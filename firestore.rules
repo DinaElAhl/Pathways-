@@ -1,0 +1,285 @@
+rules_version = '2';
+// Roots | جذور — Parent Voice. Multi-school security rules.
+// Each school's data is visible only to that school's approved members.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // The Roots owner may see the list of registered schools (names and codes only).
+    // The Roots owner (by Firebase account ID) sees every school and decides which are Roots-accredited.
+    function rootsOwner() { return verified() && request.auth.uid == 'VpkEMcuBcAMyOexNGE8plcFJDkm2'; }
+
+    function signedIn() { return request.auth != null; }
+    function verified() { return signedIn() && request.auth.token.email_verified == true; }
+    function myPath() { return /databases/$(database)/documents/users/$(request.auth.uid); }
+    function hasProfile() { return signedIn() && exists(myPath()); }
+    function me() { return get(myPath()).data; }
+    function memberOf(s) { return hasProfile() && me().schoolId == s; }
+    function approvedIn(s) { return verified() && memberOf(s) && me().approved == true; }
+    function isAdmin(s) { return approvedIn(s) && me().role == 'admin'; }
+    function isRep(s) { return approvedIn(s) && me().role == 'rep'; }
+    function isParent(s) { return approvedIn(s) && me().role == 'parent'; }
+    function isTeacher(s) { return approvedIn(s) && me().role == 'teacher'; }
+    function isStudent(s) { return approvedIn(s) && me().role == 'student'; }
+    function canTeach(s) { return isAdmin(s) || isTeacher(s); }
+    function myChild(studentId) { return me().get('children', []).hasAny([studentId]); }
+    function inMyClass(d) { return d.grade == me().grade && d['class'] == me()['class']; }
+    function schoolDoc(s) { return get(/databases/$(database)/documents/schools/$(s)).data; }
+    function validClass(s, d) { return d.grade in schoolDoc(s).grades && d['class'] in schoolDoc(s).classes; }
+    function str(v, n) { return v is string && v.size() <= n; }
+    function stamped(d) { return d.updatedBy == request.auth.uid && d.updatedAt == request.time; }
+    function changed() { return request.resource.data.diff(resource.data).affectedKeys(); }
+    function validLists(d) {
+      return d.grades is list && d.grades.size() > 0 && d.grades.size() <= 30
+        && d.classes is list && d.classes.size() > 0 && d.classes.size() <= 20;
+    }
+
+    // ---------- join codes (public lookup by exact code only) ----------
+    match /schoolCodes/{code} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['schoolId','name','grades','classes'])
+        && schoolDoc(request.resource.data.schoolId).createdBy == request.auth.uid
+        && schoolDoc(request.resource.data.schoolId).code == code
+        && str(request.resource.data.name, 120) && validLists(request.resource.data);
+      allow update: if isAdmin(resource.data.schoolId)
+        && changed().hasOnly(['name','grades','classes'])
+        && str(request.resource.data.name, 120) && validLists(request.resource.data);
+      allow delete: if false;
+    }
+
+    // ---------- public directory of Roots-accredited schools ----------
+    // Anyone (even before signing up) can list accredited schools by country to join one.
+    match /directory/{schoolId} {
+      allow read: if true;
+      allow create, delete: if rootsOwner();
+      allow update: if rootsOwner()
+        || (isAdmin(schoolId) && changed().hasOnly(['name','grades','classes','city'])
+            && str(request.resource.data.name, 120) && validLists(request.resource.data));
+    }
+
+    // ---------- schools ----------
+    match /schools/{schoolId} {
+      allow get: if memberOf(schoolId) || rootsOwner();
+      allow list: if rootsOwner();
+      // Open registration: anyone signed in who doesn't belong to a school yet can create one.
+      allow create: if signedIn() && !hasProfile()
+        && request.resource.data.keys().hasOnly(['name','code','grades','classes','createdBy','createdAt','country','city'])
+        && request.resource.data.get('country', '') is string && request.resource.data.get('country', '').size() <= 2
+        && str(request.resource.data.get('city', ''), 80)
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && str(request.resource.data.name, 120) && request.resource.data.name.size() > 0
+        && request.resource.data.code is string && request.resource.data.code.matches('^[A-Z0-9]{6,8}$')
+        && validLists(request.resource.data);
+      allow update: if isAdmin(schoolId)
+        && changed().hasOnly(['name','grades','classes','country','city'])
+        && str(request.resource.data.name, 120) && request.resource.data.name.size() > 0
+        && request.resource.data.get('country', '') is string && request.resource.data.get('country', '').size() <= 2
+        && str(request.resource.data.get('city', ''), 80)
+        && validLists(request.resource.data);
+      allow delete: if false;
+
+      // ----- concerns -----
+      function validIssue(d) {
+        return d.keys().hasOnly(['title','description','category','grade','class','priority','status','visibility',
+                                 'owner','due','schoolResponse','created','createdBy','createdAt','updatedBy','updatedAt'])
+          && str(d.title, 200) && d.title.size() > 0 && str(d.description, 4000)
+          && d.category in ['Academics','Communication','Wellbeing','Facilities','Activities','Administration']
+          && d.grade is string && d['class'] is string
+          && d.priority in ['Low','Medium','High','Urgent']
+          && d.status in ['reported','verified','presented','schoolResponded','inProgress','closed','rejected','duplicate']
+          && d.visibility in ['private','schoolOnly','classSummary']
+          && str(d.owner, 200) && str(d.due, 10) && str(d.schoolResponse, 4000)
+          && str(d.created, 10) && d.createdBy is string
+          && stamped(d);
+      }
+      match /issues/{issueId} {
+        allow read: if (isAdmin(schoolId) && resource.data.visibility in ['schoolOnly','classSummary'])
+          || (isRep(schoolId) && inMyClass(resource.data))
+          || (approvedIn(schoolId) && resource.data.createdBy == request.auth.uid)
+          || (approvedIn(schoolId) && resource.data.visibility == 'classSummary' && inMyClass(resource.data));
+        allow create: if validIssue(request.resource.data)
+          && request.resource.data.createdBy == request.auth.uid
+          && request.resource.data.createdAt == request.time
+          && ((isAdmin(schoolId) && validClass(schoolId, request.resource.data))
+              || (isRep(schoolId) && inMyClass(request.resource.data))
+              || (isParent(schoolId) && inMyClass(request.resource.data)
+                  && request.resource.data.status == 'reported'
+                  && request.resource.data.visibility in ['private','schoolOnly']
+                  && request.resource.data.owner == '' && request.resource.data.due == ''
+                  && request.resource.data.schoolResponse == ''));
+        allow update: if validIssue(request.resource.data)
+          && !changed().hasAny(['createdBy','createdAt','created'])
+          && ((isAdmin(schoolId) && resource.data.visibility in ['schoolOnly','classSummary'])
+              || (isRep(schoolId) && inMyClass(resource.data) && inMyClass(request.resource.data)));
+        allow delete: if isAdmin(schoolId) && resource.data.visibility in ['schoolOnly','classSummary'];
+      }
+
+      // ----- meetings -----
+      function validMeeting(d) {
+        return d.keys().hasOnly(['title','date','grade','class','agenda','minutes','actions','createdBy','updatedBy','updatedAt'])
+          && str(d.title, 200) && d.title.size() > 0 && str(d.date, 10)
+          && d.grade is string && d['class'] is string
+          && str(d.agenda, 4000) && str(d.minutes, 8000) && str(d.actions, 4000)
+          && d.createdBy is string && stamped(d);
+      }
+      match /meetings/{meetingId} {
+        allow read: if isAdmin(schoolId) || (approvedIn(schoolId) && inMyClass(resource.data));
+        allow create: if validMeeting(request.resource.data)
+          && request.resource.data.createdBy == request.auth.uid
+          && ((isAdmin(schoolId) && validClass(schoolId, request.resource.data)) || (isRep(schoolId) && inMyClass(request.resource.data)));
+        allow update: if validMeeting(request.resource.data)
+          && !changed().hasAny(['createdBy'])
+          && (isAdmin(schoolId) || (isRep(schoolId) && inMyClass(resource.data) && inMyClass(request.resource.data)));
+        allow delete: if isAdmin(schoolId) || (isRep(schoolId) && inMyClass(resource.data));
+      }
+
+      // ----- class checklists -----
+      function validCheck(d) {
+        return d.keys().hasOnly(['grade','class','values','updatedBy','updatedAt'])
+          && d.grade is string && d['class'] is string
+          && d.values is map && d.values.size() <= 60 && stamped(d);
+      }
+      match /checks/{key} {
+        allow read: if isAdmin(schoolId) || (isRep(schoolId) && inMyClass(resource.data));
+        allow create: if validCheck(request.resource.data)
+          && (isAdmin(schoolId) || (isRep(schoolId) && inMyClass(request.resource.data)));
+        allow update: if validCheck(request.resource.data)
+          && (isAdmin(schoolId) || (isRep(schoolId) && inMyClass(resource.data) && inMyClass(request.resource.data)));
+        allow delete: if isAdmin(schoolId);
+      }
+
+      // ================= LMS =================
+      // Courses, lessons and assignments: staff see everything; students and parents see published items.
+      match /courses/{courseId} {
+        allow read: if canTeach(schoolId) || (approvedIn(schoolId) && resource.data.published == true);
+        allow create: if canTeach(schoolId) && request.resource.data.teacherId == request.auth.uid
+          && str(request.resource.data.title, 120) && request.resource.data.title.size() > 0
+          && validClass(schoolId, request.resource.data) && request.resource.data.published is bool;
+        allow update: if (isAdmin(schoolId) || (isTeacher(schoolId) && resource.data.teacherId == request.auth.uid))
+          && !changed().hasAny(['teacherId','createdAt'])
+          && str(request.resource.data.title, 120) && validClass(schoolId, request.resource.data);
+        allow delete: if isAdmin(schoolId) || (isTeacher(schoolId) && resource.data.teacherId == request.auth.uid);
+      }
+      function courseOwner(courseId) {
+        return isAdmin(schoolId) || (isTeacher(schoolId)
+          && get(/databases/$(database)/documents/schools/$(schoolId)/courses/$(courseId)).data.teacherId == request.auth.uid);
+      }
+      match /lessons/{lessonId} {
+        allow read: if canTeach(schoolId) || (approvedIn(schoolId) && resource.data.published == true);
+        allow create, update: if courseOwner(request.resource.data.courseId)
+          && str(request.resource.data.title, 160) && str(request.resource.data.body, 20000) && str(request.resource.data.links, 4000);
+        allow delete: if courseOwner(resource.data.courseId);
+      }
+      match /assignments/{assignId} {
+        allow read: if canTeach(schoolId) || (approvedIn(schoolId) && resource.data.published == true);
+        allow create, update: if courseOwner(request.resource.data.courseId)
+          && request.resource.data.type in ['task','quiz'] && str(request.resource.data.title, 160)
+          && request.resource.data.points is number && request.resource.data.questions is list && request.resource.data.questions.size() <= 100;
+        allow delete: if courseOwner(resource.data.courseId);
+      }
+      // Quiz answers are kept apart so students can never read them.
+      match /answerKeys/{assignId} {
+        allow read: if canTeach(schoolId);
+        allow write: if courseOwner(request.resource.data.courseId);
+      }
+      // Submissions: a student hands in their own work and can change it until it is marked.
+      match /submissions/{subId} {
+        allow read: if canTeach(schoolId)
+          || (approvedIn(schoolId) && resource.data.studentId == request.auth.uid)
+          || (isParent(schoolId) && myChild(resource.data.studentId));
+        allow create: if isStudent(schoolId)
+          && subId == request.resource.data.assignmentId + '_' + request.auth.uid
+          && request.resource.data.studentId == request.auth.uid
+          && inMyClass(request.resource.data)
+          && request.resource.data.status == 'submitted' && request.resource.data.score == null
+          && get(/databases/$(database)/documents/schools/$(schoolId)/assignments/$(request.resource.data.assignmentId)).data.published == true
+          && str(request.resource.data.text, 8000) && str(request.resource.data.link, 500);
+        allow update: if (isStudent(schoolId) && resource.data.studentId == request.auth.uid && resource.data.status == 'submitted'
+              && changed().hasOnly(['text','link','answers','submittedOn','submittedAt'])
+              && str(request.resource.data.text, 8000) && str(request.resource.data.link, 500))
+          || (courseOwner(resource.data.courseId)
+              && changed().hasOnly(['score','feedback','status','markedBy','markedAt'])
+              && request.resource.data.status == 'marked' && request.resource.data.score is number
+              && str(request.resource.data.feedback, 1000));
+        allow delete: if isAdmin(schoolId);
+      }
+      // Attendance: one record per student per course per day.
+      match /attendance/{attId} {
+        allow read: if canTeach(schoolId)
+          || (approvedIn(schoolId) && resource.data.studentId == request.auth.uid)
+          || (isParent(schoolId) && myChild(resource.data.studentId));
+        allow write: if courseOwner(request.resource.data.courseId)
+          && request.resource.data.status in ['present','absent','late','excused'];
+      }
+      // Announcements: everyone in the school reads; admin (whole school), teachers and reps (a class) post.
+      match /news/{newsId} {
+        allow read: if approvedIn(schoolId);
+        allow create: if request.resource.data.authorId == request.auth.uid
+          && str(request.resource.data.title, 160) && str(request.resource.data.body, 4000)
+          && ((isAdmin(schoolId) && request.resource.data.audience in ['school','class'])
+              || (isTeacher(schoolId) && request.resource.data.audience == 'class')
+              || (isRep(schoolId) && request.resource.data.audience == 'class' && inMyClass(request.resource.data)));
+        allow delete: if isAdmin(schoolId) || resource.data.authorId == request.auth.uid;
+      }
+      // Student codes let a parent link to their child.
+      match /studentCodes/{code} {
+        allow get: if approvedIn(schoolId);
+        allow list: if false;
+        allow create: if memberOf(schoolId) && request.resource.data.uid == request.auth.uid
+          && me().role == 'student' && str(request.resource.data.name, 100);
+        allow update, delete: if false;
+      }
+    }
+
+    // ---------- people ----------
+    match /users/{userId} {
+      allow read: if signedIn() && (
+           request.auth.uid == userId
+        || isAdmin(resource.data.schoolId)
+        || (isRep(resource.data.schoolId) && inMyClass(resource.data))
+        || (approvedIn(resource.data.schoolId) && resource.data.role == 'rep')
+        || (isTeacher(resource.data.schoolId) && resource.data.role == 'student')
+        || (isParent(resource.data.schoolId) && myChild(userId)));
+
+      allow create: if signedIn() && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(['name','email','schoolId','role','grade','class','approved','createdAt','children','studentCode'])
+        && str(request.resource.data.name, 100) && request.resource.data.name.size() > 0
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.schoolId is string
+        && exists(/databases/$(database)/documents/schools/$(request.resource.data.schoolId))
+        && (
+             // joining an existing school: always an unapproved parent in a real class
+             (request.resource.data.role in ['parent','student'] && request.resource.data.approved == false
+               && validClass(request.resource.data.schoolId, request.resource.data))
+          || (request.resource.data.role == 'teacher' && request.resource.data.approved == false
+               && request.resource.data.grade == '' && request.resource.data['class'] == '')
+             // the person who registered the school becomes its admin
+          || (request.resource.data.role == 'admin' && request.resource.data.approved == true
+               && schoolDoc(request.resource.data.schoolId).createdBy == request.auth.uid
+               && request.resource.data.grade == '' && request.resource.data['class'] == '')
+        );
+
+      allow update: if signedIn() && (
+           (request.auth.uid == userId && changed().hasOnly(['name','children','studentCode'])
+             && str(request.resource.data.name, 100) && request.resource.data.name.size() > 0
+             && request.resource.data.get('children', []) is list && request.resource.data.get('children', []).size() <= 6
+             && (!changed().hasAny(['studentCode']) || (resource.data.role == 'student' && !('studentCode' in resource.data))))
+        || (isAdmin(resource.data.schoolId) && request.auth.uid != userId
+             && changed().hasOnly(['role','grade','class','approved','name'])
+             && request.resource.data.role in ['parent','rep','admin','teacher','student']
+             && request.resource.data.approved is bool
+             && str(request.resource.data.name, 100)
+             && (validClass(resource.data.schoolId, request.resource.data)
+                 || (request.resource.data.role in ['admin','teacher'] && request.resource.data.grade == '' && request.resource.data['class'] == '')))
+        || (isTeacher(resource.data.schoolId) && resource.data.role == 'student'
+             && changed().hasOnly(['approved']) && request.resource.data.approved is bool)
+        || (isRep(resource.data.schoolId) && resource.data.role == 'parent' && inMyClass(resource.data)
+             && changed().hasOnly(['approved']) && request.resource.data.approved is bool)
+      );
+      allow delete: if isAdmin(resource.data.schoolId) && request.auth.uid != userId;
+    }
+  }
+}
