@@ -267,7 +267,7 @@ async function setJoinCountry(c) {
 function pickDir(id) { const s = (dirSchools || []).find(x => x.id === id); if (!s) return; dirPick = id; foundSchool = { schoolId: s.id, name: s.name, grades: s.grades, classes: s.classes }; flash = ''; render(); }
 /* ---------- live school search (OpenStreetMap via Photon + Wikidata) ---------- */
 let bboxCache = {}, searchTimer = null, searchSeq = 0, extResults = [], preName = '', preCity = '', cityLL = null, cityTimer = null, citySeq = 0, cityRes = [];
-const MAIN_CITIES = { EG: ['Cairo', 'Giza', 'Alexandria', 'New Cairo', '6th of October', 'Sheikh Zayed', 'Mansoura', 'Tanta', 'Zagazig', 'Ismailia', 'Port Said', 'Suez', 'Assiut', 'Minya', 'Sohag', 'Luxor', 'Aswan', 'Hurghada', 'Damietta', 'Fayoum', 'Beni Suef'],
+const MAIN_CITIES = { EG: ['Cairo', 'Giza', 'Alexandria', 'New Cairo', 'Maadi', 'Nasr City', 'Heliopolis', 'Zamalek', 'Mohandessin', 'Dokki', '6th of October', 'Sheikh Zayed', 'El Rehab', 'Madinaty', 'El Shorouk', 'Obour', 'Mansoura', 'Tanta', 'Zagazig', 'Ismailia', 'Port Said', 'Suez', 'Assiut', 'Minya', 'Sohag', 'Luxor', 'Aswan', 'Hurghada', 'Damietta', 'Fayoum', 'Beni Suef'],
   SA: ['Riyadh', 'Jeddah', 'Mecca', 'Medina', 'Dammam', 'Khobar', 'Dhahran', 'Taif', 'Tabuk', 'Abha'], AE: ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Al Ain', 'Ras Al Khaimah', 'Fujairah'],
   KW: ['Kuwait City', 'Hawalli', 'Salmiya', 'Farwaniya', 'Jahra', 'Ahmadi'], QA: ['Doha', 'Al Rayyan', 'Al Wakrah', 'Lusail'], BH: ['Manama', 'Muharraq', 'Riffa', 'Isa Town'], OM: ['Muscat', 'Salalah', 'Sohar', 'Nizwa'],
   JO: ['Amman', 'Zarqa', 'Irbid', 'Aqaba'], GB: ['London', 'Birmingham', 'Manchester', 'Leeds', 'Glasgow', 'Bradford', 'Leicester', 'Luton'], US: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Dallas', 'Detroit', 'Dearborn', 'Atlanta', 'Washington'],
@@ -277,7 +277,7 @@ function citySearchInput(v) {
   if (!joinCountry) { box.innerHTML = `<p class="hint">${L('Choose your country first.', 'اختاري الدولة أولاً.', "Choisissez d'abord le pays.")}</p>`; return; }
   cityLL = null;
   const q = v.trim().toLowerCase();
-  const main = (MAIN_CITIES[joinCountry] || []).filter(c => !q || c.toLowerCase().startsWith(q)).slice(0, 12);
+  const main = (MAIN_CITIES[joinCountry] || []).filter(c => !q || c.toLowerCase().includes(q)).slice(0, 14);
   const draw = list => { cityRes = list; box.innerHTML = list.length ? `<div class="chips">${list.map((c, i) => `<button type="button" class="chip" onclick="pickCity(${i})">${esc(c.n)}</button>`).join('')}</div>` : (q.length >= 2 ? `<p class="hint">${L('Keep typing — or just leave the city as typed.', 'أكملي الكتابة — أو اتركي المدينة كما كتبتِها.', 'Continuez ou laissez tel quel.')}</p>` : ''); };
   draw(main.map(n => ({ n })));
   clearTimeout(cityTimer); if (q.length < 2) return;
@@ -285,7 +285,7 @@ function citySearchInput(v) {
   cityTimer = setTimeout(async () => {
     try {
       const box2 = await countryBox(c);
-      const j = await (await fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(v.trim()) + '&limit=15' + (box2 ? '&bbox=' + box2 : '') + '&osm_tag=place:city&osm_tag=place:town&osm_tag=place:suburb&osm_tag=place:village')).json();
+      const j = await (await fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(v.trim()) + '&limit=40' + (box2 ? '&bbox=' + box2 : '') + '&osm_tag=place:city&osm_tag=place:town&osm_tag=place:suburb&osm_tag=place:village&osm_tag=place:quarter&osm_tag=place:neighbourhood')).json();
       if (seq !== citySeq) return;
       const seen = new Set(main.map(x => x.toLowerCase())), out = main.map(n => ({ n }));
       (j.features || []).filter(f => f.properties.countrycode === c && f.properties.name).forEach(f => { const n = f.properties.name, k = n.toLowerCase(); if (seen.has(k)) return; seen.add(k); out.push({ n, ll: f.geometry && f.geometry.coordinates }); });
