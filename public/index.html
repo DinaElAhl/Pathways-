@@ -55,6 +55,9 @@ table.grid td,table.grid th{text-align:center}table.grid td:first-child,table.gr
 .e2step{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-inline-start:5px solid #2f8f5b;border-radius:12px;padding:12px;margin:10px 0;background:#fffdf9;line-height:1.6}
 .e2step.e2-teach{border-inline-start-color:#f07a5f}.e2step.e2-practice{border-inline-start-color:#e7a93c}.e2step.e2-connect{border-inline-start-color:#3b8fb0}.e2step.e2-reflect{border-inline-start-color:#8a6fb8}
 .e2num{background:#2f8f5b;color:#fff;border-radius:50%;min-width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:800}
+.sresults{margin-top:6px;max-height:300px;overflow:auto;border-radius:12px}.sitem{display:block;width:100%;text-align:start;background:#fffdf9;border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin:5px 0;color:#22423a;font-weight:500;cursor:pointer}
+button.sitem:hover{background:#e3f4e8;border-color:#9fd4b2}.sitem.off{cursor:default;opacity:.75}.stag{display:inline-block;margin-inline-start:8px;font-size:11px;font-weight:700;background:#e3f4e8;color:#226c43;border-radius:100px;padding:2px 8px}.stag.grey{background:#f1e7d8;color:#7b6a55}
+.attrib{font-size:11px;color:#9a8a73;margin:4px 2px}
 </style></head><body><div id="root"></div><div id="cvModal" onclick="if(event.target===this)closeModal()"></div>
 <script src="config.js"></script><script type="module" src="app.js"></script>
 <script>if("serviceWorker" in navigator && location.protocol==="https:"){navigator.serviceWorker.register("./service-worker.js").catch(()=>{});}</script></body></html>

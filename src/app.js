@@ -219,8 +219,8 @@ function schoolChoice(withAccount) {
   const tabs = `<div class="tabs"><button class="${signupKind === 'join' ? 'active' : ''}" onclick="setKind('join')">${t('joinSchool')}</button><button class="${signupKind === 'new' ? 'active' : ''}" onclick="setKind('new')">${t('newSchool')}</button></div>`;
   const acct = withAccount ? `${formInput(t('email'), 'aEmail', '', 'email', 'autocomplete="email"')}${formInput(t('password'), 'aPass', '', 'password', 'autocomplete="new-password" minlength="6"')}` : '';
   if (signupKind === 'new') return tabs + formInput(t('fullName'), 'aName', '', 'text', 'autocomplete="name"') + acct
-    + `<div class="field"><label for="aCountry">${L('Country', 'الدولة', 'Pays')}</label>${drawSelect('aCountry', countryOptions(), joinCountry, c => c ? countryName(c) : L('Choose your country…', 'اختاري دولتك…', 'Choisissez votre pays…'), 'onchange="loadIntl(this.value)"')}</div>`
-    + `<div class="field"><label for="aSchool">${t('schoolName')}</label><input id="aSchool" maxlength="120" list="intlList" autocomplete="off" oninput="intlFill(this.value)"><datalist id="intlList"></datalist><span class="hint" id="intlHint"></span></div>`
+    + `<div class="field"><label for="aCountry">${L('Country', 'الدولة', 'Pays')}</label>${drawSelect('aCountry', countryOptions(), joinCountry, c => c ? countryName(c) : L('Choose your country…', 'اختاري دولتك…', 'Choisissez votre pays…'), 'onchange="setRegCountry(this.value)"')}</div>`
+    + `<div class="field"><label for="aSchool">${t('schoolName')}</label><input id="aSchool" maxlength="120" autocomplete="off" placeholder="${L('Type the first letters — we search for your school', 'اكتبي أول الحروف — سنبحث عن مدرستك', 'Tapez les premières lettres — nous cherchons votre école')}" oninput="schoolSearchInput(this.value)"><div id="schoolResults" class="sresults"></div></div>`
     + formInput(L('City', 'المدينة', 'Ville'), 'aCity', '', 'text', 'maxlength="80"')
     + `<p class="hint">${t('newSchoolHint')} ${L('Roots reviews new schools before they appear in the public school list.', 'تراجع جذور المدارس الجديدة قبل ظهورها في قائمة المدارس.', 'Roots vérifie les nouvelles écoles avant de les afficher.')}</p>`
     + `<button style="width:100%" onclick="${withAccount ? 'doSignUp()' : 'completeProfile()'}">${withAccount ? t('signUp') : t('save')}</button>`;
@@ -228,9 +228,7 @@ function schoolChoice(withAccount) {
     const codeBox = `<div class="field"><label for="aCode">${t('schoolCode')}</label><input id="aCode" value="${esc(joinCode)}" maxlength="8" style="text-transform:uppercase;letter-spacing:3px;font-weight:700" autocomplete="off"><span class="hint">${t('codeHint')}</span></div>
     <button style="width:100%" onclick="findSchool()">${t('findSchool')}</button>`;
     if (joinCode || showCodeBox) return tabs + codeBox + `<p><a href="#" onclick="setCodeBox(false);return false">← ${L('Find my school by country', 'ابحثي عن مدرستي حسب الدولة', 'Trouver mon école par pays')}</a></p>`;
-    const list = dirSchools === null ? '' : dirSchools.length
-      ? `<div class="field"><label for="aDir">${L('Your school', 'مدرستك', 'Votre école')}</label>${drawSelect('aDir', ['', ...dirSchools.map(s => s.id)], dirPick, id => { if (!id) return L('Choose…', 'اختاري…', 'Choisir…'); const s = dirSchools.find(x => x.id === id); return s.name + (s.city ? ' — ' + s.city : ''); }, 'onchange="pickDir(this.value)"')}<span class="hint">✓ ${L('Roots-accredited schools', 'مدارس معتمدة من جذور', 'Écoles accréditées Roots')}</span></div>`
-      : `<p class="hint">${L('No Roots-accredited schools in this country yet.', 'لا توجد مدارس معتمدة من جذور في هذه الدولة بعد.', 'Aucune école accréditée Roots dans ce pays pour le moment.')}</p>`;
+    const list = !joinCountry ? '' : `<div class="field"><label for="schoolSearch">${L('Your school', 'مدرستك', 'Votre école')}</label><input id="schoolSearch" autocomplete="off" placeholder="${L('Type the first letters of your school…', 'اكتبي أول حروف اسم مدرستك…', 'Tapez les premières lettres de votre école…')}" oninput="schoolSearchInput(this.value)"><div id="schoolResults" class="sresults">${dirSchools === null ? `<p class="hint">${t('loading')}</p>` : renderSchoolResults('', [])}</div></div>`;
     return tabs + `<div class="field"><label for="aCountry">${L('Country', 'الدولة', 'Pays')}</label>${drawSelect('aCountry', countryOptions(), joinCountry, c => c ? countryName(c) : L('Choose your country…', 'اختاري دولتك…', 'Choisissez votre pays…'), 'onchange="setJoinCountry(this.value)"')}</div>`
       + list + `<p><a href="#" onclick="setCodeBox(true);return false">${L('Have a school code instead?', 'لديكِ كود المدرسة؟', "Vous avez un code d'école ?")}</a></p>`;
   }
@@ -258,7 +256,7 @@ function authScreen() {
   if (authState === 'pending') return `<h2>${t('pendingTitle')}</h2><p>${t('pendingText')}</p><p class="hint">${esc(school ? school.name : '')} · ${esc(me && me.grade)} · ${esc(me && me.class)}</p><button class="secondary" onclick="doSignOut()">${t('signOut')}</button>`;
   return '';
 }
-function setKind(k) { signupKind = k; flash = ''; render(); if (k === 'new' && joinCountry) loadIntl(joinCountry); }
+function setKind(k) { signupKind = k; flash = ''; extResults = []; render(); }
 function setCodeBox(v) { showCodeBox = v; if (!v) joinCode = ''; flash = ''; render(); }
 async function setJoinCountry(c) {
   joinCountry = c; dirPick = ''; dirSchools = null; render(); if (!c) return;
@@ -267,17 +265,73 @@ async function setJoinCountry(c) {
   render();
 }
 function pickDir(id) { const s = (dirSchools || []).find(x => x.id === id); if (!s) return; dirPick = id; foundSchool = { schoolId: s.id, name: s.name, grades: s.grades, classes: s.classes }; flash = ''; render(); }
-let intlCache = {};
-async function loadIntl(c) {
-  joinCountry = c; const dl = document.getElementById('intlList'), hint = document.getElementById('intlHint'); if (!dl) return;
-  dl.innerHTML = ''; if (hint) hint.textContent = ''; if (!c) return;
+/* ---------- live school search (OpenStreetMap via Photon + Wikidata) ---------- */
+let bboxCache = {}, searchTimer = null, searchSeq = 0, extResults = [];
+function setRegCountry(c) { joinCountry = c; extResults = []; const box = document.getElementById('schoolResults'); if (box) box.innerHTML = ''; if (c) countryBox(c); const v = val('aSchool'); if (c && v.trim().length >= 3) schoolSearchInput(v); }
+async function countryBox(c) {
+  if (bboxCache[c] !== undefined) return bboxCache[c];
+  try { const s = localStorage.getItem('roots-bbox-' + c); if (s) return (bboxCache[c] = s); } catch (e) {}
   try {
-    if (!intlCache[c]) { const r = await fetch('schools/' + c + '.json', { cache: 'force-cache' }); intlCache[c] = r.ok ? await r.json() : []; }
-    dl.innerHTML = intlCache[c].map(s => `<option value="${esc(s.n)}">${esc([s.c, s.t].filter(Boolean).join(' · '))}</option>`).join('');
-    if (hint) hint.textContent = intlCache[c].length ? L(`Start typing — ${intlCache[c].length} international schools listed for this country (from Wikidata). Not listed? Just type your school name.`, `ابدئي الكتابة — ${intlCache[c].length} مدرسة دولية مدرجة لهذه الدولة (من ويكي بيانات). غير موجودة؟ اكتبي اسم مدرستك.`, `Tapez — ${intlCache[c].length} écoles internationales listées (Wikidata). Absente ? Tapez simplement le nom.`) : '';
-  } catch (e) { intlCache[c] = []; }
+    const j = await (await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&featureType=country&countrycodes=' + c.toLowerCase() + '&q=' + encodeURIComponent(countryName(c)))).json();
+    const b = j && j[0] ? j[0].boundingbox.map(Number) : null;
+    bboxCache[c] = b ? [b[2], b[0], b[3], b[1]].join(',') : '';
+    try { localStorage.setItem('roots-bbox-' + c, bboxCache[c]); } catch (e) {}
+  } catch (e) { bboxCache[c] = ''; }
+  return bboxCache[c];
 }
-function intlFill(v) { const s = (intlCache[joinCountry] || []).find(x => x.n === v); const city = document.getElementById('aCity'); if (s && city && !city.value) city.value = s.c || ''; }
+async function searchOutside(q, c) {
+  const box = await countryBox(c), out = [], seen = new Set();
+  const enName = (() => { try { return new Intl.DisplayNames(['en'], { type: 'region' }).of(c) || ''; } catch (e) { return ''; } })().toLowerCase();
+  const add = (n, city, src) => { n = String(n || '').trim(); const k = n.toLowerCase(); if (!n || seen.has(k)) return; seen.add(k); out.push({ n: n.slice(0, 120), c: String(city || '').slice(0, 80), src }); };
+  const [ph, wd] = await Promise.allSettled([
+    fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(q) + '&limit=20' + (box ? '&bbox=' + box : '') + '&osm_tag=amenity:school&osm_tag=amenity:kindergarten&osm_tag=amenity:college').then(r => r.json()),
+    fetch('https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&origin=*&type=item&limit=15&language=' + (lang === 'ar' ? 'ar' : lang === 'fr' ? 'fr' : 'en') + '&uselang=en&search=' + encodeURIComponent(q)).then(r => r.json())
+  ]);
+  if (ph.status === 'fulfilled' && ph.value && ph.value.features) ph.value.features.filter(f => f.properties.countrycode === c && f.properties.name).forEach(f => add(f.properties.name, f.properties.city || f.properties.county || f.properties.state, 'OpenStreetMap'));
+  if (wd.status === 'fulfilled' && wd.value && wd.value.search) wd.value.search.filter(x => { const d = String(x.description || '').toLowerCase(); return /school|academy|college|lycée|lycee|école|madrasa|مدرسة/.test(d) && enName && d.includes(enName); }).forEach(x => add(x.label, '', 'Wikidata'));
+  return out.slice(0, 12);
+}
+function renderSchoolResults(q, ext) {
+  const ql = q.trim().toLowerCase();
+  const joining = signupKind === 'join';
+  const mine = joining ? (dirSchools || []).filter(s => !ql || String(s.name).toLowerCase().includes(ql) || String(s.city || '').toLowerCase().includes(ql)).slice(0, 20) : [];
+  let html = mine.map(s => `<button type="button" class="sitem" onclick="pickDir('${esc(s.id)}')"><b>✓ ${esc(s.name)}</b>${s.city ? ` <span class="muted">— ${esc(s.city)}</span>` : ''}<span class="stag">${L('Roots-accredited', 'معتمدة من جذور', 'Accréditée Roots')}</span></button>`).join('');
+  const rootsNames = new Set((dirSchools || []).map(s => String(s.name).toLowerCase()));
+  const others = ext.filter(x => !rootsNames.has(x.n.toLowerCase()));
+  if (joining) {
+    html += others.map(x => `<div class="sitem off">${esc(x.n)}${x.c ? ` <span class="muted">— ${esc(x.c)}</span>` : ''}<span class="stag grey">${L('not on Roots yet', 'غير مسجلة في جذور بعد', 'pas encore sur Roots')}</span></div>`).join('');
+    if (!mine.length && !others.length) html += `<p class="hint">${ql.length < 3 && !(dirSchools || []).length ? L('No Roots-accredited schools in this country yet. Type your school name to search.', 'لا توجد مدارس معتمدة من جذور في هذه الدولة بعد. اكتبي اسم مدرستك للبحث.', 'Aucune école accréditée ici. Tapez le nom pour chercher.') : ql.length < 3 ? '' : L('No match yet — keep typing, or use a school code.', 'لا نتائج بعد — أكملي الكتابة أو استخدمي كود المدرسة.', 'Aucun résultat — continuez ou utilisez un code.')}</p>`;
+    if (others.length) html += `<p class="hint">${L('Schools marked “not on Roots yet” need to register first (Create account → Register a new school), or ask them for their Roots school code.', 'المدارس غير المسجلة يجب أن تسجّل أولاً (إنشاء حساب ← تسجيل مدرسة جديدة) أو اطلبي منها كود جذور.', 'Les écoles « pas encore sur Roots » doivent d’abord s’inscrire.')}</p>`;
+  } else {
+    html += others.map((x, i) => `<button type="button" class="sitem" onclick="pickExternal(${ext.indexOf(x)})"><b>${esc(x.n)}</b>${x.c ? ` <span class="muted">— ${esc(x.c)}</span>` : ''}</button>`).join('');
+    if (ql.length >= 3 && !others.length) html += `<p class="hint">${L('Not found in the map data — that’s fine, just type your school’s full name.', 'غير موجودة في بيانات الخرائط — لا بأس، اكتبي الاسم كاملاً.', 'Introuvable — tapez simplement le nom complet.')}</p>`;
+  }
+  if (ext.length) html += `<p class="attrib">${L('Search data', 'بيانات البحث', 'Données')}: © OpenStreetMap contributors · Wikidata</p>`;
+  return html;
+}
+function schoolSearchInput(v) {
+  const box = document.getElementById('schoolResults'); if (!box) return;
+  if (!joinCountry) { box.innerHTML = `<p class="hint">${L('Choose your country first.', 'اختاري الدولة أولاً.', "Choisissez d'abord le pays.")}</p>`; return; }
+  extResults = [];
+  box.innerHTML = renderSchoolResults(v, []);
+  clearTimeout(searchTimer);
+  if (v.trim().length < 3) return;
+  const seq = ++searchSeq, c = joinCountry;
+  searchTimer = setTimeout(async () => {
+    box.insertAdjacentHTML('beforeend', `<p class="hint" id="searching">${L('Searching…', 'جارٍ البحث…', 'Recherche…')}</p>`);
+    let ext = [];
+    try { ext = await searchOutside(v.trim(), c); } catch (e) {}
+    if (seq !== searchSeq) return;
+    extResults = ext;
+    const b2 = document.getElementById('schoolResults'); if (b2) b2.innerHTML = renderSchoolResults(v, ext);
+  }, 400);
+}
+function pickExternal(i) {
+  const x = extResults[i]; if (!x) return;
+  const n = document.getElementById('aSchool'), c = document.getElementById('aCity');
+  if (n) n.value = x.n; if (c && x.c) c.value = x.c;
+  const box = document.getElementById('schoolResults'); if (box) box.innerHTML = `<p class="hint">✓ ${esc(x.n)}</p>`;
+}
 function clearSchool() { foundSchool = null; dirPick = ''; render(); }
 async function findSchool() {
   const code = val('aCode').toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -1119,7 +1173,7 @@ Object.assign(window, {
   saveMeeting, deleteMeeting, setApproved, editMember, saveMember, exportIssues, exportAll, saveName, accountReset, saveSchool, copyText,
   doSignIn, doSignUp, doReset, resendVerify, checkVerified, doSignOut, completeProfile, findSchool, setKind, clearSchool, render,
   markDirty: () => { checkDirty = true; },
-  setSignupRole, applyStarter, setCodeBox, setJoinCountry, pickDir, loadIntl, intlFill, toggleAccredit, editCourse, saveCourse, openCourseView, setCourseTab, showLesson, editLesson, saveLesson, deleteLesson, showAssign, editAssign, saveAssign, deleteAssign,
+  setSignupRole, applyStarter, setCodeBox, setJoinCountry, pickDir, setRegCountry, schoolSearchInput, pickExternal, toggleAccredit, editCourse, saveCourse, openCourseView, setCourseTab, showLesson, editLesson, saveLesson, deleteLesson, showAssign, editAssign, saveAssign, deleteAssign,
   submitWork, markOne, markAllQuiz, setGb, exportGradebook, setAtt, saveAttendance, editNews, saveNews, deleteNews, linkChild, setAuthMode: m => { authMode = m; flash = ''; render(); }
 });
 
