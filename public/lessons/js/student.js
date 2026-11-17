@@ -76,6 +76,11 @@
     var params = new URLSearchParams(location.search);
     lessonId = params.get("lesson");
     var client = R.db();
+    if (!lessonId && client && params.get("demo") !== "1") {
+      document.getElementById("lesson-title").textContent = "Roots | جذور";
+      stage.innerHTML = '<p class="lead">افتح الدرس من الرابط الذي أرسله لك معلّمك.</p>';
+      return;
+    }
     if (!lessonId || !client) { demo = true; setup(JSON.parse(JSON.stringify(window.SAMPLE_LESSON))); return; }
     fetchLesson(storedCode());
   }
