@@ -75,6 +75,64 @@
     return { errors: errors, content: content };
   }
 
+
+  /* ---------- ready-made choices ---------- */
+  var GOALS = {
+    vocab: ["أشرح معاني المفردات الجديدة في النص، وأستخدمها في جمل جديدة.", "أستنتج معنى الكلمة من السياق.", "أميّز بين الكلمات المترادفة والمتقاربة في المعنى."],
+    context: ["أفهم أحداث النص وفكرته الرئيسية.", "أعرف سياق النص: كاتبه وزمنه ولمن كُتب.", "ألخّص النص بأسلوبي."],
+    grammar: ["أتعرّف على تراكيب نحوية في النص وأفهم وظيفتها في المعنى.", "أستخدم التركيب الجديد في جمل من إنشائي.", "أحلّل إعراب جمل مختارة من النص."],
+    analysis: ["أحلّل أسلوب الكاتب وصوره البلاغية.", "أفسّر اختيارات الكاتب وأثرها في القارئ.", "أقارن بين أسلوب النص وأسلوب نص آخر."],
+    eca: ["أربط تعبيرات النص بمقابلها في العامية المصرية.", "أعيد حكاية النص بالعامية المصرية.", "أتعرّف على أمثال شعبية تحمل فكرة النص."],
+    culture: ["أربط النص بأماكن ومواقف حقيقية في القاهرة.", "أتتبّع جذور النص وتاريخه.", "أقارن فكرة النص بثقافتي."]
+  };
+  function goalsFor(id) {
+    if (GOALS[id]) return GOALS[id];
+    var all = []; Object.keys(GOALS).forEach(function (k) { all = all.concat(GOALS[k]); }); return all;
+  }
+  var REVIEWS = [
+    "أعد قراءة شرح هذا القسم، ثم أجب عن أسئلته مرة أخرى.",
+    "اكتب ثلاث جمل جديدة تستخدم فيها ما تعلّمته في هذا القسم.",
+    "استخرج من النص ثلاثة أمثلة على ما تعلّمته في هذا القسم، واشرح كلّ واحد.",
+    "ناقش ما تعلّمته في هذا القسم مع زميل، ثم اكتب ملخّصًا في ثلاث جمل."
+  ];
+  var TASKS = [
+    "اكتب فقرة تلخّص فيها النص وتشرح فكرته.",
+    "اكتب رسالة إلى صديق تحكي فيها النص وتقول رأيك فيه.",
+    "اكتب نصًّا قصيرًا على طريقة النص عن موقف معاصر.",
+    "اكتب مقالًا قصيرًا تقارن فيه فكرة النص بثقافتك."
+  ];
+  var REQS = [
+    "كلمتان على الأقل من مفردات النص.",
+    "تركيب نحوي واحد على الأقل من قسم النحو.",
+    "رأيك مع سببين.",
+    "ربط بموقف من الحياة اليوم.",
+    "مثل أو قول يحمل فكرة النص."
+  ];
+  var BLOCK_TPL = [
+    { label: "شرح قاعدة مع مثال", type: "text", title: "القاعدة", text: "اشرح القاعدة في جملة أو جملتين.\n> مثال من النص مع ==تمييز== الكلمة المهمّة\nلماذا يهمّ هذا في المعنى؟" },
+    { label: "المعنى من السياق", type: "text", title: "استراتيجية: المعنى من السياق", text: "كثير من الكلمات يشرحها ما بعدها. مثال:\n> جملة من النص فيها ==الكلمة== و==ما يفسّرها==\nالكلمة الثانية تفسّر الأولى." },
+    { label: "بطاقات المفردات", type: "flash", title: "بطاقات المفردات", text: "المس كلّ بطاقة لترى معناها. حاول أن تتذكّر المعنى قبل أن تقلبها." },
+    { label: "جدول فصحى | عامية", type: "pairs", title: "الفصحى والعامية", text: "الفصحى (النص) | العامية المصرية\nعبارة من النص | مقابلها بالعامية" },
+    { label: "تسلسل (رحلة النص)", type: "chain", title: "رحلة النص", text: "المرحلة الأولى\nالمرحلة الثانية\nالمرحلة الثالثة" },
+    { label: "أماكن ومهام ميدانية", type: "cards", title: "أماكن ومهام", text: "اسم المكان | وصف قصير | المهمّة الميدانية" },
+    { label: "الفكرة في الأمثال", type: "text", title: "الحكمة في الأمثال", text: "> قول عربي قديم يحمل الفكرة\n> مثل شعبي مصري يحمل الفكرة" },
+    { label: "مشهد تمثيلي (اسكتش)", type: "text", title: "مشهد تمثيلي بالعامية", text: "**الفكرة:** أعيدوا النص في موقف معاصر.\nمجموعات من ثلاثة أو أربعة، والمشهد ٣ دقائق بالعامية، وفي آخره سطر بالفصحى من النص.\n**معيار التقييم:** اللغة والطلاقة، ودقّة الثقافة، والإبداع، ووضوح الفكرة." }
+  ];
+  var Q_TPL = [
+    { label: "معنى كلمة", stem: "ما معنى «…» في النص؟", optionsText: "المعنى الصحيح\nمعنى قريب لكنه خطأ\nمعنى بعيد", support: "انظر إلى الجملة التي وردت فيها الكلمة، وإلى ما بعدها." },
+    { label: "سبب حدث", stem: "لماذا …؟", optionsText: "السبب الصحيح كما في النص\nسبب غير مذكور في النص\nسبب يناقض النص", support: "ارجع إلى الفقرة التي فيها الحدث، فالسبب مذكور فيها." },
+    { label: "الفكرة الرئيسية", stem: "ما الفكرة الرئيسية للنص؟", optionsText: "الفكرة الرئيسية\nتفصيلة صغيرة من النص\nفكرة لا يقولها النص", support: "اسأل نفسك: ماذا يريد الكاتب أن نتعلّم من النص كلّه، لا من جملة واحدة؟" },
+    { label: "نوع الأسلوب البلاغي", stem: "«…» هذا الأسلوب:", optionsText: "تشبيه\nاستعارة\nكناية", support: "في التشبيه تُذكر أداة التشبيه، والاستعارة تشبيه حُذفت أداته وأحد طرفيه." },
+    { label: "وظيفة تركيب نحوي", stem: "في «…»، ما وظيفة «…»؟", optionsText: "الوظيفة الصحيحة\nوظيفة قريبة لكنها خطأ\nوظيفة بعيدة", support: "راجع شرح القاعدة أعلاه، ثم انظر إلى موقع الكلمة في الجملة." },
+    { label: "المقابل العامي", stem: "«…» بالعامية المصرية:", optionsText: "المقابل الصحيح\nعبارة عكس المعنى\nعبارة بعيدة", support: "فكّر: كيف يقول المصري المعنى نفسه في الشارع؟" },
+    { label: "مثل يحمل الفكرة", stem: "أيّ مثل يحمل فكرة النص؟", optionsText: "المثل المناسب\nمثل في موضوع آخر\nمثل في موضوع آخر", support: "الفكرة في النص هي …، فابحث عن المثل الذي يقول المعنى نفسه." }
+  ];
+  function presetSelect(path, list, mode, label) {
+    return '<select class="in preset" data-preset="' + path + '" data-mode="' + (mode || "replace") + '" aria-label="' + esc(label || "اختيارات جاهزة") + '">' +
+      '<option value="">' + esc(label || "اختيارات جاهزة…") + "</option>" +
+      list.map(function (t, i) { return '<option value="' + i + '">' + esc(t) + "</option>"; }).join("") + "</select>";
+  }
+
   function getPath(path) { return path.split(".").reduce(function (o, k) { return o == null ? o : o[k]; }, E); }
   function setPath(path, val) {
     var ks = path.split("."), o = E;
@@ -87,7 +145,8 @@
     var input = opts.area
       ? '<textarea class="in' + (opts.ar ? " ar" : "") + '" id="' + id + '" data-path="' + path + '" rows="' + (opts.rows || 3) + '"' + (opts.ph ? ' placeholder="' + esc(opts.ph) + '"' : "") + ">" + esc(v) + "</textarea>"
       : '<input class="in" id="' + id + '" data-path="' + path + '" type="' + (opts.type || "text") + '" value="' + esc(v) + '"' + (opts.ph ? ' placeholder="' + esc(opts.ph) + '"' : "") + ">";
-    return '<label class="f" for="' + id + '">' + label + "</label>" + input + (opts.hint ? '<p class="fhint">' + opts.hint + "</p>" : "");
+    var pre = opts.presets ? presetSelect(path, opts.presets, opts.presetMode, opts.presetLabel) : "";
+    return '<label class="f" for="' + id + '">' + label + "</label>" + pre + input + (opts.hint ? '<p class="fhint">' + opts.hint + "</p>" : "");
   }
 
   /* ---------- views ---------- */
@@ -143,36 +202,43 @@
 
   function sectionForm(si) {
     var s = E.sections[si], base = "sections." + si;
-    return '<div class="box section" style="border-inline-start-color:' + R.color(s, si) + '"><h3><span>القسم ' + (si + 1) + ": " + esc(s.name || "بلا اسم") + "</span>" +
-      '<span class="row"><button class="btn small" data-act="up" data-s="' + si + '"' + (si ? "" : " disabled") + ' aria-label="أعلى">↑</button><button class="btn small" data-act="down" data-s="' + si + '"' + (si < E.sections.length - 1 ? "" : " disabled") + ' aria-label="أسفل">↓</button><button class="btn small danger" data-act="del-section" data-s="' + si + '">حذف القسم</button></span></h3>' +
+    var nq = s.questions.filter(function (q) { return String(q.stem || "").trim(); }).length;
+    return '<details class="box section fold" data-fold="' + base + '._open"' + (s._open ? " open" : "") + ' style="border-inline-start-color:' + R.color(s, si) + '">' +
+      '<summary><span class="fold-title">القسم ' + (si + 1) + ": " + esc(s.name || "بلا اسم") + '</span><span class="fold-meta">' + s.blocks.length + " شرح · " + nq + " أسئلة</span></summary>" +
+      '<div class="row" style="justify-content:flex-end;margin-top:8px"><button class="btn small" data-act="up" data-s="' + si + '"' + (si ? "" : " disabled") + ' aria-label="أعلى">↑ أعلى</button><button class="btn small" data-act="down" data-s="' + si + '"' + (si < E.sections.length - 1 ? "" : " disabled") + ' aria-label="أسفل">↓ أسفل</button><button class="btn small danger" data-act="del-section" data-s="' + si + '">حذف القسم</button></div>' +
       field("اسم القسم", base + ".name") +
-      field("الهدف (يراه الطالب ويقيّم نفسه فيه)", base + ".goal") +
+      field("الهدف (يراه الطالب ويقيّم نفسه فيه)", base + ".goal", { presets: goalsFor(s.id), presetLabel: "اختاري هدفًا جاهزًا…" }) +
       "<h3 style=\"margin-top:12px\">الشرح</h3>" + s.blocks.map(function (_, bi) { return blockForm(si, bi); }).join("") +
-      '<div class="row" style="margin-top:8px"><button class="btn small" data-act="add-block" data-s="' + si + '">+ إضافة شرح</button></div>' +
+      '<div class="row" style="margin-top:8px"><button class="btn small" data-act="add-block" data-s="' + si + '">+ شرح فارغ</button>' +
+      '<select class="in preset inline" data-tpl="block" data-s="' + si + '" aria-label="إضافة شرح جاهز"><option value="">+ شرح جاهز…</option>' +
+      BLOCK_TPL.map(function (t, i) { return '<option value="' + i + '">' + esc(t.label) + "</option>"; }).join("") + "</select></div>" +
       "<h3 style=\"margin-top:12px\">الأسئلة</h3>" + s.questions.map(function (_, qi) { return questionForm(si, qi); }).join("") +
-      '<div class="row" style="margin-top:8px"><button class="btn small" data-act="add-q" data-s="' + si + '">+ إضافة سؤال</button></div>' +
-      field("مهمّة المراجعة (تظهر للطالب إذا احتاج دعمًا في هذا القسم)", base + ".review", { area: 1, rows: 2 }) + "</div>";
+      '<div class="row" style="margin-top:8px"><button class="btn small" data-act="add-q" data-s="' + si + '">+ سؤال فارغ</button>' +
+      '<select class="in preset inline" data-tpl="q" data-s="' + si + '" aria-label="إضافة سؤال جاهز"><option value="">+ سؤال جاهز…</option>' +
+      Q_TPL.map(function (t, i) { return '<option value="' + i + '">' + esc(t.label) + "</option>"; }).join("") + "</select></div>" +
+      field("مهمّة المراجعة (تظهر للطالب إذا احتاج دعمًا في هذا القسم)", base + ".review", { area: 1, rows: 2, presets: REVIEWS, presetLabel: "اختاري مهمّة جاهزة…" }) + "</details>";
   }
 
   function editView() {
     var used = E.sections.map(function (s) { return s.id; });
     var avail = R.DEFAULT_SECTIONS.filter(function (d) { return used.indexOf(d.id) === -1; });
     return '<div class="card"><div class="row" style="justify-content:space-between"><h2>' + (E.id ? "تعديل الدرس" : "درس جديد") + '</h2><button class="btn ghost small" data-act="back">رجوع إلى الدروس</button></div>' + msgHtml() +
-      '<div class="box"><h3>النصّ</h3>' +
+      '<details class="box fold" data-fold="_openText"' + (E._openText !== false ? " open" : "") + '><summary><span class="fold-title">النصّ والمفردات</span><span class="fold-meta">' + esc(E.title || "بلا عنوان") + "</span></summary>" +
       field("عنوان الدرس", "title") +
       field("وصف قصير", "subtitle", { ph: "مثال: نصّ من «كليلة ودمنة» · للمستوى المتقدّم" }) +
       field("المصدر", "source") +
       field("النصّ الأصلي", "paragraphsText", { area: 1, ar: 1, rows: 8, hint: "الصق النصّ كما هو. اترك سطرًا فارغًا بين كلّ فقرة وأخرى." }) +
       field("المفردات", "glossaryText", { area: 1, ar: 1, rows: 5, hint: "كلّ كلمة في سطر: الكلمة كما هي في النصّ بتشكيلها | معناها. تظهر الكلمة منقّطة في النصّ، ويلمسها الطالب ليرى معناها." }) +
-      "</div>" +
+      "</details>" +
+      '<div class="row" style="margin-top:10px"><button class="btn small ghost" data-act="fold-all" data-open="1">فتح كلّ الأقسام</button><button class="btn small ghost" data-act="fold-all" data-open="0">طيّ كلّ الأقسام</button></div>' +
       E.sections.map(function (_, si) { return sectionForm(si); }).join("") +
       '<div class="box"><h3>إضافة قسم</h3><div class="row">' +
       avail.map(function (d) { return '<button class="btn small" data-act="add-section" data-def="' + d.id + '">+ ' + d.name + "</button>"; }).join("") +
       '<button class="btn small" data-act="add-section">+ قسم آخر</button></div></div>' +
       '<div class="box"><h3>الكتابة والتصحيح الآلي</h3><label class="row"><input type="checkbox" data-path="writingOn" data-bool="1"' + (E.writingOn ? " checked" : "") + "> تضمين مهمّة كتابة في آخر الدرس</label>" +
       (E.writingOn ?
-        field("المهمّة", "writing.task", { area: 1, rows: 2 }) +
-        field("المتطلّبات (كلّ متطلّب في سطر)", "writing.requirementsText", { area: 1, rows: 4, hint: "تظهر للطالب، ويستعملها التصحيح الآلي، وقائمة المراجعة الذاتية." }) +
+        field("المهمّة", "writing.task", { area: 1, rows: 2, presets: TASKS, presetLabel: "اختاري مهمّة جاهزة…" }) +
+        field("المتطلّبات (كلّ متطلّب في سطر)", "writing.requirementsText", { area: 1, rows: 4, hint: "تظهر للطالب، ويستعملها التصحيح الآلي، وقائمة المراجعة الذاتية.", presets: REQS, presetMode: "append", presetLabel: "أضيفي متطلّبًا جاهزًا…" }) +
         '<div class="row"><div style="flex:1;min-width:140px">' + field("أقلّ عدد كلمات", "writing.minWords", { type: "number" }) + '</div><div style="flex:1;min-width:140px">' + field("أكثر عدد كلمات", "writing.maxWords", { type: "number" }) + "</div></div>" +
         field("ملخّص النصّ وحكمته (للمصحّح الآلي)", "writing.summary", { area: 1, rows: 2, hint: "جملتان أو ثلاث: ماذا يحدث في النصّ، وما فكرته. لا يراها الطالب." }) +
         field("نموذج إجابة (يظهر للطالب في المراجعة الذاتية)", "writing.modelAnswer", { area: 1, ar: 1, rows: 4 })
@@ -287,6 +353,21 @@
     }
   });
   app.addEventListener("change", function (e) {
+    var d0 = e.target.dataset || {};
+    if (d0.preset !== undefined && e.target.value !== "") {
+      var list = d0.preset.split(".").pop() === "goal" ? goalsFor(getPath(d0.preset.replace(/\.goal$/, ".id"))) :
+        /review$/.test(d0.preset) ? REVIEWS : /task$/.test(d0.preset) ? TASKS : REQS;
+      var val = list[+e.target.value];
+      if (d0.mode === "append") { var cur = String(getPath(d0.preset) || "").trim(); setPath(d0.preset, cur ? cur + "\n" + val : val); }
+      else setPath(d0.preset, val);
+      rerenderKeep(); return;
+    }
+    if (d0.tpl && e.target.value !== "") {
+      var sec = E.sections[+d0.s], i = +e.target.value;
+      if (d0.tpl === "block") { var b = BLOCK_TPL[i]; sec.blocks.push({ type: b.type, title: b.title, text: b.text, extra: "" }); }
+      else { var q = Q_TPL[i]; sec.questions.push({ stem: q.stem, optionsText: q.optionsText, answer: 0, support: q.support }); }
+      rerenderKeep(); return;
+    }
     var p = e.target.dataset && e.target.dataset.path;
     if (!p || !E) return;
     var v = e.target.dataset.bool ? e.target.checked : e.target.value;
@@ -294,6 +375,11 @@
     setPath(p, v);
     if (e.target.dataset.rerender || e.target.dataset.bool) rerenderKeep();
   });
+
+  app.addEventListener("toggle", function (e) {
+    var f = e.target.dataset && e.target.dataset.fold;
+    if (f && E) setPath(f, e.target.open);
+  }, true);
 
   app.addEventListener("click", function (e) {
     var t = e.target.closest("button[data-act]");
@@ -337,7 +423,7 @@
     else if (a === "save") saveLesson();
     else if (a === "add-section") {
       var d = R.DEFAULT_SECTIONS.filter(function (x) { return x.id === t.dataset.def; })[0];
-      E.sections.push({ id: d ? d.id : "s" + Date.now().toString(36), name: d ? d.name : "", goal: d ? d.goal : "", review: "", blocks: [{ type: "text", title: "", text: "", extra: "" }], questions: [] });
+      E.sections.push({ id: d ? d.id : "s" + Date.now().toString(36), name: d ? d.name : "", goal: d ? d.goal : "", review: "", blocks: [{ type: "text", title: "", text: "", extra: "" }], questions: [], _open: true });
       rerenderKeep();
     }
     else if (a === "del-section") {
@@ -347,6 +433,7 @@
     else if (a === "up" || a === "down") {
       var j = a === "up" ? si - 1 : si + 1, tmp = E.sections[j]; E.sections[j] = E.sections[si]; E.sections[si] = tmp; rerenderKeep();
     }
+    else if (a === "fold-all") { var op = t.dataset.open === "1"; E.sections.forEach(function (x) { x._open = op; }); rerenderKeep(); }
     else if (a === "add-block") { E.sections[si].blocks.push({ type: "text", title: "", text: "", extra: "" }); rerenderKeep(); }
     else if (a === "del-block") { E.sections[si].blocks.splice(+t.dataset.b, 1); rerenderKeep(); }
     else if (a === "add-q") { E.sections[si].questions.push({ stem: "", optionsText: "", answer: 0, support: "" }); rerenderKeep(); }
