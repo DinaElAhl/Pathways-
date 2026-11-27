@@ -29,6 +29,21 @@
 .how h3{font-weight:800;margin-bottom:6px}
 .how ol{padding-right:20px;color:var(--ink)}
 [hidden]{display:none!important}
+.nov{background:var(--green);color:#fff;border-radius:28px;padding:24px 18px;margin-bottom:24px;text-align:center;scroll-margin-top:16px}
+.nov-tag{display:inline-block;background:var(--coral);font-weight:800;padding:4px 16px;border-radius:999px;font-size:15px}
+.nov h2{font-size:clamp(24px,5.5vw,34px);font-weight:800;margin:8px 0 4px;color:var(--gold)}
+.nov>p{color:#CFE0DC;font-size:15px}
+.nov-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 10px}
+@media(min-width:640px){.nov-grid{grid-template-columns:repeat(4,1fr)}}
+.nov-card{background:#fff;color:var(--green);border-radius:18px;padding:10px;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:4px}
+.nov-card img{width:100%;border-radius:8px;border:1px solid var(--line);aspect-ratio:210/297;object-fit:cover}
+.nov-card .g{font-size:12px;font-weight:800;background:var(--mint);color:var(--green2);padding:2px 10px;border-radius:999px;margin-top:4px}
+.nov-card .g12{background:#FFE9E9;color:var(--coral)}
+.nov-card b{font-size:16px}
+.nov-card small{color:var(--ink);font-size:12px}
+.nov-card .dl{width:100%;background:var(--green2);color:#fff;font-weight:800;border-radius:10px;padding:8px;margin-top:4px;font-size:14px}
+.nov-note{font-size:14px;color:#CFE0DC}
+.nov-note a{color:var(--gold);font-weight:800}
 </style>
 </head>
 <body>
@@ -43,6 +58,31 @@
     <p>تدريبات على منهج الوزارة أسبوع بأسبوع، مع ملف إجابات مشروحة لولي الأمر والمعلمة.</p>
     <p><strong>🎁 حمّل عينة مجانية</strong> وشوف بنفسك قبل ما تشتري.</p>
   </div>
+
+  <section id="november" class="nov">
+    <span class="nov-tag">مجانًا 🎁 للجميع</span>
+    <h2>مذكرات مراجعة امتحانات نوفمبر</h2>
+    <p>ملخص الدروس · تدريبات على نمط تقييمات الوزارة · نموذج امتحان بالإجابات. اضغط وحمّل الـ PDF على طول.</p>
+    <div class="nov-grid">
+      <a class="nov-card" href="booklets/roots-g4-arabic-november.pdf" download>
+        <img src="booklets/nov-g4-arabic-cover.jpg" alt="غلاف مذكرة مراجعة نوفمبر رابعة ابتدائي لغة عربية" loading="lazy">
+        <span class="g">رابعة ابتدائي</span><b>اللغة العربية</b><small>١٢ صفحة</small><span class="dl">⬇ حمّل مجانًا</span>
+      </a>
+      <a class="nov-card" href="booklets/roots-g4-religion-november.pdf" download>
+        <img src="booklets/nov-g4-religion-cover.jpg" alt="غلاف مذكرة مراجعة نوفمبر رابعة ابتدائي تربية إسلامية" loading="lazy">
+        <span class="g">رابعة ابتدائي</span><b>التربية الإسلامية</b><small>٨ صفحات</small><span class="dl">⬇ حمّل مجانًا</span>
+      </a>
+      <a class="nov-card" href="booklets/roots-g4-social-november.pdf" download>
+        <img src="booklets/nov-g4-social-cover.jpg" alt="غلاف مذكرة مراجعة نوفمبر رابعة ابتدائي دراسات اجتماعية" loading="lazy">
+        <span class="g">رابعة ابتدائي</span><b>الدراسات الاجتماعية</b><small>١٠ صفحات</small><span class="dl">⬇ حمّل مجانًا</span>
+      </a>
+      <a class="nov-card" href="booklets/roots-g12-arabic-november.pdf" download>
+        <img src="booklets/nov-g12-arabic-cover.jpg" alt="غلاف مذكرة مراجعة نوفمبر ثالثة ثانوي لغة عربية" loading="lazy">
+        <span class="g g12">ثالثة ثانوي</span><b>اللغة العربية</b><small>١١ صفحة</small><span class="dl">⬇ حمّل مجانًا</span>
+      </a>
+    </div>
+    <p class="nov-note">عندك سؤال؟ ابعتلنا على إنستجرام <a href="https://www.instagram.com/roots.national.egypt/" target="_blank" rel="noopener">@roots.national.egypt</a></p>
+  </section>
 
   <div class="books">
     <article class="book">

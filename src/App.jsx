@@ -85,6 +85,7 @@ export default function App() {
         <Route path="/join" element={<NationalRedirect kind="student" />} />
         <Route path="/teach" element={<NationalRedirect kind="teacher" />} />
         <Route path="/booklets" element={<NationalRedirect kind="booklets" />} />
+        <Route path="/november" element={<NationalRedirect kind="november" />} />
         <Route path="/activities" element={<ActivityLibrary />} />
         <Route path="/e2-mini" element={<E2MiniLms />} />
         <Route path="/rqap-exams" element={<RqapExams />} />
